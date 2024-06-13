@@ -8,7 +8,12 @@ class NavigationController extends BaseController
 {
     public function index()
     {
-        echo "Hello";
+        return $this->slice->view('login');
+    }
+
+    public function login()
+    {
+        return $this->slice->view('login');
     }
 
     public function test()

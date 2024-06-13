@@ -1,0 +1,261 @@
+
+Roles
+Users
+
+Companies
+Employees
+
+Questionaires
+
+Company_Representatives
+Company_Documents
+Employee_Documents
+Employee_Identities
+Employee_Assessments
+
+Product_Subscriptions
+Loan_Applications
+
+faqs
+fees
+/////////////////////////////////////
+AUTH REP SIDE NAVIGATIONS
+DASHBOARD
+COMPANY PROFILE
+FINANCING PRODUCTS
+ -> requirements needed
+    -> Complete Company Profile & Company Representative Profile
+EMPLOYEE LIST
+BILLING & PAYMENTS
+ -> requirements needed
+    -> Approved Subscription
+MAINTENANCE
+ -> Users
+ -> Roles
+FAQs
+
+/////////////////////////////////////
+EMPLOYEE SIDE NAVIGATIONS
+Profile
+Loan Accounts
+
+/////////////////////////////////////
+ADMIN SIDE NAVIGATIONS
+Dashboard
+Applications
+Partners List
+Financing Products
+ -> Salary Advance
+ -> Business Expansion
+ -> Payment Now
+Billings
+Payments
+Maintenance
+ -> Users
+ -> Roles
+ -> Fees
+ -> FAQs
+Reports
+Audit Trail
+
+
+
+
+
+////////////////////////////////////////
+//// Data Structure
+////////////////////////////////////////
+faqs
+->id
+->question
+->answer
+->status
+->created_by
+->created_date
+->updated_by
+->updated_date
+
+fees
+->id
+->type
+->amount
+->status
+->created_by
+->created_date
+->updated_by
+->updated_date
+
+companies (pending)
+->id
+->company_code (system-generated)
+->company_name
+->company_address
+->company_email
+->mobile_number
+->telephone_number
+->company_website
+->business_type
+->business_industry
+->tax_identification_number
+->
+->subscription_status
+->employee_list_status
+->company_status
+->created_by
+->created_date
+->updated_by
+->updated_date
+
+
+company_representatives
+->id
+
+
+
+
+Company_documents
+id
+company_id
+pdf_file
+document_status
+
+Employees
+id
+company_id
+First Name
+Last Name
+Middle Name
+Email
+Position
+profile_picture
+Role_id
+Access_modules
+
+
+Employee_Identities
+id
+type
+category
+id_number
+id_picture
+date_issued
+placed_issued
+issued_by
+expiry_date
+
+
+ADMIN SIDE NAVIGATIONS
+Dashboard
+Applications
+Partners List
+Financing Products
+ -> Salary Advance
+ -> Business Expansion
+ -> Payment Now
+Billings
+Payments
+Maintenance
+ -> Users
+ -> Roles
+ -> Fees
+Reports
+Audit Trail
+
+
+Questions
+
+1, Sworn Letter Process
+2, Employee Bank Account
+3, GWC Branch
+4, Application & Disbursement
+5, Billing & Payments
+
+
+companies
+id
+employee_list_status (approved | pendinga)
+
+Company_Representatives
+id
+comapany_id
+last_name
+first_name
+middle_name
+email
+position
+
+company_documents
+id
+company_id
+document_code
+document_name
+document_file
+document_status
+
+product_subscriptions
+id
+company_id
+product_code
+subscription_status (Active | Pending)
+remarks
+
+employees
+id
+company_id
+identification_number
+first_name
+middle_name
+last_name
+email_address
+contact_number
+department
+position
+date_hired
+gross_salary
+net_salary
+minimum_credit_amount
+maximum_credit_amount
+marital_status
+permanent_address
+years_stayed
+employee_status
+payroll_bank_number
+
+
+employee_assessments
+id
+employee_id
+questionaire_id
+answer
+
+
+
+
+questionaires
+id
+question
+answer
+
+
+Loan_Applications
+id
+employee_id
+product_code
+application_number (auto-generated)
+loan_amount
+amount_to_receive
+total_interest
+payment_terms
+number_of_deductions
+monthly_dues
+deduction_per_cutoff
+purpose_of_loan
+application_status (pending | approved | rejected)
+
+Loan_Disbursements
+id
+application_id
+
+Payments
+
+
