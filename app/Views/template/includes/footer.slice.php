@@ -2,10 +2,20 @@
 
 <!-- JS Libraries here! -->
 
-<!-- Example -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Vendor -->
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/simplebar/simplebar.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/node-waves/waves.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/waypoints/lib/jquery.waypoints.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery.counterup/jquery.counterup.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/feather-icons/feather.min.js"></script>
 
-<!-- ==========================================================================================> -->
+    <!-- do not remove the code below -->
+    @yield('custom_scripts')
+
+    <!-- App js-->
+    <script src="<?php echo base_url();?>public/assets/Adminto/js/app.min.js"></script>
 
 <!-- Custom JS [JQuery Events] -->
 
@@ -13,5 +23,3 @@
   
 </script>
 
-<!-- do not remove the code below -->
-@yield('custom_scripts')

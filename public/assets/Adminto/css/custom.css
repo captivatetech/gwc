@@ -1,0 +1,14 @@
+.gwc-button{
+    background: #b28a3d;
+    color:#fff;
+    font-weight: 500;
+}
+
+.gwc-button:hover{
+    color: #fff;
+    background: #d7b564;
+}
+
+.gwc-font, #sidebar-menu>ul>li>a, .header-title, .page-title-main{
+    font-family: "Avenir";
+}
