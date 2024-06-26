@@ -39,15 +39,15 @@
                                     <p class="text-muted mb-0 font-13 gwc-font">Enter your email address and we'll send you an email with instructions to reset your password.  </p>
                                 </div>
 
-                                <form action="#">
+                                <form id="form_resetPassword">
 
                                     <div class="mb-3">
-                                        <label for="emailaddress" class="form-label">Email address</label>
-                                        <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                        <label for="txt_emailAddress" class="form-label">Email address</label>
+                                        <input class="form-control" type="email" id="txt_emailAddress" name="txt_emailAddress" placeholder="Enter your email" required>
                                     </div>
 
                                     <div class="mb-3 text-center d-grid">
-                                        <button class="btn gwc-button" type="submit"> RESET PASSWORD </button>
+                                        <button type="submit" class="btn gwc-button" id="btn_submitResetPassword"> RESET PASSWORD </button>
                                     </div>
 
                                 </form>    
@@ -75,6 +75,18 @@
 
         <!-- App js -->
         <script src="<?php echo base_url();?>public/assets/Adminto/js/app.min.js"></script>
+
+        <script src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>
+        <script src="<?php echo base_url();?>public/assets/js/helper/ajax_helper.js"></script>
+        <script src="<?php echo base_url();?>public/assets/js/index.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#form_resetPassword').on('submit',function(e){
+                    e.preventDefault();
+                    INDEX.resetPassword(this);
+                });
+            });
+        </script>
         
     </body>
 </html>

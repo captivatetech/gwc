@@ -30,8 +30,8 @@ class CreateRolesTable extends Migration
                 'null'              => true,
             ],
             'role_status'       => [
-                'type'              => 'ENUM',
-                'constraint'        => ['1','0'],
+                'type'              => 'VARCHAR',
+                'constraint'        => 100,
                 'null'              => true,
             ],
             'created_by'        => [

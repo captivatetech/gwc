@@ -11,13 +11,13 @@ class RoleController extends BaseController
         $this->roles = model('Roles');
     }
 
-    public function loadRoles()
+    public function loadAdminRoles()
     {
         $arrData = $this->roles->loadRoles();
         return $this->response->setJSON($arrData);
     }
 
-    public function addRole()
+    public function addAdminRole()
     {
         $this->validation->setRules([
             'txt_roleName' => [
@@ -42,7 +42,7 @@ class RoleController extends BaseController
                     'role_description'      => $fields['txt_roleDescription'],
                     'access_modules'        => $fields['arrAccessModules'],
                     'role_status'           => '1',
-                    'created_by'            => $this->session->get('mkmas_user_id'),
+                    'created_by'            => $this->session->get('gwc_admin_id'),
                     'created_date'          => date('Y-m-d H:i:s')
                 ];
 
@@ -75,7 +75,7 @@ class RoleController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
-    public function selectRole()
+    public function selectAdminRole()
     {
         $fields = $this->request->getGet();
         $arrData = $this->roles->selectRole($fields['roleId']);
@@ -83,7 +83,7 @@ class RoleController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
-    public function editRole()
+    public function editAdminRole()
     {
         $this->validation->setRules([
             'txt_roleName' => [
@@ -113,7 +113,7 @@ class RoleController extends BaseController
                     'role_description'      => $fields['txt_roleDescription'],
                     'access_modules'        => $fields['arrAccessModules'],
                     'role_status'           => '1',
-                    'updated_by'            => $this->session->get('mkmas_user_id'),
+                    'updated_by'            => $this->session->get('gwc_admin_id'),
                     'updated_date'          => date('Y-m-d H:i:s')
                 ];
 
@@ -146,7 +146,7 @@ class RoleController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
-    public function removeRole()
+    public function removeAdminRole()
     {
         $fields = $this->request->getPost();
         $arrRoleUser = $this->roles->loadRoleUsers($fields['roleId']);

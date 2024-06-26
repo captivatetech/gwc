@@ -3,6 +3,24 @@ const COMMONHELPER = (function(){
 
     let thisCommonHelper = {};
 
+    thisCommonHelper.Toaster = function(toastIcon, toastMessage)
+    {
+        const Toast = Swal.mixin({
+            toast:true,
+            position:"top-end",
+            showConfirmButton:false,
+            timer:3000,
+            // timerProgressBar:true,
+            onOpen:function(e){
+                $('.swal2-timer-progress-bar').addClass(`bar-${toastIcon}`);
+                e.addEventListener("mouseenter",Swal.stopTimer),
+                e.addEventListener("mouseleave",Swal.resumeTimer)
+            }
+        });
+
+        Toast.fire({icon:`${toastIcon}`,title:`${toastMessage}`});
+    }
+
     thisCommonHelper.clearFields = function(arrParams)
     {
         if(typeof arrParams['text'] !== 'undefined')

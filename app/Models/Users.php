@@ -46,20 +46,38 @@ class Users extends Model
     public function validateLogIn($logInRequirements)
     {
         $columns = [
-            'id',
-            'first_name',
-            'last_name'
+            'a.id',
+            'a.first_name',
+            'a.last_name'
         ];
 
         $where = [
-            'email_address' => $logInRequirements['email_address'],
-            'user_password' => $logInRequirements['user_password'],
-            'user_status'   => 1 
+            'a.email_address' => $logInRequirements['email_address'],
+            'a.user_password' => $logInRequirements['user_password'],
+            'a.user_status'   => 1 
         ];
     
-        $builder = $this->db->table('users');
+        $builder = $this->db->table('users a');
         $builder->select($columns);
         $builder->where($where);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// UserController->changeAdminPassword()
+    ////////////////////////////////////////////////////////////
+    public function validateAdminPassword($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name'
+        ];
+        
+        $builder = $this->db->table('users a');
+        $builder->select($columns);
+        $builder->where($whereParams);
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -79,15 +97,8 @@ class Users extends Model
             'a.last_name',
             'a.mobile_number',
             'a.email_address',
-            'a.user_password',
             'a.user_status',
             'a.user_image',
-            'a.access_modules',
-            // 'a.access_controls',
-            'a.created_by',
-            'a.created_date',
-            'a.updated_by',
-            'a.updated_date'
         ];
 
         $builder = $this->db->table('users a');
@@ -121,6 +132,8 @@ class Users extends Model
 
     ////////////////////////////////////////////////////////////
     ///// UserController->selectUser()
+    ///// NavigationController->adminMaintenanceUsers()
+    ///// NavigationController->adminMaintenanceRoles()
     ////////////////////////////////////////////////////////////
     public function selectUser($userId)
     {
@@ -131,15 +144,9 @@ class Users extends Model
             'a.last_name',
             'a.mobile_number',
             'a.email_address',
-            'a.user_password',
             'a.user_status',
             'a.user_image',
-            'a.access_modules',
-            // 'a.access_controls',
-            'a.created_by',
-            'a.created_date',
-            'a.updated_by',
-            'a.updated_date'
+            'a.access_modules'
         ];
 
         $builder = $this->db->table('users a');

@@ -10,6 +10,7 @@
     <script src="<?php echo base_url();?>public/assets/Adminto/libs/waypoints/lib/jquery.waypoints.min.js"></script>
     <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery.counterup/jquery.counterup.min.js"></script>
     <script src="<?php echo base_url();?>public/assets/Adminto/libs/feather-icons/feather.min.js"></script>
+    <script src="<?php echo base_url();?>public/assets/Adminto/libs/sweetalert2/sweetalert2.min.js"></script>
 
     <!-- do not remove the code below -->
     @yield('custom_scripts')

@@ -5,25 +5,7 @@ const AJAXHELPER = (function(){
 
     let baseUrl = $('#txt_baseUrl').val();
 
-    thisAjaxHelper.loadData = function(arrParams, returnLoadData)
-    {
-        $.ajax({
-            url : `${baseUrl}${arrParams['route']}`,
-            method : 'get',
-            dataType: 'json',
-            data : arrParams['data'],
-            success : function(data)
-            {
-                returnLoadData(data);
-            },
-            error : function(data)
-            {
-                returnLoadData(data);
-            }
-        });
-    }
-
-    thisAjaxHelper.addData = function(arrParams, returnLoadData)
+    thisAjaxHelper.validateData = function(arrParams, returnSuccessData, returnErrorData)
     {
         $.ajax({
             url : `${baseUrl}${arrParams['route']}`,
@@ -34,16 +16,16 @@ const AJAXHELPER = (function(){
             data : arrParams['data'],
             success : function(data)
             {
-                returnLoadData(data);
+                returnSuccessData(data);
             },
             error : function(data)
             {
-                returnLoadData(data);
+                returnErrorData(data);
             }
         });
     }
 
-    thisAjaxHelper.selectData = function(arrParams, returnLoadData)
+    thisAjaxHelper.loadData = function(arrParams, returnSuccessData, returnErrorData)
     {
         $.ajax({
             url : `${baseUrl}${arrParams['route']}`,
@@ -52,16 +34,16 @@ const AJAXHELPER = (function(){
             data : arrParams['data'],
             success : function(data)
             {
-                returnLoadData(data);
+                returnSuccessData(data);
             },
             error : function(data)
             {
-                returnLoadData(data);
+                returnErrorData(data);
             }
         });
     }
 
-    thisAjaxHelper.editData = function(arrParams, returnLoadData)
+    thisAjaxHelper.addData = function(arrParams, returnSuccessData, returnErrorData)
     {
         $.ajax({
             url : `${baseUrl}${arrParams['route']}`,
@@ -72,16 +54,54 @@ const AJAXHELPER = (function(){
             data : arrParams['data'],
             success : function(data)
             {
-                returnLoadData(data);
+                returnSuccessData(data);
             },
             error : function(data)
             {
-                returnLoadData(data);
+                returnErrorData(data);
             }
         });
     }
 
-    thisAjaxHelper.removeData = function(arrParams, returnLoadData)
+    thisAjaxHelper.selectData = function(arrParams, returnSuccessData, returnErrorData)
+    {
+        $.ajax({
+            url : `${baseUrl}${arrParams['route']}`,
+            method : 'get',
+            dataType: 'json',
+            data : arrParams['data'],
+            success : function(data)
+            {
+                returnSuccessData(data);
+            },
+            error : function(data)
+            {
+                returnErrorData(data);
+            }
+        });
+    }
+
+    thisAjaxHelper.editData = function(arrParams, returnSuccessData, returnErrorData)
+    {
+        $.ajax({
+            url : `${baseUrl}${arrParams['route']}`,
+            method : 'post',
+            dataType: 'json',
+            processData: false, // important
+            contentType: false, // important
+            data : arrParams['data'],
+            success : function(data)
+            {
+                returnSuccessData(data);
+            },
+            error : function(data)
+            {
+                returnErrorData(data);
+            }
+        });
+    }
+
+    thisAjaxHelper.removeData = function(arrParams, returnSuccessData, returnErrorData)
     {
         $.ajax({
             url : `${baseUrl}${arrParams['route']}`,
@@ -90,11 +110,11 @@ const AJAXHELPER = (function(){
             data : arrParams['data'],
             success : function(data)
             {
-                returnLoadData(data);
+                returnSuccessData(data);
             },
             error : function(data)
             {
-                returnLoadData(data);
+                returnErrorData(data);
             }
         });
     }

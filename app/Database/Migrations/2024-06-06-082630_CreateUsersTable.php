@@ -41,9 +41,14 @@ class CreateUsersTable extends Migration
                 'constraint'        => 100,
                 'null'              => true,
             ],
+            'auth_code'         => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 100,
+                'null'              => true,
+            ],
             'user_status'       => [
-                'type'              => 'ENUM',
-                'constraint'        => ['1','0'],
+                'type'              => 'VARCHAR',
+                'constraint'        => 100,
                 'null'              => true,
             ],
             'user_image'        => [
