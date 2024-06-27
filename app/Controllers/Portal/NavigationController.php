@@ -200,6 +200,8 @@ class NavigationController extends BaseController
                     $data['userType'] = 'representative'; 
                     $data['companyId'] = $userData['company_id'];
                     $data['businessType'] = $userData['business_type'];
+                    $data['hrUser'] = $userData['hr_user'];
+                    $data['bpoUser'] = $userData['bpo_user'];
                     return $this->slice->view('portal.representative.representative_company_profile', $data);
                 }
                 else

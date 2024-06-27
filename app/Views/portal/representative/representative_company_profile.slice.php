@@ -73,23 +73,29 @@
                                         <li class="nav-item">
                                             @if($businessType == null)
                                             <a href="javascript:void(0)" onclick="alert('Please save company information!')" aria-expanded="false" class="nav-link">
-                                                REPRESENTATIVES
-                                            </a>
-                                            @else
-                                            <a href="#div_companyRepresentatives" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
-                                                REPRESENTATIVES
-                                            </a>
-                                            @endif
-                                        </li>
-                                        <li class="nav-item">
-                                            @if($businessType == null)
-                                            <a href="javascript:void(0)" onclick="alert('Please save company information!')" aria-expanded="false" class="nav-link">
                                                 COMPANY SETTINGS
                                             </a>
                                             @else
                                             <a href="#div_companySettings" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                                                 COMPANY SETTINGS
                                             </a>
+                                            @endif
+                                        </li>
+                                        <li class="nav-item">
+                                            @if($businessType == null)
+                                            <a href="javascript:void(0)" onclick="alert('Please save company information!')" aria-expanded="false" class="nav-link">
+                                                REPRESENTATIVES
+                                            </a>
+                                            @else
+                                                @if($hrUser == null && $bpoUser == null)
+                                                <a href="javascript:void(0)" onclick="alert('You cannot add representative!')" aria-expanded="false" class="nav-link">
+                                                    REPRESENTATIVES
+                                                </a>
+                                                @else
+                                                <a href="#div_companyRepresentatives" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                                    REPRESENTATIVES
+                                                </a>
+                                                @endif
                                             @endif
                                         </li>
                                     </ul>
@@ -409,141 +415,69 @@
 
                                         </div>
 
-                                        <div class="tab-pane" id="div_companyRepresentatives">
-                                                <br>
-                                                <h6 class="mt-0 header-title">Authorized Person to Represent Company</h6>
-                                                <br>
-                                                <form class="form-horizontal">
-
-                                                    <div class="row mb-3">
-                                                        <div class="col-8 col-xl-6">
-                                                            <input type="text" class="form-control" id="inputEmail3" placeholder="Full Name">
-                                                        </div>
-                                                        <div class="col-8 col-xl-6">
-                                                            <input type="text" class="form-control" id="inputEmail3" placeholder="Position in the company">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row mb-3">
-                                                        <div class="col-8 col-xl-6">
-                                                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email Address">
-                                                        </div>
-                                                        <div class="col-8 col-xl-6">
-                                                            <input type="text" class="form-control" id="inputEmail3" placeholder="Phone Number">
-                                                        </div>
-                                                    </div>
-
-                                                    <h6 class="mt-0 header-title">Presented Identification Documents</h6>
-                                                    <br>
-                                                    <div class="table-responsive">
-                                                        <table class="table mb-0">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>Company ID</td>
-                                                                <td><input class="form-control" type="file" id="inputGroupFile04"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>UMID ID</td>
-                                                                <td><input class="form-control" type="file" id="inputGroupFile04"></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
-                                                    <br><br>
-                                                    <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Roles</th>
-                                                            <th>Names</th>
-                                                            <th>Id’s Presented</th>
-                                                        </thead>
-                
-                
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>HR / Personnel Officer</td>
-                                                            <td>Maria Makiling</td>
-                                                            <td>Company Id, UMID</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <br>
-
-                                                    <div class="justify-content-end row">
-                                                        <div class="col-8 col-xl-3 d-grid">
-                                                            <button type="submit" class="btn gwc-button waves-effect waves-light">SAVE</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-
-
-                                        </div>
-
-
                                         <div class="tab-pane show" id="div_companySettings">
 
                                             <br>
                                             <h6 class="mt-0 header-title">Company Settings</h6>
-                                            <form class="form-horizontal">
                                             <br>
+                                            <form class="form-horizontal" id="form_companySettings">
+                                            
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">Bank Depository</label>
+                                                    <label for="txt_bankDepository" class="col-4 col-xl-2 col-form-label">Bank Depository</label>
                                                     <div class="col-8 col-xl-10">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_bankDepository" name="txt_bankDepository" placeholder="" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">Branch Name</label>
+                                                    <label for="txt_branchName" class="col-4 col-xl-2 col-form-label">Branch Name</label>
                                                     <div class="col-8 col-xl-10">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_branchName" name="txt_branchName" placeholder="" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">Branch Code</label>
+                                                    <label for="txt_branchCode" class="col-4 col-xl-2 col-form-label">Branch Code</label>
                                                     <div class="col-8 col-xl-10">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_branchCode" name="txt_branchCode" placeholder="" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-8 col-form-label">Payroll Payout Dates</label>
-                                                    <label for="inputEmail3" class="col-4 col-xl-4 col-form-label">Payroll Cut-off Period</label>
+                                                    <label class="col-4 col-xl-8 col-form-label">Payroll Payout Dates</label>
+                                                    <label class="col-4 col-xl-4 col-form-label">Payroll Cut-off Period</label>
                                                 </div>
 
                                                 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">First</label>
+                                                    <label for="txt_payrollPayoutDate1" class="col-4 col-xl-2 col-form-label">First</label>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_payrollPayoutDate1" name="txt_payrollPayoutDate1" placeholder="" required>
                                                     </div>
                                                     <div class="col-8 col-xl-1">
                                                         
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_cutOffMinDate1" name="txt_cutOffMinDate1" placeholder="" required>
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate1" name="txt_cutOffMaxDate1" placeholder="" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">Second</label>
+                                                    <label for="txt_payrollPayoutDate2" class="col-4 col-xl-2 col-form-label">Second</label>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_payrollPayoutDate2" name="txt_payrollPayoutDate2" placeholder="" required>
                                                     </div>
                                                     <div class="col-8 col-xl-1">
                                                         
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_cutOffMinDate2" name="txt_cutOffMinDate2" placeholder="" required>
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate2" name="txt_cutOffMaxDate2" placeholder="" required>
                                                     </div>
                                                 </div>
 
@@ -551,29 +485,196 @@
                                                 <h6 class="mt-0 header-title">Add User Option</h6>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">HR / Personnel Officer</label>
-                                                    <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                    <div class="col-4 col-xl-4">
+                                                        <input type="checkbox" class="form-check-input" id="rdb_hrUser" name="rdb_hrUser">
                                                     </div>
+                                                    <label for="rdb_hrUser" class="col-8 col-xl-8 col-form-label">HR / Personnel Officer</label>
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="inputEmail3" class="col-4 col-xl-2 col-form-label">Billing & Payment Officer</label>
-                                                    <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                                    <div class="col-4 col-xl-4">
+                                                        <input type="checkbox" class="form-check-input" id="rdb_bpoUser" name="rdb_bpoUser">
                                                     </div>
+                                                    <label for="rdb_bpoUser" class="col-8 col-xl-8 col-form-label">Billing & Payment Officer</label>
                                                 </div>
                                                 <br>
                                                 <div class="justify-content-end row">
                                                     <div class="col-8 col-xl-3 d-grid">
-                                                        <button type="submit" class="btn gwc-button waves-effect waves-light">SAVE</button>
+                                                        <button type="submit" class="btn gwc-button waves-effect waves-light" id="btn_submitCompanySettings">SAVE</button>
                                                     </div>
                                                 </div>
 
                                             </form>
 
+                                        </div>
 
+                                        <div class="tab-pane" id="div_companyRepresentatives">
+
+                                            <div class="accordion custom-accordion" id="custom-accordion-one">
+                                                @if($hrUser == '1')
+                                                <div class="card mb-0">
+                                                    <div class="card-header" id="headingNine">
+                                                        <h5 class="m-0 position-relative">
+                                                            <a class="custom-accordion-title text-reset d-block" data-bs-toggle="collapse" href="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                                                                HR / Personnel Officer <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseNine" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one" style="">
+                                                        <div class="card-body">
+                                                            <br>
+                                                            <h6 class="mt-0 header-title">Authorized Person to Represent Company</h6>
+                                                            <br>
+                                                            <form class="form-horizontal" id="form_hrCompanyRepresentative">
+
+                                                                <input type="hidden" id="txt_hrRepresentativeId" name="txt_hrRepresentativeId">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_hrFirstName" name="txt_hrFirstName" placeholder="First Name">
+                                                                    </div>
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_hrLastName" name="txt_hrLastName" placeholder="Last Name">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row mb-3">
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="email" class="form-control" id="txt_hrEmailAddress" name="txt_hrEmailAddress" placeholder="Email Address">
+                                                                    </div>
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_hrPosition" name="txt_hrPosition" placeholder="Position in the company">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="justify-content-end row">
+                                                                    <div class="col-8 col-xl-3 d-grid">
+                                                                        <button type="submit" class="btn gwc-button waves-effect waves-light" id="btn_submitHrCompanyRepresentative">SAVE</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </form>
+
+                                                            <br>
+
+                                                            <div id="div_companyHRDocument" hidden>
+                                                                <h6 class="mt-0 header-title">Presented Identification Documents</h6>
+                                                                <br>
+                                                                <div class="table-responsive">
+                                                                    <table class="table mb-0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Company ID</td>
+                                                                                <td>
+                                                                                    <center>
+                                                                                        <a href="javascript:void(0)" id="btn_hrCompanyId" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('','Company ID');">
+                                                                                            <i class="fe-upload"></i>
+                                                                                        </a>
+                                                                                    </center>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Government ID</td>
+                                                                                <td>
+                                                                                    <center>
+                                                                                        <a href="javascript:void(0)" id="btn_hrGovernmentId" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('','Government ID');">
+                                                                                            <i class="fe-upload"></i>
+                                                                                        </a>
+                                                                                    </center>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endif
+                                                @if($bpoUser == '1')
+                                                <div class="card mb-0">
+                                                    <div class="card-header" id="headingFive">
+                                                        <h5 class="m-0 position-relative">
+                                                            <a class="custom-accordion-title text-reset collapsed d-block" data-bs-toggle="collapse" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                                Billing & Payment Officer <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                                                            </a>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-bs-parent="#custom-accordion-one">
+                                                        <div class="card-body">
+                                                            
+                                                            <br>
+                                                            <h6 class="mt-0 header-title">Authorized Person to Represent Company</h6>
+                                                            <br>
+                                                            <form class="form-horizontal" id="form_bpoCompanyRepresentative">
+
+                                                                <input type="hidden" id="txt_bpoRepresentativeId" name="txt_bpoRepresentativeId">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_bpoFirstName" name="txt_bpoFirstName" placeholder="First Name">
+                                                                    </div>
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_bpoLastName" name="txt_bpoLastName" placeholder="Last Name">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row mb-3">
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="email" class="form-control" id="txt_bpoEmailAddress" name="txt_bpoEmailAddress" placeholder="Email Address">
+                                                                    </div>
+                                                                    <div class="col-8 col-xl-6">
+                                                                        <input type="text" class="form-control" id="txt_bpoPosition" name="txt_bpoPosition" placeholder="Position in the company">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="justify-content-end row">
+                                                                    <div class="col-8 col-xl-3 d-grid">
+                                                                        <button type="submit" class="btn gwc-button waves-effect waves-light" id="btn_submitBpoCompanyRepresentative">SAVE</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </form>
+
+                                                            <br>
+
+                                                            <div id="div_companyBPODocument" hidden>
+                                                                <h6 class="mt-0 header-title">Presented Identification Documents</h6>
+                                                                <br>
+                                                                <div class="table-responsive">
+                                                                    <table class="table mb-0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Company ID</td>
+                                                                                <td>
+                                                                                    <center>
+                                                                                        <a href="javascript:void(0)" id="btn_bpoCompanyId" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('','Company ID');">
+                                                                                            <i class="fe-upload"></i>
+                                                                                        </a>
+                                                                                    </center>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>Government ID</td>
+                                                                                <td>
+                                                                                    <center>
+                                                                                        <a href="javascript:void(0)" id="btn_bpoGovernmentId" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('','Government ID');">
+                                                                                            <i class="fe-upload"></i>
+                                                                                        </a>
+                                                                                    </center>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endif
                                             </div>
+
+                                        </div>
 
 
                                     </div>
@@ -628,6 +729,38 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal_repIdentificationDocuments" tabindex="-1" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle"> 
+                        <i class="feather-plus me-2"></i> Identification
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_repIdentificationDocuments">
+                        <input type="hidden" id="txt_identificationId" name="txt_identificationId">
+                        <input type="hidden" id="txt_employeeId" name="txt_employeeId">
+                        <input type="hidden" id="txt_identificationType" name="txt_identificationType">
+                        <input type="hidden" id="txt_identificationCategory" name="txt_identificationCategory">
+                        <center><div id="div_identificationResult"></div></center>
+                        <input type="file" id="file_identificationDocument" name="file_identificationDocument" data-plugins="dropify" accept="application/pdf" required />
+                        <div id="div_identificationPreview" hidden>
+                            <br>
+                            <label>Document Preview:</label>
+                            <iframe src="" id="iframe_identificationDocumentPreview" style="width:100%; height: 60vh;"></iframe>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitRepIdentificationDocuments" form="form_repIdentificationDocuments">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -673,6 +806,8 @@
 
     REPRESENTATIVE_COMPANY_PROFILE.selectRepresentativeCompanyInformation($('#txt_companyId').val());
     REPRESENTATIVE_COMPANY_PROFILE.loadRepresentativeCompanyDocuments($('#txt_companyId').val());
+    REPRESENTATIVE_COMPANY_PROFILE.selectRepresentativeCompanySettings($('#txt_companyId').val());
+    REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyRepresentatives($('#txt_companyId').val());
     
     $('#form_companyInformation').on('submit',function(e){
         e.preventDefault();
@@ -694,7 +829,54 @@
         {
             REPRESENTATIVE_COMPANY_PROFILE.editRepresentativeCompanyDocument(this);
         }
-        
+    });
+
+    $('#form_companySettings').on('submit', function(e){
+        e.preventDefault();
+        REPRESENTATIVE_COMPANY_PROFILE.editRepresentativeCompanySettings(this);
+    });
+
+    $('#form_hrCompanyRepresentative').on('submit',function(e){
+        e.preventDefault();
+        let hrRepresentativeId = $('#txt_hrRepresentativeId').val();
+        if(hrRepresentativeId == '')
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_addCompanyHR(this);
+        }
+        else
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyHR(this);
+        }
+    });
+
+    $('#form_bpoCompanyRepresentative').on('submit',function(e){
+        e.preventDefault();
+        let bpoRepresentativeId = $('#txt_bpoRepresentativeId').val();
+        if(bpoRepresentativeId == '')
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_addCompanyBPO(this);
+        }
+        else
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyBPO(this);
+        }
+    });
+
+    $('#file_identificationDocument').on('change',function(){
+        REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationPreview(this);
+    });
+
+    $('#form_repIdentificationDocuments').on('submit',function(e){
+        e.preventDefault();
+        let identificationId = $('#txt_identificationId').val();
+        if(identificationId == '')
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_addCompanyRepresentativeIdentification(this);
+        }
+        else
+        {
+            REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyRepresentativeIdentification(this);
+        }
     });
     
   });

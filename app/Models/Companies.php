@@ -202,4 +202,114 @@ class Companies extends Model
             throw $e;
         }
     }
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->selectRepresentativeCompanySettings()
+    ////////////////////////////////////////////////////////////
+    public function selectRepresentativeCompanySettings($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.bank_depository',
+            'a.branch_name',
+            'a.branch_code',
+            'a.payroll_payout_date1',
+            'a.cut_off_min_date1',
+            'a.cut_off_max_date1',
+            'a.payroll_payout_date2',
+            'a.cut_off_min_date2',
+            'a.cut_off_max_date2',
+            'a.hr_user',
+            'a.bpo_user'
+        ];
+
+        $builder = $this->db->table('companies a');
+        $builder->select($columns);
+        $builder->where('a.id',$companyId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->editRepresentativeCompanySettings()
+    ////////////////////////////////////////////////////////////
+    public function editRepresentativeCompanySettings($arrData, $companyId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('companies');
+                $builder->where(['id'=>$companyId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_loadCompanyRepresentatives()
+    ////////////////////////////////////////////////////////////
+    public function r_loadCompanyRepresentatives($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.email_address',
+            'a.position',
+            'a.user_role'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.company_id',$companyId);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_addCompanyHR()
+    ///// CompanyController->r_addCompanyBPO()
+    ////////////////////////////////////////////////////////////
+    public function r_addCompanyRepresentative($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_editCompanyHR()
+    ///// CompanyController->r_editCompanyBPO()
+    ////////////////////////////////////////////////////////////
+    public function r_editCompanyRepresentative($arrData, $representativeId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->where(['id'=>$representativeId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
 }

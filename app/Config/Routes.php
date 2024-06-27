@@ -112,6 +112,20 @@ $routes->get('portal/representative/select-representative-company-document', 'Po
 $routes->post('portal/representative/add-representative-company-document', 'Portal\CompanyController::addRepresentativeCompanyDocument');
 $routes->post('portal/representative/edit-representative-company-document', 'Portal\CompanyController::editRepresentativeCompanyDocument');
 
+$routes->get('portal/representative/select-representative-company-settings', 'Portal\CompanyController::selectRepresentativeCompanySettings');
+$routes->post('portal/representative/edit-representative-company-settings', 'Portal\CompanyController::editRepresentativeCompanySettings');
+
+$routes->get('portal/representative/r-load-company-representatives', 'Portal\CompanyController::r_loadCompanyRepresentatives');
+$routes->post('portal/representative/r-add-company-hr', 'Portal\CompanyController::r_addCompanyHR');
+$routes->post('portal/representative/r-edit-company-hr', 'Portal\CompanyController::r_editCompanyHR');
+$routes->post('portal/representative/r-add-company-bpo', 'Portal\CompanyController::r_addCompanyBPO');
+$routes->post('portal/representative/r-edit-company-bpo', 'Portal\CompanyController::r_editCompanyBPO');
+
+$routes->get('portal/representative/r-load-company-representative-identifications', 'Portal\CompanyController::r_loadCompanyRepresentativeIdentifications');
+$routes->post('portal/representative/r-add-representative-identification', 'Portal\CompanyController::r_addRepresentativeIdentification');
+$routes->get('portal/representative/r-select-representative-identification', 'Portal\CompanyController::r_selectRepresentativeIdentification');
+$routes->post('portal/representative/r-edit-representative-identification', 'Portal\CompanyController::r_editRepresentativeIdentification');
+
     // USER FINANCING PRODUCTS FUNCTIONS
 $routes->get('portal/user/load-user-financing-products', 'Portal\EmployeeController::loadUserFinancingProducts');
 $routes->get('portal/user/load-user-financing-product-subscriptions', 'Portal\EmployeeController::loadUserFinancingProductSubscriptions');

@@ -67,6 +67,10 @@ class Employees extends Model
     ////////////////////////////////////////////////////////////
     ///// IndexController->createAccount()
     ///// NavigationController->representativeEmailVerification()
+    ///// CompanyController->r_addCompanyHR()
+    ///// CompanyController->r_editCompanyHR()
+    ///// CompanyController->r_addCompanyBPO()
+    ///// CompanyController->r_editCompanyBPO()
     ////////////////////////////////////////////////////////////
     public function validateRepresentativeEmail($whereParams)
     {
@@ -175,7 +179,9 @@ class Employees extends Model
             'a.position',
             'a.user_type',
             'a.profile_picture',
-            'b.business_type'
+            'b.business_type',
+            'b.hr_user',
+            'b.bpo_user'
         ];
 
         $builder = $this->db->table('employees a');
@@ -355,6 +361,85 @@ class Employees extends Model
             $this->db->transStart();
                 $builder = $this->db->table('employees');
                 $builder->where(['id'=>$employeeId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_loadCompanyRepresentativeIdentifications()
+    ////////////////////////////////////////////////////////////
+    public function r_loadCompanyRepresentativeIdentifications($employeeId, $category)
+    {
+        $columns = [
+            'a.id',
+            'a.employee_id',
+            'a.type',
+            'a.category',
+            'a.id_number',
+            'a.id_picture',
+            'a.date_issued',
+            'a.placed_issued',
+            'a.issued_by',
+            'a.expiry_date',
+            'a.id_status'
+        ];
+
+        $builder = $this->db->table('employee_identities a');
+        $builder->select($columns);
+        $builder->where('a.employee_id',$employeeId);
+        $builder->where('a.category',$category);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_addRepresentativeIdentification()
+    ////////////////////////////////////////////////////////////
+    public function r_addRepresentativeIdentification($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employee_identities');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_selectRepresentativeIdentification()
+    ////////////////////////////////////////////////////////////
+    public function r_selectRepresentativeIdentification($identificationId)
+    {
+        $columns = [
+            'a.id',
+            'a.id_picture'
+        ];
+
+        $builder = $this->db->table('employee_identities a');
+        $builder->select($columns);
+        $builder->where('a.id',$identificationId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->r_editRepresentativeIdentification()
+    ////////////////////////////////////////////////////////////
+    public function r_editRepresentativeIdentification($arrData, $identificationId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employee_identities');
+                $builder->where(['id'=>$identificationId]);
                 $builder->update($arrData);
             $this->db->transComplete();
             return ($this->db->transStatus() === TRUE)? 1 : 0;

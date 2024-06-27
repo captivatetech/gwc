@@ -46,6 +46,11 @@ class CreateCompanyRepresentativesTable extends Migration
                 'constraint'        => 50,
                 'null'              => true,
             ],
+            'type'                  => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 20,
+                'null'              => true,
+            ],
             'created_by'                => [
                 'type'              => 'INT',
                 'constraint'        => 11,

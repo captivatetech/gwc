@@ -134,6 +134,11 @@ class CreateEmployeesTable extends Migration
                 'constraint'        => 255,
                 'null'              => true,
             ],
+            'user_role'                 => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 20,
+                'null'              => true,
+            ],
             'role_id'                   => [
                 'type'              => 'INT',
                 'constraint'        => 11,
