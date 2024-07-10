@@ -146,7 +146,7 @@
                         @if($accessModules[1][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/applications');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="fe-edit"></i>
                                 <span> Applications </span>
                             </a>
                         </li>
@@ -154,7 +154,7 @@
                         @if($accessModules[2][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/partners-list');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="fe-users"></i>
                                 <span> Partners List </span>
                             </a>
                         </li>
@@ -162,7 +162,7 @@
                         @if($accessModules[3][0][0] == 1 || $accessModules[4][0][0] == 1 || $accessModules[5][0][0] == 1)
                         <li>
                             <a href="#div_financingProducts" data-bs-toggle="collapse" class="" aria-expanded="true">
-                                <i class="mdi mdi-email-outline"></i>
+                                <i class="fe-box"></i>
                                 <span> Financing Products </span>
                                 <span class="menu-arrow"></span>
                             </a>
@@ -175,12 +175,12 @@
                                     @endif
                                     @if($accessModules[4][0][0] == 1)
                                     <li>
-                                        <a href="#">Business Expansion</a>
+                                        <a href="<?php echo base_url('portal/admin/business-expansion');?>">Business Expansion</a>
                                     </li>
                                     @endif
                                     @if($accessModules[5][0][0] == 1)
                                     <li>
-                                        <a href="#">Payment Now</a>
+                                        <a href="<?php echo base_url('portal/admin/payment-now');?>">Payment Now</a>
                                     </li>
                                     @endif
                                 </ul>
@@ -190,7 +190,7 @@
                         @if($accessModules[6][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/billings');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="fas fa-money-check"></i>
                                 <span> Billings </span>
                             </a>
                         </li>
@@ -198,7 +198,7 @@
                         @if($accessModules[7][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/payments');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="far fa-money-bill-alt"></i>
                                 <span> Payments </span>
                             </a>
                         </li>
@@ -206,7 +206,7 @@
                         @if($accessModules[8][0][0] == 1 || $accessModules[9][0][0] == 1 || $accessModules[10][0][0] == 1 || $accessModules[11][0][0] == 1)
                         <li>
                             <a href="#div_maintenance" data-bs-toggle="collapse" class="" aria-expanded="true">
-                                <i class="mdi mdi-email-outline"></i>
+                                <i class="fas fa-cog"></i>
                                 <span> Maintenance </span>
                                 <span class="menu-arrow"></span>
                             </a>
@@ -239,7 +239,7 @@
                         @if($accessModules[12][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/reports');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="fas fa-file-invoice-dollar"></i>
                                 <span> Reports </span>
                             </a>
                         </li>
@@ -247,7 +247,7 @@
                         @if($accessModules[13][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/audit-trail');?>">
-                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <i class="fas fa-history"></i>
                                 <span> Audit Trail </span>
                             </a>
                         </li>
