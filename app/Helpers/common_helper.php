@@ -2,8 +2,31 @@
 
 function generateCompanyCode($companyCode)
 {
-	$newCompanyCode = (int)substr($companyCode,3);
-	return $newCompanyCode + 1;
+	$series = (int)substr($companyCode,3);
+
+	$series += 1;
+	$strSeries = '';
+
+	if($series < 10)
+	{
+		$strSeries = '000'.$series;
+	}
+	else if($series < 100)
+	{
+		$strSeries = '00'.$series;
+	}
+	else if($series < 1000)
+	{
+		$strSeries = '0'.$series;
+	}
+	else if($series < 10000)
+	{
+		$strSeries = $series;
+	}
+
+	$newCompanyCode = 'GWC'.$strSeries;
+
+	return $newCompanyCode;
 }
 
 function extractJSONFromURL($url)

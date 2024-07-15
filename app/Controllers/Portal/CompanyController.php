@@ -12,14 +12,14 @@ class CompanyController extends BaseController
         $this->employees = model('Employees');
     }
 
-    public function selectRepresentativeCompanyInformation()
+    public function r_selectCompanyInformation()
     {
         $fields = $this->request->getGet();
-        $arrData = $this->companies->selectRepresentativeCompanyInformation($fields['companyId']);
+        $arrData = $this->companies->r_selectCompanyInformation($fields['companyId']);
         return $this->response->setJSON($arrData);
     }
 
-    public function editRepresentativeCompanyInformation()
+    public function r_editCompanyInformation()
     {
         $this->validation->setRules([
             'txt_businessName' => [
@@ -100,7 +100,7 @@ class CompanyController extends BaseController
                     'updated_date'              => date('Y-m-d H:i:s')
                 ];
 
-                $result = $this->companies->editRepresentativeCompanyInformation($arrData, $fields['txt_companyId']);
+                $result = $this->companies->r_editCompanyInformation($arrData, $fields['txt_companyId']);
                 if($result > 0)
                 {
                     $msgResult[] = "Company Information updated successfully";
@@ -129,144 +129,16 @@ class CompanyController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
-    public function loadRepresentativeCompanyDocuments()
+    
+
+    public function r_selectCompanySettings()
     {
         $fields = $this->request->getGet();
-        $arrData = $this->companies->loadRepresentativeCompanyDocuments($fields['companyId']);
+        $arrData = $this->companies->r_selectCompanySettings($fields['companyId']);
         return $this->response->setJSON($arrData);
     }
 
-    public function selectRepresentativeCompanyDocument()
-    {
-        $fields = $this->request->getGet();
-        $arrData = $this->companies->selectRepresentativeCompanyDocument($fields['companyId']);
-        return $this->response->setJSON($arrData);
-    }
-
-    public function addRepresentativeCompanyDocument()
-    {
-        $fields = $this->request->getPost();
-
-        $arrData = [
-            'company_id'        => $fields['txt_companyId'],
-            'document_code'     => $fields['txt_documentCode'],
-            'document_name'     => $fields['txt_documentName'],
-            'document_status'   => '1',
-            'created_by'        => $this->session->get('gwc_representative_id'),
-            'created_date'      => date('Y-m-d H:i:s')
-        ];
-
-        /////////////////////////
-        // document start
-        /////////////////////////
-        $pdfFile = $this->request->getFile('file_companyDocument');
-
-        if($pdfFile != null)
-        {
-            $newFileName = $pdfFile->getRandomName();
-            $pdfFile->move(ROOTPATH . 'public/assets/uploads/company/documents/', $newFileName);
-
-            if($pdfFile->hasMoved())
-            {
-                $arrData['document_file'] = $newFileName;
-            }
-        }
-        else
-        {
-            $arrData['document_file'] = NULL;
-        }                
-        ///////////////////////
-        // document end
-        ///////////////////////
-        
-        $result = $this->companies->addRepresentativeCompanyDocument($arrData);
-        if($result > 0)
-        {
-            $msgResult[] = "Document added successfully";
-        }
-        else
-        {
-            $msgResult[] = "Something went wrong, please try again";
-            return $this->response->setStatusCode(401)->setJSON($msgResult);
-            exit();
-        }
-
-        return $this->response->setJSON($msgResult);
-    }
-
-    public function editRepresentativeCompanyDocument()
-    {
-        $fields = $this->request->getPost();
-
-        $arrData = [
-            'company_id'        => $fields['txt_companyId'],
-            'document_code'     => $fields['txt_documentCode'],
-            'document_name'     => $fields['txt_documentName'],
-            'document_status'   => '1',
-            'updated_by'        => $this->session->get('gwc_representative_id'),
-            'updated_date'      => date('Y-m-d H:i:s')
-        ];
-
-        $documentId = $fields['txt_documentId'];
-
-        /////////////////////////
-        // document start
-        /////////////////////////
-        $pdfFile = $this->request->getFile('file_companyDocument');
-
-        if($pdfFile != null)
-        {
-            $newFileName = $pdfFile->getRandomName();
-            $pdfFile->move(ROOTPATH . 'public/assets/uploads/company/documents/', $newFileName);
-
-            if($pdfFile->hasMoved())
-            {
-                $arrResult = $this->companies->selectRepresentativeCompanyDocument($documentId);
-
-                if($arrResult['document_file'] != null)
-                {
-                    unlink(ROOTPATH . 'public/assets/uploads/company/documents/' . $arrResult['document_file']);
-                }  
-
-                $arrData['document_file'] = $newFileName;
-            }
-        }
-        else
-        {
-            $arrData['document_file'] = NULL;
-        }                
-        ///////////////////////
-        // document end
-        ///////////////////////
-        
-        $result = $this->companies->editRepresentativeCompanyDocument($arrData, $documentId);
-        if($result > 0)
-        {
-            $msgResult[] = "Document updated successfully";
-        }
-        else
-        {
-            $msgResult[] = "Something went wrong, please try again";
-            return $this->response->setStatusCode(401)->setJSON($msgResult);
-            exit();
-        }
-
-        return $this->response->setJSON($msgResult);
-    }
-
-
-
-
-
-
-    public function selectRepresentativeCompanySettings()
-    {
-        $fields = $this->request->getGet();
-        $arrData = $this->companies->selectRepresentativeCompanySettings($fields['companyId']);
-        return $this->response->setJSON($arrData);
-    }
-
-    public function editRepresentativeCompanySettings()
+    public function r_editCompanySettings()
     {
         $this->validation->setRules([
             'txt_bankDepository' => [
@@ -354,7 +226,7 @@ class CompanyController extends BaseController
                 'updated_date'          => date('Y-m-d H:i:s')
             ];
 
-            $result = $this->companies->editRepresentativeCompanySettings($arrData, $fields['txt_companyId']);
+            $result = $this->companies->r_editCompanySettings($arrData, $fields['txt_companyId']);
             if($result > 0)
             {
                 $msgResult[] = "Company settings updated successfully";
@@ -823,7 +695,7 @@ class CompanyController extends BaseController
 
             if($pdfFile->hasMoved())
             {
-                $arrResult = $this->companies->selectRepresentativeCompanyDocument($identificationId);
+                $arrResult = $this->employees->r_selectRepresentativeIdentification($identificationId);
 
                 if($arrResult['id_picture'] != null)
                 {
@@ -841,7 +713,7 @@ class CompanyController extends BaseController
         // document end
         ///////////////////////
         
-        $result = $this->companies->editRepresentativeCompanyDocument($arrData, $documentId);
+        $result = $this->employees->r_editRepresentativeIdentification($arrData, $documentId);
         if($result > 0)
         {
             $msgResult[] = "Document updated successfully";
@@ -855,4 +727,21 @@ class CompanyController extends BaseController
 
         return $this->response->setJSON($msgResult);
     }
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -209,7 +209,7 @@
                                                             <td>BIR Certificate of Registration (2303)</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_partnership01" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Partnership-01','BIR Certificate of Registration (2303)');">
+                                                                    <a href="javascript:void(0)" id="btn_partnership01" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Partnership-01','BIR Certificate of Registration (2303)');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -224,7 +224,7 @@
                                                             <td>SEC Registrtion Certificate</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_partnership02" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Partnership-02','SEC Registrtion Certificate');">
+                                                                    <a href="javascript:void(0)" id="btn_partnership02" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Partnership-02','SEC Registrtion Certificate');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -239,7 +239,7 @@
                                                             <td>Notarized Partner’s Certificate (provided by GwC)</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_partnership03" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Partnership-03','Notarized Partner’s Certificate (provided by GwC)');">
+                                                                    <a href="javascript:void(0)" id="btn_partnership03" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Partnership-03','Notarized Partner’s Certificate (provided by GwC)');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -254,7 +254,7 @@
                                                             <td>Articles of Partnership</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_partnership04" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Partnership-04','Articles of Partnership');">
+                                                                    <a href="javascript:void(0)" id="btn_partnership04" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Partnership-04','Articles of Partnership');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -290,7 +290,7 @@
                                                             <td>BIR Certificate of Registration (2303)</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_proprietorship01" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Proprietorship-01','BIR Certificate of Registration (2303)');">
+                                                                    <a href="javascript:void(0)" id="btn_proprietorship01" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Proprietorship-01','BIR Certificate of Registration (2303)');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -305,7 +305,7 @@
                                                             <td>DTI Registration Document</td>
                                                             <td width="10%">
                                                                 <center>
-                                                                    <a href="javascript:void(0)" id="btn_proprietorship02" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Proprietorship-02','DTI Registration Document');">
+                                                                    <a href="javascript:void(0)" id="btn_proprietorship02" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Proprietorship-02','DTI Registration Document');">
                                                                         <i class="fe-upload"></i>
                                                                     </a>
                                                                 </center>
@@ -341,7 +341,7 @@
                                                                 <td>BIR Certificate of Registration (2303)</td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation01" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Corporation-01','BIR Certificate of Registration (2303)');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation01" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-01','BIR Certificate of Registration (2303)');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -356,7 +356,7 @@
                                                                 <td>SEC Regitration Certificate</td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation02" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Corporation-02','SEC Regitration Certificate');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation02" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-02','SEC Regitration Certificate');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -371,7 +371,7 @@
                                                                 <td>Notarized Secretary’s Certificate  (provided by GwC)</td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation03" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Corporation-03','Notarized Secretary’s Certificate  (provided by GwC)');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation03" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-03','Notarized Secretary’s Certificate  (provided by GwC)');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -386,7 +386,7 @@
                                                                 <td>Articles of Incorporation</td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation04" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Corporation-04','Articles of Incorporation');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation04" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-04','Articles of Incorporation');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -401,7 +401,7 @@
                                                                 <td>Most Recent General Information Sheet (GIS) </td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation05" onclick="REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal('','Corporation-05','Most Recent General Information Sheet (GIS)');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation05" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-05','Most Recent General Information Sheet (GIS)');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -804,18 +804,18 @@
   $(document).ready(function(){
     //jQuery Events
 
-    REPRESENTATIVE_COMPANY_PROFILE.selectRepresentativeCompanyInformation($('#txt_companyId').val());
-    REPRESENTATIVE_COMPANY_PROFILE.loadRepresentativeCompanyDocuments($('#txt_companyId').val());
-    REPRESENTATIVE_COMPANY_PROFILE.selectRepresentativeCompanySettings($('#txt_companyId').val());
+    REPRESENTATIVE_COMPANY_PROFILE.r_selectCompanyInformation($('#txt_companyId').val());
+    REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
+    REPRESENTATIVE_COMPANY_PROFILE.r_selectCompanySettings($('#txt_companyId').val());
     REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyRepresentatives($('#txt_companyId').val());
     
     $('#form_companyInformation').on('submit',function(e){
         e.preventDefault();
-        REPRESENTATIVE_COMPANY_PROFILE.editRepresentativeCompanyInformation(this);
+        REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyInformation(this);
     });
 
     $('#file_companyDocument').on('change',function(){
-        REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentPreview(this);
+        REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentPreview(this);
     });
 
     $('#form_repRepCompanyDocuments').on('submit',function(e){
@@ -823,17 +823,17 @@
         let documentId = $('#txt_documentId').val();
         if(documentId == "")
         {
-            REPRESENTATIVE_COMPANY_PROFILE.addRepresentativeCompanyDocument(this);
+            REPRESENTATIVE_COMPANY_PROFILE.r_addCompanyDocument(this);
         }
         else
         {
-            REPRESENTATIVE_COMPANY_PROFILE.editRepresentativeCompanyDocument(this);
+            REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyDocument(this);
         }
     });
 
     $('#form_companySettings').on('submit', function(e){
         e.preventDefault();
-        REPRESENTATIVE_COMPANY_PROFILE.editRepresentativeCompanySettings(this);
+        REPRESENTATIVE_COMPANY_PROFILE.r_editCompanySettings(this);
     });
 
     $('#form_hrCompanyRepresentative').on('submit',function(e){

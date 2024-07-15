@@ -234,6 +234,10 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['companyId'] = $userData['company_id'];
+                    $data['businessType'] = $userData['business_type'];
+                    $data['hrUser'] = $userData['hr_user'];
+                    $data['bpoUser'] = $userData['bpo_user']; 
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
                 }
                 else
@@ -266,6 +270,9 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['companyId'] = $userData['company_id'];
+                    $data['companyCode'] = $userData['company_code'];
+                    $data['bankDepository'] = $userData['bank_depository'];
                     return $this->slice->view('portal.representative.representative_employee_list', $data);
                 }
                 else
@@ -494,7 +501,34 @@ class NavigationController extends BaseController
 
     public function adminSalaryAdvance()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Dashboard | GWC";
+                $data['customScripts'] = 'admin_salary_advance';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_salary_advance', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminBusinessExpansion()

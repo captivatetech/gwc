@@ -8,6 +8,7 @@ const REPRESENTATIVE_PROFILE = (function(){
     thisRepresentativeProfile.selectRepresentativeInformation = function()
     {
         AJAXHELPER.selectData({
+            
             'route' : 'portal/representative/select-representative-information',
             'data'  : {
                 'sample' : 'sample'
