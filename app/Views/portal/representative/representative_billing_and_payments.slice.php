@@ -35,6 +35,10 @@
                     <!-- Start Content-->
                     <div class="container-fluid">
 
+                        @if($subscriptionStatus == null)
+                        <h1>Please subscribe to a product first to activate this module.</h1>
+                        <p>Click <a href="<?php echo base_url('portal/representative/financing-products'); ?>">here</a> to subscribe for a product.</p>
+                        @else
                         <div class="row">
 
                             <div class="col-md-6 col-xl-6">
@@ -133,6 +137,9 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+
+                        <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
                         
                     </div> <!-- container-fluid -->
 

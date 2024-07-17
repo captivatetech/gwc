@@ -132,14 +132,13 @@
                                         </div>
 
                                         <br>
-                                        <h6 class="mt-0 header-title">Company ID</h6>
+                                        <h6 class="mt-0 header-title">PRIMARY ID</h6>
                                         <br>
                                         <!-- <div class="table-responsive"> -->
                                             <table class="table mb-0" id="tbl_primaryId">
                                                 <thead>
                                                     <tr>
                                                         <th>ID Type</th>
-                                                        <th>Category</th>
                                                         <th>ID Number</th>
                                                         <th>Date Issued</th>
                                                         <th>Place Issued</th>
@@ -155,14 +154,13 @@
                                         <!-- </div> -->
 
                                         <br>
-                                        <h6 class="mt-0 header-title">Government ID</h6>
+                                        <h6 class="mt-0 header-title">SECONDARY ID</h6>
                                         <br>
                                         <!-- <div class="table-responsive"> -->
                                             <table class="table mb-0" id="tbl_secondaryId">
                                                 <thead>
                                                     <tr>
                                                         <th>ID Type</th>
-                                                        <th>Category</th>
                                                         <th>ID Number</th>
                                                         <th>Date Issued</th>
                                                         <th>Place Issued</th>

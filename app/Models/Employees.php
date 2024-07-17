@@ -89,6 +89,25 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// NavigationController->employeeEmailVerification()
+    ////////////////////////////////////////////////////////////
+    public function validateEmployeeEmail($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name',
+            'a.email_address'
+        ];
+        
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
     ///// IndexController->createAccount()
     ////////////////////////////////////////////////////////////
     public function createAccount($arrData)
@@ -183,12 +202,14 @@ class Employees extends Model
             'b.hr_user',
             'b.bpo_user',
             'b.company_code',
-            'b.bank_depository'
+            'b.bank_depository',
+            'c.subscription_status'
         ];
 
         $builder = $this->db->table('employees a');
         $builder->select($columns);
         $builder->join('companies b','a.company_id = b.id','left');
+        $builder->join('product_subscriptions c','c.company_id = b.id','left');
         $builder->where('a.id',$employeeId);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -209,11 +230,13 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->selectRepresentativeInformation()
+    ///// EmployeeController->editRepresentativeInformation()
     ////////////////////////////////////////////////////////////
     public function selectRepresentativeInformation($employeeId)
     {
         $columns = [
             'a.id',
+            'a.company_id',
             'a.first_name',
             'a.middle_name',
             'a.last_name',
@@ -247,7 +270,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->loadRepresentativeIdentifications()
+    ///// EmployeeIdentityController->loadRepresentativeIdentifications()
     ////////////////////////////////////////////////////////////
     public function loadRepresentativeIdentifications($employeeId)
     {
@@ -275,7 +298,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->addRepresentativeIdentification()
+    ///// EmployeeIdentityController->addRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function addRepresentativeIdentification($arrData)
     {
@@ -292,7 +315,8 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->selectRepresentativeIdentification()
+    ///// EmployeeIdentityController->selectRepresentativeIdentification()
+    ///// EmployeeIdentityController->removeRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function selectRepresentativeIdentification($identificationId)
     {
@@ -320,7 +344,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->removeRepresentativeIdentification()
+    ///// EmployeeIdentityController->removeRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function removeRepresentativeIdentification($identificationId)
     {
@@ -566,6 +590,7 @@ class Employees extends Model
             'a.department',
             'a.position',
             'a.date_hired',
+            'a.employment_status',
             'a.years_stayed',
             'a.gross_salary',
             'a.minimum_credit_amount',
@@ -583,6 +608,7 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->r_editEmployee()
+    ///// EmployeeController->a_sendEmployeeEmailVerication()
     ////////////////////////////////////////////////////////////
     public function r_editEmployee($arrData, $employeeId)
     {
@@ -621,6 +647,8 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// ProductSubscriptionController->a_selectCompanyRepresentative()
+    ///// ProductSubscriptionController->a_failedCompanySubscription()
+    ///// ProductSubscriptionController->a_acceptCompanySubscription()
     ////////////////////////////////////////////////////////////
     public function a_selectCompanyRepresentative($subscriptionId)
     {
@@ -674,6 +702,40 @@ class Employees extends Model
         }
         $query = $builder->get();
         return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->a_sendEmployeeEmailVerication()
+    ////////////////////////////////////////////////////////////
+    public function a_selectCompanyEmployee($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
     }
 
 }

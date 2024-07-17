@@ -56,34 +56,38 @@ class EmployeeController extends BaseController
         {
             $fields = $this->request->getPost();
 
-            $arrResult = $this->companies->getLatestCompanyCode();
-
-            if(count($arrResult) == 0)
-            {
-                $companyCode = 'GWC0001';
-            }
-            else
-            {
-                $companyCode = generateCompanyCode($arrResult['company_code']);
-            }
-
             $arrData = [
-                'company_code' => $companyCode,
-                'created_by'   => $this->session->get('gwc_representative_id'),
-                'created_date' => date('Y-m-d H:i:s')
+                'first_name'    => $fields['txt_firstName'],
+                'middle_name'   => $fields['txt_middleName'],
+                'last_name'     => $fields['txt_lastName'],
+                'position'      => $fields['txt_position'],
+                'updated_by'    => $this->session->get('gwc_representative_id'),
+                'updated_date'  => date('Y-m-d H:i:s')
             ];
-            $companyId = $this->companies->addCompany($arrData);
 
-            $arrData = [
-                'company_id'            => $companyId,
-                'identification_number' => _generateIdentificationNumber($companyCode),
-                'first_name'            => $fields['txt_firstName'],
-                'middle_name'           => $fields['txt_middleName'],
-                'last_name'             => $fields['txt_lastName'],
-                'position'              => $fields['txt_position'],
-                'updated_by'            => $this->session->get('gwc_representative_id'),
-                'updated_date'          => date('Y-m-d H:i:s')
-            ];
+            $arr = $this->employees->selectRepresentativeInformation($fields['txt_employeeId']);
+            if($arr['company_id'] == null)
+            {
+                $arrResult = $this->companies->getLatestCompanyCode();
+
+                if($arrResult == null)
+                {
+                    $companyCode = 'GWC0001';
+                }
+                else
+                {
+                    $companyCode = generateCompanyCode($arrResult['company_code']);
+                }
+
+                $arrCompanyData = [
+                    'company_code' => $companyCode,
+                    'created_by'   => $this->session->get('gwc_representative_id'),
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $companyId = $this->companies->addCompany($arrCompanyData);
+                $arrData['company_id'] = $companyId;
+                $arrData['identification_number'] = $this->_generateIdentificationNumber($companyCode);
+            }
 
             $result = $this->employees->editRepresentativeInformation($arrData, $fields['txt_employeeId']);
             if($result > 0)
@@ -104,154 +108,6 @@ class EmployeeController extends BaseController
             exit();
         }
 
-        return $this->response->setJSON($msgResult);
-    }
-
-    public function loadRepresentativeIdentifications()
-    {
-        $fields = $this->request->getGet();
-        $arrData = $this->employees->loadRepresentativeIdentifications($this->session->get('gwc_representative_id'));
-        return $this->response->setJSON($arrData);
-    }
-
-    public function addRepresentativeIdentification()
-    {
-        $this->validation->setRules([
-            'txt_type' => [
-                'label'  => 'Type',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Type is required'
-                ],
-            ],
-            'slc_category' => [
-                'label'  => 'Category',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Category is required'
-                ],
-            ],
-            'txt_idNumber' => [
-                'label'  => 'ID Number',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'ID Number is required'
-                ],
-            ],
-            'txt_dateIssued' => [
-                'label'  => 'Date Issued',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Date Issued is required'
-                ],
-            ],
-            'txt_placeIssued' => [
-                'label'  => 'Place Issued',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Place Issued is required'
-                ],
-            ],
-            'txt_issuedBy' => [
-                'label'  => 'Issued By',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Issued By is required'
-                ],
-            ],
-            'txt_expiryDate' => [
-                'label'  => 'Expiry Date',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Expiry Date is required'
-                ],
-            ]
-        ]);
-
-        if($this->validation->withRequest($this->request)->run())
-        {
-            $fields = $this->request->getPost();
-
-            $arrData = [
-                'employee_id'       => $this->session->get('gwc_representative_id'),
-                'type'              => $fields['txt_type'],
-                'category'          => $fields['slc_category'],
-                'id_number'         => $fields['txt_idNumber'],
-                'date_issued'       => $fields['txt_dateIssued'],
-                'placed_issued'     => $fields['txt_placeIssued'],
-                'issued_by'         => $fields['txt_issuedBy'],
-                'expiry_date'       => $fields['txt_expiryDate'],
-                'created_by'        => $this->session->get('gwc_representative_id'),
-                'created_date'      => date('Y-m-d H:i:s')
-            ];
-
-            /////////////////////////
-            // id picture start
-            /////////////////////////
-            $imageFile = $this->request->getFile('file_idPicture');
-
-            if($imageFile != null)
-            {
-                $newFileName = $imageFile->getRandomName();
-                $imageFile->move(ROOTPATH . 'public/assets/uploads/representative/identifications/', $newFileName);
-
-                if($imageFile->hasMoved())
-                {
-                    $arrData['id_picture'] = $newFileName;
-                }
-            }
-            else
-            {
-                $arrData['id_picture'] = NULL;
-            }                
-            ///////////////////////
-            // id picture end
-            ///////////////////////
-
-            $result = $this->employees->addRepresentativeIdentification($arrData);
-            if($result > 0)
-            {
-                $msgResult[] = "New ID added successfully";
-            }
-            else
-            {
-                $msgResult[] = "Something went wrong, please try again";
-                return $this->response->setStatusCode(401)->setJSON($msgResult);
-                exit();
-            }
-        }
-        else
-        {
-            $msgResult[] = $this->validation->getErrors();
-            return $this->response->setStatusCode(401)->setJSON($msgResult);
-            exit();
-        }
-        return $this->response->setJSON($msgResult);
-    }
-
-    public function selectRepresentativeIdentification()
-    {
-        $fields = $this->request->getGet();
-        $arrData = $this->employees->selectRepresentativeIdentification($fields['identificationId']);
-        return $this->response->setJSON($arrData);
-    }
-
-    public function removeRepresentativeIdentification()
-    {
-        $fields = $this->request->getPost();
-        $arrData = $this->employees->selectRepresentativeIdentification($fields['identificationId']);
-        $result = $this->employees->removeRepresentativeIdentification($fields['identificationId']);
-        if($result > 0)
-        {
-            unlink(ROOTPATH . 'public/assets/uploads/representative/identifications/' . $arrData['id_picture']);
-            $msgResult[] = "ID removed successfully";
-        }
-        else
-        {
-            $msgResult[] = "Something went wrong, please try again";
-            return $this->response->setStatusCode(401)->setJSON($msgResult);
-            exit();
-        }
         return $this->response->setJSON($msgResult);
     }
 
@@ -436,17 +292,18 @@ class EmployeeController extends BaseController
                 'email_address'         => $fields['txt_emailAddress'],
                 'mobile_number'         => $fields['txt_mobileNumber'],
                 'user_password'         => encrypt_code('asd'),
-                'user_status'           => 1,
                 'user_type'             => 'employee',
                 'permanent_address'     => $fields['txt_homeAddress'],
                 'department'            => $fields['txt_department'],
                 'position'              => $fields['txt_position'],
                 'date_hired'            => $fields['txt_dateHired'],
+                'employment_status'     => $fields['slc_employmentStatus'],
                 'years_stayed'          => $fields['txt_yearsStayed'],
                 'gross_salary'          => $fields['txt_grossSalary'],
                 'minimum_credit_amount' => $fields['txt_minimumAmount'],
                 'maximum_credit_amount' => $fields['txt_maximumAmount'],
                 'payroll_bank_number'   => $fields['txt_payrollBankAccount'],
+                'employee_status'       => $fields['slc_employeeStatus'],
                 'created_by'            => $this->session->get('gwc_representative_id'),
                 'created_date'          => date('Y-m-d H:i:s')
             ];
@@ -527,18 +384,18 @@ class EmployeeController extends BaseController
                 'marital_status'        => $fields['slc_maritalStatus'],
                 'email_address'         => $fields['txt_emailAddress'],
                 'mobile_number'         => $fields['txt_mobileNumber'],
-                'user_password'         => encrypt_code('asd'),
-                'user_status'           => 1,
                 'user_type'             => 'employee',
                 'permanent_address'     => $fields['txt_homeAddress'],
                 'department'            => $fields['txt_department'],
                 'position'              => $fields['txt_position'],
                 'date_hired'            => $fields['txt_dateHired'],
                 'years_stayed'          => $fields['txt_yearsStayed'],
+                'employment_status'     => $fields['slc_employmentStatus'],
                 'gross_salary'          => $fields['txt_grossSalary'],
                 'minimum_credit_amount' => $fields['txt_minimumAmount'],
                 'maximum_credit_amount' => $fields['txt_maximumAmount'],
                 'payroll_bank_number'   => $fields['txt_payrollBankAccount'],
+                'employee_status'       => $fields['slc_employeeStatus'],
                 'updated_by'            => $this->session->get('gwc_representative_id'),
                 'updated_date'          => date('Y-m-d H:i:s')
             ];
@@ -605,7 +462,41 @@ class EmployeeController extends BaseController
 
     public function a_sendEmployeeEmailVerication()
     {
-        
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'auth_code' => encrypt_code(generate_code(20))
+        ];
+        $result = $this->employees->r_editEmployee($arrData, $fields['employeeId']);
+
+        if($result > 0)
+        {
+            $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
+
+            $emailConfig = [
+                'smtp_host'    => 'smtp.googlemail.com',
+                'smtp_port'    => 465,
+                'smtp_crypto'  => 'ssl',
+                'smtp_user'    => 'ajhay.dev@gmail.com',
+                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'mail_type'    => 'html',
+                'charset'      => 'iso-8859-1',
+                'word_wrap'    => true
+            ];
+
+            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailReceiver  = $arrDetails['email_address'];
+
+            $data = [
+                'subjectTitle'  => 'Email Verification',
+                'emailAddress'  => $arrDetails['email_address'],
+                'authCode'      => decrypt_code($arrData['auth_code'])
+            ];
+
+            $emailResult = sendSliceMail('employee_email_verification',$emailConfig,$emailSender,$emailReceiver,$data);
+
+            return $this->response->setJSON($emailResult);
+        }
     }
 
 

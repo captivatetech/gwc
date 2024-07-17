@@ -13,7 +13,17 @@ class Users extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'first_name',
+        'last_name',
+        'mobile_number',
+        'email_address',
+        'user_password',
+        'user_status',
+        'role_id',
+        'access_modules',
+        'created_date'
+    ];
 
     // Dates
     protected $useTimestamps = false;

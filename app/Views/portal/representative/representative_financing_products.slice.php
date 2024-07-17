@@ -40,15 +40,8 @@
             <div class="container-fluid">
 
                 @if($businessType == "")
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h1>Please complete your personal details and your company profile!</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h1>Please complete your personal details and your company profile!</h1>
+                <p>Click <a href="<?php echo base_url('portal/representative/profile'); ?>">here</a> to update your profile and <a href="<?php echo base_url('portal/representative/company-profile'); ?>">here</a> for company profile.</p>
                 @else
                 <div class="row" id="div_financingProducts">
 
@@ -168,16 +161,136 @@
 
                                     <h4>Documents</h4>
                                     <div class="table-responsive">
-                                        <table class="table mb-0" id="tbl_companyDocuments">
+                                        <table class="table mb-0" id="tbl_companyCorporationDocuments" hidden>
                                             <thead>
-                                            <tr>
-                                                <th><center>Status</center></th>
-                                                <th>List of upload documents</th>
-                                                <th>Action</th>
-                                            </tr>
+                                                <tr>
+                                                    <th><center>Status</center></th>
+                                                    <th>List of upload documents</th>
+                                                    <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                                <tr id="tr_corporation01">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>BIR Certificate of Registration (2303)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_corporation02">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>SEC Regitration Certificate</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_corporation03">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>Notarized Secretary’s Certificate (provided by GwC)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_corporation04">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>Articles of Incorporation</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_corporation05">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>Most Recent General Information Sheet (GIS)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table mb-0" id="tbl_companyProprietorShipDocuments" hidden>
+                                            <thead>
+                                                <tr>
+                                                    <th><center>Status</center></th>
+                                                    <th>List of upload documents</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="tr_proprietorship01">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>BIR Certificate of Registration (2303)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_proprietorship02">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>DTI Registration Document</td>
+                                                    <td>---</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table mb-0" id="tbl_companyPartnershipDocuments" hidden>
+                                            <thead>
+                                                <tr>
+                                                    <th><center>Status</center></th>
+                                                    <th>List of upload documents</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="tr_partnership01">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>BIR Certificate of Registration (2303)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_partnership02">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>SEC Registration Certificate</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_partnership03">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>Notarized Partner’s Certificate (provided by GwC)</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr id="tr_partnership04">
+                                                    <td>
+                                                        <center>
+                                                            <i class="fe-disc text-danger"></i>
+                                                        </center>
+                                                    </td>
+                                                    <td>Articles of Partnership</td>
+                                                    <td>---</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

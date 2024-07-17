@@ -54,7 +54,7 @@ class Companies extends Model
         $builder->orderBy('a.id','DESC');
         $builder->limit(1);
         $query = $builder->get();
-        return  $query->getResultArray();
+        return  $query->getRowArray();
     }
 
     ////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ class Companies extends Model
     ////////////////////////////////////////////////////////////
     ///// CompanyDocumentController->r_loadCompanyDocuments()
     ////////////////////////////////////////////////////////////
-    public function r_loadCompanyDocuments($companyId)
+    public function r_loadCompanyDocuments($companyId, $businessType)
     {
         $columns = [
             'a.id',
@@ -143,6 +143,7 @@ class Companies extends Model
         $builder = $this->db->table('company_documents a');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
+        $builder->like('a.document_code', $businessType, 'both');
         $query = $builder->get();
         return  $query->getResultArray();
     }

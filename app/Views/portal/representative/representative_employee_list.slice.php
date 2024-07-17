@@ -40,13 +40,17 @@
             <!-- Start Content-->
             <div class="container-fluid">
 
+                @if($subscriptionStatus == null)
+                <h1>Please subscribe to a product first to activate this module.</h1>
+                <p>Click <a href="<?php echo base_url('portal/representative/financing-products'); ?>">here</a> to subscribe for a product.</p>
+                @else
                 <input type="hidden" id="txt_companyId" name="txt_companyId" value="{{ $companyId }}">
 
                 <div class="row" id="div_employeeList">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
+                                
                                 <div class="row">
                                     <div class="col-8 col-xl-3 d-grid">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#standard-modal" class="btn gwc-button waves-effect waves-light" id="btn_addEmployee"><i class="fe-plus"></i> ADD NEW</button>
@@ -186,6 +190,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">  
                 

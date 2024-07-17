@@ -152,16 +152,123 @@
                                 <hr>
 
                                 <h4>Attached Documents</h4>
-                                <table class="table" id="tbl_attachedDocuments">
+                                <table class="table mb-0" id="tbl_companyCorporationDocuments" width="100%" hidden>
                                     <thead>
                                         <tr>
-                                            <th>List of upload documents</th>
-                                            <th>Actions</th>
-                                            <th>Verified</th>
+                                            <th width="60%">List of upload documents</th>
+                                            <th width="20%">Actions</th>
+                                            <th width="20%">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        <tr id="tr_corporation01">
+                                            <td>BIR Certificate of Registration (2303)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_corporation02">
+                                            <td>SEC Regitration Certificate</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_corporation03">
+                                            <td>Notarized Secretary’s Certificate (provided by GwC)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_corporation04">
+                                            <td>Articles of Incorporation</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_corporation05">
+                                            <td>Most Recent General Information Sheet (GIS)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table mb-0" id="tbl_companyProprietorShipDocuments" hidden>
+                                    <thead>
+                                        <tr>
+                                            <th width="60%">List of upload documents</th>
+                                            <th width="20%">Actions</th>
+                                            <th width="20%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="tr_proprietorship01">
+                                            <td>BIR Certificate of Registration (2303)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_proprietorship02">
+                                            <td>DTI Registration Document</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table mb-0" id="tbl_companyPartnershipDocuments" hidden>
+                                    <thead>
+                                        <tr>
+                                            <th width="60%">List of upload documents</th>
+                                            <th width="20%">Actions</th>
+                                            <th width="20%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="tr_partnership01">
+                                            <td>BIR Certificate of Registration (2303)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_partnership02">
+                                            <td>SEC Registration Certificate</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_partnership03">
+                                            <td>Notarized Partner’s Certificate (provided by GwC)</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_partnership04">
+                                            <td>Articles of Partnership</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table" id="tbl_attachedDocuments">
+                                    <thead>
+                                        <tr>
+                                            <th width="60%">List of upload documents</th>
+                                            <th width="20%">Actions</th>
+                                            <th width="20%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="tr_attachment01">
+                                            <td>Sworn Statement</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_attachment02">
+                                            <td>Employee List</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_attachment03">
+                                            <td>BIR Employee List</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
+                                        <tr id="tr_attachment04">
+                                            <td>SSS R3</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -208,7 +315,7 @@
 
                                 <h4>Employee List</h4>
 
-                                <table class="table table-bordered" id="tbl_employeeList">
+                                <table class="table table-bordered dt-responsive table-responsive nowrap" id="tbl_employeeList">
                                     <thead>
                                         <tr>
                                             <td>ID Number</td>
@@ -269,6 +376,29 @@
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn gwc-button" id="btn_verifyDocument">Verify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_employeeEmailVerification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle2"> 
+                        Send Email Verifications
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <i>Processing, Please wait...</i>
+                    </center>
+                    <div class="progress mt-1 mb-1">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="div_progressBar" style="width: 0%"></div>
+                    </div>
+                    <center>
+                        <i><span id="lbl_progress"></span></i>
+                    </center>
                 </div>
             </div>
         </div>

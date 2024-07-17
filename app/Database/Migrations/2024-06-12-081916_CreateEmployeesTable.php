@@ -90,7 +90,7 @@ class CreateEmployeesTable extends Migration
                 'constraint'        => 100,
                 'null'              => true,
             ],
-            'employement_status'        => [
+            'employment_status'         => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 50,
                 'null'              => true,

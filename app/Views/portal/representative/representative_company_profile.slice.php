@@ -44,15 +44,16 @@
             <!-- Start Content-->
             <div class="container-fluid">
 
+                @if($companyId == null)
+                <h1>Please update your profile first to activate this module.</h1>
+                <p>Click <a href="<?php echo base_url('portal/representative/profile'); ?>">here</a> to update your profile.</p>
+                @else
                 <div class="row">
 
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    @if($companyId == null)
-                                    <h1>Please update your profile first to activate this module.</h1>
-                                    <p>Click <a href="<?php echo base_url('portal/representative/profile'); ?>">here</a> to update your profile.</p>
-                                    @else
+                                    
                                     <ul class="nav nav-pills navtab-bg nav-justified">
                                         <li class="nav-item">
                                             <a href="#div_companyInformation" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
@@ -356,7 +357,7 @@
                                                                 <td>SEC Regitration Certificate</td>
                                                                 <td width="10%">
                                                                     <center>
-                                                                        <a href="javascript:void(0)" id="btn_corporation02" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-02','SEC Regitration Certificate');">
+                                                                        <a href="javascript:void(0)" id="btn_corporation02" onclick="REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal('','Corporation-02','SEC Registration Certificate');">
                                                                             <i class="fe-upload"></i>
                                                                         </a>
                                                                     </center>
@@ -679,13 +680,13 @@
 
                                     </div>
 
-                                    @endif
                                 </div>
                             </div> <!-- end card-->
                         </div> <!-- end col -->
 
                 </div>
                 <!-- end row --> 
+                @endif
 
                 <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">      
                 

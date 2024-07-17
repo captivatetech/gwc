@@ -96,40 +96,366 @@ const ADMIN_SALARY_ADVANCE = (function(){
                 'businessType' : businessType
             }
         }, function(data){
-            let tbody = "";
-            let arrVerifiedDocuments = [];
-            data.forEach(function(value,index){
-                let status = '';
-                let documentCode = '';
-                if(value['document_status'] == 1)
-                {
-                    status = `<span class="text-warning">Pending</span>`;
-                    arrVerifiedDocuments.push('Pending');
-                }
-                else if(value['document_status'] == 2)
-                {
-                    status = `<span class="text-success">Verified</span>`;
-                    arrVerifiedDocuments.push('Verified');
-                }
+
+            let arrAccept = [0,0];
+
+            if(businessType == 'Corporation')
+            {
+                let arrCorporation = [0,0,0,0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrCorporation[0] = 1;
+
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation01 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_corporation01 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'SEC Regitration Certificate')
+                    {
+                        arrCorporation[1] = 1;
+
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation02 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_corporation02 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'Notarized Secretary’s Certificate (provided by GwC)')
+                    {
+                        arrCorporation[2] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation03 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_corporation03 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'Articles of Incorporation')
+                    {
+                        arrCorporation[3] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation04 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_corporation04 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'Most Recent General Information Sheet (GIS)')
+                    {
+                        arrCorporation[4] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation05 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_corporation05 td:eq(2)').html(documentStatus);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',false);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',true);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',true);
+
+                arrAccept[0] = (arrCorporation.includes(0))? 0 : 1;
+            }
+            else if(businessType == 'Proprietorship')
+            {
+                let arrProprietorship = [0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrProprietorship[0] = 1;
+
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_proprietorship01 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_proprietorship01 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'DTI Registration Document')
+                    {
+                        arrProprietorship[1] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_proprietorship02 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_proprietorship02 td:eq(2)').html(documentStatus);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',true);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',false);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',true);
+
+                arrAccept[0] = (arrProprietorship.includes(0))? 0 : 1;
+            }
+            else if(businessType == 'Partnership')
+            {   
+                let arrPartnership = [0,0,0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrPartnership[0] = 1;
+
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership01 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_partnership01 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'SEC Registration Certificate')
+                    {
+                        arrPartnership[1] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership02 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_partnership02 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'Notarized Partner’s Certificate (provided by GwC)')
+                    {
+                        arrPartnership[2] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership03 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_partnership03 td:eq(2)').html(documentStatus);
+                    }
+
+                    if(value['document_name'] == 'Articles of Partnership')
+                    {
+                        arrPartnership[3] = 1;
+                        
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership04 td:eq(1)').html(documentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_partnership04 td:eq(2)').html(documentStatus);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',true);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',true);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',false);
+
+                arrAccept[0] = (arrPartnership.includes(0))? 0 : 1;
+            }
+
+            let arrAttachments = [0,0,0,0];
+            data.forEach(function(value,key){
+
+                let attachmentStatus = "";
+                let attachmentAction = "";
+
                 if(value['document_code'].search('Attachment') != -1)
                 {
-                    documentCode = 'Attachment';
-                }
-                else
-                {
-                    documentCode = 'Document';
-                }
-                tbody += `<tr>
-                            <td>${value['document_name']}</td>
-                            <td>
-                                <a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'${documentCode}','${value['document_name']}','${value['document_file']}')"><i>Preview</i></a>
-                            </td>
-                            <td>${status}</td>
-                        </tr>`;
-            });
-            $('#tbl_attachedDocuments tbody').html(tbody);
+                    if(value['document_name'] == 'Sworn Statement')
+                    {
+                        arrAttachments[0] = 1;
 
-            $('#btn_accept').prop('disabled',(arrVerifiedDocuments.includes('Pending'))? true : false);
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_attachment01 td:eq(1)').html(attachmentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            attachmentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            attachmentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_attachment01 td:eq(2)').html(attachmentStatus);
+                    }
+
+                    if(value['document_name'] == 'Employee List')
+                    {
+                        arrAttachments[1] = 1;
+                        
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_attachment02 td:eq(1)').html(attachmentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            attachmentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            attachmentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_attachment02 td:eq(2)').html(attachmentStatus);
+                    }
+
+                    if(value['document_name'] == 'BIR Employee List')
+                    {
+                        arrAttachments[2] = 1;
+                        
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_attachment03 td:eq(1)').html(attachmentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            attachmentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            attachmentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_attachment03 td:eq(2)').html(attachmentStatus);
+                    }
+
+                    if(value['document_name'] == 'SSS R3')
+                    {
+                        arrAttachments[3] = 1;
+                        
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                                        Preview
+                                    </a>`;
+                        $('#tr_attachment04 td:eq(1)').html(attachmentAction);
+
+                        if(value['document_status'] == 1)
+                        {
+                            attachmentStatus = `<i class="text-warning">Pending</i>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            attachmentStatus = `<i class="text-success">Verified</i>`;
+                        }
+                        $('#tr_attachment04 td:eq(2)').html(attachmentStatus);
+                    }
+                }
+            });
+
+            arrAccept[1] = (arrAttachments.includes(0))? 0 : 1;
+
+            $('#btn_acceptSubscription').prop('disabled',(arrAccept.includes(0))? true : false);
+
         });
     }
 
@@ -184,7 +510,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         $('#btn_requestResubmission').prop('disabled',true);
         
         AJAXHELPER.editData({
-            // CompanyDocumentController::a_failedCompanySubscription()
+            // ProductSubscriptionController::a_failedCompanySubscription()
             'route' : 'portal/admin/a-failed-company-subscription',
             'data'  : formData
         }, function(data){
@@ -205,49 +531,85 @@ const ADMIN_SALARY_ADVANCE = (function(){
     {
         if(confirm('Please Confirm!'))
         {
-           let formData = new FormData();
-           formData.set("txt_companyId", $('#txt_companyId').val());
-           formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
-           formData.set('slc_employeeListStatus', $('#slc_employeeListStatus').val());
-           formData.set('txt_remarks', $('#txt_remarks').val());
+            $('#modal_employeeEmailVerification').modal('show');
+            
+            let formData = new FormData();
+            formData.set("txt_companyId", $('#txt_companyId').val());
+            formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
+            formData.set('slc_employeeListStatus', $('#slc_employeeListStatus').val());
+            formData.set('txt_remarks', $('#txt_remarks').val());
 
-           $('#btn_requestResubmission').prop('disabled',true);
+            $('#btn_requestResubmission').prop('disabled',true);
            
-           AJAXHELPER.editData({
-               // CompanyDocumentController::a_acceptCompanySubscription()
-               'route' : 'portal/admin/a-accept-company-subscription',
-               'data'  : formData
-           }, function(data){
-               data.forEach(function(value, index){
-                   ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(value['id']);
-               });
-               setTimeout(function(){
-                   $('#btn_requestResubmission').prop('disabled',false);
-                   $('#div_salaryAdvanceList').prop('hidden',false);
-                   $('#div_salaryAdvanceEmployeeList').prop('hidden',true);
-                   $('#div_salaryAdvanceUpdate').prop('hidden',true);
-               }, 1000);
-           }, function(data){ // Error
-               COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-               $('#btn_requestResubmission').prop('disabled',false);
-           }); 
+            AJAXHELPER.editData({
+                // ProductSubscriptionController::a_acceptCompanySubscription()
+                'route' : 'portal/admin/a-accept-company-subscription',
+                'data'  : formData
+            }, function(data){
+                // data.forEach(function(value, index){
+                    let currentIndex = parseInt(data.length);
+                    let progress = 100 / parseInt(data.length);
+                    let progressRem = 100 % parseInt(data.length);
+                    let totalProgress = 0;
+                    let count = 0;
+                    let importCount = 0;
+                    ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
+                // });
+                // setTimeout(function(){
+                //     $('#btn_requestResubmission').prop('disabled',false);
+                //     $('#div_salaryAdvanceList').prop('hidden',false);
+                //     $('#div_salaryAdvanceEmployeeList').prop('hidden',true);
+                //     $('#div_salaryAdvanceUpdate').prop('hidden',true);
+                // }, 1000);
+            }, function(data){ // Error
+                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+                $('#btn_requestResubmission').prop('disabled',false);
+            }); 
        }
     }
 
-    thisAdminSalaryAdvance.a_sendEmployeeEmailVerification = function(employeeId)
+    thisAdminSalaryAdvance.a_sendEmployeeEmailVerification = function(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData)
     {
-        let formData = new FormData();
-        formData.set("employeeId", employeeId);
-        
-        AJAXHELPER.editData({
-            // CompanyDocumentController::a_acceptCompanySubscription()
-            'route' : 'portal/admin/a-accept-company-subscription',
-            'data'  : formData
-        }, function(data){
-            COMMONHELPER.Toaster('success',data[0]);
-        }, function(data){ // Error
-            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-        }); 
+        setTimeout(function(){  
+            let formData = new FormData();
+            formData.set("employeeId", arrData[count]['id']);
+            AJAXHELPER.editData({
+                // EmployeeController::a_sendEmployeeEmailVerification()
+                'route' : 'portal/admin/a-send-employee-email-verification',
+                'data'  : formData
+            }, function(data){
+                
+                if(count == (parseInt(arrData.length) - 1))
+                {
+                    progressRem = 100 - totalProgress;
+                    totalProgress += progressRem;   
+                }
+                else
+                {
+                    totalProgress += progress;
+                }
+
+                importCount += 1;
+
+                $('#div_progressBar').css('width',`${totalProgress}%`);
+                $('#lbl_progress').text(`${importCount} / ${currentIndex} Sent`);
+
+                if(totalProgress < 100)
+                {
+                    count++;
+                    ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData);
+                }
+                else
+                {
+                    COMMONHELPER.Toaster('success','Email verification sent!');
+                    setTimeout(function(){
+                        $('#modal_employeeEmailVerification').modal('hide');
+                    }, 1000);
+                }
+            }, function(data){ // Error
+                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            }); 
+        }, 1000);
     }
 
     thisAdminSalaryAdvance.a_loadCompanyEmployees = function(companyId)
@@ -282,7 +644,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
             });
             $("#tbl_employeeList").DataTable().destroy();
             $('#tbl_employeeList tbody').html(tbody);
-            $("#tbl_employeeList").DataTable({pageLength:10,lengthMenu:[10,20,50,100,200,500]});
+            $("#tbl_employeeList").DataTable();
         });
     }
 

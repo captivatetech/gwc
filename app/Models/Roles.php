@@ -13,7 +13,13 @@ class Roles extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'role_name',
+        'role_description',
+        'access_modules',
+        'role_status',
+        'created_date'
+    ];
 
     // Dates
     protected $useTimestamps = false;

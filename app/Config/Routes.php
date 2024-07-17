@@ -18,6 +18,7 @@ $routes->get('/', 'NavigationController::index');
 $routes->get('login', 'NavigationController::login');
 $routes->get('create-account', 'NavigationController::createAccount');
 $routes->get('representative-email-verification/(:any)/(:any)', 'NavigationController::representativeEmailVerification/$1/$2');
+$routes->get('employee-email-verification/(:any)/(:any)', 'NavigationController::employeeEmailVerification/$1/$2');
 $routes->get('forgot-password', 'NavigationController::forgotPassword');
 $routes->get('change-password', 'NavigationController::changePassword');
 
@@ -99,10 +100,10 @@ $routes->post('portal/employee/add-loan-account', 'Portal\LoanController::addEmp
 $routes->get('portal/representative/select-representative-information', 'Portal\EmployeeController::selectRepresentativeInformation');
 $routes->post('portal/representative/edit-representative-information', 'Portal\EmployeeController::editRepresentativeInformation');
 
-$routes->get('portal/representative/load-representative-identifications', 'Portal\EmployeeController::loadRepresentativeIdentifications');
-$routes->post('portal/representative/add-representative-identification', 'Portal\EmployeeController::addRepresentativeIdentification');
-$routes->get('portal/representative/select-representative-identification', 'Portal\EmployeeController::selectRepresentativeIdentification');
-$routes->post('portal/representative/remove-representative-identification', 'Portal\EmployeeController::removeRepresentativeIdentification');
+$routes->get('portal/representative/load-representative-identifications', 'Portal\EmployeeIdentityController::loadRepresentativeIdentifications');
+$routes->post('portal/representative/add-representative-identification', 'Portal\EmployeeIdentityController::addRepresentativeIdentification');
+$routes->get('portal/representative/select-representative-identification', 'Portal\EmployeeIdentityController::selectRepresentativeIdentification');
+$routes->post('portal/representative/remove-representative-identification', 'Portal\EmployeeIdentityController::removeRepresentativeIdentification');
 
 $routes->post('portal/representative/edit-representative-profile-picture', 'Portal\EmployeeController::editRepresentativeProfilePicture');
 

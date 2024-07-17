@@ -66,7 +66,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             //CompanyController->r_loadCompanyDocuments()
             'route' : '/portal/representative/r-load-company-documents',
             'data'  : {
-                'companyId' : companyId
+                'companyId' : companyId,
+                'businessType' : $('#txt_businessType').val()
             }
         }, function(data){
             if($('#txt_businessType').val() == 'Corporation')
@@ -204,7 +205,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_partnership02').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_partnership02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-02','SEC Registrtion Certificate');`);
+                        $('#btn_partnership02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-02','SEC Registration Certificate');`);
                     }
 
                     if(value['document_code'] == 'Partnership-03')
@@ -333,7 +334,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitRepCompanyDocuments').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/representative/company-profile`);
+                $('#modal_repCompanyDocuments').modal('hide');
+                REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
@@ -357,7 +359,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitRepCompanyDocuments').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/representative/company-profile`);
+                $('#modal_repCompanyDocuments').modal('hide');
+                REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);

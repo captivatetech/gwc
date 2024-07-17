@@ -235,9 +235,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'representative'; 
                     $data['companyId'] = $userData['company_id'];
-                    $data['businessType'] = $userData['business_type'];
-                    $data['hrUser'] = $userData['hr_user'];
-                    $data['bpoUser'] = $userData['bpo_user']; 
+                    $data['businessType'] = $userData['business_type']; 
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
                 }
                 else
@@ -273,6 +271,7 @@ class NavigationController extends BaseController
                     $data['companyId'] = $userData['company_id'];
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
                     return $this->slice->view('portal.representative.representative_employee_list', $data);
                 }
                 else
@@ -305,6 +304,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
                     return $this->slice->view('portal.representative.representative_billing_and_payments', $data);
                 }
                 else

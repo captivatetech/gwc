@@ -70,7 +70,7 @@ class ProductSubscriptionController extends BaseController
         $arrData = [
             'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit
             'remarks'               => $fields['txt_remarks'],
-            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
         
@@ -78,7 +78,7 @@ class ProductSubscriptionController extends BaseController
         if($result > 0)
         {
             // Select Company Representative email
-            $arrResult = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
+            $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
             $emailConfig = [
                 'smtp_host'    => 'smtp.googlemail.com',
@@ -92,11 +92,11 @@ class ProductSubscriptionController extends BaseController
             ];
 
             $emailSender    = 'ajhay.dev@gmail.com';
-            $emailReceiver  = $arrResult['email_address'];
+            $emailReceiver  = $repDetails['email_address'];
 
             $data = [
                 'subjectTitle' => 'Failed Subscription',
-                'emailAddress' => $arrResult['email_address'],
+                'emailAddress' => $repDetails['email_address'],
                 'remarks'      => $fields['txt_remarks']
             ];
 
@@ -121,16 +121,42 @@ class ProductSubscriptionController extends BaseController
         $arrData = [
             'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit
             'remarks'               => $fields['txt_remarks'],
-            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
         
         $result = $this->companies->a_acceptCompanySubscription($arrData, $fields['txt_subscriptionId']);
         if($result > 0)
         {
-            $arrEmployees = $this->employees->a_loadCompanyEmployees($fields['txt_companyId'],'employee');
+            $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
-            $msgResult = $arrEmployees;
+            $emailConfig = [
+                'smtp_host'    => 'smtp.googlemail.com',
+                'smtp_port'    => 465,
+                'smtp_crypto'  => 'ssl',
+                'smtp_user'    => 'ajhay.dev@gmail.com',
+                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'mail_type'    => 'html',
+                'charset'      => 'iso-8859-1',
+                'word_wrap'    => true
+            ];
+
+            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailReceiver  = $repDetails['email_address'];
+
+            $data = [
+                'subjectTitle' => 'Accept Subscription',
+                'emailAddress' => $repDetails['email_address'],
+                'remarks'      => $fields['txt_remarks']
+            ];
+
+            $emailResult = sendSliceMail('representative_accept_subscription',$emailConfig,$emailSender,$emailReceiver,$data);
+
+            if($emailResult == true)
+            {
+                $arrEmployees = $this->employees->a_loadCompanyEmployees($fields['txt_companyId'],'employee');
+                $msgResult = $arrEmployees;
+            }
         }
         else
         {

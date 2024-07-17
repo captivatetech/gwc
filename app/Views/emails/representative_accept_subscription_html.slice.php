@@ -6,7 +6,6 @@
     <title></title>
 </head>
 <body>
-    <h1>Email Verification</h1>
-    <a href="<?php echo base_url(); ?>employee-email-verification/{{ $emailAddress }}/{{ $authCode }}">Verify my email address</a>
+    {{ $remarks }}
 </body>
 </html>

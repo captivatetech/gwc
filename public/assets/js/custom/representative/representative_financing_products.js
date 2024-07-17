@@ -45,31 +45,282 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
             // CompanyController->r_loadCompanyDocuments
             'route' : '/portal/representative/r-load-company-documents',
             'data'  : {
-                'companyId' : companyId
+                'companyId' : companyId,
+                'businessType' : $('#txt_businessType').val()
             }
         }, function(data){
-            let tbody = '';
-            data.forEach(function(value,key){
-                if(value['document_code'].search($('#txt_businessType').val()) >= 0)
+            if($('#txt_businessType').val() == 'Corporation')
+            {
+                let arrCorporation = [0,0,0,0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrCorporation[0] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_corporation01 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation01 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'SEC Regitration Certificate')
+                    {
+                        arrCorporation[1] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_corporation02 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation02 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'Notarized Secretary’s Certificate (provided by GwC)')
+                    {
+                        arrCorporation[2] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_corporation03 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation03 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'Articles of Incorporation')
+                    {
+                        arrCorporation[3] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_corporation04 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation04 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'Most Recent General Information Sheet (GIS)')
+                    {
+                        arrCorporation[4] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_corporation05 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_corporation05 td:eq(2)').html(documentAction);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',false);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',true);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',true);
+
+                if(arrCorporation.includes(0))
                 {
-                    tbody += `<tr>
-                                <th scope="row" width="10%" id="th_proprietorship02">
-                                    <center>
-                                        <i class="fe-disc text-danger"></i>
-                                    </center>
-                                </th>
-                                <td>${value['document_name']}</td>
-                                <td width="10%">
-                                    <center>
-                                        <a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
-                                            Preview
-                                        </a>
-                                    </center>
-                                </td>
-                            </tr>`;
+                    $('#btn_submitFinancingProduct').prop('disabled',true);
                 }
-            });
-            $('#tbl_companyDocuments tbody').html(tbody);
+                else
+                {
+                    $('#btn_submitFinancingProduct').prop('disabled',false);
+                }
+            }
+            else if($('#txt_businessType').val() == 'Proprietorship')
+            {
+                let arrProprietorship = [0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrProprietorship[0] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_proprietorship01 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_proprietorship01 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'DTI Registration Document')
+                    {
+                        arrProprietorship[1] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_proprietorship02 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_proprietorship02 td:eq(2)').html(documentAction);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',true);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',false);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',true);
+
+                if(arrProprietorship.includes(0))
+                {
+                    $('#btn_submitFinancingProduct').prop('disabled',true);
+                }
+                else
+                {
+                    $('#btn_submitFinancingProduct').prop('disabled',false);
+                }
+            }
+            else if($('#txt_businessType').val() == 'Partnership')
+            {   
+                let arrPartnership = [0,0,0,0];
+                data.forEach(function(value,key){
+
+                    let documentStatus = "";
+                    let documentAction = "";
+
+                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    {
+                        arrPartnership[0] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_partnership01 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership01 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'SEC Registration Certificate')
+                    {
+                        arrPartnership[1] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_partnership02 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership02 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'Notarized Partner’s Certificate (provided by GwC)')
+                    {
+                        arrPartnership[2] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_partnership03 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership03 td:eq(2)').html(documentAction);
+                    }
+
+                    if(value['document_name'] == 'Articles of Partnership')
+                    {
+                        arrPartnership[3] = 1;
+                        if(value['document_status'] == 1)
+                        {
+                            documentStatus = `<center><i class="fe-disc text-warning"></i></center>`;
+                        }
+                        else if(value['document_status'] == 2)
+                        {
+                            documentStatus = `<center><i class="fe-check text-success"></i></center>`;
+                        }
+                        $('#tr_partnership04 td:eq(0)').html(documentStatus);
+
+                        documentAction = `<a href="javascript:void(0)" onclick="REPRESENTATIVE_FINANCING_PRODUCTS.r_openCompanyDocumentPreview(${value['id']});">
+                                        Preview
+                                    </a>`;
+                        $('#tr_partnership04 td:eq(2)').html(documentAction);
+                    }
+                });
+                $('#tbl_companyCorporationDocuments').prop('hidden',true);
+                $('#tbl_companyProprietorShipDocuments').prop('hidden',true);
+                $('#tbl_companyPartnershipDocuments').prop('hidden',false);
+
+                if(arrPartnership.includes(0))
+                {
+                    $('#btn_submitFinancingProduct').prop('disabled',true);
+                }
+                else
+                {
+                    $('#btn_submitFinancingProduct').prop('disabled',false);
+                }
+            }
         });
     }
 

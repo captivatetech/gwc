@@ -15,7 +15,7 @@ class CompanyDocumentController extends BaseController
     public function r_loadCompanyDocuments()
     {
         $fields = $this->request->getGet();
-        $arrData = $this->companies->r_loadCompanyDocuments($fields['companyId']);
+        $arrData = $this->companies->r_loadCompanyDocuments($fields['companyId'], $fields['businessType']);
         return $this->response->setJSON($arrData);
     }
 

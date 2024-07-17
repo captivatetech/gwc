@@ -52,6 +52,32 @@ class NavigationController extends BaseController
         return $this->slice->view('email_verification', $data);
     }
 
+    public function employeeEmailVerification($emailAddress, $authCode)
+    {
+        $whereParams = [
+            'a.email_address'   => $emailAddress,
+            'a.auth_code'       => encrypt_code($authCode)
+        ];
+        $result = $this->employees->validateEmployeeEmail($whereParams);
+
+        if($result != null)
+        {
+            $arrData = [
+                'auth_code'     => null,
+                'user_status'   => 1
+            ];
+            $this->employees->editEmployee($arrData, $result['id']);
+
+            $data['status'] = 'success'; 
+        }
+        else
+        {
+            $data['status'] = 'failed'; 
+        }
+
+        return $this->slice->view('email_verification', $data);
+    }
+
     public function forgotPassword()
     {
         return $this->slice->view('forgot_password');

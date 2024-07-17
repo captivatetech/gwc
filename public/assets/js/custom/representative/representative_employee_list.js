@@ -16,6 +16,17 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         }, function(data){
             let tbody = '';
             data.forEach(function(value,index){
+                let employeeStatus = "";
+
+                if(value['employee_status'] == 1)
+                {
+                    employeeStatus = `<span class="text-success">Active</span>`;
+                }
+                else
+                {
+                    employeeStatus = `<span class="text-danger">Inactive</span>`;
+                }
+
                 tbody += `<tr>
                             <td>${value['identification_number']}</td>
                             <td>${value['first_name']} ${value['last_name']}</td>
@@ -24,7 +35,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                             <td>${value['position']}</td>
                             <td>${value['date_hired']}</td>
                             <td>${value['minimum_credit_amount']} - ${value['maximum_credit_amount']}</td>
-                            <td>${value['employee_status']}</td>
+                            <td>${employeeStatus}</td>
                             <td>                                                        
                                 <div class="dropdown">
                                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
