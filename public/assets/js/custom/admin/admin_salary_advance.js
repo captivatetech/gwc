@@ -36,7 +36,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
             });
             $("#tbl_salaryAdvance").DataTable().destroy();
             $('#tbl_salaryAdvance tbody').html(tbody);
-            $("#tbl_salaryAdvance").DataTable({pageLength:10,lengthMenu:[10,20,50,100,200,500]});
+            $("#tbl_salaryAdvance").DataTable({'scrollX':true});
         });
     }
 
@@ -107,7 +107,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Corporation-01')
                     {
                         arrCorporation[0] = 1;
 
@@ -127,7 +127,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_corporation01 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'SEC Regitration Certificate')
+                    if(value['document_code'] == 'Corporation-02')
                     {
                         arrCorporation[1] = 1;
 
@@ -147,7 +147,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_corporation02 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'Notarized Secretary’s Certificate (provided by GwC)')
+                    if(value['document_code'] == 'Corporation-03')
                     {
                         arrCorporation[2] = 1;
                         
@@ -167,7 +167,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_corporation03 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'Articles of Incorporation')
+                    if(value['document_code'] == 'Corporation-04')
                     {
                         arrCorporation[3] = 1;
                         
@@ -187,7 +187,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_corporation04 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'Most Recent General Information Sheet (GIS)')
+                    if(value['document_code'] == 'Corporation-05')
                     {
                         arrCorporation[4] = 1;
                         
@@ -221,7 +221,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Proprietorship-01')
                     {
                         arrProprietorship[0] = 1;
 
@@ -241,7 +241,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_proprietorship01 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'DTI Registration Document')
+                    if(value['document_code'] == 'Proprietorship-02')
                     {
                         arrProprietorship[1] = 1;
                         
@@ -275,7 +275,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Partnership-01')
                     {
                         arrPartnership[0] = 1;
 
@@ -295,7 +295,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_partnership01 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'SEC Registration Certificate')
+                    if(value['document_code'] == 'Partnership-02')
                     {
                         arrPartnership[1] = 1;
                         
@@ -315,7 +315,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_partnership02 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'Notarized Partner’s Certificate (provided by GwC)')
+                    if(value['document_code'] == 'Partnership-03')
                     {
                         arrPartnership[2] = 1;
                         
@@ -335,7 +335,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_partnership03 td:eq(2)').html(documentStatus);
                     }
 
-                    if(value['document_name'] == 'Articles of Partnership')
+                    if(value['document_code'] == 'Partnership-04')
                     {
                         arrPartnership[3] = 1;
                         
@@ -370,7 +370,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
 
                 if(value['document_code'].search('Attachment') != -1)
                 {
-                    if(value['document_name'] == 'Sworn Statement')
+                    if(value['document_code'] == 'Attachment-01')
                     {
                         arrAttachments[0] = 1;
 
@@ -390,7 +390,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment01 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'Employee List')
+                    if(value['document_name'] == 'Attachment-02')
                     {
                         arrAttachments[1] = 1;
                         
@@ -410,7 +410,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment02 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'BIR Employee List')
+                    if(value['document_name'] == 'Attachment-03')
                     {
                         arrAttachments[2] = 1;
                         
@@ -430,7 +430,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment03 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'SSS R3')
+                    if(value['document_name'] == 'Attachment-04')
                     {
                         arrAttachments[3] = 1;
                         
@@ -644,7 +644,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
             });
             $("#tbl_employeeList").DataTable().destroy();
             $('#tbl_employeeList tbody').html(tbody);
-            $("#tbl_employeeList").DataTable();
+            $("#tbl_employeeList").DataTable({'scrollX':true});
         });
     }
 

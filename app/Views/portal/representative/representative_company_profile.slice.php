@@ -11,7 +11,7 @@
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <!-- third party css end -->
 
 
@@ -699,7 +699,7 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
-    <div class="modal fade" id="modal_repCompanyDocuments" tabindex="-1" >
+    <div class="modal fade" id="modal_repCompanyDocuments" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
@@ -730,7 +730,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_repIdentificationDocuments" tabindex="-1" >
+    <div class="modal fade" id="modal_repIdentificationDocuments" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">

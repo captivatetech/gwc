@@ -6,10 +6,12 @@ use App\Controllers\BaseController;
 
 class EmployeeController extends BaseController
 {
+    // 4:11
     public function __construct()
     {
         $this->companies = model('Companies');
         $this->employees = model('Employees');
+        $this->maps = model('Maps');
     }
 
     public function selectRepresentativeInformation()
@@ -453,6 +455,254 @@ class EmployeeController extends BaseController
 
 
 
+
+
+
+
+    public function r_uploadFile()
+    {
+        $fields = $this->request->getPost();
+
+        $file = $this->request->getFile('employeeList');
+
+        $arrResult = [];
+
+        if ($file->isValid() && ! $file->hasMoved()) 
+        {
+            $file_data = $file->getName();
+            $path = $file->getTempName();
+
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+            $arrData = readUploadFile($path);
+
+            $validColumns = [];
+            $arrHeader = [];
+            foreach($arrData[0] as $key => $value)
+            {
+                $arrVal = ["NULL","null","","N/A","n/a","NA","na"];
+                if(!in_array($value,$arrVal))
+                {
+                    $validColumns[] = $value;
+                }
+            }
+
+            if(count($validColumns) > 0)
+            {
+                $arrResult['arrHeader'] = $arrData[0];
+                array_shift($arrData);
+                $arrResult['arrEmployeeList'] = $arrData;
+            }
+            else
+            {
+                $arrResult[] = "Your file is empty!";
+            }
+        }
+        else
+        {
+            $arrResult[] = "Invalid File";
+        }
+
+        return $this->response->setJSON($arrResult);
+    }
+
+    public function r_loadCustomMaps()
+    {
+        $arrData = $this->maps->r_loadCustomMaps();
+        return $this->response->setJSON($arrData);
+    }
+
+    public function r_selectCustomMap()
+    {
+        $fields = $this->request->getGet();
+        $arrData = $this->maps->r_selectCustomMap($fields['mapId']);
+        if($arrData != null)
+        {
+            $arrData['map_fields'] = json_decode($arrData['map_fields'], true);
+        }
+        return $this->response->setJSON($arrData);
+    }
+
+    public function r_mappingAndDuplicateHandling()
+    {
+        $fields = $this->request->getPost();
+
+        $arrMapFields = json_decode($fields['arrMapFields'],true);
+        $arrUniqueValues = json_decode($fields['arrUniqueValues'],true);
+        $arrEmployeeList = json_decode($fields['arrEmployeeList'],true);
+
+        $arrEmployeeDataList = [];
+        $rowNumber = 2;
+        foreach ($arrEmployeeList as $key => $value) 
+        {
+            $arrColumns['row_number'] = $rowNumber;
+            for ($i=0; $i < count($arrMapFields); $i++) 
+            { 
+                if($arrMapFields[$i] != null)
+                {
+                    if(checkEmptyField($value[$i]) != '')
+                    {
+                        $arrColumns[$arrMapFields[$i]] = $value[$i];
+                    }
+                    else
+                    {
+                        $arrColumns[$arrMapFields[$i]] = $arrUniqueValues[$i];
+                    }
+                }
+            }  
+            $arrEmployeeDataList[] = $arrColumns;    
+            $rowNumber++;      
+        }
+
+        $arrDataForImport = [];
+        $arrData = checkDuplicateRowsFromEmployeeList($arrEmployeeDataList, $arrUniqueValues);
+
+        $arrDuplicateRowsFromFile = [];
+        if(isset($arrData['arrDuplicateRows']))
+        {
+            $arrDuplicateRowsFromFile = $arrData['arrDuplicateRows'];
+        }
+
+        $arrCheckDuplicateFromDatabaseResult = [];
+        if(isset($arrData['arrNotDuplicateRows']) && count($arrUniqueValues) > 0)
+        {
+            // Prepare where columns to check duplicate on db
+            $arrWhereInColumns = [];
+            for ($i=0; $i < count($arrUniqueValues); $i++) 
+            { 
+                foreach($arrData['arrNotDuplicateRows'] as $value)
+                {
+                    $arrWhereInColumns[$arrUniqueValues[$i]][] = $value[$arrUniqueValues[$i]];
+                }
+            }
+            $arrCheckDuplicateFromDatabaseResult = $this->employees->checkDuplicateRowsFromEmployeeList($arrWhereInColumns);
+        }
+
+        $arrDuplicateRowsFromDatabase = [];
+        if(count($arrCheckDuplicateFromDatabaseResult) > 0)
+        {
+            // get duplicate rows on db
+            foreach ($arrCheckDuplicateFromDatabaseResult as $key => $value) 
+            {
+                $arr = [];
+                $arr['id'] = $value['id'];
+                for ($i=0; $i < count($arrMapFields); $i++) 
+                { 
+                    if($arrMapFields[$i] != null)
+                    {
+                        $arr[$arrMapFields[$i]] = $value[$arrMapFields[$i]];
+                    }
+                }
+                $arrDuplicateRowsFromDatabase[] = $arr;
+            }
+        }
+
+        //lipasan
+        $arrWhereInColumns = [];
+        if(count($arrDuplicateRowsFromDatabase) > 0)
+        {
+            // get where in columns or duplicate handler fields
+            for ($i=0; $i < count($arrUniqueValues); $i++) 
+            { 
+                $arrTemp = [];
+                foreach($arrDuplicateRowsFromDatabase as $value)
+                {
+                    $arrTemp[$arrUniqueValues[$i]][] = $value[$arrUniqueValues[$i]];
+                }
+                $arrWhereInColumns[$arrUniqueValues[$i]] = array_unique($arrTemp[$arrUniqueValues[$i]]);
+            }
+        }
+
+        // get no duplicate data for import
+        if(isset($arrData['arrNotDuplicateRows']))
+        {
+            if(count($arrWhereInColumns) > 0)
+            {
+                foreach ($arrData['arrNotDuplicateRows'] as $key1 => $value1) 
+                {
+                    $duplicateStatus = false;
+                    foreach ($arrWhereInColumns as $key2 => $value2) 
+                    {
+                        if(in_array($value1[$key2], $value2))
+                        {
+                            $duplicateStatus = true;
+                        }
+                    }
+                    if($duplicateStatus == false)
+                    {
+                        $value1['id'] = '';
+                        $arrDataForImport[] = $value1;
+                    }
+                }
+            }
+            else
+            {
+                $arrNotDuplicateRows = [];
+                foreach ($arrData['arrNotDuplicateRows'] as $key => $value) 
+                {
+                    $value['id'] = '';
+                    $arrNotDuplicateRows[] = $value;
+                }
+
+                $arrDataForImport = $arrNotDuplicateRows;
+            }
+        }
+
+        $arrData = [];
+        $arrData['arrHeaders'] = $arrMapFields;
+        $arrData['arrDuplicateHandlerFields'] = $arrUniqueValues;
+        $arrData['arrDuplicateRowsFromFile'] = $arrDuplicateRowsFromFile;
+        $arrData['arrDuplicateRowsFromDatabase'] = $arrDuplicateRowsFromDatabase;
+        $arrData['arrDataForImport'] = $arrDataForImport;
+        // $arrData['arrContactsDataList'] = $arrContactsDataList;
+
+        $arrEmployeeImportData = [
+            'gwc_employee_import_columns' => json_encode($arrData['arrHeaders']),
+            'gwc_employee_import_conflicts' => json_encode($arrData['arrDuplicateRowsFromFile'])
+        ];
+        $this->session->set($arrEmployeeImportData);
+
+        if($fields['chk_saveCustomMapping'] == 'YES')
+        {
+            $arrFieldMapping = [
+                'map_type'      => 'employees',
+                'map_name'      => $fields['txt_customMapName'],
+                'map_fields'    => $fields['arrMapFields'],
+                'map_values'    => $fields['arrUniqueValues'],
+                'created_by'    => $this->session->get('gwc_representative_id'),
+                'created_date'  => date('Y-m-d H:i:s')
+            ];
+            $this->maps->r_addCustomMap($arrFieldMapping);
+        }
+
+        return $this->response->setJSON($arrData);
+    }
+
+    public function r_downloadDuplicateRowsFromCSVEmployee()
+    {
+        $arrColumns = json_decode($this->session->get('gwc_employee_import_columns'),true);
+        $arrData = json_decode($this->session->get('gwc_employee_import_conflicts'),true);
+        downloadContactConflicts('conflict-rows-from-file.xlsx',$arrData,$arrColumns);
+    }
+
+    public function r_importEmployees()
+    {
+        $fields = $this->request->getPost();
+        $arrDataForImport = json_decode($fields['arrDataForImport'],true);
+
+        //lipasan
+        foreach ($arrDataForImport as $key => $value) 
+        {
+            unset($value['id']);
+            unset($value['row_number']);
+            $value['created_by'] = $this->session->get('gwc_representative_id');
+            $value['created_date'] = date('Y-m-d H:i:s');
+            $value['company_id'] = $fields['txt_companyId'];
+            $value['identification_number'] = $this->_generateIdentificationNumber($fields['txt_companyCode']);
+            $this->employees->r_addEmployee($value);
+        }
+        return $this->response->setJSON(['Success']);
+    }
 
 
 

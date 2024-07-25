@@ -57,7 +57,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Corporation-01')
                     {
                         arrCorporation[0] = 1;
                         if(value['document_status'] == 1)
@@ -76,7 +76,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_corporation01 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'SEC Regitration Certificate')
+                    if(value['document_code'] == 'Corporation-02')
                     {
                         arrCorporation[1] = 1;
                         if(value['document_status'] == 1)
@@ -95,7 +95,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_corporation02 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'Notarized Secretary’s Certificate (provided by GwC)')
+                    if(value['document_code'] == 'Corporation-03')
                     {
                         arrCorporation[2] = 1;
                         if(value['document_status'] == 1)
@@ -114,7 +114,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_corporation03 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'Articles of Incorporation')
+                    if(value['document_code'] == 'Corporation-04')
                     {
                         arrCorporation[3] = 1;
                         if(value['document_status'] == 1)
@@ -133,7 +133,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_corporation04 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'Most Recent General Information Sheet (GIS)')
+                    if(value['document_code'] == 'Corporation-05')
                     {
                         arrCorporation[4] = 1;
                         if(value['document_status'] == 1)
@@ -173,7 +173,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Proprietorship-01')
                     {
                         arrProprietorship[0] = 1;
                         if(value['document_status'] == 1)
@@ -192,7 +192,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_proprietorship01 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'DTI Registration Document')
+                    if(value['document_code'] == 'Proprietorship-02')
                     {
                         arrProprietorship[1] = 1;
                         if(value['document_status'] == 1)
@@ -232,7 +232,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                     let documentStatus = "";
                     let documentAction = "";
 
-                    if(value['document_name'] == 'BIR Certificate of Registration (2303)')
+                    if(value['document_code'] == 'Partnership-01')
                     {
                         arrPartnership[0] = 1;
                         if(value['document_status'] == 1)
@@ -251,7 +251,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_partnership01 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'SEC Registration Certificate')
+                    if(value['document_code'] == 'Partnership-02')
                     {
                         arrPartnership[1] = 1;
                         if(value['document_status'] == 1)
@@ -270,7 +270,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_partnership02 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'Notarized Partner’s Certificate (provided by GwC)')
+                    if(value['document_code'] == 'Partnership-03')
                     {
                         arrPartnership[2] = 1;
                         if(value['document_status'] == 1)
@@ -289,7 +289,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                         $('#tr_partnership03 td:eq(2)').html(documentAction);
                     }
 
-                    if(value['document_name'] == 'Articles of Partnership')
+                    if(value['document_code'] == 'Partnership-04')
                     {
                         arrPartnership[3] = 1;
                         if(value['document_status'] == 1)

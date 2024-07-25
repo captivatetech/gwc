@@ -8,6 +8,6 @@ class EmployeeDocumentController extends BaseController
 {
     public function index()
     {
-        //
+        //4:01
     }
 }

@@ -524,7 +524,34 @@ class NavigationController extends BaseController
 
     public function adminPartnersList()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Partners List | GWC";
+                $data['customScripts'] = 'admin_partners_list';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_partners_list', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminSalaryAdvance()

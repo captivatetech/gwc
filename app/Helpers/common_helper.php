@@ -118,7 +118,7 @@ function checkDuplicateRowsForOrganizations($organizationList, $uniqueColumns, $
 	return $arrData;
 }
 
-function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
+function checkDuplicateRowsFromEmployeeList($contactList, $uniqueColumns)
 {
 	$arrRowNumber = [];
 	for ($i=0; $i < count($uniqueColumns); $i++) 
@@ -136,7 +136,7 @@ function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
 				$arrTempData2[] = $value[$uniqueColumns[$i]];
 			}
 		}
-		$num = ($hasHeader == 'YES')? 2 : 1;
+		$num = 2;
 		foreach($contactList as $value)
 		{
 			if(in_array($value[$uniqueColumns[$i]],$arrTempData1))
@@ -148,7 +148,7 @@ function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
 	}
 
 	$arrData = [];
-	$num = ($hasHeader == 'YES')? 2 : 1;
+	$num = 2;
 	foreach($contactList as $value)
 	{
 		if(in_array($num,$arrRowNumber))

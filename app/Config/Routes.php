@@ -144,7 +144,12 @@ $routes->get('portal/representative/r-select-employee', 'Portal\EmployeeControll
 $routes->post('portal/representative/r-edit-employee', 'Portal\EmployeeController::r_editEmployee');
 $routes->post('portal/representative/r-remove-employee', 'Portal\EmployeeController::r_removeEmployee');
 
-$routes->post('portal/representative/r-import-employee', 'Portal\EmployeeController::r_importEmployee');
+$routes->post('portal/representative/r-upload-file', 'Portal\EmployeeController::r_uploadFile');
+$routes->get('portal/representative/r-load-custom-maps', 'Portal\EmployeeController::r_loadCustomMaps');
+$routes->get('portal/representative/r-select-custom-map', 'Portal\EmployeeController::r_selectCustomMap');
+$routes->post('portal/representative/r-mapping-and-duplicate-handling', 'Portal\EmployeeController::r_mappingAndDuplicateHandling');
+$routes->get('portal/representative/r-download-duplicate-rows-from-csv-employee', 'Portal\EmployeeController::r_downloadDuplicateRowsFromCSVEmployee');
+$routes->post('portal/representative/r-import-employees', 'Portal\EmployeeController::r_importEmployees');
 
 $routes->get('portal/representative/r-load-company-attachments', 'Portal\CompanyDocumentController::r_loadCompanyAttachments');
 $routes->post('portal/representative/r-add-company-attachment', 'Portal\CompanyDocumentController::r_addCompanyAttachment');

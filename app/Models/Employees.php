@@ -556,6 +556,7 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->r_addEmployee()
+    ///// EmployeeController->r_importEmployees()
     ////////////////////////////////////////////////////////////
     public function r_addEmployee($arrData)
     {
@@ -639,6 +640,50 @@ class Employees extends Model
         } catch (PDOException $e) {
             throw $e;
         }
+    }
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_mappingAndDuplicateHandling()
+    ////////////////////////////////////////////////////////////
+    public function checkDuplicateRowsFromEmployeeList($arrWhereInColumns)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.employment_status',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a')->select($columns);
+        $builder->groupStart();
+        foreach ($arrWhereInColumns as $key => $value) 
+        {
+            $builder->orGroupStart();
+                $builder->whereIn('a.'.$key,$value);
+            $builder->groupEnd();
+        }
+        $builder->groupEnd();
+        $query = $builder->get();
+        return  $query->getResultArray();
     }
 
 

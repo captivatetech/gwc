@@ -248,6 +248,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             $('#txt_documentId').val(documentId);
             $('#txt_documentCode').val(documentCode);
             $('#txt_documentName').val(documentName);
+            $('.dropify-clear').click();
+            $('#div_documentResult').html('');
             $('#div_documentPreview').prop('hidden',true);
             $('#modal_repCompanyDocuments').modal('show');
         }

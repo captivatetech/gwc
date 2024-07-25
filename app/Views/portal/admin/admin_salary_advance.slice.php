@@ -45,7 +45,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="tbl_salaryAdvance" class="table table-bordered dt-responsive table-responsive nowrap">
+                                <table id="tbl_salaryAdvance" class="table table-sm table-bordered table-hover nowrap mb-3" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th>On Board Date</th>
@@ -315,7 +315,7 @@
 
                                 <h4>Employee List</h4>
 
-                                <table class="table table-bordered dt-responsive table-responsive nowrap" id="tbl_employeeList">
+                                <table class="table table-sm table-bordered table-hover nowrap mb-3" id="tbl_employeeList" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <td>ID Number</td>
@@ -360,7 +360,7 @@
 
    
 
-    <div class="modal fade" id="modal_companyDocumentPreview" tabindex="-1" >
+    <div class="modal fade" id="modal_companyDocumentPreview" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
@@ -381,7 +381,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_employeeEmailVerification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" >
+    <div class="modal fade" id="modal_employeeEmailVerification" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">

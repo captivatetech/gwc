@@ -5,6 +5,8 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     let baseUrl = $('#txt_baseUrl').val();
 
+    let _arrEmployeeList = [];
+
     thisRepresentativeEmployeeList.r_loadEmployees = function(companyId)
     {
         AJAXHELPER.loadData({
@@ -159,6 +161,470 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         }
     }
 
+
+
+
+
+
+
+    thisRepresentativeEmployeeList.r_uploadFile = function()
+    {
+        $('#btn_submitStepOne').prop('disabled',true);
+        var fileName = document.getElementById('file_employeeList').files[0].name;
+        let formData = new FormData();
+        formData.set('employeeList',document.getElementById('file_employeeList').files[0],fileName);
+        AJAXHELPER.addData({
+            // EmployeeController->r_uploadFile();
+            'route' : 'portal/representative/r-upload-file',
+            'data'  : formData
+        }, function(data){
+            $('#btn_submitStepOne').prop('disabled',false);
+
+            $('#div_stepOne').prop('hidden',true);
+            $('#div_stepTwo').prop('hidden',false);
+            $('#div_stepThree').prop('hidden',true);
+
+            $('#div_buttonStepOne').prop('hidden',true);
+            $('#div_buttonStepTwo').prop('hidden',false);
+            $('#div_buttonStepThree').prop('hidden',true);
+
+            _arrEmployeeList = data;
+
+            REPRESENTATIVE_EMPLOYEE_LIST.r_loadCustomMaps();
+
+            let tbody = '';
+            let num = 1;
+            _arrEmployeeList['arrHeader'].forEach(function(value,key){
+                $('#lbl_totalRows').text(_arrEmployeeList['arrEmployeeList'].length);
+
+                let defaultValue = `<input type="checkbox" class="form-check" value="${value.replace(' ','_').toLowerCase()}">`;
+
+                tbody += `<tr>
+                            <td>${num}</td>
+                            <td>${value}</td>
+                            <td>${_arrEmployeeList['arrEmployeeList'][0][key]}</td>
+                            <td>
+                                <select class="form-control form-select form-control-sm select2" style="width:100%;">
+                                    <option value="" selected>--Map Field--</option>
+                                    <option value="first_name" ${(value.replace(' ','_').toLowerCase() == 'first_name')? 'selected' : ''}>First Name</option>
+                                    <option value="middle_name" ${(value.replace(' ','_').toLowerCase() == 'middle_name')? 'selected' : ''}>Middle Name</option>
+                                    <option value="last_name" ${(value.replace(' ','_').toLowerCase() == 'last_name')? 'selected' : ''}>Last Name</option>
+                                    <option value="marital_status" ${(value.replace(' ','_').toLowerCase() == 'marital_status')? 'selected' : ''}>Marital Status</option>
+                                    <option value="email_address" ${(value.replace(' ','_').toLowerCase() == 'email_address')? 'selected' : ''}>Email Address</option>
+                                    <option value="mobile_number" ${(value.replace(' ','_').toLowerCase() == 'mobile_number')? 'selected' : ''}>Mobile Number</option>
+                                    <option value="permanent_address" ${(value.replace(' ','_').toLowerCase() == 'permanent_address')? 'selected' : ''}>Permanent Address</option>
+                                    <option value="department" ${(value.replace(' ','_').toLowerCase() == 'department')? 'selected' : ''}>Department</option>
+                                    <option value="position" ${(value.replace(' ','_').toLowerCase() == 'position')? 'selected' : ''}>Position</option>
+                                    <option value="date_hired" ${(value.replace(' ','_').toLowerCase() == 'date_hired')? 'selected' : ''}>Date Hired</option>
+                                </select>
+                            </td>
+                            <td>${defaultValue}</td>
+                            </tr>`;
+                num++;
+            });
+
+            $('#tbl_mapping tbody').html('');
+            $('#tbl_mapping tbody').html(tbody);
+        }, function(data){ // Error
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_stepOneCancel = function()
+    {
+        if(confirm('If you press OK import process will be terminated!'))
+        {
+            $('#modal_importEmployees').modal('hide');
+            window.location.replace(`${baseUrl}portal/representative/employee-list`);
+        }
+    }
+
+    thisRepresentativeEmployeeList.r_backToStepOne = function()
+    {
+        $('#div_stepOne').prop('hidden',false);
+        $('#div_stepTwo').prop('hidden',true);
+        $('#div_stepThree').prop('hidden',true);
+
+        $('#div_buttonStepOne').prop('hidden',false);
+        $('#div_buttonStepTwo').prop('hidden',true);
+        $('#div_buttonStepThree').prop('hidden',true);
+    }
+
+    thisRepresentativeEmployeeList.r_loadCustomMaps = function()
+    {
+        AJAXHELPER.loadData({
+            // EmployeeController->r_loadCustomMaps();
+            'route' : '/portal/representative/r-load-custom-maps',
+            'data'  : {
+                'employeeId' : 'employeeId'
+            }
+        }, function(data){
+            let options = '<option value="">--No Saved Maps--</option>';
+            data.forEach(function(value,index){
+                options += `<option value="${value['id']}">${value['map_name']}</option>`;
+            });
+            $('#slc_savedMaps').html(options);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_selectCustomMap = function(mapId)
+    {
+        AJAXHELPER.loadData({
+            // EmployeeController->r_selectCustomMap();
+            'route' : '/portal/representative/r-select-custom-map',
+            'data'  : {
+                'mapId' : mapId
+            }
+        }, function(data){
+            let x = 0;
+            $('#tbl_mapping tbody tr').each(function(){
+                $(this).find('td:eq(3) select').val(`${data['map_fields'][x]}`).change();
+                x++;
+            });
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_mappingAndDuplicateHandling = function()
+    {
+        $('#btn_submitStepTwo').prop('disabled',true);
+
+        let arrFields = [];
+        $('#tbl_mapping tbody tr').each(function(){
+            arrFields.push($(this).find('td:eq(3) select').val());
+        });
+
+        let arrValues = [];
+        $('#tbl_mapping tbody tr').each(function(){
+            if($(this).find('td:eq(4) .form-check').is(':checked'))
+            {
+                arrValues.push($(this).find('td:eq(4) .form-check').val());
+            }
+        });
+        
+        let formData = new FormData();
+        formData.set('arrMapFields', JSON.stringify(arrFields));
+        formData.set('arrUniqueValues', JSON.stringify(arrValues));
+        formData.set('chk_saveCustomMapping',($('#chk_saveCustomMapping').is(':checked'))? 'YES' : 'NO');
+        formData.set('txt_customMapName',$('#txt_customMapName').val());
+        formData.set('arrEmployeeList',JSON.stringify(_arrEmployeeList['arrEmployeeList']));
+        AJAXHELPER.addData({
+            // EmployeeController->r_mappingAndDuplicateHandling();
+            'route' : 'portal/representative/r-mapping-and-duplicate-handling',
+            'data'  : formData
+        }, function(data){
+            $('#btn_submitStepTwo').prop('disabled',false);
+
+            $('#div_stepOne').prop('hidden',true);
+            $('#div_stepTwo').prop('hidden',true);
+            $('#div_stepThree').prop('hidden',false);
+
+            $('#div_buttonStepOne').prop('hidden',true);
+            $('#div_buttonStepTwo').prop('hidden',true);
+            $('#div_buttonStepThree').prop('hidden',false);
+
+            $('#div_duplicateRows1').prop('hidden',true);
+            $('#div_duplicateRows2').prop('hidden',true);
+            $('#div_forImport').prop('hidden',true);
+
+            $('#btn_submitStepThree').prop('disabled',true);
+
+            let thead = '';
+            let tbody = '';
+            let tr = '<th style="white-space:nowrap">CSV ROW #</th>';
+            data['arrHeaders'].forEach(function(value,key){
+                if(data['arrDuplicateHandlerFields'].includes(value))
+                {
+                    tr += `<th style="white-space:nowrap" class="table-danger">${value}</th>`;
+                }
+                else
+                {
+                    tr += `<th style="white-space:nowrap">${value}</th>`;
+                }
+            });
+            thead = `<tr>${tr}</tr>`;
+
+            if(data['arrDuplicateRowsFromFile'].length > 0)
+            {
+                $('#div_duplicateRows1').prop('hidden',false);
+
+                $('#tbl_duplicateRows1 thead').html(thead);
+                _arrEmployeeList['arrDuplicateRowsFromFile'] = data['arrDuplicateRowsFromFile'];
+                $('#tbl_duplicateRows1').prop('hidden',(data['arrDuplicateRowsFromFile'].length == 0)? true : false);
+
+                tbody = '';
+                data['arrDuplicateRowsFromFile'].forEach(function(value,key){
+                    tbody += `<tr>`;
+                    tr = `<td style="white-space:nowrap">${value['row_number']}</td>`;
+                    data['arrHeaders'].forEach(function(v,k){
+                        if(data['arrDuplicateHandlerFields'].includes(v))
+                        {
+                            tr += `<td class="table-danger" style="white-space:nowrap">${value[v]}</td>`;
+                        }
+                        else
+                        {
+                            tr += `<td style="white-space:nowrap">${value[v]}</td>`;
+                        }
+                    });
+                    tbody += tr;
+                    tbody += `</tr>`;
+                });
+                $('#tbl_duplicateRows1').DataTable().destroy();
+                $('#tbl_duplicateRows1 tbody').html(tbody);
+                $('#tbl_duplicateRows1').DataTable({'scrollX':true});
+
+                if(data['arrDuplicateRowsFromFile'].length > 0)
+                {
+                    let downloadButton1 = `<a href="${baseUrl}portal/representative/r-download-duplicate-rows-from-csv-employee" target="_blank" class="btn btn-sm btn-primary">Download</a>`;
+                    $('#tbl_duplicateRows1_length').html(downloadButton1);
+                }
+            }
+
+            if(data['arrDuplicateRowsFromDatabase'].length > 0)
+            {
+                $('#div_duplicateRows2').prop('hidden',false);
+
+                $('#tbl_duplicateRows2 thead').html(thead);
+                $('#div_duplicateRows2').prop('hidden',(data['arrDuplicateRowsFromDatabase'].length == 0)? true : false);
+
+                tbody = '';
+                data['arrDuplicateRowsFromDatabase'].forEach(function(value,key){
+                    tbody += `<tr>`;
+                    tr = `<td style="white-space:nowrap">${value['id']}</td>`;
+                    data['arrHeaders'].forEach(function(v,k){
+                        if(data['arrDuplicateHandlerFields'].includes(v))
+                        {
+                            tr += `<td class="table-danger" style="white-space:nowrap">${(value[v] == null)? '---' : value[v]}</td>`;
+                        }
+                        else
+                        {
+                            tr += `<td style="white-space:nowrap">${(value[v] == null)? '---' : value[v]}</td>`;
+                        }
+                    });
+                    tbody += tr;
+                    tbody += `</tr>`;
+                });
+                $('#tbl_duplicateRows2').DataTable().destroy();
+                $('#tbl_duplicateRows2 tbody').html(tbody);
+                $('#tbl_duplicateRows2').DataTable({'scrollX':true});
+            }
+
+            if(data['arrDataForImport'].length > 0)
+            {
+                $('#div_forImport').prop('hidden',false);
+
+                tr = '<th style="white-space:nowrap">ID</th>';
+                tr += '<th style="white-space:nowrap">CSV ROW #</th>';
+                data['arrHeaders'].forEach(function(value,key){
+                    tr += `<th style="white-space:nowrap">${value}</th>`;
+                });
+                thead = `<tr>${tr}</tr>`;
+                $('#tbl_importData thead').html(thead);
+                _arrEmployeeList['arrUniqueValues'] = data['arrUniqueValues'];
+                _arrEmployeeList['arrDataForImport'] = data['arrDataForImport'];
+
+                tbody = '';
+                // let countForInsert = 0;
+                // let countForUpdate = 0;
+                // let totalCount = 0;
+                data['arrDataForImport'].forEach(function(value,key){
+                    if(value['id'] == '')
+                    {
+                        tbody += `<tr class="table-success">`;
+                        // countForInsert++;
+                    }
+                    else
+                    {
+                        tbody += `<tr class="table-warning">`;
+                        // countForUpdate++;
+                    }
+                    tr = `<td style="white-space:nowrap">${value['id']}</td>`;
+                    tr += `<td style="white-space:nowrap">${value['row_number']}</td>`;
+                    data['arrHeaders'].forEach(function(v,k){
+                        tr += `<td style="white-space:nowrap">${value[v]}</td>`;
+                    });
+                    tbody += tr;
+                    tbody += `</tr>`;
+                    // totalCount++;
+                });
+
+                // let percentForInsert = (countForInsert / totalCount) * 100;
+                // let percentForUpdate = (countForUpdate / totalCount) * 100;
+
+                // $('#lbl_percentForInsert').text(`${(percentForInsert>0)? (percentForInsert).toFixed(0):0} %`);
+                // $('#lbl_countForInsert').text(`${countForInsert} out of ${totalCount}`);
+                // $('#div_percentForInsert').css('width',`${((countForInsert / totalCount) * 100).toFixed(0)}%`);
+
+                // $('#lbl_percentForUpdate').text(`${(percentForUpdate>0)? (percentForUpdate).toFixed(0):0} %`);
+                // $('#lbl_countForUpdate').text(`${countForUpdate} out of ${totalCount}`);
+                // $('#div_percentForUpdate').css('width',`${((countForUpdate / totalCount) * 100).toFixed(0)}%`);
+
+                $('#tbl_importData').DataTable().destroy();
+                $('#tbl_importData tbody').html(tbody);
+                $('#tbl_importData').DataTable({
+                    'scrollX'   :true,
+                    'order'     : [[1, 'asc']]
+                });
+
+                // if(data['arrDataForImport'].length > 0)
+                // {
+                //     $('#btn_submitEmployee').prop('disabled',false);
+                // }
+                // else
+                // {
+                //     $('#btn_submitEmployee').prop('disabled',true);
+                // }
+
+                $('#btn_submitStepThree').prop('disabled',false);
+            }
+
+        }, function(data){ // Error
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_stepTwoCancel = function()
+    {
+        if(confirm('If you press OK import process will be terminated!'))
+        {
+            $('#modal_importEmployees').modal('hide');
+            window.location.replace(`${baseUrl}portal/representative/employee-list`);
+        }
+    }
+
+    thisRepresentativeEmployeeList.r_backToStepTwo = function()
+    {
+        $('#div_stepOne').prop('hidden',true);
+        $('#div_stepTwo').prop('hidden',false);
+        $('#div_stepThree').prop('hidden',true);
+
+        $('#div_buttonStepOne').prop('hidden',true);
+        $('#div_buttonStepTwo').prop('hidden',false);
+        $('#div_buttonStepThree').prop('hidden',true);
+    }
+
+    thisRepresentativeEmployeeList.r_importEmployees = function()
+    {
+        let alertMsg = '';
+        // console.log(_arrEmployeeList['arrUniqueValues']);
+        // if(_arrEmployeeList['arrUniqueValues'].length > 0)
+        // {
+        //     alertMsg = 'Please Confirm!';
+        // }
+        // else
+        // {
+        //     alertMsg = 'Continue upload without duplicate handling!';
+        // }
+
+        alertMsg = 'Please Confirm!';
+        
+        if(confirm(alertMsg))
+        {
+            $('#div_progressBarContainer').prop('hidden',false);
+
+            $('#btn_submitStepThree').html('<i>Processing...</i>');
+            $('#btn_submitStepThree').prop('disabled',true);
+
+            let arrNew = [];
+            let batchLen = parseInt(_arrEmployeeList['arrDataForImport'].length / 5);
+            let batchLenRem = parseInt(_arrEmployeeList['arrDataForImport'].length % 5);
+
+            let currentIndex = 0;
+            for (var x = 0; x < batchLen; x++) 
+            {
+                var arrTemp = [];
+                for (var y = 0; y < 5; y++) 
+                {
+                    arrTemp.push(_arrEmployeeList['arrDataForImport'][currentIndex]);
+                    currentIndex++;
+                }
+                arrNew.push(arrTemp);
+            }
+
+            if(batchLenRem > 0)
+            {
+                var arrTemp = [];
+                for (var y = 0; y < batchLenRem; y++) 
+                {
+                    arrTemp.push(_arrEmployeeList['arrDataForImport'][currentIndex]);
+                    currentIndex++;
+                }
+                arrNew.push(arrTemp);
+            }
+
+            let progress = 100 / parseInt(arrNew.length);
+            let progressRem = 100 % parseInt(arrNew.length);
+            let totalProgress = 0;
+            let count = 0;
+            let importCount = 0;
+
+            REPRESENTATIVE_EMPLOYEE_LIST.r_importEmployeesByBatch(progress, progressRem, totalProgress, count, importCount, arrNew, batchLenRem, currentIndex);
+        }
+    }
+
+    thisRepresentativeEmployeeList.r_importEmployeesByBatch = function(progress, progressRem, totalProgress, count, importCount, arrNew, batchLenRem, currentIndex)
+    {
+        let formData = new FormData();
+        _arrEmployeeList['arrDataForImport'] = arrNew[count];
+        formData.set('txt_companyId',$('#txt_companyId').val());
+        formData.set('txt_companyCode',$('#txt_companyCode').val());
+        formData.set('arrDataForImport',JSON.stringify(_arrEmployeeList['arrDataForImport']));
+        AJAXHELPER.addData({
+            // EmployeeController->r_importEmployees();
+            'route' : 'portal/representative/r-import-employees',
+            'data'  : formData
+        }, function(data){
+            if(count <= (parseInt(arrNew.length) - 1))
+            {
+                if(count == (parseInt(arrNew.length) - 1))
+                {
+                    if(batchLenRem > 0)
+                    {
+                        importCount += batchLenRem;
+                    }
+                    else
+                    {
+                        importCount += 5;
+                    }
+                    progressRem = 100 - totalProgress;
+                    totalProgress += progressRem;   
+                }
+                else
+                {
+                    importCount += 5;
+                    totalProgress += progress;
+                }
+
+                $('#div_progressBar').css('width',`${totalProgress}%`);
+                $('#lbl_progress').text(`${importCount} / ${currentIndex}`);
+
+                if(totalProgress < 100)
+                {
+                    count++;
+                    REPRESENTATIVE_EMPLOYEE_LIST.r_importEmployeesByBatch(progress, progressRem, totalProgress, count, importCount, arrNew, batchLenRem, currentIndex);
+                }
+                else
+                {
+                    $('#btn_submitStepThree').html('Import');
+                    $('#btn_submitStepThree').prop('disabled',false);
+                    COMMONHELPER.Toaster('success','Employees uploaded successfully!');
+                    setTimeout(function(){
+                        window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
+                    }, 1000);
+                }
+            }
+        }, function(data){ // Error
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_stepThreeCancel = function()
+    {
+        if(confirm('If you press OK import process will be terminated!'))
+        {
+            $('#modal_importEmployees').modal('hide');
+            window.location.replace(`${baseUrl}portal/representative/employee-list`);
+        }
+    }
 
 
 

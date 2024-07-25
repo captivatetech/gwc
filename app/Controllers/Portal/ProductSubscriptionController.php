@@ -26,7 +26,7 @@ class ProductSubscriptionController extends BaseController
         $arrData = [
             'product_id'            => $fields['txt_productId'],
             'company_id'            => $fields['txt_companyId'],
-            'subscription_status'   => 'Pendding',
+            'subscription_status'   => 'Pending',
             'created_by'            => $this->session->get('gwc_representative_id'),
             'created_date'          => date('Y-m-d H:i:s')
         ];

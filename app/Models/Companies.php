@@ -39,6 +39,7 @@ class Companies extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->editRepresentativeInformation()
     ////////////////////////////////////////////////////////////
