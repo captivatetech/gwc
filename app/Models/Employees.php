@@ -89,6 +89,25 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// NavigationController->employeeEmailVerification()
+    ////////////////////////////////////////////////////////////
+    public function validateEmployeeEmail($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name',
+            'a.email_address'
+        ];
+        
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
     ///// IndexController->createAccount()
     ////////////////////////////////////////////////////////////
     public function createAccount($arrData)
@@ -181,12 +200,16 @@ class Employees extends Model
             'a.profile_picture',
             'b.business_type',
             'b.hr_user',
-            'b.bpo_user'
+            'b.bpo_user',
+            'b.company_code',
+            'b.bank_depository',
+            'c.subscription_status'
         ];
 
         $builder = $this->db->table('employees a');
         $builder->select($columns);
         $builder->join('companies b','a.company_id = b.id','left');
+        $builder->join('product_subscriptions c','c.company_id = b.id','left');
         $builder->where('a.id',$employeeId);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -207,11 +230,13 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->selectRepresentativeInformation()
+    ///// EmployeeController->editRepresentativeInformation()
     ////////////////////////////////////////////////////////////
     public function selectRepresentativeInformation($employeeId)
     {
         $columns = [
             'a.id',
+            'a.company_id',
             'a.first_name',
             'a.middle_name',
             'a.last_name',
@@ -245,7 +270,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->loadRepresentativeIdentifications()
+    ///// EmployeeIdentityController->loadRepresentativeIdentifications()
     ////////////////////////////////////////////////////////////
     public function loadRepresentativeIdentifications($employeeId)
     {
@@ -273,7 +298,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->addRepresentativeIdentification()
+    ///// EmployeeIdentityController->addRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function addRepresentativeIdentification($arrData)
     {
@@ -290,7 +315,8 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->selectRepresentativeIdentification()
+    ///// EmployeeIdentityController->selectRepresentativeIdentification()
+    ///// EmployeeIdentityController->removeRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function selectRepresentativeIdentification($identificationId)
     {
@@ -318,7 +344,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// EmployeeController->removeRepresentativeIdentification()
+    ///// EmployeeIdentityController->removeRepresentativeIdentification()
     ////////////////////////////////////////////////////////////
     public function removeRepresentativeIdentification($identificationId)
     {
@@ -447,4 +473,314 @@ class Employees extends Model
             throw $e;
         }
     }
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_addEmployee()
+    ///// EmployeeController->r_editEmployee()
+    ////////////////////////////////////////////////////////////
+    public function r_validateEmployeeEmail($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name',
+            'a.email_address'
+        ];
+        
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_loadEmployees()
+    ////////////////////////////////////////////////////////////
+    public function r_loadEmployees($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.company_id',$companyId);
+        $builder->where('a.user_type','employee');
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->_generateIdentificationNumber()
+    ////////////////////////////////////////////////////////////
+    public function getLastIdentificationNumber()
+    {
+        $columns = [
+            'a.id',
+            'a.identification_number',
+            'b.company_code'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->join('companies b','a.company_id = b.id','full');
+        $builder->select($columns);
+        $builder->orderBy('a.id','DESC');
+        $builder->limit(1);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_addEmployee()
+    ///// EmployeeController->r_importEmployees()
+    ////////////////////////////////////////////////////////////
+    public function r_addEmployee($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_selectEmployee()
+    ////////////////////////////////////////////////////////////
+    public function r_selectEmployee($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.employment_status',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_editEmployee()
+    ///// EmployeeController->a_sendEmployeeEmailVerication()
+    ////////////////////////////////////////////////////////////
+    public function r_editEmployee($arrData, $employeeId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->where(['id'=>$employeeId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_removeEmployee()
+    ////////////////////////////////////////////////////////////
+    public function r_removeEmployee($employeeId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->where(['id'=>$employeeId]);
+                $builder->delete();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_mappingAndDuplicateHandling()
+    ////////////////////////////////////////////////////////////
+    public function checkDuplicateRowsFromEmployeeList($arrWhereInColumns)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.employment_status',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a')->select($columns);
+        $builder->groupStart();
+        foreach ($arrWhereInColumns as $key => $value) 
+        {
+            $builder->orGroupStart();
+                $builder->whereIn('a.'.$key,$value);
+            $builder->groupEnd();
+        }
+        $builder->groupEnd();
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// ProductSubscriptionController->a_selectCompanyRepresentative()
+    ///// ProductSubscriptionController->a_failedCompanySubscription()
+    ///// ProductSubscriptionController->a_acceptCompanySubscription()
+    ////////////////////////////////////////////////////////////
+    public function a_selectCompanyRepresentative($subscriptionId)
+    {
+        $columns = [
+            'b.company_email',
+            'c.email_address'
+        ];
+        $builder = $this->db->table('product_subscriptions a');
+        $builder->select($columns);
+        $builder->join('companies b','a.company_id = b.id','left');
+        $builder->join('employees c','b.id = c.company_id','left');
+        $builder->where('a.id',$subscriptionId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->a_loadCompanyEmployees()
+    ///// EmployeeController->a_acceptCompanySubscription()
+    ////////////////////////////////////////////////////////////
+    public function a_loadCompanyEmployees($companyId, $type = "")
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.company_id',$companyId);
+        if($type == 'employee')
+        {
+            $builder->where('a.user_type','employee');
+        }
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->a_sendEmployeeEmailVerication()
+    ////////////////////////////////////////////////////////////
+    public function a_selectCompanyEmployee($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
 }

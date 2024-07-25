@@ -5,10 +5,11 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     let baseUrl = $('#txt_baseUrl').val();
 
-    thisRepresentativeCompanyProfile.selectRepresentativeCompanyInformation = function(companyId)
+    thisRepresentativeCompanyProfile.r_selectCompanyInformation = function(companyId)
     {
         AJAXHELPER.selectData({
-            'route' : '/portal/representative/select-representative-company-information',
+            // CompanyController->r_selectCompanyInformation();
+            'route' : '/portal/representative/r-select-company-information',
             'data'  : {
                 'companyId' : companyId
             }
@@ -36,7 +37,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         });
     }
 
-    thisRepresentativeCompanyProfile.editRepresentativeCompanyInformation = function(thisForm)
+    thisRepresentativeCompanyProfile.r_editCompanyInformation = function(thisForm)
     {
         let formData = new FormData(thisForm);
         formData.set('rdb_businessType',$("input[type='radio'][name='rdb_businessType']:checked").val());
@@ -44,7 +45,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitCompanyInformation').prop('disabled',true);
 
         AJAXHELPER.editData({
-            'route' : 'portal/representative/edit-representative-company-information',
+            // CompanyController->r_editCompanyInformation();
+            'route' : 'portal/representative/r-edit-company-information',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
@@ -58,12 +60,14 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         });
     }
 
-    thisRepresentativeCompanyProfile.loadRepresentativeCompanyDocuments = function(companyId)
+    thisRepresentativeCompanyProfile.r_loadCompanyDocuments = function(companyId)
     {
-        AJAXHELPER.selectData({
-            'route' : '/portal/representative/load-representative-company-documents',
+        AJAXHELPER.loadData({
+            //CompanyController->r_loadCompanyDocuments()
+            'route' : '/portal/representative/r-load-company-documents',
             'data'  : {
-                'companyId' : companyId
+                'companyId' : companyId,
+                'businessType' : $('#txt_businessType').val()
             }
         }, function(data){
             if($('#txt_businessType').val() == 'Corporation')
@@ -80,7 +84,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_corporation01').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_corporate01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Corporation-01','BIR Certificate of Registration (2303)');`);
+                        $('#btn_corporation01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Corporation-01','BIR Certificate of Registration (2303)');`);
                     }
 
                     if(value['document_code'] == 'Corporation-02')
@@ -94,7 +98,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_corporation02').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_corporate02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Corporation-02','SEC Regitration Certificate');`);
+                        $('#btn_corporation02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Corporation-02','SEC Regitration Certificate');`);
                     }
 
                     if(value['document_code'] == 'Corporation-03')
@@ -108,7 +112,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_corporation03').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_corporate03').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Corporation-03','Notarized Secretary’s Certificate  (provided by GwC)');`);
+                        $('#btn_corporation03').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Corporation-03','Notarized Secretary’s Certificate  (provided by GwC)');`);
                     }
 
                     if(value['document_code'] == 'Corporation-04')
@@ -122,7 +126,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_corporation04').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_corporate04').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Corporation-04','Articles of Incorporation');`);
+                        $('#btn_corporation04').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Corporation-04','Articles of Incorporation');`);
                     }
 
                     if(value['document_code'] == 'Corporation-05')
@@ -136,7 +140,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_corporation05').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_corporate05').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Corporation-05','Most Recent General Information Sheet (GIS)');`);
+                        $('#btn_corporation05').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Corporation-05','Most Recent General Information Sheet (GIS)');`);
                     }
                 });
             }
@@ -154,7 +158,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_proprietorship01').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_proprietorship01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Proprietorship-01','BIR Certificate of Registration (2303)');`);
+                        $('#btn_proprietorship01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Proprietorship-01','BIR Certificate of Registration (2303)');`);
                     }
                     
 
@@ -169,7 +173,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_proprietorship02').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_proprietorship02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Proprietorship-02','DTI Registration Document');`);
+                        $('#btn_proprietorship02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Proprietorship-02','DTI Registration Document');`);
                     }
                 });
             }
@@ -187,7 +191,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_partnership01').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_partnership01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Partnership-01','BIR Certificate of Registration (2303)');`);
+                        $('#btn_partnership01').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-01','BIR Certificate of Registration (2303)');`);
                     }
 
                     if(value['document_code'] == 'Partnership-02')
@@ -201,7 +205,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_partnership02').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_partnership02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Partnership-02','SEC Registrtion Certificate');`);
+                        $('#btn_partnership02').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-02','SEC Registration Certificate');`);
                     }
 
                     if(value['document_code'] == 'Partnership-03')
@@ -215,7 +219,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_partnership03').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_partnership03').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Partnership-03','Notarized Partner’s Certificate (provided by GwC)');`);
+                        $('#btn_partnership03').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-03','Notarized Partner’s Certificate (provided by GwC)');`);
                     }
 
                     if(value['document_code'] == 'Partnership-04')
@@ -229,42 +233,47 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                             $('#th_partnership04').html(`<center><i class="fe-check text-success"></i></center>`);
                         }
 
-                        $('#btn_partnership04').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.openRepresentativeCompanyDocumentModal(${value['id']},'Partnership-04','Articles of Partnership');`);
+                        $('#btn_partnership04').attr('onclick',`REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyDocumentModal(${value['id']},'Partnership-04','Articles of Partnership');`);
                     }
                 });
             }
         });
     }
 
-    thisRepresentativeCompanyProfile.openRepresentativeCompanyDocumentModal = function(documentId = "", documentCode, documentName)
+    thisRepresentativeCompanyProfile.r_openCompanyDocumentModal = function(documentId, documentCode, documentName)
     {
-        console.log(documentId);
         if(documentId == "")
         {
             $('#lbl_modalTitle').html(`${documentName}`);
             $('#txt_documentId').val(documentId);
             $('#txt_documentCode').val(documentCode);
             $('#txt_documentName').val(documentName);
+            $('.dropify-clear').click();
+            $('#div_documentResult').html('');
+            $('#div_documentPreview').prop('hidden',true);
             $('#modal_repCompanyDocuments').modal('show');
         }
         else
         {
             AJAXHELPER.selectData({
-                'route' : '/portal/representative/select-representative-company-document',
+                // CompanyController->r_selectCompanyDocument();
+                'route' : '/portal/representative/r-select-company-document',
                 'data'  : {
-                    'companyId' : $('#txt_companyId').val()
+                    'documentId' : documentId
                 }
             }, function(data){
                 $('#lbl_modalTitle').html(`${documentName}`);
                 $('#txt_documentId').val(documentId);
                 $('#txt_documentCode').val(documentCode);
                 $('#txt_documentName').val(documentName);
+                $('#iframe_companyDocumentPreview').prop('src',`${baseUrl}public/assets/uploads/company/documents/${data['document_file']}`);
+                $('#div_documentPreview').prop('hidden',false);
                 $('#modal_repCompanyDocuments').modal('show');
             });
         }
     }
 
-    thisRepresentativeCompanyProfile.openRepresentativeCompanyDocumentPreview = function(documentFile)
+    thisRepresentativeCompanyProfile.r_openCompanyDocumentPreview = function(documentFile)
     {
         let fileLen = documentFile.files.length;
         if(fileLen > 0)
@@ -311,7 +320,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         }
     }
 
-    thisRepresentativeCompanyProfile.addRepresentativeCompanyDocument = function(thisForm)
+    thisRepresentativeCompanyProfile.r_addCompanyDocument = function(thisForm)
     {
         let formData = new FormData(thisForm);
         formData.set('txt_companyId',$('#txt_companyId').val());
@@ -320,13 +329,15 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitRepCompanyDocuments').prop('disabled',true);
 
         AJAXHELPER.addData({
-            'route' : 'portal/representative/add-representative-company-document',
+            // CompanyController->r_addCompanyDocument();
+            'route' : 'portal/representative/r-add-company-document',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitRepCompanyDocuments').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/representative/company-profile`);
+                $('#modal_repCompanyDocuments').modal('hide');
+                REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
@@ -334,7 +345,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         });
     }
 
-    thisRepresentativeCompanyProfile.editRepresentativeCompanyDocument = function(thisForm)
+    thisRepresentativeCompanyProfile.r_editCompanyDocument = function(thisForm)
     {
         let formData = new FormData(thisForm);
         formData.set('txt_companyId',$('#txt_companyId').val());
@@ -343,13 +354,15 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitRepCompanyDocuments').prop('disabled',true);
 
         AJAXHELPER.editData({
-            'route' : 'portal/representative/edit-representative-company-document',
+            // CompanyController->r_editCompanyDocument();
+            'route' : 'portal/representative/r-edit-company-document',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitRepCompanyDocuments').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/representative/company-profile`);
+                $('#modal_repCompanyDocuments').modal('hide');
+                REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
@@ -359,10 +372,11 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
 
 
-    thisRepresentativeCompanyProfile.selectRepresentativeCompanySettings = function(companyId)
+    thisRepresentativeCompanyProfile.r_selectCompanySettings = function(companyId)
     {
         AJAXHELPER.selectData({
-            'route' : '/portal/representative/select-representative-company-settings',
+            // CompanyController->r_selectCompanySettings();
+            'route' : '/portal/representative/r-select-company-settings',
             'data'  : {
                 'companyId' : companyId
             }
@@ -382,7 +396,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         });
     }
 
-    thisRepresentativeCompanyProfile.editRepresentativeCompanySettings = function(thisForm)
+    thisRepresentativeCompanyProfile.r_editCompanySettings = function(thisForm)
     {
         let formData = new FormData(thisForm);
         formData.set('txt_companyId',$('#txt_companyId').val());
@@ -392,7 +406,8 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitCompanySettings').prop('disabled',true);
 
         AJAXHELPER.editData({
-            'route' : 'portal/representative/edit-representative-company-settings',
+            // CompanyController->r_editCompanySettings();
+            'route' : 'portal/representative/r-edit-company-settings',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
@@ -410,6 +425,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     thisRepresentativeCompanyProfile.r_loadCompanyRepresentatives = function(companyId)
     {
         AJAXHELPER.loadData({
+            // CompanyController->r_loadCompanyRepresentatives();
             'route' : 'portal/representative/r-load-company-representatives',
             'data'  : {
                 'companyId' : companyId
@@ -449,6 +465,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitHrCompanyRepresentative').prop('disabled',true);
 
         AJAXHELPER.addData({
+            // CompanyController->r_addCompanyHR();
             'route' : 'portal/representative/r-add-company-hr',
             'data'  : formData
         }, function(data){
@@ -471,6 +488,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitHrCompanyRepresentative').prop('disabled',true);
 
         AJAXHELPER.editData({
+            // CompanyController->r_editCompanyHR();
             'route' : 'portal/representative/r-edit-company-hr',
             'data'  : formData
         }, function(data){
@@ -493,6 +511,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitBpoCompanyRepresentative').prop('disabled',true);
 
         AJAXHELPER.addData({
+            // CompanyController->r_addCompanyBPO();
             'route' : 'portal/representative/r-add-company-bpo',
             'data'  : formData
         }, function(data){
@@ -515,6 +534,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitBpoCompanyRepresentative').prop('disabled',true);
 
         AJAXHELPER.editData({
+            // CompanyController->r_editCompanyBPO();
             'route' : 'portal/representative/r-edit-company-bpo',
             'data'  : formData
         }, function(data){
@@ -537,6 +557,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     thisRepresentativeCompanyProfile.r_loadCompanyRepresentativeIdentifications = function(employeeId, category)
     {
         AJAXHELPER.loadData({
+            // CompanyController->r_loadCompanyRepresentativeIdentifications()
             'route' : 'portal/representative/r-load-company-representative-identifications',
             'data'  : {
                 'employeeId' : employeeId,
@@ -544,23 +565,29 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             }
         }, function(data){
 
-            let hrCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('',${employeeId},'Company ID','HR');`;
-            let hrGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('',${employeeId},'Government ID','HR');`;
+            let hrCompanyId = ``;
+            let hrGovernmentId = ``;
 
-            let bpoCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('',${employeeId},'Company ID','BPO');`;
-            let bpoGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal('',${employeeId},'Government ID','BPO');`;
+            let bpoCompanyId = ``;
+            let bpoGovernmentId = ``;
+
+            let identificationId = '';
 
             data.forEach(function(value,index){
                 if(value['category'] == 'HR')
                 {
                     if(value['type'] == 'Company ID')
                     {
-                        hrCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${value['id']},${employeeId},'Company ID','HR');`;
+                        identificationId = value['id'];
+                        hrCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${identificationId},${employeeId},'Company ID','HR');`;
+                        $('#btn_hrCompanyId').attr('onclick',`${hrCompanyId}`);
                     }
 
                     if(value['type'] == 'Government ID')
                     {
-                        hrGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${value['id']},${employeeId},'Government ID','HR');`;
+                        identificationId = value['id'];
+                        hrGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${identificationId},${employeeId},'Government ID','HR');`;
+                        $('#btn_hrGovernmentId').attr('onclick',`${hrGovernmentId}`);
                     }
                 }
 
@@ -568,27 +595,26 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 {
                     if(value['type'] == 'Company ID')
                     {
-                        bpoCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${value['id']},${employeeId},'Company ID','BPO');`;
+                        identificationId = value['id'];
+                        bpoCompanyId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${identificationId},${employeeId},'Company ID','BPO');`;
+                        $('#btn_bpoCompanyId').attr('onclick',`${bpoCompanyId}`);
                     }
 
                     if(value['type'] == 'Government ID')
                     {
-                        bpoGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${value['id']},${employeeId},'Government ID','BPO');`;
+                        identificationId = value['id'];
+                        bpoGovernmentId = `REPRESENTATIVE_COMPANY_PROFILE.r_openCompanyRepresentativeIdentificationModal(${identificationId},${employeeId},'Government ID','BPO');`;
+                        $('#btn_bpoGovernmentId').attr('onclick',`${bpoGovernmentId}`);
                     }
                 }
-            });
-
-            $('#btn_hrCompanyId').attr('onclick',`${hrCompanyId}`);
-            $('#btn_hrGovernmentId').attr('onclick',`${hrGovernmentId}`);
-
-            $('#btn_bpoCompanyId').attr('onclick',`${bpoCompanyId}`);
-            $('#btn_bpoGovernmentId').attr('onclick',`${bpoGovernmentId}`);
+            });   
         });
     }
 
     thisRepresentativeCompanyProfile.r_openCompanyRepresentativeIdentificationModal = function(identificationId, employeeId, identificationType, identificationCategory)
     {
         AJAXHELPER.selectData({
+            // CompanyController->r_selectRepresentativeIdentification();
             'route' : '/portal/representative/r-select-representative-identification',
             'data'  : {
                 'identificationId' : identificationId
@@ -598,7 +624,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             $('#txt_employeeId').val(employeeId);
             $('#txt_identificationType').val(identificationType);
             $('#txt_identificationCategory').val(identificationCategory);
-            $('#div_identificationPreview').prop('hidden',(identificationId == "")? true : false);
+            $('#div_identificationPreview').prop('hidden',(data == null)? true : false);
             if(data != null)
             {
                 $('#iframe_identificationDocumentPreview').prop('src',`${baseUrl}/public/assets/uploads/representative/identifications/${data['id_picture']}`);
@@ -662,6 +688,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitRepIdentificationDocuments').prop('disabled',true);
 
         AJAXHELPER.addData({
+            // CompanyController->r_addRepresentativeIdentification();
             'route' : 'portal/representative/r-add-representative-identification',
             'data'  : formData
         }, function(data){
@@ -684,6 +711,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         $('#btn_submitRepIdentificationDocuments').prop('disabled',true);
 
         AJAXHELPER.editData({
+            // CompanyController->r_editRepresentativeIdentification();
             'route' : 'portal/representative/r-edit-representative-identification',
             'data'  : formData
         }, function(data){

@@ -39,6 +39,7 @@ class Companies extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->editRepresentativeInformation()
     ////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ class Companies extends Model
         $builder->orderBy('a.id','DESC');
         $builder->limit(1);
         $query = $builder->get();
-        return  $query->getResultArray();
+        return  $query->getRowArray();
     }
 
     ////////////////////////////////////////////////////////////
@@ -79,10 +80,9 @@ class Companies extends Model
 
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->selectRepresentativeCompanyInformation()
-    ///// CompanyController->selectRepresentativeCompanyDocument()
+    ///// CompanyController->r_selectCompanyInformation()
     ////////////////////////////////////////////////////////////
-    public function selectRepresentativeCompanyInformation($companyId)
+    public function r_selectCompanyInformation($companyId)
     {
         $columns = [
             'a.id',
@@ -106,9 +106,9 @@ class Companies extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->editRepresentativeCompanyInformation()
+    ///// CompanyController->r_editCompanyInformation()
     ////////////////////////////////////////////////////////////
-    public function editRepresentativeCompanyInformation($arrData, $companyId)
+    public function r_editCompanyInformation($arrData, $companyId)
     {
         try {
             $this->db->transStart();
@@ -128,9 +128,9 @@ class Companies extends Model
 
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->loadRepresentativeCompanyDocuments()
+    ///// CompanyDocumentController->r_loadCompanyDocuments()
     ////////////////////////////////////////////////////////////
-    public function loadRepresentativeCompanyDocuments($companyId)
+    public function r_loadCompanyDocuments($companyId, $businessType)
     {
         $columns = [
             'a.id',
@@ -144,14 +144,16 @@ class Companies extends Model
         $builder = $this->db->table('company_documents a');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
+        $builder->like('a.document_code', $businessType, 'both');
         $query = $builder->get();
         return  $query->getResultArray();
     }
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->selectRepresentativeCompanyDocument()
+    ///// CompanyDocumentController->r_selectCompanyDocument()
+    ///// CompanyDocumentController->r_editCompanyDocument()
     ////////////////////////////////////////////////////////////
-    public function selectRepresentativeCompanyDocument($documentId)
+    public function r_selectCompanyDocument($documentId)
     {
         $columns = [
             'a.id',
@@ -170,9 +172,9 @@ class Companies extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->addRepresentativeCompanyDocument()
+    ///// CompanyDocumentController->r_addCompanyDocument()
     ////////////////////////////////////////////////////////////
-    public function addRepresentativeCompanyDocument($arrData)
+    public function r_addCompanyDocument($arrData)
     {
         try {
             $this->db->transStart();
@@ -187,9 +189,9 @@ class Companies extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->editRepresentativeCompanyDocument()
+    ///// CompanyDocumentController->r_editCompanyDocument()
     ////////////////////////////////////////////////////////////
-    public function editRepresentativeCompanyDocument($arrData, $documentId)
+    public function r_editCompanyDocument($arrData, $documentId)
     {
         try {
             $this->db->transStart();
@@ -209,9 +211,9 @@ class Companies extends Model
 
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->selectRepresentativeCompanySettings()
+    ///// CompanyController->r_selectCompanySettings()
     ////////////////////////////////////////////////////////////
-    public function selectRepresentativeCompanySettings($companyId)
+    public function r_selectCompanySettings($companyId)
     {
         $columns = [
             'a.id',
@@ -236,9 +238,9 @@ class Companies extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// CompanyController->editRepresentativeCompanySettings()
+    ///// CompanyController->r_editCompanySettings()
     ////////////////////////////////////////////////////////////
-    public function editRepresentativeCompanySettings($arrData, $companyId)
+    public function r_editCompanySettings($arrData, $companyId)
     {
         try {
             $this->db->transStart();
@@ -311,5 +313,264 @@ class Companies extends Model
             throw $e;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->r_loadCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    public function r_loadCompanyAttachments($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.document_code',
+            'a.document_name',
+            'a.document_file',
+            'a.document_status'
+        ];
+
+        $builder = $this->db->table('company_documents a');
+        $builder->select($columns);
+        $builder->where('a.company_id', $companyId);
+        $builder->like('a.document_code', 'Attachment','both');
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->r_addCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    public function r_addCompanyAttachment($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('company_documents');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->r_selectCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    public function r_selectCompanyAttachment($attachmentId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.document_code',
+            'a.document_name',
+            'a.document_file',
+            'a.document_status'
+        ];
+
+        $builder = $this->db->table('company_documents a');
+        $builder->select($columns);
+        $builder->where('a.id', $attachmentId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->r_editCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    public function r_editCompanyAttachment($arrData, $attachmentId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('company_documents');
+                $builder->where(['id'=>$attachmentId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_loadCompanyDocuments()
+    ////////////////////////////////////////////////////////////
+    public function a_loadCompanyDocuments($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.document_code',
+            'a.document_name',
+            'a.document_file',
+            'a.document_status'
+        ];
+
+        $builder = $this->db->table('company_documents a');
+        $builder->select($columns);
+        $builder->where('a.company_id', $companyId);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_previewCompanyDocument()
+    ////////////////////////////////////////////////////////////
+    public function a_previewCompanyDocument($documentId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.document_code',
+            'a.document_name',
+            'a.document_file',
+            'a.document_status'
+        ];
+
+        $builder = $this->db->table('company_documents a');
+        $builder->select($columns);
+        $builder->where('a.id', $documentId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_acceptCompanyDocument()
+    ////////////////////////////////////////////////////////////
+    public function a_verifyCompanyDocument($arrData, $documentId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('company_documents');
+                $builder->where(['id'=>$documentId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_failedCompanySubscription()
+    ////////////////////////////////////////////////////////////
+    public function a_failedCompanySubscription($arrData, $documentId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('product_subscriptions');
+                $builder->where(['id'=>$documentId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_acceptCompanySubscription()
+    ////////////////////////////////////////////////////////////
+    public function a_acceptCompanySubscription($arrData, $documentId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('product_subscriptions');
+                $builder->where(['id'=>$documentId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_loadCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    // public function a_loadCompanyAttachments($companyId)
+    // {
+    //     $columns = [
+    //         'a.id',
+    //         'a.company_id',
+    //         'a.document_code',
+    //         'a.document_name',
+    //         'a.document_file',
+    //         'a.document_status'
+    //     ];
+
+    //     $builder = $this->db->table('company_documents a');
+    //     $builder->select($columns);
+    //     $builder->where('a.company_id', $companyId);
+    //     $builder->where('a.document_code', 'Employee-List-&-Swron-Statement');
+    //     $query = $builder->get();
+    //     return  $query->getResultArray();
+    // }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_previewCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    // public function a_previewCompanyAttachment($attachmentId)
+    // {
+    //     $columns = [
+    //         'a.id',
+    //         'a.company_id',
+    //         'a.document_code',
+    //         'a.document_name',
+    //         'a.document_file',
+    //         'a.document_status'
+    //     ];
+
+    //     $builder = $this->db->table('company_documents a');
+    //     $builder->select($columns);
+    //     $builder->where('a.company_id', $companyId);
+    //     $builder->where('a.document_code', 'Employee-List-&-Swron-Statement');
+    //     $query = $builder->get();
+    //     return  $query->getResultArray();
+    // }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyDocumentController->a_acceptCompanyAttachment()
+    ////////////////////////////////////////////////////////////
+    // public function a_acceptCompanyAttachment($arrData, $attachmentId)
+    // {
+    //     try {
+    //         $this->db->transStart();
+    //             $builder = $this->db->table('company_documents');
+    //             $builder->where(['id'=>$attachmentId]);
+    //             $builder->update($arrData);
+    //         $this->db->transComplete();
+    //         return ($this->db->transStatus() === TRUE)? 1 : 0;
+    //     } catch (PDOException $e) {
+    //         throw $e;
+    //     }
+    // }
 
 }

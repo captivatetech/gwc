@@ -2,8 +2,31 @@
 
 function generateCompanyCode($companyCode)
 {
-	$newCompanyCode = (int)substr($companyCode,3);
-	return $newCompanyCode + 1;
+	$series = (int)substr($companyCode,3);
+
+	$series += 1;
+	$strSeries = '';
+
+	if($series < 10)
+	{
+		$strSeries = '000'.$series;
+	}
+	else if($series < 100)
+	{
+		$strSeries = '00'.$series;
+	}
+	else if($series < 1000)
+	{
+		$strSeries = '0'.$series;
+	}
+	else if($series < 10000)
+	{
+		$strSeries = $series;
+	}
+
+	$newCompanyCode = 'GWC'.$strSeries;
+
+	return $newCompanyCode;
 }
 
 function extractJSONFromURL($url)
@@ -95,7 +118,7 @@ function checkDuplicateRowsForOrganizations($organizationList, $uniqueColumns, $
 	return $arrData;
 }
 
-function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
+function checkDuplicateRowsFromEmployeeList($contactList, $uniqueColumns)
 {
 	$arrRowNumber = [];
 	for ($i=0; $i < count($uniqueColumns); $i++) 
@@ -113,7 +136,7 @@ function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
 				$arrTempData2[] = $value[$uniqueColumns[$i]];
 			}
 		}
-		$num = ($hasHeader == 'YES')? 2 : 1;
+		$num = 2;
 		foreach($contactList as $value)
 		{
 			if(in_array($value[$uniqueColumns[$i]],$arrTempData1))
@@ -125,7 +148,7 @@ function checkDuplicateRowsForContacts($contactList, $uniqueColumns, $hasHeader)
 	}
 
 	$arrData = [];
-	$num = ($hasHeader == 'YES')? 2 : 1;
+	$num = 2;
 	foreach($contactList as $value)
 	{
 		if(in_array($num,$arrRowNumber))

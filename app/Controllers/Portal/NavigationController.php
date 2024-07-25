@@ -234,6 +234,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['companyId'] = $userData['company_id'];
+                    $data['businessType'] = $userData['business_type']; 
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
                 }
                 else
@@ -266,6 +268,10 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['companyId'] = $userData['company_id'];
+                    $data['companyCode'] = $userData['company_code'];
+                    $data['bankDepository'] = $userData['bank_depository'];
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
                     return $this->slice->view('portal.representative.representative_employee_list', $data);
                 }
                 else
@@ -298,6 +304,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
                     return $this->slice->view('portal.representative.representative_billing_and_payments', $data);
                 }
                 else
@@ -483,38 +490,228 @@ class NavigationController extends BaseController
     }
 
     public function adminApplications()
-    {
+    {       
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Loan Application | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_applications', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
         
     }
 
     public function adminPartnersList()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Partners List | GWC";
+                $data['customScripts'] = 'admin_partners_list';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_partners_list', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminSalaryAdvance()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Products > Salary Advance | GWC";
+                $data['customScripts'] = 'admin_salary_advance';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_salary_advance', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminBusinessExpansion()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Products > Business Expansion | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_business_expansion', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminPaymentNow()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Products > Payment Now | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_payment_now', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminBillings()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Billing Statements | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_billings', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminPayments()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Billing Statements | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_payments', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminMaintenanceUsers()
@@ -523,7 +720,7 @@ class NavigationController extends BaseController
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
-                $data['pageTitle'] = "Users | GWC";
+                $data['pageTitle'] = "Maintenance > Users | GWC";
                 $data['customScripts'] = 'admin_users';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
@@ -555,7 +752,7 @@ class NavigationController extends BaseController
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
-                $data['pageTitle'] = "Roles | GWC";
+                $data['pageTitle'] = "Maintenance > Roles | GWC";
                 $data['customScripts'] = 'admin_roles';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
@@ -583,7 +780,34 @@ class NavigationController extends BaseController
 
     public function adminMaintenanceFees()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Maintenance > Fees | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_maintenance_fees', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminMaintenanceFaqs()
@@ -593,7 +817,34 @@ class NavigationController extends BaseController
 
     public function adminReports()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Reports | GWC";
+                $data['customScripts'] = 'admin_dashboard';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    return $this->slice->view('portal.admin.admin_reports', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function adminAuditTrail()

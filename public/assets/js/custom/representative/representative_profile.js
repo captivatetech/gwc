@@ -8,6 +8,7 @@ const REPRESENTATIVE_PROFILE = (function(){
     thisRepresentativeProfile.selectRepresentativeInformation = function()
     {
         AJAXHELPER.selectData({
+            
             'route' : 'portal/representative/select-representative-information',
             'data'  : {
                 'sample' : 'sample'
@@ -59,7 +60,6 @@ const REPRESENTATIVE_PROFILE = (function(){
                 {
                     tbody += `<tr>
                                 <td>${value['type']}</td>
-                                <td>${value['category']}</td>
                                 <td>${value['id_number']}</td>
                                 <td>${value['date_issued']}</td>
                                 <td>${value['placed_issued']}</td>
@@ -90,7 +90,6 @@ const REPRESENTATIVE_PROFILE = (function(){
                 {
                     tbody += `<tr>
                                 <td>${value['type']}</td>
-                                <td>${value['category']}</td>
                                 <td>${value['id_number']}</td>
                                 <td>${value['date_issued']}</td>
                                 <td>${value['placed_issued']}</td>

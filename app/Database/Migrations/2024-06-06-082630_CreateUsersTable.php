@@ -8,7 +8,7 @@ class CreateUsersTable extends Migration
 {
     public function up()
     {
-        //14 fields
+        //15 fields
         $this->forge->addField([
             'id'                => [
                 'type'              => 'INT',
