@@ -390,7 +390,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment01 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'Attachment-02')
+                    if(value['document_code'] == 'Attachment-02')
                     {
                         arrAttachments[1] = 1;
                         
@@ -410,7 +410,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment02 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'Attachment-03')
+                    if(value['document_code'] == 'Attachment-03')
                     {
                         arrAttachments[2] = 1;
                         
@@ -430,7 +430,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                         $('#tr_attachment03 td:eq(2)').html(attachmentStatus);
                     }
 
-                    if(value['document_name'] == 'Attachment-04')
+                    if(value['document_code'] == 'Attachment-04')
                     {
                         arrAttachments[3] = 1;
                         
@@ -633,7 +633,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                             <td>${value['last_name']}</td>
                             <td>${value['first_name']}</td>
                             <td>${value['middle_name']}</td>
-                            <td></td>
+                            <td>${value['email_address']}</td>
                             <td></td>
                             <td></td>
                             <td></td>
