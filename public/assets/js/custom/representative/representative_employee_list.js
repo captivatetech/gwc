@@ -769,7 +769,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             if(data == null)
             {
                 $('#txt_attachmentId').val('');
+                $('.dropify-clear').click();
                 $('#iframe_companyAttachmentPreview').prop('src',``);
+                $('#div_companyAttachmentResult').html('');
                 $('#div_companyAttachmentPreview').prop('hidden',true);
             }
             else

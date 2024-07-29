@@ -33,6 +33,11 @@ $routes->post('portal/create-account', 'IndexController::createAccount');
 $routes->post('portal/forgot-password', 'IndexController::forgotPassword');
 $routes->post('portal/change-password', 'IndexController::changePassword');
 
+/*
+    EMAIL VERIFICATION OF EMPLOYEE
+*/
+$routes->post('portal/e-email-verification', 'IndexController::e_emailVerification');
+
 
 /////////////////////////////////////////////////////////////////////////////
 //////   BACK END NAVIGATION
@@ -201,7 +206,7 @@ $routes->get('portal/admin/a-preview-company-document', 'Portal\CompanyDocumentC
 $routes->post('portal/admin/a-verify-company-document', 'Portal\CompanyDocumentController::a_verifyCompanyDocument');
 $routes->post('portal/admin/a-failed-company-subscription', 'Portal\ProductSubscriptionController::a_failedCompanySubscription');
 $routes->post('portal/admin/a-accept-company-subscription', 'Portal\ProductSubscriptionController::a_acceptCompanySubscription');
-$routes->post('portal/admin/a-send-employee-email-verification', 'Portal\EmployeeController::a_sendEmployeeEmailVerication');
+$routes->post('portal/admin/a-send-employee-email-verification', 'Portal\EmployeeController::a_sendEmployeeEmailVerification');
 
 $routes->get('portal/admin/a-load-company-employees', 'Portal\EmployeeController::a_loadCompanyEmployees');
 

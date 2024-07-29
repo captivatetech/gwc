@@ -546,21 +546,13 @@ const ADMIN_SALARY_ADVANCE = (function(){
                 'route' : 'portal/admin/a-accept-company-subscription',
                 'data'  : formData
             }, function(data){
-                // data.forEach(function(value, index){
-                    let currentIndex = parseInt(data.length);
-                    let progress = 100 / parseInt(data.length);
-                    let progressRem = 100 % parseInt(data.length);
-                    let totalProgress = 0;
-                    let count = 0;
-                    let importCount = 0;
-                    ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
-                // });
-                // setTimeout(function(){
-                //     $('#btn_requestResubmission').prop('disabled',false);
-                //     $('#div_salaryAdvanceList').prop('hidden',false);
-                //     $('#div_salaryAdvanceEmployeeList').prop('hidden',true);
-                //     $('#div_salaryAdvanceUpdate').prop('hidden',true);
-                // }, 1000);
+                let currentIndex = parseInt(data.length);
+                let progress = 100 / parseInt(data.length);
+                let progressRem = 100 % parseInt(data.length);
+                let totalProgress = 0;
+                let count = 0;
+                let importCount = 0;
+                ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
             }, function(data){ // Error
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
                 $('#btn_requestResubmission').prop('disabled',false);
