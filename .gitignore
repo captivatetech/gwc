@@ -26,3 +26,9 @@ writable/debugbar/*
 # Test Files
 #-------------------------
 tests/coverage*
+
+public/assets/uploads/company/attachments/*
+!public/assets/uploads/company/attachments/index.html
+
+public/assets/uploads/company/documents/*
+!public/assets/uploads/company/documents/index.html

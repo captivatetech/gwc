@@ -90,6 +90,7 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// NavigationController->employeeEmailVerification()
+    ///// IndexController->e_emailVerification()
     ////////////////////////////////////////////////////////////
     public function validateEmployeeEmail($whereParams)
     {
@@ -125,7 +126,7 @@ class Employees extends Model
     }
 
     ////////////////////////////////////////////////////////////
-    ///// NavigationController->representativeEmailVerification()
+    ///// IndexController->e_emailVerification()
     ////////////////////////////////////////////////////////////
     public function editEmployee($arrData, $employeeId)
     {

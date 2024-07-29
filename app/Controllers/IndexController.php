@@ -252,4 +252,71 @@ class IndexController extends BaseController
         return $this->response->setJSON($msgResult);
         exit();
     }
+
+
+    /* !== Email Verification for EMPLOYEE ==! */
+
+    public function e_emailVerification()
+    {
+        $this->validation->setRules([
+            'txt_employeePassword' => [
+                'label'  => 'Password',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => 'Password is Incorrect',
+                ],
+            ],
+            'txt_employeeConfirmPassword' => [
+                'label'  => 'Confirm Password',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => 'Confirm Password is Incorrect',
+                ],
+            ]
+        ]);
+
+        if($this->validation->withRequest($this->request)->run())
+        {
+            $fields = $this->request->getPost();
+
+            if($fields['txt_employeePassword'] == $fields['txt_employeeConfirmPassword'])
+            {
+                $whereParams = [
+                    'a.email_address'   => $fields['txt_emailAddress'],
+                    'a.auth_code'       => encrypt_code($fields['txt_authCode'])
+                ];
+                $result = $this->employees->validateEmployeeEmail($whereParams);
+                if($result != null)
+                {
+                    $arrData = [
+                        'user_password' => encrypt_code($fields['txt_employeePassword']),
+                        'auth_code'     => null,
+                        'user_status'   => 1
+                    ];
+                    $this->employees->editEmployee($arrData, $result['id']);
+                    $msgResult[] = "Yey! You can now login to your account.";
+                    return $this->response->setJSON($msgResult);
+                    exit();
+                }
+                else
+                {
+                    $msgResult[] = "Email verification failed!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
+            else
+            {
+                $msgResult[] = "Password confirmation not match!";
+                return $this->response->setStatusCode(401)->setJSON($msgResult);
+                exit();
+            }
+        }
+        else
+        {
+            $msgResult[] = $this->validation->getErrors();
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }
+    }
 }

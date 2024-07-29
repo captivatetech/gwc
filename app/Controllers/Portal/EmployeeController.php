@@ -699,6 +699,7 @@ class EmployeeController extends BaseController
             $value['created_date'] = date('Y-m-d H:i:s');
             $value['company_id'] = $fields['txt_companyId'];
             $value['identification_number'] = $this->_generateIdentificationNumber($fields['txt_companyCode']);
+            $value['user_type'] = 'employee';
             $this->employees->r_addEmployee($value);
         }
         return $this->response->setJSON(['Success']);
@@ -710,7 +711,7 @@ class EmployeeController extends BaseController
 
 
 
-    public function a_sendEmployeeEmailVerication()
+    public function a_sendEmployeeEmailVerification()
     {
         $fields = $this->request->getPost();
 

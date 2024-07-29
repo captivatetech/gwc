@@ -76,6 +76,35 @@ const INDEX = (function(){
         });
     }
 
+    thisIndex.e_emailVerification = function(thisForm)
+    {
+        if($('#txt_password').val() == $('#txt_confirmPassword').val())
+        {
+            $('#btn_submitEmailVerification').prop('disabled',true);
+            let formData = new FormData(thisForm);
+            AJAXHELPER.validateData({
+                'route' : 'portal/e-email-verification',
+                'data'  : formData
+            }, function(data){ // Success
+                COMMONHELPER.Toaster('success',data[0]);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}login`);
+                }, 2000);
+                $('#btn_submitEmailVerification').prop('disabled',false);
+            }, function(data){ // Error
+                $('#txt_employeeId').val('');
+                $('#txt_employeePassword').val('');
+                $('#txt_employeeConfirmPassword').val('');
+                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+                $('#btn_submitEmailVerification').prop('disabled',false);
+            });
+        }
+        else
+        {
+            COMMONHELPER.Toaster('error','Pasword confirmation not match!');
+        }
+    }
+
     return thisIndex;
 
 })();
