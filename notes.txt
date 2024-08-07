@@ -333,13 +333,7 @@ Questions
 
 // A, B, B, B, C, C, C = 26 = The Variable Payments Payer
 
-ZOHO SIGN
-Client ID = 1000.6S43RLJTFWMW9KX6JTXC8RSO4HOPIP
-Client Secret = 0936e5ce1d7d9f4cac1160c9d86bafe0f30d96b717
 
-Scope Name : ZohoSign.templates.ALL
-Generated Code : 1000.30d7e09f114a53a4127542624d0fdaca.e76a3b9338778c9d12b7b6014836af0b
-Refresh Token : 1000.b45922131dddcdc68ea3a60533af0886.4b2b7872ad6b366ec9d44f4706422f4c
 
 
 {

@@ -16,7 +16,8 @@
         "ext-mbstring": "*",
         "laminas/laminas-escaper": "^2.9",
         "phpoffice/phpspreadsheet": "^1.29",
-        "psr/log": "^1.1"
+        "psr/log": "^1.1",
+        "zoho-sign/php-sdk": "^1.0"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.5",
