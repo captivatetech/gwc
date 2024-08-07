@@ -784,4 +784,48 @@ class Employees extends Model
         return  $query->getRowArray();
     }
 
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->e_selectEmployeeInformation()
+    ////////////////////////////////////////////////////////////
+    public function e_selectEmployeeInformation($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.date_hired',
+            'a.employment_status',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
 }

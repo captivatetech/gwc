@@ -62,12 +62,6 @@ class NavigationController extends BaseController
 
         if($result != null)
         {
-            // $arrData = [
-            //     'auth_code'     => null,
-            //     'user_status'   => 1
-            // ];
-            // $this->employees->editEmployee($arrData, $result['id']);
-
             $data['employeeId'] = $result['id'];
             $data['emailAddress'] = $emailAddress;
             $data['authCode'] = $authCode;

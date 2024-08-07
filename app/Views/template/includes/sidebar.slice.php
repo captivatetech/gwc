@@ -122,6 +122,13 @@
                         </li>
 
                         <li>
+                            <a href="<?php echo base_url('portal/representative/salary-advance-applications');?>">
+                                <i class="fe-edit"></i>
+                                <span> Applications </span>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="<?php echo base_url('portal/representative/billing-and-payments');?>">
                                 <i class="fe-dollar-sign"></i>
                                 <span> Billing & Payments </span>

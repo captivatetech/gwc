@@ -757,4 +757,20 @@ class EmployeeController extends BaseController
         $arrData = $this->employees->a_loadCompanyEmployees($fields['companyId']);
         return $this->response->setJSON($arrData);
     }
+
+
+
+
+
+
+
+
+
+
+    public function e_selectEmployeeInformation()
+    {
+        $employeeId = $this->session->get('gwc_employee_id');
+        $arrData = $this->employees->e_selectEmployeeInformation($employeeId);
+        return $this->response->setJSON($arrData);
+    }
 }

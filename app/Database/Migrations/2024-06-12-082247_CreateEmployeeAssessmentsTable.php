@@ -30,6 +30,15 @@ class CreateEmployeeAssessmentsTable extends Migration
                 'type'              => 'JSON',
                 'null'              => true,
             ],
+            'persona'               => [
+                'type'              => 'TEXT',
+                'null'              => true,
+            ],
+            'total_score'           => [
+                'type'              => 'INT',
+                'constraint'        => 11,
+                'null'              => true,
+            ],
             'assessment_status'         => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,
