@@ -50,13 +50,14 @@ $routes->get('portal/employee/profile', 'Portal\NavigationController::employeePr
 $routes->get('portal/employee/dashboard', 'Portal\NavigationController::employeeDashboard');
 $routes->get('portal/employee/loan-accounts', 'Portal\NavigationController::employeeLoanAccounts');
 /* 
-    !== USER NAVIGATION
+    !== REPRESENTATIVE NAVIGATION
 */
 $routes->get('portal/representative/profile', 'Portal\NavigationController::representativeProfile');
 $routes->get('portal/representative/dashboard', 'Portal\NavigationController::representativeDashboard'); 
 $routes->get('portal/representative/company-profile', 'Portal\NavigationController::representativeCompanyProfile'); 
 $routes->get('portal/representative/financing-products', 'Portal\NavigationController::representativeFinancingProducts'); 
 $routes->get('portal/representative/employee-list', 'Portal\NavigationController::representativeEmployeeList'); 
+$routes->get('portal/representative/salary-advance-applications', 'Portal\NavigationController::representativeSalaryAdvanceApplications'); 
 $routes->get('portal/representative/billing-and-payments', 'Portal\NavigationController::representativeBillingAndPayments'); 
 $routes->get('portal/representative/maintenance-users', 'Portal\NavigationController::representativeMaintenanceUsers'); 
 $routes->get('portal/representative/maintenance-roles', 'Portal\NavigationController::representativeMaintenanceRoles'); 
@@ -94,6 +95,12 @@ $routes->post('portal/employee/edit-employee-profile', 'Portal\EmployeeControlle
     // EMPLOYEE LOAN ACCOUNT FUNCTIONS 
 $routes->get('portal/employee/load-loan-accounts', 'Portal\LoanController::loadEmployeeLoanAccounts');
 $routes->post('portal/employee/add-loan-account', 'Portal\LoanController::addEmployeeLoanAccount');
+
+$routes->post('portal/employee/e-add-loan-readiness-assessement', 'Portal\EmployeeAssessmentController::e_addLoanReadinessAssessment');
+
+$routes->get('portal/employee/e-select-employee-information', 'Portal\EmployeeController::e_selectEmployeeInformation');
+$routes->post('portal/employee/e-submit-salary-advance-application', 'Portal\LoanController::e_submitSalaryAdvanceApplication');
+
 /* 
     !== END EMPLOYEE FUNCTION --------------------------------------------------------->
 */

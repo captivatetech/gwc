@@ -54,6 +54,11 @@ const COMMONHELPER = (function(){
         }
     }
 
+    thisCommonHelper.numberWithCommas = function(x) 
+    {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     // thisCommonHelper.validateFields = function(defValue, altValue)
     // {
     //     let emptyValues = ['','null','NULL','N/A','n/a'];

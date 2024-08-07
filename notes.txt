@@ -331,3 +331,89 @@ Questions
 
 4:25
 
+// A, B, B, B, C, C, C = 26 = The Variable Payments Payer
+
+ZOHO SIGN
+Client ID = 1000.6S43RLJTFWMW9KX6JTXC8RSO4HOPIP
+Client Secret = 0936e5ce1d7d9f4cac1160c9d86bafe0f30d96b717
+
+Scope Name : ZohoSign.templates.ALL
+Generated Code : 1000.30d7e09f114a53a4127542624d0fdaca.e76a3b9338778c9d12b7b6014836af0b
+Refresh Token : 1000.b45922131dddcdc68ea3a60533af0886.4b2b7872ad6b366ec9d44f4706422f4c
+
+
+{
+   "request" : {
+      "request_name" : "Social Media Policy",
+      "is_sequential" : true,
+      "expiration_days" : 1,
+      "email_reminders" : true,
+      "reminder_period": 8,
+      "actions" : {
+         "recipient_email" : "ajhay.dev@gmail.com",
+         "recipient_name" : "JAY",
+         "action_type" : "SIGN",
+         "signing_order" : 1,
+         "private_notes" : "Please hello"
+      }
+   }
+}
+
+
+{
+  "templates": {
+    "field_data": {
+      "field_text_data": {},
+      "field_boolean_data": {},
+      "field_date_data": {},
+    },
+    "actions": [
+      {
+        "action_id": "2000000468052",
+        "action_type": "SIGN",
+        "recipient_name": "Juan",
+        "role": "ts1",
+        "recipient_email": "ajhay.work@gmail.com",
+        "private_notes": "",
+        "verify_recipient": false,
+        "verification_type": "EMAIL"
+      }
+    ],
+    "notes": ""
+  }
+}
+
+{
+    "templates": {
+        "field_data": {
+            "field_text_data": {
+               "TF:Address":"Hello"
+            },
+            "field_boolean_data": {},
+            "field_date_data": {},
+            "field_radio_data": {}
+        },
+        "actions": [
+            {
+                "recipient_name": "Juan Dela Cruz",
+                "recipient_email": "ajhay.work@gmail.com",
+                "action_id": "408597000000039142",
+                "signing_order": 1,
+                "role": "",
+                "verify_recipient": false,
+                "private_notes": ""
+            }
+        ],
+        "notes": ""
+    }
+}
+
+Ito yung factors ng personas na yan. 
+
+- Timeliness of Payments: On-time, early, late, missed.
+- Payment Amount Variability: Consistent, fluctuating.
+- Frequency of Additional Loans: Rare, occasional, frequent.
+- Debt-to-Income Ratio: Stable, increasing, decreasing.
+- Interaction with Support: High, medium, low.
+
+Parang dapat assignan ko ng weight per persona in the future

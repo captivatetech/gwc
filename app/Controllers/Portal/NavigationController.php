@@ -290,6 +290,42 @@ class NavigationController extends BaseController
         }
     }
 
+    public function representativeSalaryAdvanceApplications()
+    {
+        if($this->session->has('gwc_representative_loggedIn'))
+        {
+            if($this->session->get('gwc_representative_loggedIn'))
+            {
+                $data['pageTitle'] = "Salary Advance Applications | GWC";
+                $data['customScripts'] = 'representative_salary_advance_applications';
+                $data['accessModules'] = [];
+                $userData = $this->employees->selectRepresentative($this->session->get('gwc_representative_id'));
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'representative'; 
+                    $data['companyId'] = $userData['company_id'];
+                    $data['companyCode'] = $userData['company_code'];
+                    $data['bankDepository'] = $userData['bank_depository'];
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
+                    return $this->slice->view('portal.representative.representative_salary_advance_applications', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
+    }
+
     public function representativeBillingAndPayments()
     {
         if($this->session->has('gwc_representative_loggedIn'))

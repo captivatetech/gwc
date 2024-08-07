@@ -25,107 +25,634 @@
 
 @section('page_content')
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-         
-            <div class="content-page">
-                <div class="content">
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+ 
+    <div class="content-page">
+        <div class="content">
 
-                    <!-- Start Content-->
-                    <div class="container-fluid">
+            <!-- Start Content-->
+            <div class="container-fluid">
 
-                        <div class="row">
+                <div class="row">
 
-                            <div class="col-xl-4 col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-    
-                                        <h4 class="header-title mt-0 mb-4">Salary Advance</h4>
-    
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h4 class="header-title mt-0 mb-4">Salary Advance</h4>
+
+                                <div class="row">
+                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-3">
+                                        <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">Apply Now</button>
                                     </div>
                                 </div>
-                            </div><!-- end col -->
 
-                            <div class="col-xl-4 col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-    
-                                        <h4 class="header-title mt-0 mb-4">Business Expansion Loan</h4>
-    
-                                    </div>
-                                </div>
-                            </div><!-- end col -->
+                                <hr>
 
-                            <div class="col-xl-4 col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-    
-                                        <h4 class="header-title mt-0 mb-4">Payment Now</h4>
-    
-                                    </div>
-                                </div>
-                            </div><!-- end col -->
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="mt-0 header-title">Billings</h4>
-                                        <p class="text-muted font-14 mb-3">
-                                           
-                                        </p>
-    
-                                        <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
-                                            <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Billing Number</th>
-                                                <th>Billing Amount</th>
-                                                <th>Paid Amount</th>
-                                                <th>Due Balance</th>
-                                                <th>Due Date</th>
-                                                <th>Status</th>
-                                            </tr>
-                                            </thead>
-    
-    
-                                            <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$170,750</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                    </div><!-- end col -->
+
+                </div>
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
+                
+            </div> <!-- container-fluid -->
+
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+    <div class="modal fade" id="modal_loanReadinessAssessment" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> Loan Readiness Assessment
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_loanReadinessAssessment">
                         
-                    </div> <!-- container-fluid -->
+                        <div class="row" id="div_question1">
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Budgeting</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 1 of 7</h5>
 
-                </div> <!-- content -->
+                                <p>
+                                    Kayo ba ay nakakagawa ng budget at ito ay nasusundan sa isang buwan?
+                                </p>
 
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer1" value="A-5">
+                                    <span id="lbl_answer1A-5">
+                                        A. Yes, ito ay laging nasusundan
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer1" value="B-3">
+                                    <span id="lbl_answer1B-3">
+                                        B. Yes, ito ay bihirang masundan
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer1" value="C-0">
+                                    <span id="lbl_answer1C-0">
+                                        C. No, hindi ako gumagawa ng budget
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question2" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Savings</h5>
+
+                                <p>Upang madaling maunawaan ang sagot sa tanong, naririto ang example. Kung ikaw ay sumasahod ng Php 20,000 sa isang buwan.</p>
+                                <ul>
+                                    <li>50% - Php 10,000 savings</li>
+                                    <li>30% - Php 6,000 savings</li>
+                                    <li>10% - Php 2,000 savings</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 2 of 7</h5>
+
+                                <p>
+                                    Ilang porsyento ng inyong sinasahod ang inyong naitatabi sa ipon kada buwan?
+                                </p>
+
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer2" value="A-5">
+                                    <span id="lbl_answer2A-5">
+                                        A. Halos kalahati (50%) ng aking sahod ay aking naitatabi
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer2" value="B-4">
+                                    <span id="lbl_answer2B-4">
+                                        B. Halos 30% ng aking sahod ang aking naitatabi
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer2" value="C-1">
+                                    <span id="lbl_answer2C-1">
+                                        C. Halos 10% ng aking sahod ay aking naitatabi
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer2" value="D-0">
+                                    <span id="lbl_answer2D-0">
+                                        D. Wala akong naitatabi sa aking sinasahod.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question3" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Debt Payment</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 3 of 7</h5>
+
+                                <p>
+                                    Ilang porsyento ng inyong sahod ang napupunta sa pagbabayad ng mga kinauutang at ng mga iba pang bayarin?
+                                </p>
+
+                                
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer3" value="A-1">
+                                    <span id="lbl_answer3A-1">
+                                        A. Higit kalahati (50%) ng aking sahod ang ipinambabayad sa pinagkakautangan at mga bayarin.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer3" value="B-3">
+                                    <span id="lbl_answer3B-3">
+                                        B. Halos 30% ng aking sahod angipinambabayad sa pinagkakautangan at mga bayarin.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer3" value="C-5">
+                                    <span id="lbl_answer3C-5">
+                                        C. Halos 10% ng aking sahod ang ipinambabayad sa pinagkakautangan at mga bayarin.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question4" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Repayment Behaviour</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 4 of 7</h5>
+
+                                <p>
+                                    Kung kayo ay kakapusin sa pambayad ng mga pagkaka-uutang at bayarin, alin sa mga sumusunod ang inyong gagawin?
+                                </p>
+
+                                
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer4" value="A-1">
+                                    <span id="lbl_answer4A-1">
+                                        A. Hindi muna babayaran ang bayarin sa nakatakdang araw at magbabayad na lang kapag nakaluwag-luwag na.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer4" value="B-3">
+                                    <span id="lbl_answer4B-3">
+                                        B. Kakausapin ang pinagkakautangan at makikipag-kasundo ng ibang araw upang mabayaran ang natitirang bahagi ng bayarin.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer4" value="C-3">
+                                    <span id="lbl_answer4C-3">
+                                        C. Ako ay maghahanap ng makakatulong o mahihiraman sa aking pamilya o mga kamag-anak upang hindi masira ang aking pangalan sa pinagkakautangan.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer4" value="D-5">
+                                    <span id="lbl_answer4D-5">
+                                        D. Gagamitin ang aking emergency fund o nakatabing ipon para sa mga emergency upang mabayaran ang bayarin.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question5" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Credit Card Behavior</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 5 of 7</h5>
+
+                                <p>
+                                    Kung kayo ay may credit card, ano ang inyong kasalukuyang kinagawian?
+                                </p>
+
+                                
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer5" value="A-1">
+                                    <span id="lbl_answer5A-1">
+                                        A. Binabayaran ko lang ang minimum amount sa billing.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer5" value="B-2">
+                                    <span id="lbl_answer5B-2">
+                                        B. Binabayaran ko ang minimum maging ang balanse kapag nakaluluwag-luwag.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer5" value="C-3">
+                                    <span id="lbl_answer5C-3">
+                                        C. Kung kaya, ako ay nagbabayad ng buo upang makaiwas sa interest charges.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer5" value="D-5">
+                                    <span id="lbl_answer5D-5">
+                                        D. Ako ay palaging nagbabayad ng buong balanse.
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer5" value="E-0">
+                                    <span id="lbl_answer5E-0">
+                                        E. Ako ay kasalukuyang walang credit card.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question6" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Sudden Spend Behavior</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 6 of 7</h5>
+
+                                <p>
+                                    Kung ikaw ay may biglaang kailangan pagkagastusan, saan mo kukunin ang iyong panggastos?
+                                </p>
+
+                                
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer6" value="A-1">
+                                    <span id="lbl_answer6A-1">
+                                        A. Uutang sa aking pamilya at kaibigan
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer6" value="B-1">
+                                    <span id="lbl_answer6B-1">
+                                        B. Uutang sa kumpanya
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer6" value="C-3">
+                                    <span id="lbl_answer6C-3">
+                                        C. Gagamitin ang aking credit card kung maari
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer6" value="D-5">
+                                    <span id="lbl_answer6D-5">
+                                        D. Gagamitin ang aking savings o naitabing pera
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer6" value="E-0">
+                                    <span id="lbl_answer6E-0">
+                                        E. Hindi ko alam ang sagot sa tanong.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_question7" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">View on Borrowing</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Part 7 of 7</h5>
+
+                                <p>
+                                    Alin sa mga sumusunod ang iyong pananaw tungkol sa paghiram ng pera o pag-utang sa bangko?
+                                </p>
+
+                                
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer7" value="A-1">
+                                    <span id="lbl_answer7A-1">
+                                        A. Ako ay natatakot umutang dahil baka ito ay hindi ko mabayaran
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer7" value="B-3">
+                                    <span id="lbl_answer7B-3">
+                                        B. Ako ay umiiwas umutang kung ito naman ay hindi kailangan
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer7" value="C-5">
+                                    <span id="lbl_answer7C-5">
+                                        C. Naiintindihan ko na ang paghiram ng pera at paggamit nito sa produktibong pamamaraan ay maaring makatulong upang kumita pa
+                                    </span>
+                                </label>
+
+                                <br>
+                                <label class="mb-2">
+                                    <input type="radio" name="rdb_answer7" value="D-0">
+                                    <span id="lbl_answer7D-0">
+                                        D. Wala akong pananaw tungkol sa paghiram ng pera.
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row" id="div_answersPreview" hidden>
+                            <div class="col-lg-4">
+                                <h3>Gold Water Capital</h3>
+                                <h5 class="text-muted">Review Answers</h5>
+                            </div>
+                            <div class="col-lg-8">
+                                <h5>Question & Answers</h5>
+
+                                <h6>
+                                    1) Kayo ba ay nakakagawa ng budget at ito ay nasusundan sa isang buwan?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer1"></label>
+
+                                <h6>
+                                    2) Ilang porsyento ng inyong sinasahod ang inyong naitatabi sa ipon kada buwan?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer2"></label>
+
+                                <h6>
+                                    3) Ilang porsyento ng inyong sahod ang napupunta sa pagbabayad ng mga kinauutang at ng mga iba pang bayarin?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer3"></label>
+
+                                <h6>
+                                    4) Kung kayo ay kakapusin sa pambayad ng mga pagkaka-uutang at bayarin, alin sa mga sumusunod ang inyong gagawin?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer4"></label>
+
+                                <h6>
+                                    5) Kung kayo ay may credit card, ano ang inyong kasalukuyang kinagawian?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer5"></label>
+
+                                <h6>
+                                    6) Kung ikaw ay may biglaang kailangan pagkagastusan, saan mo kukunin ang iyong panggastos?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer6"></label>
+
+                                <h6>
+                                    7) Alin sa mga sumusunod ang iyong pananaw tungkol sa paghiram ng pera o pag-utang sa bangko?
+                                </h6>
+                                <label class="mb-2 text-muted" id="lbl_answer7"></label>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_next1" disabled>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev2" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next2" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev3" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next3" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev4" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next4" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev5" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next5" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev6" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next6" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev7" hidden>Prev</button>
+                    <button type="button" class="btn gwc-button" id="btn_next7" hidden>Next</button>
+
+                    <button type="button" class="btn gwc-button" id="btn_prev8" hidden>Prev</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitLoanReadinessAssessment" form="form_loanReadinessAssessment" hidden>Submit</button>
+                </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_salaryAdvanceApplication" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> Salary Advance Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_salaryAdvanceApplication">
+                            
+                        <label>Credit Limit</label>
+                        <div>
+                            <input type="range" class="form-range" id="rng_creditLimit">
+                            <label style="float:left;" id="lbl_min">0</label>
+                            <label style="float:right;" id="lbl_max">0</label>
+                        </div>
+                        
+
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <center>
+                                    <input type="number" class="form-control form-control-sm" id="txt_loanAmount" name="txt_loanAmount" step=".01" required>
+                                    <label>Loan Amount</label>
+                                </center>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+
+                        <hr>
+
+                        <label>Payment Terms</label>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="1 Month">
+                                    <span>1 Month</span>
+                                </td>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="4 Months">
+                                    <span>4 Months</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="2 Months">
+                                    <span>2 Months</span>
+                                </td>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="5 Months">
+                                    <span>5 Months</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="3 Months">
+                                    <span>3 Months</span>
+                                </td>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" value="6 Months" checked>
+                                    <span>6 Months</span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-lg-6"><label>Purpose of Loan</label></div>
+                            <div class="col-lg-6">
+                                <select class="form-control form-select" id="slc_purposeOfLoan" name="slc_purposeOfLoan" required>
+                                    <option value="">---</option>
+                                    <option value="Emergency-Fund">Emergency Fund</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <h4>Loan Summary</h4>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td width="70%">
+                                    <label>Loan Amount</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_loanAmount">0.00</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label>Processing Fee</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_processingFee">0.00</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <h5 class="text-muted">Amount to Receive</h5>
+                                </td>
+                                <td style="text-align: right;">
+                                    <h5 class="text-muted" id="lbl_amountToReceive">0.00</h5>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <table style="width: 100%;">
+                            <tr>
+                                <td width="70%">
+                                    <label>Total Interest</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_totalInterest">0.00 %</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label>Payment Terms</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_paymentTerms">---</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label>Number of Deductions</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_numberOfDeductions">0</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label>Monthly Dues</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_monthlyDues">0.00</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <h5 class="text-muted">Deduction Per Cut-off</h5>
+                                </td>
+                                <td style="text-align: right;">
+                                    <h5 class="text-muted" id="lbl_deductionPerCutOff">0.00</h5>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <!-- <iframe style="width: 100%;" src="https://www.youtube.com/embed/a3ICNMQW7Ok" title="Wildlife Windows 7 Sample Video" allowfullscreen></iframe> -->
+
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitSalaryAdvanceApplication" form="form_salaryAdvanceApplication">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -136,13 +663,6 @@
 
 <!-- knob plugin -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery-knob/jquery.knob.min.js"></script>
-
-<!--Morris Chart-->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/morris.js06/morris.min.js"></script>
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/raphael/raphael.min.js"></script>
-
-<!-- Dashboar init js-->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/dashboard.init.js"></script>
 
 <!-- third party js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -163,15 +683,375 @@
 <!-- Datatables init -->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
 
+<!-- Common Helpers Scripts -->
+<script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>
 <!-- Ajax Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/helper/ajax_helper.js"></script>
 <!-- Custom Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/{{ $customScripts }}.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/employee/{{ $customScripts }}.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
     
+    // EMPLOYEE_DASHBOARD.loadSample();
+
+    $('#btn_openLoanReadinessAssessmentModal').on('click',function(){
+        EMPLOYEE_DASHBOARD.e_openLoanReadinessAssessmentModal();
+    });
+
+    /* ======= QUESTION #1 ==========*/
+
+    $('input[name=rdb_answer1]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next1').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_next1').on('click',function(){
+        if($('input[name=rdb_answer1]:checked').val() != undefined)
+        {
+            $('#div_question1').prop('hidden',true);
+            $('#div_question2').prop('hidden',false);
+
+            $('#btn_next1').prop('hidden',true);
+
+            $('#btn_prev2').prop('hidden',false);
+            $('#btn_next2').prop('hidden',false);
+            $('#btn_next2').prop('disabled',($('input[name=rdb_answer2]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #2 ==========*/
+
+    $('input[name=rdb_answer2]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next2').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev2').on('click',function(){
+        $('#div_question1').prop('hidden',false);
+        $('#div_question2').prop('hidden',true);
+
+        $('#btn_next1').prop('hidden',false);
+
+        $('#btn_prev2').prop('hidden',true);
+        $('#btn_next2').prop('hidden',true);
+    });
+
+    $('#btn_next2').on('click',function(){
+        if($('input[name=rdb_answer2]:checked').val() != undefined)
+        {
+            $('#div_question2').prop('hidden',true);
+            $('#div_question3').prop('hidden',false);
+
+            $('#btn_prev2').prop('hidden',true);
+            $('#btn_next2').prop('hidden',true);
+
+            $('#btn_prev3').prop('hidden',false);
+            $('#btn_next3').prop('hidden',false);
+            $('#btn_next3').prop('disabled',($('input[name=rdb_answer3]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #3 ==========*/
+
+    $('input[name=rdb_answer3]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next3').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev3').on('click',function(){
+        $('#div_question2').prop('hidden',false);
+        $('#div_question3').prop('hidden',true);
+
+        $('#btn_prev2').prop('hidden',false);
+        $('#btn_next2').prop('hidden',false);
+
+        $('#btn_prev3').prop('hidden',true);
+        $('#btn_next3').prop('hidden',true);
+    });
+
+    $('#btn_next3').on('click',function(){
+        if($('input[name=rdb_answer3]:checked').val() != undefined)
+        {
+            $('#div_question3').prop('hidden',true);
+            $('#div_question4').prop('hidden',false);
+
+            $('#btn_prev3').prop('hidden',true);
+            $('#btn_next3').prop('hidden',true);
+
+            $('#btn_prev4').prop('hidden',false);
+            $('#btn_next4').prop('hidden',false);
+            $('#btn_next4').prop('disabled',($('input[name=rdb_answer4]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #4 ==========*/
+
+    $('input[name=rdb_answer4]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next4').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev4').on('click',function(){
+        $('#div_question3').prop('hidden',false);
+        $('#div_question4').prop('hidden',true);
+
+        $('#btn_prev3').prop('hidden',false);
+        $('#btn_next3').prop('hidden',false);
+
+        $('#btn_prev4').prop('hidden',true);
+        $('#btn_next4').prop('hidden',true);
+    });
+
+    $('#btn_next4').on('click',function(){
+        if($('input[name=rdb_answer4]:checked').val() != undefined)
+        {
+            $('#div_question4').prop('hidden',true);
+            $('#div_question5').prop('hidden',false);
+
+            $('#btn_prev4').prop('hidden',true);
+            $('#btn_next4').prop('hidden',true);
+
+            $('#btn_prev5').prop('hidden',false);
+            $('#btn_next5').prop('hidden',false);
+            $('#btn_next5').prop('disabled',($('input[name=rdb_answer5]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #5 ==========*/
+
+    $('input[name=rdb_answer5]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next5').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev5').on('click',function(){
+        $('#div_question4').prop('hidden',false);
+        $('#div_question5').prop('hidden',true);
+
+        $('#btn_prev4').prop('hidden',false);
+        $('#btn_next4').prop('hidden',false);
+
+        $('#btn_prev5').prop('hidden',true);
+        $('#btn_next5').prop('hidden',true);
+    });
+
+    $('#btn_next5').on('click',function(){
+        if($('input[name=rdb_answer5]:checked').val() != undefined)
+        {
+            $('#div_question5').prop('hidden',true);
+            $('#div_question6').prop('hidden',false);
+
+            $('#btn_prev5').prop('hidden',true);
+            $('#btn_next5').prop('hidden',true);
+
+            $('#btn_prev6').prop('hidden',false);
+            $('#btn_next6').prop('hidden',false);
+            $('#btn_next6').prop('disabled',($('input[name=rdb_answer6]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #6 ==========*/
+
+    $('input[name=rdb_answer6]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next6').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev6').on('click',function(){
+        $('#div_question5').prop('hidden',false);
+        $('#div_question6').prop('hidden',true);
+
+        $('#btn_prev5').prop('hidden',false);
+        $('#btn_next5').prop('hidden',false);
+
+        $('#btn_prev6').prop('hidden',true);
+        $('#btn_next6').prop('hidden',true);
+    });
+
+    $('#btn_next6').on('click',function(){
+        if($('input[name=rdb_answer6]:checked').val() != undefined)
+        {
+            $('#div_question6').prop('hidden',true);
+            $('#div_question7').prop('hidden',false);
+
+            $('#btn_prev6').prop('hidden',true);
+            $('#btn_next6').prop('hidden',true);
+
+            $('#btn_prev7').prop('hidden',false);
+            $('#btn_next7').prop('hidden',false);
+            $('#btn_next7').prop('disabled',($('input[name=rdb_answer7]:checked').val() == undefined)? true : false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= QUESTION #7 ==========*/
+
+    $('input[name=rdb_answer7]').on('change',function(){
+        if($(this).val() != undefined)
+        {
+            $('#btn_next7').prop('disabled',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    $('#btn_prev7').on('click',function(){
+        $('#div_question6').prop('hidden',false);
+        $('#div_question7').prop('hidden',true);
+
+        $('#btn_prev6').prop('hidden',false);
+        $('#btn_next6').prop('hidden',false);
+
+        $('#btn_prev7').prop('hidden',true);
+        $('#btn_next7').prop('hidden',true);
+    });
+
+    $('#btn_next7').on('click',function(){
+        if($('input[name=rdb_answer7]:checked').val() != undefined)
+        {
+            $('#div_question7').prop('hidden',true);
+            $('#div_answersPreview').prop('hidden',false);
+
+            $('#btn_prev7').prop('hidden',true);
+            $('#btn_next7').prop('hidden',true);
+
+            let answer1 = $('input[name=rdb_answer1]:checked').val();
+            $('#lbl_answer1').html($(`#lbl_answer1${answer1}`).text());
+
+            let answer2 = $('input[name=rdb_answer2]:checked').val();
+            $('#lbl_answer2').html($(`#lbl_answer2${answer2}`).text());
+
+            let answer3 = $('input[name=rdb_answer3]:checked').val();
+            $('#lbl_answer3').html($(`#lbl_answer3${answer3}`).text());
+
+            let answer4 = $('input[name=rdb_answer4]:checked').val();
+            $('#lbl_answer4').html($(`#lbl_answer4${answer4}`).text());
+
+            let answer5 = $('input[name=rdb_answer5]:checked').val();
+            $('#lbl_answer5').html($(`#lbl_answer5${answer5}`).text());
+
+            let answer6 = $('input[name=rdb_answer6]:checked').val();
+            $('#lbl_answer6').html($(`#lbl_answer6${answer6}`).text());
+
+            let answer7 = $('input[name=rdb_answer7]:checked').val();
+            $('#lbl_answer7').html($(`#lbl_answer7${answer7}`).text());
+
+            $('#btn_prev8').prop('hidden',false);
+            $('#btn_submitLoanReadinessAssessment').prop('hidden',false);
+        }
+        else
+        {
+            alert('Choose your answer!');
+        }
+    });
+
+    /* ======= REVIEW ANSWERS ==========*/
+
+    $('#btn_prev8').on('click',function(){
+        $('#div_question7').prop('hidden',false);
+        $('#div_answersPreview').prop('hidden',true);
+
+        $('#btn_prev7').prop('hidden',false);
+        $('#btn_next7').prop('hidden',false);
+
+        $('#btn_prev8').prop('hidden',true);
+        $('#btn_submitLoanReadinessAssessment').prop('hidden',true);
+    });
+
+    /* ======= SUBMIT LRA ========== */
+
+    $('#form_loanReadinessAssessment').on('submit',function(e){
+        e.preventDefault();
+        EMPLOYEE_DASHBOARD.e_submitLoanReadinessAssessment();
+    });
+
+    $('#rng_creditLimit').on('change',function(){
+        $('#txt_loanAmount').val($(this).val());
+    });
+
+    $('#txt_loanAmount').on('change',function(){
+        $('#rng_creditLimit').val($(this).val());
+        EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
+    });
+
+    $('input[name=rdb_paymentTerms]').on('change',function(){
+        EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
+    });
+
+    $('#form_salaryAdvanceApplication').on('submit',function(e){
+        e.preventDefault();
+        if($('input[name=rdb_paymentTerms]:checked').val() != undefined && $('#slc_purposeOfLoan').val() != "")
+        {
+            EMPLOYEE_DASHBOARD.e_submitSalaryAdvanceApplication(this);
+        }
+        else
+        {
+            alert('Fill-out required fields!');
+        }
+    });
     
   });
 </script>

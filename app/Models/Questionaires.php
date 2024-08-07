@@ -13,7 +13,16 @@ class Questionaires extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id',
+        'question',
+        'answer',
+        'questionaire_status',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date'
+    ];
 
     // Dates
     protected $useTimestamps = false;
