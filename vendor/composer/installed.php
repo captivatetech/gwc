@@ -3,7 +3,7 @@
         'name' => 'codeigniter4/framework',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '63642d3b378dc15f433721061f3078e1aa455ced',
+        'reference' => '52263fcb1412ddff6a691d2c8586c72567dc2252',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'codeigniter4/framework' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '63642d3b378dc15f433721061f3078e1aa455ced',
+            'reference' => '52263fcb1412ddff6a691d2c8586c72567dc2252',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -702,6 +702,15 @@
             'install_path' => __DIR__ . '/../theseer/tokenizer',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'zoho-sign/php-sdk' => array(
+            'pretty_version' => 'v1.0.3',
+            'version' => '1.0.3.0',
+            'reference' => '4dd0fd7db5d5900aef1f3d0ac49d8518687fc434',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../zoho-sign/php-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
     ),
 );

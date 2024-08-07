@@ -5100,6 +5100,58 @@
                 }
             ],
             "install-path": "../theseer/tokenizer"
+        },
+        {
+            "name": "zoho-sign/php-sdk",
+            "version": "v1.0.3",
+            "version_normalized": "1.0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zoho/zsign-php-sdk.git",
+                "reference": "4dd0fd7db5d5900aef1f3d0ac49d8518687fc434"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zoho/zsign-php-sdk/zipball/4dd0fd7db5d5900aef1f3d0ac49d8518687fc434",
+                "reference": "4dd0fd7db5d5900aef1f3d0ac49d8518687fc434",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "time": "2023-06-21T07:53:32+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "zsign\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Zoho Sign",
+                    "homepage": "http://zoho.com/sign",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Zoho Sign's v1 api wrapper SDK in PHP",
+            "homepage": "https://zoho.com.sign",
+            "keywords": [
+                "Zoho",
+                "Zoho Sign PHP SDK",
+                "Zoho Sign PHP examples",
+                "Zoho Sign SDK",
+                "digital signature",
+                "sign"
+            ],
+            "support": {
+                "docs": "https://www.zoho.com/sign/api/",
+                "email": "support@zohosign.com",
+                "issues": "https://github.com/zoho/zsign-php-sdk/issues",
+                "source": "https://github.com/zoho/zsign-php-sdk/tree/v1.0.3"
+            },
+            "install-path": "../zoho-sign/php-sdk"
         }
     ],
     "dev": true,

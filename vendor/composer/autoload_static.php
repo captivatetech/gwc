@@ -23,6 +23,10 @@ class ComposerStaticInit93f2f18e9360b38cd93b979feba9137c
     );
 
     public static $prefixLengthsPsr4 = array (
+        'z' => 
+        array (
+            'zsign\\' => 6,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -102,6 +106,10 @@ class ComposerStaticInit93f2f18e9360b38cd93b979feba9137c
     );
 
     public static $prefixDirsPsr4 = array (
+        'zsign\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zoho-sign/php-sdk/src',
+        ),
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
@@ -184,8 +192,8 @@ class ComposerStaticInit93f2f18e9360b38cd93b979feba9137c
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -4331,6 +4339,32 @@ class ComposerStaticInit93f2f18e9360b38cd93b979feba9137c
         'org\\bovigo\\vfs\\visitor\\vfsStreamPrintVisitor' => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php/org/bovigo/vfs/visitor/vfsStreamPrintVisitor.php',
         'org\\bovigo\\vfs\\visitor\\vfsStreamStructureVisitor' => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php/org/bovigo/vfs/visitor/vfsStreamStructureVisitor.php',
         'org\\bovigo\\vfs\\visitor\\vfsStreamVisitor' => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php/org/bovigo/vfs/visitor/vfsStreamVisitor.php',
+        'zsign\\ApiClient' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/ApiClient.php',
+        'zsign\\OAuth' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/OAuth.php',
+        'zsign\\SignException' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/SignException.php',
+        'zsign\\SignUtil' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/SignUtil.php',
+        'zsign\\UpdateOAuth' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/UpdateOAuth.php',
+        'zsign\\ZohoSign' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/ZohoSign.php',
+        'zsign\\api\\Actions' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/Actions.php',
+        'zsign\\api\\DocumentFormData' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/DocumentFormData.php',
+        'zsign\\api\\Documents' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/Documents.php',
+        'zsign\\api\\Fields' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/Fields.php',
+        'zsign\\api\\PrefillField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/PrefillField.php',
+        'zsign\\api\\RedirectPages' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/RedirectPages.php',
+        'zsign\\api\\RequestObject' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/RequestObject.php',
+        'zsign\\api\\RequestType' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/RequestType.php',
+        'zsign\\api\\TemplateDocumentFields' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/TemplateDocumentFields.php',
+        'zsign\\api\\TemplateObject' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/TemplateObject.php',
+        'zsign\\api\\fields\\AttachmentField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/AttachmentField.php',
+        'zsign\\api\\fields\\CheckBox' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/CheckBox.php',
+        'zsign\\api\\fields\\DateField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/DateField.php',
+        'zsign\\api\\fields\\DropdownField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/DropdownField.php',
+        'zsign\\api\\fields\\DropdownValues' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/DropdownValues.php',
+        'zsign\\api\\fields\\ImageField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/ImageField.php',
+        'zsign\\api\\fields\\RadioField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/RadioField.php',
+        'zsign\\api\\fields\\RadioGroup' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/RadioGroup.php',
+        'zsign\\api\\fields\\TextField' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/TextField.php',
+        'zsign\\api\\fields\\TextProperty' => __DIR__ . '/..' . '/zoho-sign/php-sdk/src/api/fields/TextProperty.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
