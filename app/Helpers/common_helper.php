@@ -1,5 +1,109 @@
 <?php
 
+require_once('vendor/autoload.php');
+
+function sendTemplate()
+{
+	$templateId = '408597000000033691';
+	// Send template for signing 
+	$actionsJson=new stdClass();
+	$actionsJson->action_id = '408597000000033710';
+	$actionsJson->recipient_name = 'Juan Tamad';
+	$actionsJson->recipient_email = 'ajhay.work@gmail.com';
+	$actionsJson->action_type = '';
+
+	$templates=new stdClass();
+	$templates->actions = array($actionsJson);
+
+	$templateJSON= new stdClass();
+	$templateJSON->templates = $templates;
+
+	$templatesData=json_encode($templateJSON);
+	$POST_DATA = array(
+	    'data' => $templatesData,
+	    "is_quicksend"=>"true"
+	);
+	$curl = curl_init("https://sign.zoho.com/api/v1/templates/".$templateId."/createdocument");
+	curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+	    'Authorization:Zoho-oauthtoken 1000.fff514cffe5fd10d7a5e7060648cca9b.caeab60478b7c7a0accb2a7f40383275',
+	    "Content-Type:multipart/form-data"
+	));
+	curl_setopt($curl, CURLOPT_POST, true);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $POST_DATA);
+	$response = curl_exec($curl);
+	$jsonbody = json_decode($response); 
+	if ($jsonbody->status == "success") {
+	    return $jsonbody;
+	} 
+	else //Error check for error
+	{
+	    return $jsonbody->message;
+	}
+	curl_close($curl);
+}
+
+function testZohoSign()
+{
+	//Add fields and send out document
+
+	$createdRequestId = '408597000000033691';
+
+	$actionsJson = new stdClass();
+	$actionsJson->action_id = '408597000000033710';
+	$actionsJson->recipient_name = 'Juan Tamad';
+	$actionsJson->recipient_email = 'ajhay.work@gmail.com';
+	// $actionsJson->action_type = $createdRequest->actions[0]->action_type;
+
+	$fieldJson = new stdClass();
+	$fieldJson->document_id = '408597000000033692';
+	$fieldJson->field_name = "TextField";
+	$fieldJson->field_type_name = "Textfield";
+	$fieldJson->field_label = "Text - 1";
+	$fieldJson->field_category = "Textfield";
+	$fieldJson->abs_width = "200";
+	$fieldJson->abs_height = "18";
+	$fieldJson->is_mandatory = true;
+	$fieldJson->x_coord = "30";
+	$fieldJson->y_coord = "30";
+	$fieldJson->page_no = 0;
+
+	$actionsJson->fields = array($fieldJson);
+	$requestJSON = new stdClass();
+	$requestJSON->actions = array($actionsJson);
+	$request = new stdClass();
+	$request->requests = $requestJSON;
+	$data = json_encode($request);
+	$POST_DATA = array(
+	    'data' => $data
+	);
+	$curl = curl_init("https://sign.zoho.com/api/v1/requests" . $createdRequestId . "/submit");
+	curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+	    'Authorization:Zoho-oauthtoken 1000.928b54a3cb9e47afae1de4cc88f76468.13c97c8bd555d2590ed8467d6d5309a9',
+	));
+	curl_setopt($curl, CURLOPT_POST, true);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $POST_DATA);
+	$response = curl_exec($curl);
+
+	echo $response;
+	$jsonbody = json_decode($response); // contain filed tyes response
+	if ($jsonbody->status == "success") {
+	    $created_request_id = $jsonbody->requests->request_id; //Save the ID from the response to update later
+	    $status = $jsonbody->requests->request_status;
+	    return $status;
+	} else //Error check for error
+	{
+	    return $jsonbody->message;
+	}
+	curl_close($curl);
+
+
+	// return $response;
+}
+
 function generateCompanyCode($companyCode)
 {
 	$series = (int)substr($companyCode,3);

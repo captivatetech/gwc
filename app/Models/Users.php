@@ -150,6 +150,7 @@ class Users extends Model
         $columns = [
             'a.id',
             'a.role_id',
+            '(SELECT role_name FROM roles WHERE id = a.role_id) as role_name',
             'a.first_name',
             'a.last_name',
             'a.mobile_number',

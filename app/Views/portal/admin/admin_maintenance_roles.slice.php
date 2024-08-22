@@ -353,6 +353,93 @@
                                                         <tr class="module">
                                                             <td>
                                                                 <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <label class="form-check-label fw-500 text-dark c-pointer">Financing Accounts / <small>Salary Advance</small></label>
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>  
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>             
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>                                
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr class="module">
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <label class="form-check-label fw-500 text-dark c-pointer">Financing Accounts / <small>Business Expansion</small></label>
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>  
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>             
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>                                
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr class="module">
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <label class="form-check-label fw-500 text-dark c-pointer">Financing Accounts / <small>Payment Now</small></label>
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>  
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>             
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>                                
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
+                                                                    <input class="form-check-input c-pointer" type="checkbox">
+                                                                </div>        
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr class="module">
+                                                            <td>
+                                                                <div class="form-check form-switch form-switch-sm center-btn">
                                                                     <label class="form-check-label fw-500 text-dark c-pointer">Billings</label>
                                                                     <input class="form-check-input c-pointer" type="checkbox">
                                                                 </div>  

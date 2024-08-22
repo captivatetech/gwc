@@ -44,45 +44,28 @@
                                            
                                         </p>
     
-                                        <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
+                                        <table id="tbl_loanAccounts" class="table table-bordered dt-responsive table-responsive nowrap" style="width: 100%;">
                                             <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Billing Number</th>
-                                                <th>Billing Amount</th>
-                                                <th>Paid Amount</th>
-                                                <th>Due Balance</th>
-                                                <th>Due Date</th>
-                                                <th>Status</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Billing Number</th>
+                                                    <th>Billing Amount</th>
+                                                    <th>Paid Amount</th>
+                                                    <th>Due Balance</th>
+                                                    <th>Due Date</th>
+                                                    <th>Status</th>
+                                                </tr>
                                             </thead>
-    
-    
                                             <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$170,750</td>
-                                                <td>$320,800</td>
-                                            </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
                         
                     </div> <!-- container-fluid -->
 
@@ -103,13 +86,6 @@
 <!-- knob plugin -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery-knob/jquery.knob.min.js"></script>
 
-<!--Morris Chart-->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/morris.js06/morris.min.js"></script>
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/raphael/raphael.min.js"></script>
-
-<!-- Dashboar init js-->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/dashboard.init.js"></script>
-
 <!-- third party js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -129,15 +105,17 @@
 <!-- Datatables init -->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
 
+<!-- Common Helpers Scripts -->
+<script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>
 <!-- Ajax Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/helper/ajax_helper.js"></script>
 <!-- Custom Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/{{ $customScripts }}.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/employee/{{ $customScripts }}.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
-    
+    EMPLOYEE_LOAN_ACCOUNTS.e_loadLoanAccounts();
     
   });
 </script>

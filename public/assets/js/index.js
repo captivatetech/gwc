@@ -83,6 +83,7 @@ const INDEX = (function(){
             $('#btn_submitEmailVerification').prop('disabled',true);
             let formData = new FormData(thisForm);
             AJAXHELPER.validateData({
+                //IndexController->e_emailVerification
                 'route' : 'portal/e-email-verification',
                 'data'  : formData
             }, function(data){ // Success

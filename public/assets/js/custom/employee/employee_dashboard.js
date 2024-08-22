@@ -3,6 +3,8 @@ const EMPLOYEE_DASHBOARD = (function(){
 
     let thisEmployeeDashboard = {};
 
+    let baseUrl = $('#txt_baseUrl').val();
+
     let _persona = '';
     let _interestRate = 0;
     let _arrAnswers = [];
@@ -124,14 +126,14 @@ const EMPLOYEE_DASHBOARD = (function(){
     thisEmployeeDashboard.e_submitSalaryAdvanceApplication = function(thisForm)
     {
         let formData = new FormData(thisForm);
-        formData.set('answers',_arrAnswers);
+        formData.set('answers',JSON.stringify(_arrAnswers));
         formData.set('persona',_persona);
         formData.set('totalScore',_totalScore);
         
+        formData.set('loanAmount',$('#txt_loanAmount').val());
         formData.set('paymentTerms',$('input[name=rdb_paymentTerms]:checked').val());
-        formData.set('interest',_interestRate);
-        formData.set('loanAmount',$('#txt_loanAmount').val());
-        formData.set('loanAmount',$('#txt_loanAmount').val());
+        formData.set('purposeOfLoan',$('#slc_purposeOfLoan').val());
+        formData.set('interestRate',_interestRate);
 
         $('#btn_submitSalaryAdvanceApplication').prop('disabled',true);
 
@@ -140,9 +142,11 @@ const EMPLOYEE_DASHBOARD = (function(){
             'route' : 'portal/employee/e-submit-salary-advance-application',
             'data'  : formData
         }, function(data){
-            // COMMONHELPER.Toaster('success',data[0]);
+            COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitSalaryAdvanceApplication').prop('disabled',false);
+                $('#modal_salaryAdvanceApplication').modal('hide');
+                window.location.replace(`${baseUrl}portal/employee/dashboard`);
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);

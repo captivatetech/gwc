@@ -55,7 +55,7 @@
                                     </div>
                                 </form>
                                 <p class="text-center"> <a href="<?php echo base_url(); ?>forgot-password" class="text-muted ms-1"><i class="fa fa-lock me-1"></i>Forgot your password?</a></p>
-                                <p class="text-center"> <a href="<?php echo base_url(); ?>create-account" class="text-muted ms-1"><i class="fas fa-user-plus"></i>Create Account</a></p>
+                                <p class="text-center"> <a href="<?php echo base_url(); ?>create-account" class="text-muted ms-1"><i class="fas fa-user-plus me-1"></i>Create Account</a></p>
                             </div> <!-- end card-body -->
                         </div>
                         <!-- end card -->

@@ -10,6 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 ////// TEST MODULE
 /////////////////////////////////////////////////////////////////////////////
 $routes->get('test', 'TestController::sample');
+$routes->get('test-zoho-sign', 'TestController::testZohoSign');
 
 /////////////////////////////////////////////////////////////////////////////
 //////   FRONT END NAVIGATION
@@ -39,6 +40,29 @@ $routes->post('portal/change-password', 'IndexController::changePassword');
 $routes->post('portal/e-email-verification', 'IndexController::e_emailVerification');
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 //////   BACK END NAVIGATION
 /////////////////////////////////////////////////////////////////////////////
@@ -49,6 +73,8 @@ $routes->post('portal/e-email-verification', 'IndexController::e_emailVerificati
 $routes->get('portal/employee/profile', 'Portal\NavigationController::employeeProfile');
 $routes->get('portal/employee/dashboard', 'Portal\NavigationController::employeeDashboard');
 $routes->get('portal/employee/loan-accounts', 'Portal\NavigationController::employeeLoanAccounts');
+
+
 /* 
     !== REPRESENTATIVE NAVIGATION
 */
@@ -62,6 +88,8 @@ $routes->get('portal/representative/billing-and-payments', 'Portal\NavigationCon
 $routes->get('portal/representative/maintenance-users', 'Portal\NavigationController::representativeMaintenanceUsers'); 
 $routes->get('portal/representative/maintenance-roles', 'Portal\NavigationController::representativeMaintenanceRoles'); 
 $routes->get('portal/representative/faqs', 'Portal\NavigationController::representativeFaqs'); 
+
+
 /* 
     !== ADMIN NAVIGATION
 */
@@ -69,9 +97,12 @@ $routes->get('portal/admin/profile', 'Portal\NavigationController::adminProfile'
 $routes->get('portal/admin/dashboard', 'Portal\NavigationController::adminDashboard'); 
 $routes->get('portal/admin/applications', 'Portal\NavigationController::adminApplications'); 
 $routes->get('portal/admin/partners-list', 'Portal\NavigationController::adminPartnersList'); 
-$routes->get('portal/admin/salary-advance', 'Portal\NavigationController::adminSalaryAdvance'); 
-$routes->get('portal/admin/business-expansion', 'Portal\NavigationController::adminBusinessExpansion'); 
-$routes->get('portal/admin/payment-now', 'Portal\NavigationController::adminPaymentNow'); 
+$routes->get('portal/admin/salary-advance-applications', 'Portal\NavigationController::adminSalaryAdvanceApplications'); 
+$routes->get('portal/admin/business-expansion-applications', 'Portal\NavigationController::adminBusinessExpansionApplications'); 
+$routes->get('portal/admin/payment-now-applications', 'Portal\NavigationController::adminPaymentNowApplications'); 
+$routes->get('portal/admin/salary-advance-accounts', 'Portal\NavigationController::adminSalaryAdvanceAccounts'); 
+$routes->get('portal/admin/business-expansion-accounts', 'Portal\NavigationController::adminBusinessExpansionAccounts'); 
+$routes->get('portal/admin/payment-now-accounts', 'Portal\NavigationController::adminPaymentNowAccounts'); 
 $routes->get('portal/admin/billings', 'Portal\NavigationController::adminBillings'); 
 $routes->get('portal/admin/payments', 'Portal\NavigationController::adminPayments'); 
 $routes->get('portal/admin/maintenance-users', 'Portal\NavigationController::adminMaintenanceUsers'); 
@@ -80,6 +111,32 @@ $routes->get('portal/admin/maintenance-fees', 'Portal\NavigationController::admi
 $routes->get('portal/admin/maintenance-faqs', 'Portal\NavigationController::adminMaintenanceFaqs'); 
 $routes->get('portal/admin/reports', 'Portal\NavigationController::adminReports'); 
 $routes->get('portal/admin/audit-trail', 'Portal\NavigationController::adminAuditTrail'); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 //////   BACK END FUNCTIONS
@@ -92,18 +149,25 @@ $routes->get('portal/admin/audit-trail', 'Portal\NavigationController::adminAudi
 $routes->get('portal/employee/load-employee-profile', 'Portal\EmployeeController::loadEmployeeProfile');
 $routes->post('portal/employee/edit-employee-profile', 'Portal\EmployeeController::editEmployeeProfile');
     
-    // EMPLOYEE LOAN ACCOUNT FUNCTIONS 
-$routes->get('portal/employee/load-loan-accounts', 'Portal\LoanController::loadEmployeeLoanAccounts');
-$routes->post('portal/employee/add-loan-account', 'Portal\LoanController::addEmployeeLoanAccount');
-
+    // EMPLOYEE DASHBOARD FUNCTIONS 
 $routes->post('portal/employee/e-add-loan-readiness-assessement', 'Portal\EmployeeAssessmentController::e_addLoanReadinessAssessment');
 
 $routes->get('portal/employee/e-select-employee-information', 'Portal\EmployeeController::e_selectEmployeeInformation');
 $routes->post('portal/employee/e-submit-salary-advance-application', 'Portal\LoanController::e_submitSalaryAdvanceApplication');
 
+    // EMPLOYEE LOAN ACCOUNTS
+$routes->get('portal/employee/e-load-loan-accounts', 'Portal\LoanController::e_loadLoanAccounts');
+
 /* 
     !== END EMPLOYEE FUNCTION --------------------------------------------------------->
 */
+
+
+
+
+
+
+
 
 /* 
     !== START REPRESENTATIVE FUNCTION --------------------------------------------------------->
@@ -168,6 +232,11 @@ $routes->post('portal/representative/r-add-company-attachment', 'Portal\CompanyD
 $routes->get('portal/representative/r-select-company-attachment', 'Portal\CompanyDocumentController::r_selectCompanyAttachment');
 $routes->post('portal/representative/r-edit-company-attachment', 'Portal\CompanyDocumentController::r_editCompanyAttachment');
 
+    // REPRESENTATIVE LOAN APPLICATIONS
+$routes->get('portal/representative/r-load-salary-advance-applications', 'Portal\LoanController::r_loadSalaryAdvanceApplications');
+$routes->get('portal/representative/r-select-loan-application-details', 'Portal\LoanController::r_selectLoanApplicationDetails');
+$routes->post('portal/representative/r-submit-salary-advance-application', 'Portal\LoanController::r_submitSalaryAdvanceApplication');
+
     // REPRESENTATIVE BILLING AND PAYMENTS FUNCTIONS
 $routes->get('portal/user/load-user-billings', 'Portal\BillingController::loadUserBillings');
 
@@ -191,6 +260,14 @@ $routes->get('portal/user/load-user-faqs', 'Portal\FaqController::loadUserFaqs')
     !== END REPRESENTATIVE FUNCTION --------------------------------------------------------->
 */
 
+
+
+
+
+
+
+
+
 /* 
     !== START ADMIN FUNCTION --------------------------------------------------------->
 */
@@ -200,10 +277,15 @@ $routes->post('portal/admin/change-password', 'Portal\UserController::changeAdmi
     // ADMIN DASHBOARD FUNCTIONS
 
     // ADMIN LOAN APPLICATION FUNCTIONS
+$routes->get('portal/admin/a-load-applications', 'Portal\LoanController::a_loadApplications');
+$routes->get('portal/admin/a-select-application', 'Portal\LoanController::a_selectApplication');
+$routes->post('portal/admin/a-approve-application', 'Portal\LoanController::a_approveApplication');
+$routes->post('portal/admin/a-reject-application', 'Portal\LoanController::a_rejectApplication');
 
     // ADMIN PARTNERS LIST FUNCTIONS
 
     // ADMIN FINANCING PRODUCTS FUNCTIONS
+
     /* !-- SALARY ADVANCE --! */
 $routes->get('portal/admin/a-load-product-subscriptions', 'Portal\ProductSubscriptionController::a_loadProductSubscriptions');
 $routes->get('portal/admin/a-select-product-subscription', 'Portal\ProductSubscriptionController::a_selectProductSubscription');
@@ -217,9 +299,9 @@ $routes->post('portal/admin/a-send-employee-email-verification', 'Portal\Employe
 
 $routes->get('portal/admin/a-load-company-employees', 'Portal\EmployeeController::a_loadCompanyEmployees');
 
-// $routes->get('portal/admin/a-load-company-attachments', 'Portal\CompanyDocumentController::a_loadCompanyAttachments');
-// $routes->get('portal/admin/a-preview-company-attachment', 'Portal\CompanyDocumentController::a_previewCompanyAttachment');
-// $routes->post('portal/admin/a-accept-company-attachment', 'Portal\CompanyDocumentController::a_acceptCompanyAttachment');
+    // ADMIN FINANCING ACCOUNTS FUNCTIONS
+$routes->get('portal/admin/a-load-salary-advance-accounts', 'Portal\LoanController::a_loadSalaryAdvanceAccounts');
+$routes->get('portal/admin/a-load-disbursement-lists', 'Portal\LoanController::a_loadDisbursementLists');
 
     // ADMIN BILLINGS FUNCTIONS
 
@@ -260,6 +342,11 @@ $routes->post('portal/admin/remove-admin-faq', 'Portal\FaqController::removeAdmi
 /* 
     !== END ADMIN FUNCTION --------------------------------------------------------->
 */
+
+
+
+
+
 
 $routes->get('logout', 'NavigationController::logout');
 
