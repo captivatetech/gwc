@@ -76,6 +76,31 @@ class Companies extends Model
     }
 
 
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->e_submitSalaryAdvanceApplication()
+    ////////////////////////////////////////////////////////////
+    public function selectCompany($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_code',
+            'a.company_name',
+            'a.company_address',
+            'a.company_email',
+            'a.mobile_number',
+            'a.telephone_number',
+            'a.company_website',
+            'a.business_type',
+            'a.business_industry',
+            'a.tax_identification_number'
+        ];
+
+        $builder = $this->db->table('companies a');
+        $builder->select($columns);
+        $builder->where('a.id',$companyId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 
 
 

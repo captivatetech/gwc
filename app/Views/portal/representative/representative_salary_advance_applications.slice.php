@@ -15,7 +15,9 @@
 
 <style type="text/css">
   /*INTERNAL STYLES*/
-  
+  .tbl-custom tbody tr td {
+    padding: 5px;
+  }
   
 </style>
 
@@ -25,66 +27,245 @@
 
 @section('page_content')
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-         
-            <div class="content-page">
-                <div class="content">
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
 
-                    <!-- Start Content-->
-                    <div class="container-fluid">
+    <div class="content-page">
+        <div class="content">
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-    
-                                        <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap" style="width: 100%;">
-                                            <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Application Number</th>
-                                                <th>Name</th>
-                                                <th>Status</th>
-                                                <th>Applied Amount</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-    
-    
-                                            <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <table id="tbl_salaryAdvanceApplications" class="table table-bordered dt-responsive table-responsive nowrap" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Application Number</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Applied Amount</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        
-                    </div> <!-- container-fluid -->
+                    </div>
+                </div>
 
-                </div> <!-- content -->
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
+                
+            </div> <!-- container-fluid -->
 
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+    <div class="modal fade" id="modal_loanApplicationDocuments">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-documents me-2"></i> Loan Application Documents
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Application Form</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Authority to Deduct</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_loanApplicationDetails">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> Loan Application Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="txt_loanId">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6>Employee Details</h6>
+                            <table style="width: 100%" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Application Date</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_applicationDate" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Application Number</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_applicationNumber" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employee Name</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_employeeName" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ID Number</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_idNumber" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Department</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_department" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Position</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" id="txt_position" readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <h6>Attached Documents <small>(Signed Documents)</small></h6>
+                            <table style="width: 100%;" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>Application Form</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Authority to Deduct</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6>Loan Details</h6>
+                            <table style="width: 100%;" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Loan Amount</td>
+                                        <td>
+                                            <input type="text" id="txt_loanAmount" class="form-control" style="text-align: right;" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payment Terms</td>
+                                        <td>
+                                            <input type="text" id="txt_paymentTerms" class="form-control" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Purpose of Loan</td>
+                                        <td>
+                                            <input type="text" id="txt_purposeOfLoan" class="form-control" readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <h6>Loan Summary</h6>
+                            <table style="width: 100%;" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Loan Amount</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_loanAmount"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Processing Fee</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_processingFee"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>Amount to Receive</h6></td>
+                                        <td style="text-align: right;">
+                                            <h6 id="lbl_amountToReceive"></h6>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <table style="width: 100%;" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Total Interest</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_totalInterest"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payment Terms</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_paymentTerms"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number of Deductions</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_numberOfDeductions"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Monthly Dues</td>
+                                        <td style="text-align: right;">
+                                            <span id="lbl_monthlyDues"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><h6>Deduction Per Cut-Off</h6></td>
+                                        <td style="text-align: right;">
+                                            <h6 id="lbl_deductionPerCutOff"></h6>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitSalaryAdvanceApplication">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -95,13 +276,6 @@
 
 <!-- knob plugin -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery-knob/jquery.knob.min.js"></script>
-
-<!--Morris Chart-->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/morris.js06/morris.min.js"></script>
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/raphael/raphael.min.js"></script>
-
-<!-- Dashboar init js-->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/dashboard.init.js"></script>
 
 <!-- third party js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -132,7 +306,11 @@
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
-    
+    REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_loadSalaryAdvanceApplications();
+
+    $('#btn_submitSalaryAdvanceApplication').on('click',function(){
+        REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_submitSalaryAdvanceApplication();
+    });
     
   });
 </script>

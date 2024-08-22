@@ -7,6 +7,6 @@
 </head>
 <body>
     <h1>Email Verification</h1>
-    <a href="<?php echo base_url(); ?>/representative-email-verification/{{ $emailAddress }}/{{ $authCode }}">Verify my email address</a>
+    <a href="<?php echo base_url(); ?>representative-email-verification/{{ $emailAddress }}/{{ $authCode }}">Verify my email address</a>
 </body>
 </html>

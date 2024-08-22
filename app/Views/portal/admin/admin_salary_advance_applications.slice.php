@@ -448,10 +448,10 @@
   $(document).ready(function(){
     //jQuery Events
 
-    ADMIN_SALARY_ADVANCE.a_loadProductSubscriptions();
+    ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadProductSubscriptions();
 
     $('#btn_verifyDocument').on('click',function(){
-        ADMIN_SALARY_ADVANCE.a_verifyCompanyDocument();
+        ADMIN_SALARY_ADVANCE_APPLICATIONS.a_verifyCompanyDocument();
     });
 
     $('#btn_backToList1').on('click',function(){
@@ -474,11 +474,11 @@
     }); 
 
     $('#btn_requestResubmission').on('click',function(){
-        ADMIN_SALARY_ADVANCE.a_failedCompanySubscription();
+        ADMIN_SALARY_ADVANCE_APPLICATIONS.a_failedCompanySubscription();
     });
     
     $('#btn_acceptSubscription').on('click',function(){
-        ADMIN_SALARY_ADVANCE.a_acceptCompanySubscription();
+        ADMIN_SALARY_ADVANCE_APPLICATIONS.a_acceptCompanySubscription();
     });
 
 

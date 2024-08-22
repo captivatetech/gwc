@@ -31,6 +31,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'employee'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.employee.employee_profile', $data);
                 }
                 else
@@ -63,6 +64,9 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'employee'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['employeeId'] = $userData['id'];
+                    $data['companyId'] = $userData['company_id'];
                     return $this->slice->view('portal.employee.employee_dashboard', $data);
                 }
                 else
@@ -95,6 +99,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'employee'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.employee.employee_loan_accounts', $data);
                 }
                 else
@@ -133,6 +138,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_profile', $data);
                 }
@@ -166,6 +172,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.representative.representative_dashboard', $data);
                 }
                 else
@@ -198,6 +205,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['companyId'] = $userData['company_id'];
                     $data['businessType'] = $userData['business_type'];
                     $data['hrUser'] = $userData['hr_user'];
@@ -233,7 +241,8 @@ class NavigationController extends BaseController
 
                 if($userData != null)
                 {
-                    $data['userType'] = 'representative'; 
+                    $data['userType'] = 'representative';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name']; 
                     $data['companyId'] = $userData['company_id'];
                     $data['businessType'] = $userData['business_type']; 
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
@@ -268,6 +277,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['companyId'] = $userData['company_id'];
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
@@ -304,6 +314,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['companyId'] = $userData['company_id'];
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
@@ -340,6 +351,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['subscriptionStatus'] = $userData['subscription_status'];
                     return $this->slice->view('portal.representative.representative_billing_and_payments', $data);
                 }
@@ -373,6 +385,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.representative.representative_maintenance_users', $data);
                 }
                 else
@@ -405,6 +418,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.representative.representative_maintenance_roles', $data);
                 }
                 else
@@ -437,6 +451,7 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'representative'; 
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     return $this->slice->view('portal.representative.representative_faqs', $data);
                 }
                 else
@@ -475,6 +490,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_profile', $data);
                 }
                 else
@@ -507,6 +524,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_dashboard', $data);
                 }
                 else
@@ -532,13 +551,15 @@ class NavigationController extends BaseController
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Loan Application | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_applications';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_applications', $data);
                 }
                 else
@@ -572,6 +593,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_partners_list', $data);
                 }
                 else
@@ -590,21 +613,23 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminSalaryAdvance()
+    public function adminSalaryAdvanceApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Financing Products > Salary Advance | GWC";
-                $data['customScripts'] = 'admin_salary_advance';
+                $data['customScripts'] = 'admin_salary_advance_applications';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
-                    return $this->slice->view('portal.admin.admin_salary_advance', $data);
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_salary_advance_applications', $data);
                 }
                 else
                 {
@@ -622,21 +647,23 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminBusinessExpansion()
+    public function adminBusinessExpansionApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Financing Products > Business Expansion | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_business_expansion_applications';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
-                    return $this->slice->view('portal.admin.admin_business_expansion', $data);
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_business_expansion_applications', $data);
                 }
                 else
                 {
@@ -654,21 +681,125 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminPaymentNow()
+    public function adminPaymentNowApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Financing Products > Payment Now | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_payment_now_applications';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
-                    return $this->slice->view('portal.admin.admin_payment_now', $data);
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_payment_now_applications', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
+    }
+
+    public function adminSalaryAdvanceAccounts()
+    {
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Accounts > Salary Advance | GWC";
+                $data['customScripts'] = 'admin_salary_advance_accounts';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_salary_advance_accounts', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
+    }
+
+    public function adminBusinessExpansionAccounts()
+    {
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Accounts > Business Expansion | GWC";
+                $data['customScripts'] = 'admin_business_expansion_accounts';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_business_expansion_accounts', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
+    }
+
+    public function adminPaymentNowAccounts()
+    {
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Financing Accounts > Payment Now | GWC";
+                $data['customScripts'] = 'admin_payment_now_accounts';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    return $this->slice->view('portal.admin.admin_payment_now_accounts', $data);
                 }
                 else
                 {
@@ -700,6 +831,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_billings', $data);
                 }
                 else
@@ -732,6 +865,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_payments', $data);
                 }
                 else
@@ -764,6 +899,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_maintenance_users', $data);
                 }
                 else
@@ -796,6 +933,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_maintenance_roles', $data);
                 }
                 else
@@ -828,6 +967,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_maintenance_fees', $data);
                 }
                 else
@@ -865,6 +1006,8 @@ class NavigationController extends BaseController
                 if($userData != null)
                 {
                     $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
                     return $this->slice->view('portal.admin.admin_reports', $data);
                 }
                 else

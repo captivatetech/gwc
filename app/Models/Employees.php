@@ -156,11 +156,13 @@ class Employees extends Model
     ///// NavigationController->employeeProfile()
     ///// NavigationController->employeeDashboard()
     ///// NavigationController->employeeLoanAccounts()
+    ///// LoanController->e_submitSalaryAdvanceApplication()
     ////////////////////////////////////////////////////////////
     public function selectEmployee($employeeId)
     {
         $columns = [
             'a.id',
+            'a.company_id',
             'a.first_name',
             'a.middle_name',
             'a.last_name',
@@ -826,6 +828,27 @@ class Employees extends Model
         $builder->where('a.id',$employeeId);
         $query = $builder->get();
         return  $query->getRowArray();
+    }
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->e_submitSalaryAdvanceApplication()
+    ////////////////////////////////////////////////////////////
+    public function e_addEmployeeAssessment($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employee_assessments');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 
 }

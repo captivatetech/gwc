@@ -36,19 +36,15 @@ class NavigationController extends BaseController
 
         if($result != null)
         {
-            $arrData = [
-                'auth_code'     => null,
-                'user_status'   => 1
-            ];
-            $this->employees->editEmployee($arrData, $result['id']);
-
             $data['status'] = 'success'; 
+            $data['employeeId'] = $result['id'];
+            $data['emailAddress'] = $emailAddress;
+            $data['authCode'] = $authCode;
         }
         else
         {
-            $data['status'] = 'failed'; 
+            $data['status'] = 'failed';
         }
-
         return $this->slice->view('email_verification', $data);
     }
 
@@ -62,16 +58,17 @@ class NavigationController extends BaseController
 
         if($result != null)
         {
+            $data['status'] = 'success'; 
             $data['employeeId'] = $result['id'];
             $data['emailAddress'] = $emailAddress;
             $data['authCode'] = $authCode;
-
-            return $this->slice->view('email_verification', $data);
         }
         else
         {
-            echo "Failed";
+            $data['status'] = 'failed';
         }
+
+        return $this->slice->view('email_verification', $data);
     }
 
     public function forgotPassword()

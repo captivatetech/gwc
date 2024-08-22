@@ -1,11 +1,11 @@
 
-const ADMIN_SALARY_ADVANCE = (function(){
+const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
-    let thisAdminSalaryAdvance = {};
+    let thisAdminSalaryAdvanceApplications = {};
 
     let baseUrl = $('#txt_baseUrl').val();
 
-    thisAdminSalaryAdvance.a_loadProductSubscriptions = function()
+    thisAdminSalaryAdvanceApplications.a_loadProductSubscriptions = function()
     {
         AJAXHELPER.loadData({
             // ProductSubscriptionController->a_loadProductSubscriptions();
@@ -27,8 +27,8 @@ const ADMIN_SALARY_ADVANCE = (function(){
                                     Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_selectProductSubscription(${value['id']})">Update</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_loadCompanyEmployees(${value['company_id']})">Employee List</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription(${value['id']})">Update</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadCompanyEmployees(${value['company_id']})">Employee List</a>
                                     </div>
                                 </div>
                             </td>
@@ -40,7 +40,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    thisAdminSalaryAdvance.a_selectProductSubscription = function(companyId)
+    thisAdminSalaryAdvanceApplications.a_selectProductSubscription = function(companyId)
     {
         AJAXHELPER.selectData({
             // ProductSubscriptionController::a_selectProductSubscription
@@ -64,7 +64,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
             $('#lbl_productName').text(`${data['product_name']} (${data['product_code']})`);
             $('#lbl_description').text(data['product_details']);
 
-            ADMIN_SALARY_ADVANCE.a_loadCompanyDocuments(companyId,data['business_type']);
+            ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadCompanyDocuments(companyId,data['business_type']);
 
             $('#slc_employeeListStatus').val(data['subscription_status']);
             $('#txt_remarks').val(data['remarks']);
@@ -86,7 +86,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    thisAdminSalaryAdvance.a_loadCompanyDocuments = function(companyId, businessType)
+    thisAdminSalaryAdvanceApplications.a_loadCompanyDocuments = function(companyId, businessType)
     {
         AJAXHELPER.loadData({
             // CompanyDocumentController->a_loadCompanyDocuments()
@@ -111,7 +111,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrCorporation[0] = 1;
 
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_corporation01 td:eq(1)').html(documentAction);
@@ -131,7 +131,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrCorporation[1] = 1;
 
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_corporation02 td:eq(1)').html(documentAction);
@@ -151,7 +151,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrCorporation[2] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_corporation03 td:eq(1)').html(documentAction);
@@ -171,7 +171,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrCorporation[3] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_corporation04 td:eq(1)').html(documentAction);
@@ -191,7 +191,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrCorporation[4] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_corporation05 td:eq(1)').html(documentAction);
@@ -225,7 +225,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrProprietorship[0] = 1;
 
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_proprietorship01 td:eq(1)').html(documentAction);
@@ -245,7 +245,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrProprietorship[1] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_proprietorship02 td:eq(1)').html(documentAction);
@@ -279,7 +279,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrPartnership[0] = 1;
 
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_partnership01 td:eq(1)').html(documentAction);
@@ -299,7 +299,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrPartnership[1] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_partnership02 td:eq(1)').html(documentAction);
@@ -319,7 +319,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrPartnership[2] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_partnership03 td:eq(1)').html(documentAction);
@@ -339,7 +339,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrPartnership[3] = 1;
                         
-                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
+                        documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_partnership04 td:eq(1)').html(documentAction);
@@ -374,7 +374,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrAttachments[0] = 1;
 
-                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_attachment01 td:eq(1)').html(attachmentAction);
@@ -394,7 +394,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrAttachments[1] = 1;
                         
-                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_attachment02 td:eq(1)').html(attachmentAction);
@@ -414,7 +414,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrAttachments[2] = 1;
                         
-                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_attachment03 td:eq(1)').html(attachmentAction);
@@ -434,7 +434,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                     {
                         arrAttachments[3] = 1;
                         
-                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
+                        attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
                         $('#tr_attachment04 td:eq(1)').html(attachmentAction);
@@ -459,7 +459,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    thisAdminSalaryAdvance.a_previewCompanyDocument = function(companyId, documentId, documentCode, documentName, documentFile)
+    thisAdminSalaryAdvanceApplications.a_previewCompanyDocument = function(companyId, documentId, documentCode, documentName, documentFile)
     {
         $('#lbl_modalTitle1').text(documentName);
         $('#txt_companyId').val(companyId);
@@ -477,7 +477,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         $('#modal_companyDocumentPreview').modal('show');
     }
 
-    thisAdminSalaryAdvance.a_verifyCompanyDocument = function()
+    thisAdminSalaryAdvanceApplications.a_verifyCompanyDocument = function()
     {
         let formData = new FormData();
         formData.set("txt_documentId", $('#txt_documentId').val());
@@ -492,7 +492,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
             setTimeout(function(){
                 $('#btn_verifyDocument').prop('disabled',false);
                 $('#modal_companyDocumentPreview').modal('hide');
-                ADMIN_SALARY_ADVANCE.a_selectProductSubscription($('#txt_companyId').val());
+                ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription($('#txt_companyId').val());
             }, 1000);
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
@@ -500,7 +500,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    thisAdminSalaryAdvance.a_failedCompanySubscription = function()
+    thisAdminSalaryAdvanceApplications.a_failedCompanySubscription = function()
     {
         let formData = new FormData();
         formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
@@ -527,7 +527,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    thisAdminSalaryAdvance.a_acceptCompanySubscription = function()
+    thisAdminSalaryAdvanceApplications.a_acceptCompanySubscription = function()
     {
         if(confirm('Please Confirm!'))
         {
@@ -552,7 +552,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                 let totalProgress = 0;
                 let count = 0;
                 let importCount = 0;
-                ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
+                ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
             }, function(data){ // Error
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
                 $('#btn_requestResubmission').prop('disabled',false);
@@ -560,7 +560,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
        }
     }
 
-    thisAdminSalaryAdvance.a_sendEmployeeEmailVerification = function(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData)
+    thisAdminSalaryAdvanceApplications.a_sendEmployeeEmailVerification = function(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData)
     {
         setTimeout(function(){  
             let formData = new FormData();
@@ -589,7 +589,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
                 if(totalProgress < 100)
                 {
                     count++;
-                    ADMIN_SALARY_ADVANCE.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData);
+                    ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, arrData);
                 }
                 else
                 {
@@ -604,7 +604,7 @@ const ADMIN_SALARY_ADVANCE = (function(){
         }, 1000);
     }
 
-    thisAdminSalaryAdvance.a_loadCompanyEmployees = function(companyId)
+    thisAdminSalaryAdvanceApplications.a_loadCompanyEmployees = function(companyId)
     {
         $('#div_salaryAdvanceList').prop('hidden',true);
         $('#div_salaryAdvanceEmployeeList').prop('hidden',false);
@@ -640,6 +640,6 @@ const ADMIN_SALARY_ADVANCE = (function(){
         });
     }
 
-    return thisAdminSalaryAdvance;
+    return thisAdminSalaryAdvanceApplications;
 
 })();

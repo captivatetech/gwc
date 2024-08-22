@@ -9,6 +9,8 @@
 </head>
 <body>
 
+    @if($status == 'success')
+
     <h3>Email verification complete!</h3>
     <p>Please set your password to login and update your account!</p>
 
@@ -27,6 +29,15 @@
         <br><br>
         <button type="submit" id="btn_submitEmailVerification">Submit</button>
     </form>
+
+    @else
+
+        <center>
+            <h3 style="color:red;">Email verification failed!</h3>
+            <p style="color:red;">Please contact administrator to fix this issue!</p>
+        </center>
+
+    @endif
 
     <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
 

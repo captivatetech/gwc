@@ -44,7 +44,10 @@
                                 <h4 class="header-title mt-0 mb-4">Salary Advance</h4>
 
                                 <div class="row">
-                                    <div class="col-lg-9"></div>
+                                    <div class="col-lg-9">
+                                        <input type="hidden" id="txt_employeeId" value="{{ $employeeId }}">
+                                        <input type="hidden" id="txt_companyId" value="{{ $companyId }}">
+                                    </div>
                                     <div class="col-lg-3">
                                         <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">Apply Now</button>
                                     </div>

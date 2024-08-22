@@ -12,7 +12,7 @@
 
                 <img src="<?php echo base_url();?>public/assets/adminto/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail avatar-md">
                     <div class="dropdown">
-                        <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">Nowak Helme</a>
+                        <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">{{ $userName }}</a>
                         <div class="dropdown-menu user-pro-dropdown">
 
                             @if($userType == 'employee')
@@ -68,7 +68,15 @@
                         </div>
                     </div>
 
-                <p class="text-muted left-user-info">Company Representative</p>
+                <p class="text-muted left-user-info">
+                    @if($userType == 'admin')
+                    <span>GWC - {{ $userRoleName }}</span>
+                    @elseif($userType == 'representative')
+                    <span>Company Representative</span>
+                    @elseif($userType == 'employee')
+                    <span>Employee / Borrower</span>
+                    @endif
+                </p>
 
             </div>
 
@@ -177,24 +185,52 @@
                                 <ul class="nav-second-level">
                                     @if($accessModules[3][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/salary-advance');?>">Salary Advance</a>
+                                        <a href="<?php echo base_url('portal/admin/salary-advance-applications');?>">Salary Advance</a>
                                     </li>
                                     @endif
                                     @if($accessModules[4][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/business-expansion');?>">Business Expansion</a>
+                                        <a href="<?php echo base_url('portal/admin/business-expansion-applications');?>">Business Expansion</a>
                                     </li>
                                     @endif
                                     @if($accessModules[5][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/payment-now');?>">Payment Now</a>
+                                        <a href="<?php echo base_url('portal/admin/payment-now-applications');?>">Payment Now</a>
                                     </li>
                                     @endif
                                 </ul>
                             </div>
                         </li>
                         @endif
-                        @if($accessModules[6][0][0] == 1)
+                        @if($accessModules[6][0][0] == 1 || $accessModules[7][0][0] == 1 || $accessModules[8][0][0] == 1)
+                        <li>
+                            <a href="#div_financingAccounts" data-bs-toggle="collapse" class="" aria-expanded="true">
+                                <i class="fe-box"></i>
+                                <span> Financing Accounts </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="div_financingAccounts" style="">
+                                <ul class="nav-second-level">
+                                    @if($accessModules[6][0][0] == 1)
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/salary-advance-accounts');?>">Salary Advance</a>
+                                    </li>
+                                    @endif
+                                    @if($accessModules[7][0][0] == 1)
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/business-expansion-accounts');?>">Business Expansion</a>
+                                    </li>
+                                    @endif
+                                    @if($accessModules[8][0][0] == 1)
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/payment-now-accounts');?>">Payment Now</a>
+                                    </li>
+                                    @endif
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
+                        @if($accessModules[9][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/billings');?>">
                                 <i class="fas fa-money-check"></i>
@@ -202,7 +238,7 @@
                             </a>
                         </li>
                         @endif
-                        @if($accessModules[7][0][0] == 1)
+                        @if($accessModules[10][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/payments');?>">
                                 <i class="far fa-money-bill-alt"></i>
@@ -210,7 +246,7 @@
                             </a>
                         </li>
                         @endif
-                        @if($accessModules[8][0][0] == 1 || $accessModules[9][0][0] == 1 || $accessModules[10][0][0] == 1 || $accessModules[11][0][0] == 1)
+                        @if($accessModules[11][0][0] == 1 || $accessModules[12][0][0] == 1 || $accessModules[13][0][0] == 1 || $accessModules[14][0][0] == 1)
                         <li>
                             <a href="#div_maintenance" data-bs-toggle="collapse" class="" aria-expanded="true">
                                 <i class="fas fa-cog"></i>
@@ -219,22 +255,22 @@
                             </a>
                             <div class="collapse" id="div_maintenance" style="">
                                 <ul class="nav-second-level">
-                                    @if($accessModules[8][0][0] == 1)
+                                    @if($accessModules[11][0][0] == 1)
                                     <li>
                                         <a href="<?php echo base_url('portal/admin/maintenance-users');?>">Users</a>
                                     </li>
                                     @endif
-                                    @if($accessModules[9][0][0] == 1)
+                                    @if($accessModules[12][0][0] == 1)
                                     <li>
                                         <a href="<?php echo base_url('portal/admin/maintenance-roles');?>">Roles</a>
                                     </li>
                                     @endif
-                                    @if($accessModules[10][0][0] == 1)
+                                    @if($accessModules[13][0][0] == 1)
                                     <li>
                                         <a href="<?php echo base_url('portal/admin/maintenance-fees');?>">Fees</a>
                                     </li>
                                     @endif
-                                    @if($accessModules[11][0][0] == 1)
+                                    @if($accessModules[14][0][0] == 1)
                                     <li>
                                         <a href="<?php echo base_url('portal/admin/maintenance-faqs');?>">FAQs</a>
                                     </li>
@@ -243,7 +279,7 @@
                             </div>
                         </li>
                         @endif
-                        @if($accessModules[12][0][0] == 1)
+                        @if($accessModules[15][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/reports');?>">
                                 <i class="fas fa-file-invoice-dollar"></i>
@@ -251,7 +287,7 @@
                             </a>
                         </li>
                         @endif
-                        @if($accessModules[13][0][0] == 1)
+                        @if($accessModules[16][0][0] == 1)
                         <li>
                             <a href="<?php echo base_url('portal/admin/audit-trail');?>">
                                 <i class="fas fa-history"></i>
