@@ -46,7 +46,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
             data.forEach(function(value,index){
                 tbody += `<tr>
                             <td>
-                                <input type="checkbox" class="chk-disbursement" onchange="ADMIN_SALARY_ADVANCE_ACCOUNTS.a_unselectAllDisbursement()" value="${value['id']}">
+                                <input type="checkbox" class="chk-disbursement" onchange="ADMIN_SALARY_ADVANCE_ACCOUNTS.a_unselectDisbursement()" value="${value['id']}">
                             </td>
                             <td>${value['identification_number']}</td>
                             <td>${value['last_name']}, ${value['first_name']}</td>
@@ -80,23 +80,40 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
         });
     }
 
-    thisAdminSalaryAdvanceAccounts.a_unselectAllDisbursement = function()
+    thisAdminSalaryAdvanceAccounts.a_unselectDisbursement = function()
     {
         let ids = $("#tbl_disbursementList tbody input:checkbox:checked").map(function () {
             return $(this).val();
         }).get();
 
-        console.log(ids.length);
-        console.log($('#tbl_disbursementList_length select').val());
+        let trCount = 0;
+        $("#tbl_disbursementList tbody tr").map(function () {
+            trCount++;
+        });
 
-        if(ids.length == $('#tbl_disbursementList_length select').val())
+        if(trCount >= $('#tbl_disbursementList_length select').val())
         {
-            $('#chk_selectAllDisbursement').prop('checked',true);
+            if(ids.length == $('#tbl_disbursementList_length select').val())
+            {
+                $('#chk_selectAllDisbursement').prop('checked',true);
+            }
+            else
+            {
+                $('#chk_selectAllDisbursement').prop('checked',false);
+            }
         }
         else
-        {
-            $('#chk_selectAllDisbursement').prop('checked',false);
+        {   
+            if(trCount == ids.length)
+            {
+                $('#chk_selectAllDisbursement').prop('checked',true);
+            }
+            else
+            {
+                $('#chk_selectAllDisbursement').prop('checked',false);
+            }
         }
+        
 
         if(ids.length == 0)
         {
@@ -115,10 +132,73 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
 
     }
 
-    thisAdminSalaryAdvanceAccounts.a_proceedDisbursement = function()
+    thisAdminSalaryAdvanceAccounts.a_prepareDisbursement = function()
     {
-        $('#tbl_disbursementList tbody tr').map(function(){
-            $(this).find('.chk-disbursement').is('checked')      
+        $('#btn_proceedDisbursement').prop('disabled',true);
+
+        $('#modal_disbursementList').modal('hide');
+        $('#modal_loanDisbursement').modal('show');
+
+        let arrLoanIds = [];
+        $('#tbl_disbursementList tbody input:checkbox:checked').map(function(){
+            arrLoanIds.push($(this).val());     
+        });
+
+        let disbursementCount = arrLoanIds.length - 1;
+        let counter = 0;
+        let disburseCount = 0;
+
+        let progress = 100 / parseInt(arrLoanIds.length);
+        let progressRem = 100 % parseInt(arrLoanIds.length);
+        let totalProgress = 0;
+
+        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress);
+    }
+
+    thisAdminSalaryAdvanceAccounts.a_proceedDisbursement = function(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress)
+    {
+        let formData = new FormData();
+        formData.set("loanId", arrLoanIds[counter]);
+        
+        AJAXHELPER.addData({
+            // LoanController->a_proceedDisbursement
+            'route' : 'portal/admin/a-proceed-disbursement',
+            'data'  : formData
+        }, function(data){
+
+            if(counter == arrLoanIds.length - 1)
+            {
+                progressRem = 100 - totalProgress;
+                totalProgress += progressRem;   
+            }
+            else
+            {
+                totalProgress += progress;
+            }
+
+            disburseCount += 1;
+
+            $('#div_progressBar').css('width',`${totalProgress}%`);
+            $('#lbl_progress').text(`${disburseCount} / ${arrLoanIds.length} Sent`);
+
+            if(totalProgress < 100)
+            {
+                setTimeout(function(){
+                    counter++;
+                    ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress);
+                }, 1000);
+            }
+            else
+            {
+                setTimeout(function(){
+                    COMMONHELPER.Toaster('success','Loan Disbursement Complete!');
+                    $('#btn_proceedDisbursement').prop('disabled',false);
+                    $('#modal_loanDisbursement').modal('hide');
+                }, 1000);
+            }
+        }, function(data){ // Error
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            $('#btn_proceedDisbursement').prop('disabled',false);
         });
     }
 

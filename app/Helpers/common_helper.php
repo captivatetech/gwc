@@ -2,6 +2,7 @@
 
 require_once('vendor/autoload.php');
 
+
 function sendTemplate()
 {
 	$templateId = '408597000000033691';

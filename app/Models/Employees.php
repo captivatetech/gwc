@@ -168,7 +168,8 @@ class Employees extends Model
             'a.last_name',
             'a.email_address',
             'a.position',
-            'a.user_type'
+            'a.user_type',
+            'a.profile_picture'
         ];
 
         $builder = $this->db->table('employees a');

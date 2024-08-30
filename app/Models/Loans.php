@@ -324,4 +324,34 @@ class Loans extends Model
         $query = $builder->get();
         return  $query->getResultArray();
     }
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_selectLoanForDisbursement($loanId)
+    {
+        $columns = [
+            'a.id',
+            'a.account_number',
+            'b.identification_number',
+            'b.first_name',
+            'b.last_name',
+            'c.bank_depository',
+            'c.branch_name',
+            'c.branch_code',
+            'a.loan_amount',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date'
+        ];
+
+        $builder = $this->db->table('loans a');
+        $builder->join('employees b','a.employee_id = b.id','left');
+        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->select($columns);
+        $builder->where('a.application_status', 'Approved');
+        $builder->where('a.disbursement_status', 'Pending');
+        $builder->where('a.id',$loanId);
+        $builder->orderBy('a.id','DESC');
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 }
