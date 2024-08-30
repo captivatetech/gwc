@@ -125,6 +125,41 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
             $('#btn_downloadFile').prop('disabled',false);
             $('#btn_proceedDisbursement').prop('disabled',false);
         }
+
+        let totalDisbursementAmount = 0;
+        $("#tbl_disbursementList tbody input:checkbox:checked").map(function(){
+            let amountStr = $(this).parents('tr').find('td:eq(5)').text();
+            totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
+        });
+
+        $('#lbl_disbursementTotalAmount').text(COMMONHELPER.numberWithCommas(totalDisbursementAmount.toFixed(2)));
+
+        let xenditBalance = parseFloat($('#lbl_xenditBalance').text().replace(",",""));
+
+        if(totalDisbursement <= xenditBalance)
+        {
+            $('#btn_downloadFile').prop('disabled',true);
+            $('#btn_proceedDisbursement').prop('disabled',true);
+        }
+        else
+        {
+            alert('Insufficient balance!');
+            $('#btn_downloadFile').prop('disabled',false);
+            $('#btn_proceedDisbursement').prop('disabled',false);
+        }
+    }
+
+    thisAdminSalaryAdvanceAccounts.a_loadAccountBalance = function()
+    {
+        AJAXHELPER.loadData({
+            // LoanController->a_loadAccountBalance
+            'route' : 'portal/admin/a-load-account-balance',
+            'data'  : {
+                'sample' : 'sample'
+            }
+        }, function(data){
+            $('#lbl_xenditBalance').text(COMMONHELPER.numberWithCommas(data['balance']));
+        });
     }
 
     thisAdminSalaryAdvanceAccounts.a_downloadDisbursementList = function()
