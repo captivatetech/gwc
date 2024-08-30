@@ -4,6 +4,10 @@ namespace App\Controllers\Portal;
 
 use App\Controllers\BaseController;
 
+use Xendit\Configuration;
+use Xendit\Payout\PayoutApi;
+use Xendit\Payout\CreatePayoutRequest;
+
 class LoanController extends BaseController
 {
     public function __construct()
@@ -259,4 +263,82 @@ class LoanController extends BaseController
         $arrResult = $this->loans->a_loadDisbursementLists();
         return $this->response->setJSON($arrResult);
     }
+
+    public function a_downloadDisbursementList()
+    {
+        
+    }
+
+    public function a_proceedDisbursement()
+    {
+        $fields = $this->request->getPost();
+
+        $loanId = $fields['loanId'];
+
+        $arrResult = $this->loans->a_selectLoanForDisbursement($loanId);
+
+        $xenditPrivateKey = getenv('xendit_private_key');
+        Configuration::setXenditKey($xenditPrivateKey);
+
+        $idempotencyKey = "DISB-".date('Ymd').time(); 
+        $xenditUserId = getenv('xendit_user_id');
+
+        $apiInstance = new PayoutApi();
+        $referenceNumber = "RFN-".date('Ymd').time();
+
+        $createPayoutRequest = new CreatePayoutRequest([
+            'reference_id' => $referenceNumber,
+            'currency' => 'PHP',
+            'channel_code' => 'PH_GCASH',
+            'channel_properties' => [
+                'account_holder_name' => $arrResult['first_name'] . " " . $arrResult['last_name'],
+                'account_number' => '09123423412'
+            ],
+            'amount' => (float)$arrResult['loan_amount'],
+            'description' => 'Test Bank Payout',
+            'type' => 'DIRECT_DISBURSEMENT'
+        ]); 
+
+        try {
+            $result = $apiInstance->createPayout($idempotencyKey, $xenditUserId, $createPayoutRequest);
+            return $this->response->setJSON($result);
+        } catch (\Xendit\XenditSdkException $e) {
+            echo 'Exception when calling PayoutApi->createPayout: ', $e->getMessage(), PHP_EOL;
+            echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+        }
+
+        // $arrData = [];
+        // foreach ($arrResult as $key => $value) 
+        // {
+        //     $arrData = [
+        //         'loan_id'               =>
+        //         'idempotency_key'       =>
+        //         'reference_number'      =>
+        //         'currency'              =>
+        //         'channel_code'          =>
+        //         'account_holder_name'   =>
+        //         'account_number'        =>
+        //         'amount'                => 
+        //         'description'           =>
+        //         'disbursement_type'     =>
+        //         'disbursement_status'   =>
+        //         'created_by'            =>
+        //         'created_date'          =>
+        //     ];
+        // }
+
+        // for ($i=0; $i < count($arrLoanIds); $i++) 
+        // {
+        //     $idempotencyKey = "DISB-".date('Ymd').time(); 
+        //     $referenceNumber = "RFN-".date('Ymd').time();
+
+        //     $accountHolderName = "";
+        //     $accountNumber = "";
+        //     $disbursementAmount = 0;
+            
+        // }
+
+        return $this->response->setJSON($arrResult);
+    }
+
 }

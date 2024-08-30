@@ -32,6 +32,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'employee'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.employee.employee_profile', $data);
                 }
                 else
@@ -67,6 +68,7 @@ class NavigationController extends BaseController
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['employeeId'] = $userData['id'];
                     $data['companyId'] = $userData['company_id'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.employee.employee_dashboard', $data);
                 }
                 else
@@ -100,6 +102,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'employee'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.employee.employee_loan_accounts', $data);
                 }
                 else
@@ -173,6 +176,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'representative'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_dashboard', $data);
                 }
                 else
@@ -210,6 +214,7 @@ class NavigationController extends BaseController
                     $data['businessType'] = $userData['business_type'];
                     $data['hrUser'] = $userData['hr_user'];
                     $data['bpoUser'] = $userData['bpo_user'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_company_profile', $data);
                 }
                 else
@@ -245,6 +250,7 @@ class NavigationController extends BaseController
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name']; 
                     $data['companyId'] = $userData['company_id'];
                     $data['businessType'] = $userData['business_type']; 
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
                 }
                 else
@@ -282,6 +288,7 @@ class NavigationController extends BaseController
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
                     $data['subscriptionStatus'] = $userData['subscription_status'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_employee_list', $data);
                 }
                 else
@@ -319,6 +326,7 @@ class NavigationController extends BaseController
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
                     $data['subscriptionStatus'] = $userData['subscription_status'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_salary_advance_applications', $data);
                 }
                 else
@@ -353,6 +361,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'representative'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['subscriptionStatus'] = $userData['subscription_status'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_billing_and_payments', $data);
                 }
                 else
@@ -386,6 +395,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'representative'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_maintenance_users', $data);
                 }
                 else
@@ -419,6 +429,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'representative'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_maintenance_roles', $data);
                 }
                 else
@@ -452,6 +463,7 @@ class NavigationController extends BaseController
                 {
                     $data['userType'] = 'representative'; 
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_faqs', $data);
                 }
                 else
@@ -492,6 +504,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_profile', $data);
                 }
                 else
@@ -526,6 +539,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_dashboard', $data);
                 }
                 else
@@ -560,6 +574,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_applications', $data);
                 }
                 else
@@ -595,6 +610,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_partners_list', $data);
                 }
                 else
@@ -629,6 +645,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_salary_advance_applications', $data);
                 }
                 else
@@ -663,6 +680,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_business_expansion_applications', $data);
                 }
                 else
@@ -697,6 +715,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_payment_now_applications', $data);
                 }
                 else
@@ -731,6 +750,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_salary_advance_accounts', $data);
                 }
                 else
@@ -765,6 +785,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_business_expansion_accounts', $data);
                 }
                 else
@@ -799,6 +820,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_payment_now_accounts', $data);
                 }
                 else
@@ -833,6 +855,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_billings', $data);
                 }
                 else
@@ -867,6 +890,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_payments', $data);
                 }
                 else
@@ -901,6 +925,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_maintenance_users', $data);
                 }
                 else
@@ -935,6 +960,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_maintenance_roles', $data);
                 }
                 else
@@ -969,6 +995,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_maintenance_fees', $data);
                 }
                 else
@@ -1008,6 +1035,7 @@ class NavigationController extends BaseController
                     $data['userType'] = 'admin';
                     $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
                     $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
                     return $this->slice->view('portal.admin.admin_reports', $data);
                 }
                 else

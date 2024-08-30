@@ -10,63 +10,67 @@
                 <!-- User box -->
             <div class="user-box text-center">
 
-                <img src="<?php echo base_url();?>public/assets/adminto/images/users/user-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail avatar-md">
-                    <div class="dropdown">
-                        <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">{{ $userName }}</a>
-                        <div class="dropdown-menu user-pro-dropdown">
+                @if($profilePicture == "")
+                <img src="<?php echo base_url();?>public/assets/Adminto/images/user-icon-placeholder.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail avatar-md">
+                @else
+                <img src="<?php echo base_url();?>public/assets/uploads/representative/profiles/{{ $profilePicture }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail avatar-md">
+                @endif
+                <div class="dropdown">
+                    <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">{{ $userName }}</a>
+                    <div class="dropdown-menu user-pro-dropdown">
 
-                            @if($userType == 'employee')
-                            <!-- item-->
-                            <a href="<?php echo base_url('portal/employee/profile'); ?>" class="dropdown-item notify-item">
-                                <i class="fe-user me-1"></i>
-                                <span>My Account</span>
-                            </a>
+                        @if($userType == 'employee')
+                        <!-- item-->
+                        <a href="<?php echo base_url('portal/employee/profile'); ?>" class="dropdown-item notify-item">
+                            <i class="fe-user me-1"></i>
+                            <span>My Account</span>
+                        </a>
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <i class="fe-settings me-1"></i>
-                                <span>Settings</span>
-                            </a>
-                            @elseif($userType == 'representative')
-                            <!-- item-->
-                            <a href="<?php echo base_url('portal/representative/profile'); ?>" class="dropdown-item notify-item">
-                                <i class="fe-user me-1"></i>
-                                <span>My Account</span>
-                            </a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="fe-settings me-1"></i>
+                            <span>Settings</span>
+                        </a>
+                        @elseif($userType == 'representative')
+                        <!-- item-->
+                        <a href="<?php echo base_url('portal/representative/profile'); ?>" class="dropdown-item notify-item">
+                            <i class="fe-user me-1"></i>
+                            <span>My Account</span>
+                        </a>
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <i class="fe-settings me-1"></i>
-                                <span>Settings</span>
-                            </a>
-                            @elseif($userType == 'admin')
-                            <!-- item-->
-                            <a href="<?php echo base_url('portal/admin/profile'); ?>" class="dropdown-item notify-item">
-                                <i class="fe-user me-1"></i>
-                                <span>My Account</span>
-                            </a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="fe-settings me-1"></i>
+                            <span>Settings</span>
+                        </a>
+                        @elseif($userType == 'admin')
+                        <!-- item-->
+                        <a href="<?php echo base_url('portal/admin/profile'); ?>" class="dropdown-item notify-item">
+                            <i class="fe-user me-1"></i>
+                            <span>My Account</span>
+                        </a>
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <i class="fe-settings me-1"></i>
-                                <span>Settings</span>
-                            </a>
-                            @endif
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="fe-settings me-1"></i>
+                            <span>Settings</span>
+                        </a>
+                        @endif
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <i class="fe-lock me-1"></i>
-                                <span>Lock Screen</span>
-                            </a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="fe-lock me-1"></i>
+                            <span>Lock Screen</span>
+                        </a>
 
-                            <!-- item-->
-                            <a href="<?php echo base_url(); ?>/" class="dropdown-item notify-item">
-                                <i class="fe-log-out me-1"></i>
-                                <span>Logout</span>
-                            </a>
+                        <!-- item-->
+                        <a href="<?php echo base_url(); ?>/" class="dropdown-item notify-item">
+                            <i class="fe-log-out me-1"></i>
+                            <span>Logout</span>
+                        </a>
 
-                        </div>
                     </div>
+                </div>
 
                 <p class="text-muted left-user-info">
                     @if($userType == 'admin')

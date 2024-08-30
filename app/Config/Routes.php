@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
 /////////////////////////////////////////////////////////////////////////////
 $routes->get('test', 'TestController::sample');
 $routes->get('test-zoho-sign', 'TestController::testZohoSign');
+$routes->get('test-xendit', 'TestController::testXendit');
 
 /////////////////////////////////////////////////////////////////////////////
 //////   FRONT END NAVIGATION
@@ -157,7 +158,6 @@ $routes->post('portal/employee/e-submit-salary-advance-application', 'Portal\Loa
 
     // EMPLOYEE LOAN ACCOUNTS
 $routes->get('portal/employee/e-load-loan-accounts', 'Portal\LoanController::e_loadLoanAccounts');
-
 /* 
     !== END EMPLOYEE FUNCTION --------------------------------------------------------->
 */
@@ -302,6 +302,7 @@ $routes->get('portal/admin/a-load-company-employees', 'Portal\EmployeeController
     // ADMIN FINANCING ACCOUNTS FUNCTIONS
 $routes->get('portal/admin/a-load-salary-advance-accounts', 'Portal\LoanController::a_loadSalaryAdvanceAccounts');
 $routes->get('portal/admin/a-load-disbursement-lists', 'Portal\LoanController::a_loadDisbursementLists');
+$routes->post('portal/admin/a-proceed-disbursement', 'Portal\LoanController::a_proceedDisbursement');
 
     // ADMIN BILLINGS FUNCTIONS
 
