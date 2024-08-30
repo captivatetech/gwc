@@ -303,6 +303,7 @@ $routes->get('portal/admin/a-load-company-employees', 'Portal\EmployeeController
 $routes->get('portal/admin/a-load-salary-advance-accounts', 'Portal\LoanController::a_loadSalaryAdvanceAccounts');
 $routes->get('portal/admin/a-load-disbursement-lists', 'Portal\LoanController::a_loadDisbursementLists');
 $routes->post('portal/admin/a-proceed-disbursement', 'Portal\LoanController::a_proceedDisbursement');
+$routes->get('portal/admin/a-load-account-balance', 'Portal\LoanController::a_loadAccountBalance');
 
     // ADMIN BILLINGS FUNCTIONS
 

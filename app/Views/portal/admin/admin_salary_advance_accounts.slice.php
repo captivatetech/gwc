@@ -108,6 +108,22 @@
                             </tr>
                         </thead>
                     </table>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <center>
+                                Php. <label id="lbl_disbursementTotalAmount">0.00</label>
+                                <div style="border-top: 1px solid black;">
+                                    <label>Available Balance: <b><span id="lbl_xenditBalance" style="color:red;"></span></b></label>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="col-lg-4"></div>
+                    </div>
+                    
                 </div>
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-light" id="btn_downloadFile" disabled>Download File</button>
@@ -189,6 +205,7 @@
     $('#btn_disbursement').on('click',function(){
         $('#modal_disbursementList').modal('show');
         ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadDisbursementLists();
+        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadAccountBalance();
     });
 
     $('#chk_selectAllDisbursement').on('change',function(){
@@ -212,6 +229,30 @@
         }
         else
         {
+            $('#btn_downloadFile').prop('disabled',false);
+            $('#btn_proceedDisbursement').prop('disabled',false);
+        }
+
+        let totalDisbursementAmount = 0;
+        $("#tbl_disbursementList tbody input:checkbox:checked").map(function(){
+            let amountStr = $(this).parents('tr').find('td:eq(5)').text();
+            totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
+        });
+
+        totalDisbursement = totalDisbursementAmount;
+
+        $('#lbl_disbursementTotalAmount').text(COMMONHELPER.numberWithCommas(totalDisbursementAmount.toFixed(2)));
+
+        let xenditBalance = parseFloat($('#lbl_xenditBalance').text().replace(",",""));
+
+        if(totalDisbursement <= xenditBalance)
+        {
+            $('#btn_downloadFile').prop('disabled',true);
+            $('#btn_proceedDisbursement').prop('disabled',true);
+        }
+        else
+        {
+            alert('Insufficient balance!');
             $('#btn_downloadFile').prop('disabled',false);
             $('#btn_proceedDisbursement').prop('disabled',false);
         }

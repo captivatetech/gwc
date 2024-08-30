@@ -7,6 +7,7 @@ use App\Controllers\BaseController;
 use Xendit\Configuration;
 use Xendit\Payout\PayoutApi;
 use Xendit\Payout\CreatePayoutRequest;
+use Xendit\BalanceAndTransaction\BalanceApi;
 
 class LoanController extends BaseController
 {
@@ -262,6 +263,26 @@ class LoanController extends BaseController
         $fields = $this->request->getGet();
         $arrResult = $this->loans->a_loadDisbursementLists();
         return $this->response->setJSON($arrResult);
+    }
+
+    public function a_loadAccountBalance()
+    {
+        $xenditPrivateKey = getenv('xendit_private_key');
+        Configuration::setXenditKey($xenditPrivateKey);
+
+        $apiInstance = new BalanceApi();
+        $accountType = "CASH"; // string | The selected balance type
+        $currency = "PHP"; // string | Currency for filter for customers with multi currency accounts
+        $atTimestamp = date('Y-m-d')."T00:00:00.000Z"; // \DateTime | The timestamp you want to use as the limit for balance retrieval
+        $xenditUserId = getenv('xendit_user_id'); // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
+
+        try {
+            $result = $apiInstance->getBalance($accountType, $currency, $atTimestamp, $xenditUserId);
+            return $this->response->setJSON($result);
+        } catch (\Xendit\XenditSdkException $e) {
+            echo 'Exception when calling BalanceApi->getBalance: ', $e->getMessage(), PHP_EOL;
+            echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+        }
     }
 
     public function a_downloadDisbursementList()
