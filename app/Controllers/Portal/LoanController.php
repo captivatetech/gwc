@@ -307,10 +307,12 @@ class LoanController extends BaseController
         $apiInstance = new PayoutApi();
         $referenceNumber = "RFN-".date('Ymd').time();
 
+        $channelCode = 'PH_GCASH';
+
         $createPayoutRequest = new CreatePayoutRequest([
             'reference_id' => $referenceNumber,
             'currency' => 'PHP',
-            'channel_code' => 'PH_GCASH',
+            'channel_code' => $channelCode,
             'channel_properties' => [
                 'account_holder_name' => $arrResult['first_name'] . " " . $arrResult['last_name'],
                 'account_number' => '09123423412'
@@ -321,43 +323,53 @@ class LoanController extends BaseController
         ]); 
 
         try {
-            $result = $apiInstance->createPayout($idempotencyKey, $xenditUserId, $createPayoutRequest);
-            return $this->response->setJSON($result);
+            $apiResult = $apiInstance->createPayout($idempotencyKey, $xenditUserId, $createPayoutRequest);
+            if(isset($apiResult['status']))
+            {
+                $arrData = [
+                    'loan_id'               => $loanId,
+                    'idempotency_key'       => $idempotencyKey,
+                    'reference_number'      => $referenceNumber,
+                    'currency'              => 'PHP',
+                    'channel_code'          => $channelCode,
+                    'account_holder_name'   => $arrResult['first_name'] . " " . $arrResult['last_name'],
+                    'account_number'        => '',
+                    'amount'                => (float)$arrResult['loan_amount'],
+                    'description'           => 'Test Bank Payout',
+                    'disbursement_type'     => 'DIRECT_DISBURSEMENT',
+                    'disbursement_status'   => $apiResult['status'],
+                    'created_by'            => $this->session->get('gwc_admin_id'),
+                    'created_date'          => date('Y-m-d H:i:s')
+                ];
+
+                $result = $this->loans->a_proceedDisbursement($arrData);
+                if($result > 0)
+                {
+                    if($apiResult['status'] == 'ACCEPTED')
+                    {
+                        $arrData = [
+                            'disbursement_status' => 'Accepted'
+                        ];
+                        $this->loans->a_updateDisbursementStatus($arrData, $loanId);
+                    }
+
+                    $msgResult[] = "Loan Disbursement Complete";
+                    return $this->response->setJSON($msgResult);
+                    exit();
+                }
+                else
+                {
+                    $msgResult[] = "Something went wrong, please try again";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
         } catch (\Xendit\XenditSdkException $e) {
             echo 'Exception when calling PayoutApi->createPayout: ', $e->getMessage(), PHP_EOL;
             echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
         }
 
-        // $arrData = [];
-        // foreach ($arrResult as $key => $value) 
-        // {
-        //     $arrData = [
-        //         'loan_id'               =>
-        //         'idempotency_key'       =>
-        //         'reference_number'      =>
-        //         'currency'              =>
-        //         'channel_code'          =>
-        //         'account_holder_name'   =>
-        //         'account_number'        =>
-        //         'amount'                => 
-        //         'description'           =>
-        //         'disbursement_type'     =>
-        //         'disbursement_status'   =>
-        //         'created_by'            =>
-        //         'created_date'          =>
-        //     ];
-        // }
-
-        // for ($i=0; $i < count($arrLoanIds); $i++) 
-        // {
-        //     $idempotencyKey = "DISB-".date('Ymd').time(); 
-        //     $referenceNumber = "RFN-".date('Ymd').time();
-
-        //     $accountHolderName = "";
-        //     $accountNumber = "";
-        //     $disbursementAmount = 0;
-            
-        // }
+        
 
         return $this->response->setJSON($arrResult);
     }

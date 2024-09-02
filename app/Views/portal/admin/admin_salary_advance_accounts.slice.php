@@ -116,8 +116,9 @@
                         <div class="col-lg-4">
                             <center>
                                 Php. <label id="lbl_disbursementTotalAmount">0.00</label>
-                                <div style="border-top: 1px solid black;">
-                                    <label>Available Balance: <b><span id="lbl_xenditBalance" style="color:red;"></span></b></label>
+                                <div style="border-top: 1px solid black; padding-top: 2px;">
+                                    <label">Available Balance: <b><span id="lbl_xenditBalance" style="color:red;"></span></b></label>
+                                    <button class="btn btn-xs btn-primary" id="btn_reloadXenditBalance"><i class="fe-refresh-cw"></i></button>
                                 </div>
                             </center>
                         </div>
@@ -239,23 +240,27 @@
             totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 
-        totalDisbursement = totalDisbursementAmount;
+        let totalDisbursement = totalDisbursementAmount;
 
         $('#lbl_disbursementTotalAmount').text(COMMONHELPER.numberWithCommas(totalDisbursementAmount.toFixed(2)));
 
         let xenditBalance = parseFloat($('#lbl_xenditBalance').text().replace(",",""));
 
-        if(totalDisbursement <= xenditBalance)
+        if(totalDisbursement > xenditBalance)
         {
+            alert('Insufficient balance!');
             $('#btn_downloadFile').prop('disabled',true);
             $('#btn_proceedDisbursement').prop('disabled',true);
         }
         else
         {
-            alert('Insufficient balance!');
             $('#btn_downloadFile').prop('disabled',false);
             $('#btn_proceedDisbursement').prop('disabled',false);
         }
+    });
+
+    $('#btn_reloadXenditBalance').on('click',function(){
+        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadAccountBalance();
     });
 
     $('#btn_downloadFile').on('click',function(){
