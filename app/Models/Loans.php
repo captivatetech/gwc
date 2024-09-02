@@ -290,7 +290,7 @@ class Loans extends Model
         $builder->join('companies c','a.company_id = c.id','left');
         $builder->select($columns);
         $builder->where('a.application_status', 'Approved');
-        $builder->whereIn('a.disbursement_status', ['Pending','Passed']);
+        $builder->whereIn('a.disbursement_status', ['Pending','Accepted']);
         $builder->orderBy('a.id','DESC');
         $query = $builder->get();
         return  $query->getResultArray();
@@ -353,5 +353,39 @@ class Loans extends Model
         $builder->orderBy('a.id','DESC');
         $query = $builder->get();
         return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_proceedDisbursement($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('loan_disbursements');
+                $builder->insert($arrData);
+                $insertId = $this->db->insertID();
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_updateDisbursementStatus($arrData, $loanId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('loans');
+                $builder->where(['id'=>$loanId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 }
