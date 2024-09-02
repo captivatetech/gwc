@@ -332,6 +332,8 @@ class Loans extends Model
     {
         $columns = [
             'a.id',
+            'a.employee_id',
+            'a.company_id',
             'a.account_number',
             'b.identification_number',
             'b.first_name',
@@ -388,4 +390,5 @@ class Loans extends Model
             throw $e;
         }
     }
+    
 }
