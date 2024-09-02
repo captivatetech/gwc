@@ -273,7 +273,8 @@ class LoanController extends BaseController
         $apiInstance = new BalanceApi();
         $accountType = "CASH"; // string | The selected balance type
         $currency = "PHP"; // string | Currency for filter for customers with multi currency accounts
-        $atTimestamp = date('Y-m-d')."T00:00:00.000Z"; // \DateTime | The timestamp you want to use as the limit for balance retrieval
+        $currentDate = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 day'));
+        $atTimestamp = str_replace(' ', 'T', $currentDate) . ".000Z"; // \DateTime | The timestamp you want to use as the limit for balance retrieval
         $xenditUserId = getenv('xendit_user_id'); // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
 
         try {
@@ -351,6 +352,37 @@ class LoanController extends BaseController
                             'disbursement_status' => 'Accepted'
                         ];
                         $this->loans->a_updateDisbursementStatus($arrData, $loanId);
+
+                        $emailConfig = [
+                            'smtp_host'    => 'smtp.googlemail.com',
+                            'smtp_port'    => 465,
+                            'smtp_crypto'  => 'ssl',
+                            'smtp_user'    => 'ajhay.dev@gmail.com',
+                            'smtp_pass'    => 'uajtlnchouyuxaqp',
+                            'mail_type'    => 'html',
+                            'charset'      => 'iso-8859-1',
+                            'word_wrap'    => true
+                        ];
+
+                        $arrEmployeeDetails = $this->employees->a_selectEmployee($arrResult['employee_id']);
+                        $emailSender    = 'ajhay.dev@gmail.com';
+                        $emailReceiver  = $arrEmployeeDetails['email_address'];
+                        $data = [
+                            'subjectTitle'  => 'Disbursement',
+                            'emailAddress'  => '',
+                            'authCode'      => ''
+                        ];
+                        sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
+
+                        $arrRepresentativeDetails = $this->employees->a_selectRepresentative($arrResult['company_id']);
+                        $emailSender    = 'ajhay.dev@gmail.com';
+                        $emailReceiver  = $arrRepresentativeDetails['email_address'];
+                        $data = [
+                            'subjectTitle'  => 'Disbursement',
+                            'emailAddress'  => '',
+                            'authCode'      => ''
+                        ];
+                        sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
                     }
 
                     $msgResult[] = "Loan Disbursement Complete";

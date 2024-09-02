@@ -852,4 +852,53 @@ class Employees extends Model
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_selectEmployee($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.email_address'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_selectRepresentative($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.email_address'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.company_id',$companyId);
+        $builder->where('a.user_type','representative');
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
 }

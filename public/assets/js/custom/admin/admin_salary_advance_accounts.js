@@ -236,7 +236,8 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
                     COMMONHELPER.Toaster('success','Loan Disbursement Complete!');
                     $('#btn_proceedDisbursement').prop('disabled',false);
                     $('#modal_loanDisbursement').modal('hide');
-                }, 1000);
+                    window.location.replace(`${baseUrl}portal/admin/salary-advance-accounts`);
+                }, 2000);
             }
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
