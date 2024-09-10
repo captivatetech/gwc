@@ -12,6 +12,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('test', 'TestController::sample');
 $routes->get('test-zoho-sign', 'TestController::testZohoSign');
 $routes->get('test-xendit', 'TestController::testXendit');
+$routes->get('test-json', 'TestController::testJson');
 
 /////////////////////////////////////////////////////////////////////////////
 //////   FRONT END NAVIGATION
@@ -196,6 +197,7 @@ $routes->post('portal/representative/r-add-company-document', 'Portal\CompanyDoc
 $routes->post('portal/representative/r-edit-company-document', 'Portal\CompanyDocumentController::r_editCompanyDocument');
     /* !-- COMPANY SETTINGS --! */
 $routes->get('portal/representative/r-select-company-settings', 'Portal\CompanyController::r_selectCompanySettings');
+$routes->get('portal/representative/r-load-bank-depositories', 'Portal\CompanyController::r_loadBankDepositories');
 $routes->post('portal/representative/r-edit-company-settings', 'Portal\CompanyController::r_editCompanySettings');
     /* !-- COMPANY REPRESENTATIVES --! */
 $routes->get('portal/representative/r-load-company-representatives', 'Portal\CompanyController::r_loadCompanyRepresentatives');
@@ -215,6 +217,7 @@ $routes->post('portal/representative/r-add-product-subscription', 'Portal\Produc
 
     // REPRESENTATIVE EMPLOYEE LIST FUNCTIONS
 $routes->get('portal/representative/r-load-employees', 'Portal\EmployeeController::r_loadEmployees');
+$routes->get('portal/representative/r-calculate-employee-years-stayed', 'Portal\EmployeeController::r_calculateEmployeeYearsStayed');
 $routes->post('portal/representative/r-add-employee', 'Portal\EmployeeController::r_addEmployee');
 $routes->get('portal/representative/r-select-employee', 'Portal\EmployeeController::r_selectEmployee');
 $routes->post('portal/representative/r-edit-employee', 'Portal\EmployeeController::r_editEmployee');
@@ -238,7 +241,8 @@ $routes->get('portal/representative/r-select-loan-application-details', 'Portal\
 $routes->post('portal/representative/r-submit-salary-advance-application', 'Portal\LoanController::r_submitSalaryAdvanceApplication');
 
     // REPRESENTATIVE BILLING AND PAYMENTS FUNCTIONS
-$routes->get('portal/user/load-user-billings', 'Portal\BillingController::loadUserBillings');
+$routes->get('portal/representative/r-load-billings', 'Portal\BillingController::r_loadBillings');
+$routes->get('portal/representative/r-select-billing', 'Portal\BillingController::r_selectBilling');
 
     // REPRESENTATIVE MAINTENANCE USERS FUNCTIONS
 $routes->get('portal/user/load-user-users', 'Portal\UserController::loadUserUsers');
@@ -306,6 +310,9 @@ $routes->post('portal/admin/a-proceed-disbursement', 'Portal\LoanController::a_p
 $routes->get('portal/admin/a-load-account-balance', 'Portal\LoanController::a_loadAccountBalance');
 
     // ADMIN BILLINGS FUNCTIONS
+$routes->get('portal/admin/a-generate-billings', 'Portal\BillingController::a_generateBillings');
+$routes->get('portal/admin/a-load-billings', 'Portal\BillingController::a_loadBillings');
+$routes->get('portal/admin/a-load-billing-details', 'Portal\BillingController::a_loadBillingDetails');
 
     // ADMIN PAYMENTS FUNCTIONS
 

@@ -182,7 +182,7 @@
                         <li>
                             <a href="#div_financingProducts" data-bs-toggle="collapse" class="" aria-expanded="true">
                                 <i class="fe-box"></i>
-                                <span> Financing Products </span>
+                                <span> Product Subscriptions </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="div_financingProducts" style="">

@@ -846,7 +846,7 @@ class NavigationController extends BaseController
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Billing Statements | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_billings';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 

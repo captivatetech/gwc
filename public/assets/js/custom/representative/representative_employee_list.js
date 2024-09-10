@@ -57,9 +57,31 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         });
     }
 
+    thisRepresentativeEmployeeList.r_calculateCreditLimit = function()
+    {
+        let minLimit = 0;
+        let maxLimit = 0;
+
+        let netSalary = parseFloat($('#txt_netSalary').val());
+
+        minLimit = netSalary * 0.25;
+        maxLimit = netSalary * 0.35;
+
+        $('#txt_minimumAmount').val(COMMONHELPER.numberWithCommas(minLimit));
+        $('#txt_maximumAmount').val(COMMONHELPER.numberWithCommas(maxLimit));
+    }
+
     thisRepresentativeEmployeeList.r_calculateEmployeeYearsStayed = function()
     {
-        
+        AJAXHELPER.selectData({
+            // EmployeeController->r_calculateEmployeeYearsStayed();
+            'route' : 'portal/representative/r-calculate-employee-years-stayed',
+            'data'  : {
+                'dateHired' : $('#txt_dateHired').val()
+            }
+        }, function(data){
+            $('#txt_yearsStayed').val(data['yearsStayed']);
+        });
     }
 
     thisRepresentativeEmployeeList.r_addEmployee = function(thisForm)
@@ -94,6 +116,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 'employeeId' : employeeId
             }
         }, function(data){
+            $('#lbl_modalTitle1').html(`<i class="fe-edit me-2"></i> Edit Employee`);
             $('#txt_employeeId').val(data['id']);
             $('#txt_lastName').val(data['last_name']);
             $('#txt_firstName').val(data['first_name']);
@@ -102,6 +125,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#txt_position').val(data['position']);
             $('#txt_department').val(data['department']);
             $('#txt_grossSalary').val(data['gross_salary']);
+            $('#txt_netSalary').val(data['net_salary']);
             $('#slc_maritalStatus').val(data['marital_status']);
             $('#txt_homeAddress').val(data['permanent_address']);
             $('#txt_mobileNumber').val(data['mobile_number']);
@@ -109,11 +133,36 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#txt_dateHired').val(data['date_hired']);
             $('#txt_yearsStayed').val(data['years_stayed']);
             $('#slc_employmentStatus').val(data['employment_status']);
+            REPRESENTATIVE_EMPLOYEE_LIST.r_loadBankDepositories();
             $('#txt_payrollBankAccount').val(data['payroll_bank_number']);
-            $('#txt_minimumAmount').val(data['minimum_credit_amount']);
-            $('#txt_maximumAmount').val(data['maximum_credit_amount']);
+            $('#txt_minimumAmount').val(COMMONHELPER.numberWithCommas(data['minimum_credit_amount']));
+            $('#txt_maximumAmount').val(COMMONHELPER.numberWithCommas(data['maximum_credit_amount']));
             $('#slc_employeeStatus').val(data['employee_status']);
             $('#modal_employee').modal('show');
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_loadBankDepositories = function()
+    {
+        AJAXHELPER.loadData({
+            // CompanyController->r_loadBankDepositories();
+            'route' : 'portal/representative/r-load-bank-depositories',
+            'data'  : {
+                'sample' : 'sample'
+            }
+        }, function(data){
+            let options = `<option value="" selected disabled>---</option>`;
+            data.forEach(function(value,index){
+                if($('#txt_payrollBank').val() == value['channel_code'])
+                {
+                    options += `<option value="${value['channel_code']}" selected>${value['channel_name']}</options>`;
+                }
+                else
+                {
+                    options += `<option value="${value['channel_code']}">${value['channel_name']}</options>`;
+                }
+            });
+            $('#slc_payrollBank').html(options);
         });
     }
 

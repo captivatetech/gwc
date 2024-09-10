@@ -92,11 +92,13 @@ class CreateLoansTable extends Migration
                 'null'              => true,
             ],
             'disbursement_date'         => [
-                'type'              => 'DATE',
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
                 'null'              => true,
             ],
             'billing_date'              => [
-                'type'              => 'DATE',
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
                 'null'              => true,
             ],
             'loan_status'               => [

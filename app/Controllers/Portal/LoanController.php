@@ -348,8 +348,39 @@ class LoanController extends BaseController
                 {
                     if($apiResult['status'] == 'ACCEPTED')
                     {
+                        $arrCompanyData = $this->companies->a_selectCompanySettings($arrResult['company_id']);
+
+                        $payDate1 = $arrCompanyData['payroll_payout_date1'];
+                        $payDate2 = $arrCompanyData['payroll_payout_date2'];
+
+                        $payrollDate1 = date("Y-m-{$payDate1}");
+                        $payrollDate2 = date("Y-m-{$payDate2}");
+
+                        $arrDisbursementDate1 = [];
+                        $arrDisbursementDate2 = [];
+
+                        for ($i=0; $i < 15; $i++) 
+                        { 
+                            $arrDisbursementDate1[] = date('d', strtotime($payrollDate1."- {$i} days"));
+                            $arrDisbursementDate2[] = date('d', strtotime($payrollDate2."- {$i} days"));
+                        }
+
+                        $disbursementDate = date("d");
+
+                        if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate1))
+                        {
+                            $billingDate = date('d', strtotime($payrollDate1."+ 5 days"));
+                        }
+
+                        if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate2))
+                        {
+                            $billingDate = date('d', strtotime($payrollDate2."+ 5 days"));
+                        }
+
                         $arrData = [
-                            'disbursement_status' => 'Accepted'
+                            'disbursement_status' => 'Accepted',
+                            'disbursement_date'   => $disbursementDate,
+                            'billing_date'        => $billingDate,
                         ];
                         $this->loans->a_updateDisbursementStatus($arrData, $loanId);
 

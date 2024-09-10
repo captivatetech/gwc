@@ -104,8 +104,8 @@ class CreateEmployeesTable extends Migration
                 'null'              => true,
             ],
             'years_stayed'                => [
-                'type'              => 'INT',
-                'constraint'        => 11,
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
                 'null'              => true,
             ],
             'gross_salary'              => [

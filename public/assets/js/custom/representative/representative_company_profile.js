@@ -9,7 +9,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     {
         AJAXHELPER.selectData({
             // CompanyController->r_selectCompanyInformation();
-            'route' : '/portal/representative/r-select-company-information',
+            'route' : 'portal/representative/r-select-company-information',
             'data'  : {
                 'companyId' : companyId
             }
@@ -64,7 +64,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     {
         AJAXHELPER.loadData({
             //CompanyController->r_loadCompanyDocuments()
-            'route' : '/portal/representative/r-load-company-documents',
+            'route' : 'portal/representative/r-load-company-documents',
             'data'  : {
                 'companyId' : companyId,
                 'businessType' : $('#txt_businessType').val()
@@ -257,7 +257,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         {
             AJAXHELPER.selectData({
                 // CompanyController->r_selectCompanyDocument();
-                'route' : '/portal/representative/r-select-company-document',
+                'route' : 'portal/representative/r-select-company-document',
                 'data'  : {
                     'documentId' : documentId
                 }
@@ -376,12 +376,12 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     {
         AJAXHELPER.selectData({
             // CompanyController->r_selectCompanySettings();
-            'route' : '/portal/representative/r-select-company-settings',
+            'route' : 'portal/representative/r-select-company-settings',
             'data'  : {
                 'companyId' : companyId
             }
         }, function(data){
-            $('#txt_bankDepository').val(data['bank_depository']);
+            REPRESENTATIVE_COMPANY_PROFILE.r_loadBankDepositories(data['bank_depository']);
             $('#txt_branchName').val(data['branch_name']);
             $('#txt_branchCode').val(data['branch_code']);
             $('#txt_payrollPayoutDate1').val(data['payroll_payout_date1']);
@@ -393,6 +393,30 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
             $('#rdb_hrUser').prop('checked',(data['hr_user'] == '1')? true : false);
             $('#rdb_bpoUser').prop('checked',(data['bpo_user'] == '1')? true : false);
+        });
+    }
+
+    thisRepresentativeCompanyProfile.r_loadBankDepositories = function(bankDepository)
+    {
+        AJAXHELPER.loadData({
+            // CompanyController->r_loadBankDepositories();
+            'route' : 'portal/representative/r-load-bank-depositories',
+            'data'  : {
+                'sample' : 'sample'
+            }
+        }, function(data){
+            let options = `<option value="" selected disabled>---</option>`;
+            data.forEach(function(value,index){
+                if(bankDepository == value['channel_code'])
+                {
+                    options += `<option value="${value['channel_code']}" selected>${value['channel_name']}</options>`;
+                }
+                else
+                {
+                    options += `<option value="${value['channel_code']}">${value['channel_name']}</options>`;
+                }
+            });
+            $('#slc_bankDepository').html(options);
         });
     }
 
@@ -615,7 +639,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
     {
         AJAXHELPER.selectData({
             // CompanyController->r_selectRepresentativeIdentification();
-            'route' : '/portal/representative/r-select-representative-identification',
+            'route' : 'portal/representative/r-select-representative-identification',
             'data'  : {
                 'identificationId' : identificationId
             }

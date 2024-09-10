@@ -203,6 +203,22 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    public function r_calculateEmployeeYearsStayed()
+    {
+        $fields = $this->request->getGet();
+        // Creates DateTime objects
+        $datetime1 = date_create($fields['dateHired']);
+        $datetime2 = date_create(date('Y-m-d'));
+         
+        // Calculates the difference between DateTime objects
+        $interval = date_diff($datetime1, $datetime2);
+         
+        // Printing result in years & months format
+        $arrData['yearsStayed'] = $interval->format('%R%y years %m months');
+
+        return $this->response->setJSON($arrData);
+    }
+
     private function _generateIdentificationNumber($companyCode)
     {
         $arrResult = $this->employees->getLastIdentificationNumber();
@@ -302,8 +318,9 @@ class EmployeeController extends BaseController
                 'employment_status'     => $fields['slc_employmentStatus'],
                 'years_stayed'          => $fields['txt_yearsStayed'],
                 'gross_salary'          => $fields['txt_grossSalary'],
-                'minimum_credit_amount' => $fields['txt_minimumAmount'],
-                'maximum_credit_amount' => $fields['txt_maximumAmount'],
+                'net_salary'            => $fields['txt_netSalary'],
+                'minimum_credit_amount' => str_replace(",","",$fields['txt_minimumAmount']),
+                'maximum_credit_amount' => str_replace(",","",$fields['txt_maximumAmount']),
                 'payroll_bank_number'   => $fields['txt_payrollBankAccount'],
                 'employee_status'       => $fields['slc_employeeStatus'],
                 'created_by'            => $this->session->get('gwc_representative_id'),
@@ -394,8 +411,9 @@ class EmployeeController extends BaseController
                 'years_stayed'          => $fields['txt_yearsStayed'],
                 'employment_status'     => $fields['slc_employmentStatus'],
                 'gross_salary'          => $fields['txt_grossSalary'],
-                'minimum_credit_amount' => $fields['txt_minimumAmount'],
-                'maximum_credit_amount' => $fields['txt_maximumAmount'],
+                'net_salary'            => $fields['txt_netSalary'],
+                'minimum_credit_amount' => str_replace(",","",$fields['txt_minimumAmount']),
+                'maximum_credit_amount' => str_replace(",","",$fields['txt_maximumAmount']),
                 'payroll_bank_number'   => $fields['txt_payrollBankAccount'],
                 'employee_status'       => $fields['slc_employeeStatus'],
                 'updated_by'            => $this->session->get('gwc_representative_id'),

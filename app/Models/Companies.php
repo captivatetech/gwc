@@ -532,7 +532,32 @@ class Companies extends Model
 
 
 
+    ////////////////////////////////////////////////////////////
+    ///// LoanController->a_proceedDisbursement()
+    ////////////////////////////////////////////////////////////
+    public function a_selectCompanySettings($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.bank_depository',
+            'a.branch_name',
+            'a.branch_code',
+            'a.payroll_payout_date1',
+            'a.cut_off_min_date1',
+            'a.cut_off_max_date1',
+            'a.payroll_payout_date2',
+            'a.cut_off_min_date2',
+            'a.cut_off_max_date2',
+            'a.hr_user',
+            'a.bpo_user'
+        ];
 
+        $builder = $this->db->table('companies a');
+        $builder->select($columns);
+        $builder->where('a.id',$companyId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 
 
 

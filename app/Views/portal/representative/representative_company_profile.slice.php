@@ -426,7 +426,8 @@
                                                 <div class="row mb-3">
                                                     <label for="txt_bankDepository" class="col-4 col-xl-2 col-form-label">Bank Depository</label>
                                                     <div class="col-8 col-xl-10">
-                                                        <input type="text" class="form-control" id="txt_bankDepository" name="txt_bankDepository" placeholder="" required>
+                                                        <!-- <input type="text" class="form-control" id="txt_bankDepository" name="txt_bankDepository" placeholder="" required> -->
+                                                        <select class="form-control form-select" id="slc_bankDepository" name="slc_bankDepository" required></select>
                                                     </div>
                                                 </div>
 
