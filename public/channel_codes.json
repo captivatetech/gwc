@@ -1,0 +1,18 @@
+{
+    "data": [
+        {
+            "channel_code" : "PH_BDO",
+            "channel_type" : "BANK",
+            "channel_name" : "Banco De Oro Unibank, Inc. (BDO)",
+            "instant_processing" : "Y",
+            "cutoff_processing" : "Y"
+        },
+        {
+            "channel_code" : "PH_BPI",
+            "channel_type" : "BANK",
+            "channel_name" : "Bank of the Philippine Islands (BPI)",
+            "instant_processing" : "Y",
+            "cutoff_processing" : "Y"
+        }
+    ]
+}

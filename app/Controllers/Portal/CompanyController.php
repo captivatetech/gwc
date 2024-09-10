@@ -138,10 +138,17 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    public function r_loadBankDepositories()
+    {
+        $jsonData = file_get_contents(base_url() . "public/channel_codes.json");
+        $arrData = json_decode($jsonData, true);
+        return $this->response->setJSON($arrData['data']);
+    }
+
     public function r_editCompanySettings()
     {
         $this->validation->setRules([
-            'txt_bankDepository' => [
+            'slc_bankDepository' => [
                 'label'  => 'Bank Depository',
                 'rules'  => 'required',
                 'errors' => [
@@ -211,7 +218,7 @@ class CompanyController extends BaseController
             $fields = $this->request->getPost();
                 
             $arrData = [
-                'bank_depository'       => $fields['txt_bankDepository'],
+                'bank_depository'       => $fields['slc_bankDepository'],
                 'branch_name'           => $fields['txt_branchName'],
                 'branch_code'           => $fields['txt_branchCode'],
                 'payroll_payout_date1'  => $fields['txt_payrollPayoutDate1'],

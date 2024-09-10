@@ -68,6 +68,26 @@ class TestController extends BaseController
         }
     }
 
+    public function testJson()
+    {
+        $jsonData = file_get_contents(base_url() . "public/channel_codes.json");
+
+        if ($jsonData === false) {
+            echo "hello";
+            die('Error reading the JSON file');
+        }
+
+        $json_data = json_decode($jsonData, true); 
+
+        // Check if the JSON was decoded successfully
+        if ($json_data === null) {
+            die('Error decoding the JSON file');
+        }
+
+        // Display data
+        echo $json_data['Data'][0]['channel_code'];
+    }
+
     public function testZohoSign()
     {
 

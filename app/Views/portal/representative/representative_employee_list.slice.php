@@ -209,7 +209,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title" id="lbl_modalTitle1"> 
-                        <i class="feather-plus me-2"></i> Add Employee
+                        <i class="fe-plus me-2"></i> Add Employee
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -268,6 +268,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td width="30%">Net Salary</td>
+                                    <td class="p-1">
+                                        <input type="number" class="form-control" id="txt_netSalary" name="txt_netSalary">
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td width="30%">Marital Status</td>
                                     <td class="p-1">
                                         <select class="form-control form-select" id="slc_maritalStatus" name="slc_maritalStatus">
@@ -321,7 +327,8 @@
                                 <tr>
                                     <td width="30%">Payroll Bank</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_payrollBank" name="txt_payrollBank" value="{{ $bankDepository }}" readonly>
+                                        <input type="text" class="form-control" id="txt_payrollBank" name="txt_payrollBank" value="{{ $bankDepository }}" hidden>
+                                        <select class="form-control form-select" id="slc_payrollBank" name="slc_payrollBank" disabled></select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -339,13 +346,13 @@
                                 <tr>
                                     <td width="30%">Minimum Amount</td>
                                     <td class="p-1">
-                                        <input type="number" class="form-control" id="txt_minimumAmount" name="txt_minimumAmount">
+                                        <input type="text" class="form-control" id="txt_minimumAmount" name="txt_minimumAmount" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Maximum Amount</td>
                                     <td class="p-1">
-                                        <input type="number" class="form-control" id="txt_maximumAmount" name="txt_maximumAmount">
+                                        <input type="text" class="form-control" id="txt_maximumAmount" name="txt_maximumAmount" readonly>
                                     </td>
                                 </tr>
                             </tbody>
@@ -604,10 +611,16 @@
     //jQuery Events
 
     REPRESENTATIVE_EMPLOYEE_LIST.r_loadEmployees($('#txt_companyId').val());
+    REPRESENTATIVE_EMPLOYEE_LIST.r_loadBankDepositories();
 
     $('#btn_addEmployee').on('click',function(){
         $('#txt_employeeId').val('');
+        $('#lbl_modalTitle1').html(`<i class="fe-plus me-2"></i> Add Employee`);
         $('#modal_employee').modal('show');
+    });
+
+    $('#txt_netSalary').on('change',function(){
+        REPRESENTATIVE_EMPLOYEE_LIST.r_calculateCreditLimit();
     });
 
     $('#txt_dateHired').on('change',function(){

@@ -1,30 +1,33 @@
 
-const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
+const ADMIN_BILLINGS = (function(){
 
-    let thisRepresentativeBillingAndPayments = {};
+    let thisAdminBillings = {};
 
     let baseUrl = $('#txt_baseUrl').val();
 
-    thisRepresentativeBillingAndPayments.r_loadBillings = function()
+    thisAdminBillings.a_loadBillings = function()
     {
-        AJAXHELPER.selectData({
-            'route' : 'portal/representative/r-load-billings',
+        AJAXHELPER.loadData({
+            // BillingController->a_loadBillings
+            'route' : 'portal/admin/a-load-billings',
             'data'  : {
                 'sample' : 'sample'
             }
         }, function(data){
+
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
                             <td>${value['billing_date']}</td>
                             <td>${value['billing_number']}</td>
+                            <td>${value['company_name']}</td>
                             <td style="text-align:right;">Php.${COMMONHELPER.numberWithCommas(value['total_amount'])}</td>
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['total_paid'])}</td>
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['balance'])}</td>
                             <td>${value['due_date']}</td>
                             <td>${value['payment_status']}</td>
                             <td>
-                                <a href="javascript:void(0)" onclick="REPRESENTATIVE_BILLING_AND_PAYMENTS.r_selectBilling(${value['id']})">Update Payment</a>
+                                <a href="javascript:void(0)" onclick="ADMIN_BILLINGS.a_loadBillingDetails(${value['id']})">View</a>
                             </td>
                         </tr>`;
             });
@@ -34,13 +37,13 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
         });
     }
 
-    thisRepresentativeBillingAndPayments.r_selectBilling = function(billingId)
+    thisAdminBillings.a_loadBillingDetails = function(billingId)
     {
         $('#modal_billingDetails').modal('show');
 
         AJAXHELPER.loadData({
-            // BillingController->r_selectBilling
-            'route' : 'portal/representative/r-select-billing',
+            // BillingController->a_loadBillingDetails
+            'route' : 'portal/admin/a-load-billing-details',
             'data'  : {
                 'billingId' : billingId
             }
@@ -58,9 +61,6 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
             let tbody = '';
             data['arrBillingList'].forEach(function(value,index){
                 tbody += `<tr>
-                            <td>
-                                <input type="checkbox" class="chk-billing" onchange="REPRESENTATIVE_BILLING_AND_PAYMENTS.r_unselectBilling()" value="${value['id']}">
-                            </td>
                             <td>${value['account_number']}</td>
                             <td>${value['disbursement_date']}</td>
                             <td>${value['first_name']} ${value['last_name']}</td>
@@ -76,67 +76,6 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
         });
     }
 
-    thisRepresentativeBillingAndPayments.r_unselectBilling = function()
-    {
-        let ids = $("#tbl_billingDetails tbody input:checkbox:checked").map(function () {
-            return $(this).val();
-        }).get();
-
-        let trCount = 0;
-        $("#tbl_billingDetails tbody tr").map(function () {
-            trCount++;
-        });
-
-        if(trCount >= $('#tbl_billingDetails_length select').val())
-        {
-            if(ids.length == $('#tbl_billingDetails_length select').val())
-            {
-                $('#chk_selectAllBilling').prop('checked',true);
-            }
-            else
-            {
-                $('#chk_selectAllBilling').prop('checked',false);
-            }
-        }
-        else
-        {   
-            if(trCount == ids.length)
-            {
-                $('#chk_selectAllBilling').prop('checked',true);
-            }
-            else
-            {
-                $('#chk_selectAllBilling').prop('checked',false);
-            }
-        }
-        
-
-        if(ids.length == 0)
-        {
-            $('#btn_submitPayment').prop('disabled',true);
-        }
-        else
-        {
-            $('#btn_submitPayment').prop('disabled',false);
-        }
-
-        let totalBillingAmount = 0;
-        $("#tbl_billingDetails tbody input:checkbox:checked").map(function(){
-            let amountStr = $(this).parents('tr').find('td:eq(5)').text();
-            totalBillingAmount += parseFloat(amountStr.substring(5).replace(",",""));
-        });
-
-        let totalBilling = totalBillingAmount;
-
-        $('#txt_paymentAmount').val(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
-        $('#lbl_billingTotalAmount').text(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
-    }
-
-    thisRepresentativeBillingAndPayments.r_submitPayment = function(thisForm)
-    {
-
-    }
-
-    return thisRepresentativeBillingAndPayments;
+    return thisAdminBillings;
 
 })();
