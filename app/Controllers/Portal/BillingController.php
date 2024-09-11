@@ -64,9 +64,9 @@ class BillingController extends BaseController
 
     public function a_generateBillings()
     {
-        $dateNow = date('20');
+        $dateNow = date('d');
         $arrBillings = $this->billings->a_generateBillings($dateNow);
-        $dueDate = date('Y-m-d', strtotime(date('Y-m-20'). '+ 15 days'));
+        $dueDate = date('Y-m-d', strtotime(date('Y-m-d'). '+ 15 days'));
 
         if(count($arrBillings) > 0)
         {
@@ -78,7 +78,7 @@ class BillingController extends BaseController
                 $arrData = [
                     'company_id'        => $value['id'],
                     'billing_number'    => $this->_generateBillingNumber($value['company_code']),
-                    'billing_date'      => date('Y-m-20'),
+                    'billing_date'      => date('Y-m-d'),
                     'total_amount'      => $value['total_monthly_dues'],
                     'total_paid'        => null,
                     'penalty'           => null,
@@ -98,7 +98,7 @@ class BillingController extends BaseController
             $arrBillingDetails = [];
             foreach ($arrBillingIds as $key => $value) 
             {
-                $arr = $this->billings->a_generateBillingDetails($value['company_id'], date('20'));
+                $arr = $this->billings->a_generateBillingDetails($value['company_id'], date('d'));
                 foreach ($arr as $key => $val) 
                 {
                     $arrBillingDetails[] = [
@@ -116,6 +116,11 @@ class BillingController extends BaseController
             $this->billings->a_addGeneratedBillingDetails($arrBillingDetails);
 
             return $this->response->setJSON($arrBillingDetails);
+        }
+        else
+        {
+            $msgResult[] = "No Billing was generated!";
+            return $this->response->setJSON($msgResult);
         }
     }
 
@@ -155,4 +160,5 @@ class BillingController extends BaseController
         $arrData['arrBillingList'] = $this->billings->r_loadBillingLists($fields['billingId']);
         return $this->response->setJSON($arrData);
     }
+
 }

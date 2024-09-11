@@ -140,6 +140,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_payments">
+                        <input type="hidden" id="txt_billingId" name="txt_billingId">
                         <div class="row">
                             <div class="col-lg-6">
                                 <table style="width: 100%" class="tbl-custom">
@@ -195,7 +196,7 @@
                                         <tr>
                                             <td>Payment Amount</td>
                                             <td>
-                                                <input type="text" id="txt_paymentAmount" class="form-control" style="text-align: right;" readonly>
+                                                <input type="text" id="txt_paymentAmount" name="txt_paymentAmount" class="form-control" style="text-align: right;" readonly>
                                             </td>
                                         </tr>
                                         <tr>
@@ -229,7 +230,7 @@
                                         <tr>
                                             <td>Attach Proof of Payment</td>
                                             <td>
-                                                <input type="file" id="txt_paymentReferenceNumber"  class="form-control" required>
+                                                <input type="file" id="file_proofOfPayment"  class="form-control" required>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -379,9 +380,13 @@
             totalBillingAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 
-        let totalBilling = totalBillingAmount;
+        // let totalBilling = totalBillingAmount;
+        let billingAmount = parseFloat(($('#txt_billingAmount').val()).replace(',',''));
+
+        let balance = billingAmount - totalBillingAmount;
 
         $('#txt_paymentAmount').val(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
+        $('#txt_balance').val(COMMONHELPER.numberWithCommas(balance.toFixed(2)));
         $('#lbl_billingTotalAmount').text(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
     });
 
