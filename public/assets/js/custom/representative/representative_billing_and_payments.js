@@ -45,7 +45,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
                 'billingId' : billingId
             }
         }, function(data){
-
+            $('#txt_billingId').val(data['arrBillingDetails']['id']);
             $('#txt_billingNumber').val(data['arrBillingDetails']['billing_number']);
             $('#txt_companyName').val(data['arrBillingDetails']['company_name']);
             $('#txt_companyCode').val(data['arrBillingDetails']['company_code']);
@@ -126,15 +126,45 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
             totalBillingAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 
-        let totalBilling = totalBillingAmount;
+        // let totalBilling = totalBillingAmount;
+
+        let billingAmount = parseFloat(($('#txt_billingAmount').val()).replace(',',''));
+
+        let balance = billingAmount - totalBillingAmount;
 
         $('#txt_paymentAmount').val(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
+        $('#txt_balance').val(COMMONHELPER.numberWithCommas(balance.toFixed(2)));
         $('#lbl_billingTotalAmount').text(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
     }
 
     thisRepresentativeBillingAndPayments.r_submitPayment = function(thisForm)
     {
+        alert('In-progress');
+        // let formData = new FormData(thisForm);
 
+        // let arrBillingIds = $("#tbl_billingDetails tbody input:checkbox:checked").map(function () {
+        //     return $(this).val();
+        // }).get();
+        // formData.set("arrBillingIds", arrBillingIds);
+        // formData.append("referenceNumber", $('#file_paymentReferenceNumber')[0].files[0]);
+
+        // $('#btn_submitPayment').prop('disabled',true);
+
+        // AJAXHELPER.addData({
+        //     // LoanController->r_submitPayment
+        //     'route' : 'portal/representative/r-submit-payment',
+        //     'data'  : formData
+        // }, function(data){
+        //     setTimeout(function(){
+        //         COMMONHELPER.Toaster('success','Loan Disbursement Complete!');
+        //         $('#btn_submitPayment').prop('disabled',false);
+        //         $('#modal_billingDetails').modal('hide');
+        //         window.location.replace(`${baseUrl}portal/representative/billing-and-payments`);
+        //     }, 2000);
+        // }, function(data){ // Error
+        //     COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+        //     $('#btn_submitPayment').prop('disabled',true);
+        // });
     }
 
     return thisRepresentativeBillingAndPayments;
