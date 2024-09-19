@@ -880,8 +880,8 @@ class NavigationController extends BaseController
         {
             if($this->session->get('gwc_admin_loggedIn'))
             {
-                $data['pageTitle'] = "Billing Statements | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['pageTitle'] = "Payments | GWC";
+                $data['customScripts'] = 'admin_payments';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
@@ -986,7 +986,7 @@ class NavigationController extends BaseController
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Maintenance > Fees | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_fees';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
@@ -1026,7 +1026,7 @@ class NavigationController extends BaseController
             if($this->session->get('gwc_admin_loggedIn'))
             {
                 $data['pageTitle'] = "Reports | GWC";
-                $data['customScripts'] = 'admin_dashboard';
+                $data['customScripts'] = 'admin_reports';
                 $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
                 $data['accessModules'] = json_decode($userData['access_modules']);
 
@@ -1056,7 +1056,37 @@ class NavigationController extends BaseController
 
     public function adminAuditTrail()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Audit Trails | GWC";
+                $data['customScripts'] = 'admin_audit_trails';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
+                    return $this->slice->view('portal.admin.admin_audit_trails', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
     /*
         END ADMIN

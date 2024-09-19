@@ -25,78 +25,175 @@
 
 @section('page_content')
 
-            <!-- ============================================================== -->
-            <!-- Start Page Content here -->
-            <!-- ============================================================== -->
-         
-            <div class="content-page">
-                <div class="content">
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+ 
+    <div class="content-page">
+        <div class="content">
 
-                    <!-- Start Content-->
-                    <div class="container-fluid">
+            <!-- Start Content-->
+            <div class="container-fluid">
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
 
-    
-                                        <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
-                                            <thead>
-                                            <tr>
-                                                <th>Billing Date</th>
-                                                <th>Billing Number</th>
-                                                <th>Company Name</th>
-                                                <th>Total Amount</th>
-                                                <th>Total Paid</th>
-                                                <th>Balance</th>
-                                                <th>Due Date</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-    
-    
-                                            <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>Tiger Nixon</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>Tiger Nixon</td>
-                                                <td>Tiger Nixon</td>
-                                                <td>$320,800</td>
-                                                <td>$320,800</td>
-                                                <td>                                                        
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Actions <i class="mdi mdi-chevron-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Edit</a>
-                                                            <a class="dropdown-item" href="#">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                <table id="tbl_payments" class="table table-bordered nowrap" style="width: 100%;">
+                                    <thead>
+                                    <tr>
+                                        <th>Payment Date</th>
+                                        <th>Reference Number</th>
+                                        <th>Company Name</th>
+                                        <th>Billing Number</th>
+                                        <th>Amount Paid</th>
+                                        <th>Status</th>
+                                        <th>Date Confirmed</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                        <br>
+                                    </tbody>
+                                </table>
 
-                                    </div>
-                                </div>
+                                <br>
+
                             </div>
                         </div>
-                        
-                    </div> <!-- container-fluid -->
+                    </div>
+                </div>
 
-                </div> <!-- content -->
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
+                
+            </div> <!-- container-fluid -->
 
+        </div> <!-- content -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+    <div class="modal fade" id="modal_paymentValidation">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> Payment Validation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Payment Details</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table style="width: 100%" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Company Name</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_companyName" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Product Type</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_productType" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Billing Number</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_billingNumber" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Billing Amount</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_billingAmount" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Due Date</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_dueDate" readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <table style="width: 100%" class="tbl-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Payment Date</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_paymentDate" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount Paid</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_amountPaid" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Payment Method</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_paymentMethod" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reference Number</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_referenceNumber" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bank/Branch</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="txt_branch" readonly>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Proof of Payment</h5>
+
+                    <hr>
+                    <form id="form_paymentValidation">
+                        <input type="hidden" id="txt_paymentId" name="txt_paymentId">
+                        <input type="hidden" id="txt_companyId" name="txt_companyId">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <center>
+                                    <label>Payment Status</label>
+                                    <select class="form-control form-select" id="slc_paymentStatus" name="slc_paymentStatus" required>
+                                        <option value="CONFIRM">CONFIRM</option>
+                                        <option value="RETURN">RETURN</option>
+                                    </select>
+                                </center>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div>
+                        <div id="div_returnRemarks" hidden>
+                            <br>
+                            <label>Remarks:</label>
+                            <textarea rows="4" class="form-control" id="txt_returnRemarks" name="txt_returnRemarks"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="submit" class="btn gwc-button" id="btn_submitPaymentValidation" form="form_paymentValidation">Save</button>
+                </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
+        </div>
+    </div>
 
 @endsection
 
@@ -107,13 +204,6 @@
 
 <!-- knob plugin -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery-knob/jquery.knob.min.js"></script>
-
-<!--Morris Chart-->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/morris.js06/morris.min.js"></script>
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/raphael/raphael.min.js"></script>
-
-<!-- Dashboar init js-->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/dashboard.init.js"></script>
 
 <!-- third party js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -134,15 +224,36 @@
 <!-- Datatables init -->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
 
+<!-- Common Helpers Scripts -->
+<script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>
 <!-- Ajax Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/helper/ajax_helper.js"></script>
 <!-- Custom Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/{{ $customScripts }}.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/admin/{{ $customScripts }}.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
     
+    ADMIN_PAYMENTS.a_loadPayments();
+
+    $('#slc_paymentStatus').on('change',function(){
+        if($(this).val() == 'CONFIRM')
+        {
+            $('#div_returnRemarks').prop('hidden',true);
+            $('#txt_returnRemarks').prop('required',false);
+        }
+        else
+        {
+            $('#div_returnRemarks').prop('hidden',false);
+            $('#txt_returnRemarks').prop('required',true);
+        }
+    });
+
+    $('#form_paymentValidation').on('submit', function(e){
+        e.preventDefault();
+        ADMIN_PAYMENTS.a_confirmPayment(this);
+    });
     
   });
 </script>

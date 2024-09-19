@@ -308,7 +308,7 @@ class LoanController extends BaseController
         $apiInstance = new PayoutApi();
         $referenceNumber = "RFN-".date('Ymd').time();
 
-        $channelCode = 'PH_GCASH';
+        $channelCode = $arrResult['bank_depository'];
 
         $createPayoutRequest = new CreatePayoutRequest([
             'reference_id' => $referenceNumber,
@@ -316,10 +316,10 @@ class LoanController extends BaseController
             'channel_code' => $channelCode,
             'channel_properties' => [
                 'account_holder_name' => $arrResult['first_name'] . " " . $arrResult['last_name'],
-                'account_number' => '09123423412'
+                'account_number' => $arrResult['payroll_bank_number']
             ],
-            'amount' => (float)$arrResult['loan_amount'],
-            'description' => 'Test Bank Payout',
+            'amount' => (float)$arrResult['amount_to_receive'],
+            'description' => 'Disbursement',
             'type' => 'DIRECT_DISBURSEMENT'
         ]); 
 
@@ -334,8 +334,8 @@ class LoanController extends BaseController
                     'currency'              => 'PHP',
                     'channel_code'          => $channelCode,
                     'account_holder_name'   => $arrResult['first_name'] . " " . $arrResult['last_name'],
-                    'account_number'        => '',
-                    'amount'                => (float)$arrResult['loan_amount'],
+                    'account_number'        => $arrResult['payroll_bank_number'],
+                    'amount'                => (float)$arrResult['amount_to_receive'],
                     'description'           => 'Test Bank Payout',
                     'disbursement_type'     => 'DIRECT_DISBURSEMENT',
                     'disbursement_status'   => $apiResult['status'],

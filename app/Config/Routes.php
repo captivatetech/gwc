@@ -316,6 +316,9 @@ $routes->get('portal/admin/a-load-billings', 'Portal\BillingController::a_loadBi
 $routes->get('portal/admin/a-load-billing-details', 'Portal\BillingController::a_loadBillingDetails');
 
     // ADMIN PAYMENTS FUNCTIONS
+$routes->get('portal/admin/a-load-payments', 'Portal\PaymentController::a_loadPayments');
+$routes->get('portal/admin/a-select-payment', 'Portal\PaymentController::a_selectPayment');
+$routes->post('portal/admin/a-confirm-payment', 'Portal\PaymentController::a_confirmPayment');
 
     // ADMIN MAINTENANCE USERS FUNCTIONS
 $routes->get('portal/admin/load-admin-users', 'Portal\UserController::loadAdminUsers');

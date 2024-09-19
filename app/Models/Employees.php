@@ -189,6 +189,7 @@ class Employees extends Model
     ///// NavigationController->representativeMaintenanceUsers()
     ///// NavigationController->representativeMaintenanceRoles()
     ///// NavigationController->representativeFaqs()
+    ///// PaymentController->r_submitPayment()
     ////////////////////////////////////////////////////////////
     public function selectRepresentative($employeeId)
     {
@@ -202,6 +203,7 @@ class Employees extends Model
             'a.position',
             'a.user_type',
             'a.profile_picture',
+            'b.company_code',
             'b.business_type',
             'b.hr_user',
             'b.bpo_user',
@@ -890,6 +892,7 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// LoanController->a_proceedDisbursement()
+    ///// PaymentController->a_confirmPayment()
     ////////////////////////////////////////////////////////////
     public function a_selectRepresentative($companyId)
     {

@@ -53,17 +53,15 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
                             <td>${value['bank_depository']}</td>
                             <td>${value['branch_code']}</td>
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
+                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['amount_to_receive'])}</td>
                             <td>${value['account_number']}</td>
                         </tr>`;
             });
             $('#tbl_disbursementList').DataTable().destroy();
             $('#tbl_disbursementList tbody').html(tbody);
-            $('#tbl_disbursementList').DataTable({
-                "columnDefs": [
-                    {
-                        "targets": 0,
-                        "orderable": false
-                    }
+            $('#tbl_disbursementList').DataTable({'scrollX':true, "order": [[ 1, "desc" ]], "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7] }, 
+                    { "bSearchable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7] }
                 ]
             });
 
@@ -128,7 +126,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
 
         let totalDisbursementAmount = 0;
         $("#tbl_disbursementList tbody input:checkbox:checked").map(function(){
-            let amountStr = $(this).parents('tr').find('td:eq(5)').text();
+            let amountStr = $(this).parents('tr').find('td:eq(6)').text();
             totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 

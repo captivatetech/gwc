@@ -8,7 +8,7 @@ class CreatePaymentsTable extends Migration
 {
     public function up()
     {
-        //12 fields
+        //16 fields
         $this->forge->addField([
             'id'                        => [
                 'type'              => 'INT',
@@ -44,6 +44,24 @@ class CreatePaymentsTable extends Migration
             'payment_status'            => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,
+                'null'              => true,
+            ],
+            'payment_date'              => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
+            'promisory_note'            => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 255,
+                'null'              => true,
+            ],
+            'proof_of_payment'          => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 255,
+                'null'              => true,
+            ],
+            'return_remarks'            => [
+                'type'              => 'TEXT',
                 'null'              => true,
             ],
             'confirmation_date'         => [

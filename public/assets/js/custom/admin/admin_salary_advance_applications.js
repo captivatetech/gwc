@@ -596,6 +596,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                     COMMONHELPER.Toaster('success','Email verification sent!');
                     setTimeout(function(){
                         $('#modal_employeeEmailVerification').modal('hide');
+                        window.location.replace(`${baseUrl}portal/admin/salary-advance-applications`);
                     }, 1000);
                 }
             }, function(data){ // Error
