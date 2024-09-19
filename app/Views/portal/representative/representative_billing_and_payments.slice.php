@@ -13,6 +13,10 @@
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <!-- third party css end -->
 
+<!-- Plugins css -->
+<link href="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url();?>public/assets/Adminto/libs/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
+
 <style type="text/css">
   /*INTERNAL STYLES*/
   
@@ -55,13 +59,15 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Amount due in x days</h4>
+                                <h4 class="card-title">Amount due in <b><span id="lbl_amountDueInDays">x</span></b>  days</h4>
+                                <label id="lbl_amountDue"></label>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Total # of loans active</h4>
+                                <b><span id="lbl_totalActiveLoans"></span></b>
                             </div>
                         </div>
 
@@ -71,13 +77,15 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Past due in x days</h4>
+                                <h4 class="card-title">Past due in <b><span id="lbl_pastDueInDays">x</span></b> days</h4>
+                                <label id="lbl_pastDue"></label>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Total # of loans repaid</h4>
+                                <b><span id="lbl_totalRepaidLoans"></span></b>
                             </div>
                         </div>
 
@@ -129,7 +137,7 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
-    <div class="modal fade" id="modal_billingDetails">
+    <div class="modal fade" id="modal_billingDetails" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
@@ -175,12 +183,6 @@
                                                 <input type="text" class="form-control" id="txt_dueDate" readonly>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>Promisory Note</td>
-                                            <td>
-                                                <textarea rows="3" class="form-control" id="txt_promisoryNote"></textarea>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -190,7 +192,7 @@
                                         <tr>
                                             <td>Billing Amount</td>
                                             <td>
-                                                <input type="text" id="txt_billingAmount" class="form-control" style="text-align: right;" readonly>
+                                                <input type="text" id="txt_billingAmount" name="txt_billingAmount" class="form-control" style="text-align: right;" readonly>
                                             </td>
                                         </tr>
                                         <tr>
@@ -202,7 +204,7 @@
                                         <tr>
                                             <td>Balance</td>
                                             <td>
-                                                <input type="text" id="txt_balance" class="form-control" style="text-align: right;" readonly>
+                                                <input type="text" id="txt_balance" name="txt_balance" class="form-control" style="text-align: right;" readonly>
                                             </td>
                                         </tr>
                                         <tr>
@@ -216,27 +218,29 @@
                                             <td>
                                                 <select id="slc_paymentType" name="slc_paymentType" class="form-control form-select" required>
                                                     <option value="">---</option>
+                                                    <option value="Cash">Cash</option>
                                                     <option value="Bank-Deposit">Bank Deposit</option>
-                                                    <option value="E-Wallet">E-Wallet</option>
+                                                    <option value="Check-Deposit">Check Deposit</option>
+                                                    <option value="Online-Payment">Online Payment</option>
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>Payment Reference Number</td>
+                                        <tr id="tr_paymentReferenceNumber" hidden>
+                                            <td>Reference Number</td>
                                             <td>
-                                                <input type="text" id="txt_paymentReferenceNumber" name="txt_paymentReferenceNumber"  class="form-control" required>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Attach Proof of Payment</td>
-                                            <td>
-                                                <input type="file" id="file_proofOfPayment"  class="form-control" required>
+                                                <input type="text" id="txt_paymentReferenceNumber" name="txt_paymentReferenceNumber"  class="form-control">
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        <div id="div_proofOfPayment" hidden>
+                            <label>Attach Proof of Payment</label>
+                            <input type="file" id="file_proofOfPayment" name="file_proofOfPayment" data-plugins="dropify" accept="application/pdf" />
+                        </div>
+                        
                     </form>
 
                     <hr>
@@ -254,6 +258,7 @@
                                 <th>Amount to Pay</th>
                                 <th>Terms</th>
                                 <th>Status</th>
+                                <th>Penalty Type</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -266,16 +271,22 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <label>Number of Accounts Paid: </label>
-                            <label style="color:red;">3 out of 4</label>
+                            <label style="color:red;" id="lbl_numberOfAccountsPaid">3 out of 4</label>
                         </div>
                         <div class="col-lg-6">
                             <label>Total: </label>
-                            <label style="color:red;">PHP. <span id="lbl_billingTotalAmount"></span></label>
+                            <label style="color:red;" id="lbl_billingTotalAmount">PHP 00.0</label>
                         </div>
+                    </div>
+
+                    <div id="div_promisoryNote" hidden>
+                        <hr>
+                        <label>Promisory Note</label>
+                        <input type="file" id="file_promisoryNote" name="file_promisoryNote" data-plugins="dropify" accept="application/pdf" />
                     </div>
                 </div>
                 <div class="modal-footer modal-footer--sticky">
-                    <button type="submit" class="btn gwc-button" id="btn_submitPayment" form="form_payments">Submit</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitPayment" form="form_payments" disabled>Submit</button>
                 </div>
             </div>
         </div>
@@ -309,6 +320,13 @@
 
 <!-- Datatables init -->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
+
+<!-- Plugins js -->
+<script src="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.js"></script>
+<script src="<?php echo base_url();?>public/assets/Adminto/libs/dropify/js/dropify.min.js"></script>
+
+<!-- Init js-->
+<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/form-fileuploads.init.js"></script>
 
 <!-- Common Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>
@@ -363,6 +381,17 @@
                 $('#chk_selectAllBilling').prop('checked',false);
             }
         }
+
+        if(trCount > ids.length && ids.length != 0)
+        {
+            $('#div_promisoryNote').prop('hidden',false);
+            $('#file_promisoryNote').prop('required',true);
+        }
+        else
+        {
+            $('#div_promisoryNote').prop('hidden',true);
+            $('#file_promisoryNote').prop('required',false);
+        }
         
 
         if(ids.length == 0)
@@ -380,19 +409,69 @@
             totalBillingAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 
-        // let totalBilling = totalBillingAmount;
-        let billingAmount = parseFloat(($('#txt_billingAmount').val()).replace(',',''));
+        $("#tbl_billingDetails tbody input:checkbox").map(function(){
+            if($(this).is(':checked'))
+            {
+                $(this).parents('tr').find('td:eq(8) select').prop('disabled',true).prop('required',false).val('');
+                $(this).parents('tr').find('td:eq(8) select').css('border-color','#98A6AD');
+            }
+            else
+            {
+                $(this).parents('tr').find('td:eq(8) select').prop('disabled',false).prop('required',true);
+                $(this).parents('tr').find('td:eq(8) select').css('border-color','#CED4DA');
+            }
+        });
 
+        let billingAmount = parseFloat(($('#txt_billingAmount').val()).replace(',',''));
         let balance = billingAmount - totalBillingAmount;
 
         $('#txt_paymentAmount').val(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
         $('#txt_balance').val(COMMONHELPER.numberWithCommas(balance.toFixed(2)));
-        $('#lbl_billingTotalAmount').text(COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2)));
+        $('#lbl_numberOfAccountsPaid').text(`${ids.length} out of ${trCount}`);
+        $('#lbl_billingTotalAmount').text(`PHP ${COMMONHELPER.numberWithCommas(totalBillingAmount.toFixed(2))}`);
+    });
+
+    $('#slc_paymentType').on('change',function(){
+        if($(this).val() == 'Online-Payment' || $(this).val() == "")
+        {
+            $('#div_proofOfPayment').prop('hidden',true);
+            $('#file_proofOfPayment').prop('required',false);
+
+            $('#tr_paymentReferenceNumber').prop('hidden',true);
+            $('#txt_paymentReferenceNumber').prop('required',false);
+        }
+        else
+        {
+            $('#div_proofOfPayment').prop('hidden',false);
+            $('#file_proofOfPayment').prop('required',true);
+
+            $('#tr_paymentReferenceNumber').prop('hidden',false);
+            $('#txt_paymentReferenceNumber').prop('required',true);
+        }
     });
 
     $('#form_payments').on('submit',function(e){
         e.preventDefault();
-        REPRESENTATIVE_BILLING_AND_PAYMENTS.r_submitPayment(this);
+
+        let num = 0;
+        $("#tbl_billingDetails tbody input:checkbox").map(function(){
+            if(!$(this).is(':checked'))
+            {
+                if($(this).parents('tr').find('td:eq(8) select').val() == "")
+                {
+                    num++;
+                    $(this).parents('tr').find('td:eq(8) select').css('border-color','red');
+                }
+            }
+        });
+        if(num == 0)
+        {
+            REPRESENTATIVE_BILLING_AND_PAYMENTS.r_submitPayment(this);
+        }
+        else
+        {
+            alert('Penalty Type is required!');
+        }
     });
     
   });

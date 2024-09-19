@@ -311,6 +311,7 @@ class Loans extends Model
             'c.branch_name',
             'c.branch_code',
             'a.loan_amount',
+            'a.amount_to_receive',
             'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date'
         ];
 
@@ -333,6 +334,7 @@ class Loans extends Model
         $columns = [
             'a.id',
             'a.employee_id',
+            '(SELECT payroll_bank_number FROM employees WHERE id = a.employee_id) as payroll_bank_number',
             'a.company_id',
             'a.account_number',
             'b.identification_number',
@@ -341,7 +343,7 @@ class Loans extends Model
             'c.bank_depository',
             'c.branch_name',
             'c.branch_code',
-            'a.loan_amount',
+            'a.amount_to_receive',
             'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date'
         ];
 

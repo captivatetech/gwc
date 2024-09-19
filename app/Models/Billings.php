@@ -60,6 +60,22 @@ class Billings extends Model
     ////////////////////////////////////////////////////////////
     ///// BillingController->a_generateBillings()
     ////////////////////////////////////////////////////////////
+    public function a_countGeneratedBillings($completeDateNow)
+    {
+        $columns = [
+            'a.id'
+        ];
+
+        $builder = $this->db->table('billings a');
+        $builder->select($columns);
+        $builder->where('a.billing_date', $completeDateNow);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// BillingController->a_generateBillings()
+    ////////////////////////////////////////////////////////////
     public function a_generateBillings($dateNow)
     {
         $columns = [
@@ -275,7 +291,9 @@ class Billings extends Model
             'a.due_date',
             'a.total_amount',
             'a.total_paid',
-            'a.balance'
+            'a.balance',
+            '(SELECT COUNT(id) FROM billing_details WHERE billing_id = a.id AND payment_status = "PAID") as paid_count',
+            '(SELECT COUNT(id) FROM billing_details WHERE billing_id = a.id) as billing_count'
         ];
 
         $builder = $this->db->table('billings a');
@@ -299,6 +317,8 @@ class Billings extends Model
             'c.last_name',
             'b.loan_amount',
             'a.billing_amount',
+            'a.penalty_type',
+            'a.payment_status',
             'b.payment_terms',
             '(SELECT COUNT(id) FROM billing_details WHERE loan_id = a.loan_id AND payment_status = "PAID") as billing_series'
         ];
@@ -308,7 +328,67 @@ class Billings extends Model
         $builder->join('employees c','b.employee_id = c.id','full');
         $builder->select($columns);
         $builder->where('a.billing_id', $billingId);
+        // $builder->where('a.payment_status', 'UNPAID');
         $query = $builder->get();
         return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// BillingController->r_submitPayment()
+    ////////////////////////////////////////////////////////////
+    public function r_updateBilling($arrData, $billingId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('billings');
+                $builder->where(['id'=>$billingId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// BillingController->r_submitPayment()
+    ////////////////////////////////////////////////////////////
+    // public function r_selectBillingDetails($billingIds)
+    // {
+    //     $columns = [
+    //         'a.id',
+    //         'b.account_number',
+    //         '(SELECT DATE_FORMAT(created_date,"%Y-%m-%d") FROM loan_disbursements WHERE loan_id = a.loan_id) as disbursement_date',
+    //         'c.first_name',
+    //         'c.last_name',
+    //         'b.loan_amount',
+    //         'a.billing_amount',
+    //         'b.payment_terms',
+    //         '(SELECT COUNT(id) FROM billing_details WHERE loan_id = a.loan_id AND payment_status = "PAID") as billing_series'
+    //     ];
+
+    //     $builder = $this->db->table('billing_details a');
+    //     $builder->join('loans b','a.loan_id = b.id','full');
+    //     $builder->join('employees c','b.employee_id = c.id','full');
+    //     $builder->select($columns);
+    //     $builder->whereIn('a.id', $billingId);
+    //     $query = $builder->get();
+    //     return  $query->getResultArray();
+    // }
+
+    ////////////////////////////////////////////////////////////
+    ///// BillingController->r_submitPayment()
+    ////////////////////////////////////////////////////////////
+    public function r_updateBillingDetails($arrData)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('billing_details');
+                $builder->updateBatch($arrData,'id');
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 }

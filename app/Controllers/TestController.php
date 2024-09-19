@@ -6,8 +6,12 @@ use App\Controllers\BaseController;
 
 // use Xendit\Xendit;
 use Xendit\Configuration;
-use Xendit\Payout\PayoutApi;
-use Xendit\Payout\CreatePayoutRequest;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\Invoice\CreateInvoiceRequest;
+// use Xendit\Payout\PayoutApi;
+// use Xendit\Payout\CreatePayoutRequest;
+// use Xendit\PaymentRequest\PaymentRequestApi;
+// use Xendit\PaymentRequest\PaymentRequestParameters;
 // use Xendit\BalanceAndTransaction\BalanceApi;
 // use Xendit\BalanceAndTransaction\TransactionApi;
 
@@ -24,8 +28,62 @@ class TestController extends BaseController
 
     public function testXendit()
     {
-        $privateKey = getenv('xendit_private_key');
-        configureXendit($privateKey);
+        // $privateKey = getenv('xendit_private_key');
+        // configureXendit($privateKey);
+
+        Configuration::setXenditKey("xnd_development_HbNUa00qditzQS5JBcn7uPSOjZjp5ZPylJPKfVVI8SwV5ebo97DcSytaAghzX");
+        // Configuration::setXenditKey("xnd_development_wiIrZuVXYQFxDnyiOXSuWHzNRwF3O2SuHLYbPMKrODcDP7rx0ecwmHg8cuHZgX");
+
+        $apiInstance = new InvoiceApi();
+        $create_invoice_request = new CreateInvoiceRequest([
+          'external_id' => 'test1234',
+          'description' => 'Test Invoice',
+          'amount' => 10000,
+          'invoice_duration' => 172800,
+          'currency' => 'PHP',
+          'reminder_time' => 1,
+          'success_redirect_url' => 'https://www.youtube.com/watch?v=DFJZUCg3_DQ',
+          'failure_redirect_url' => ''
+        ]); // \Xendit\Invoice\CreateInvoiceRequest
+        $for_user_id = "66c744d4d361cea80de79d2b"; // string | Business ID of the sub-account merchant (XP feature)
+
+        try {
+            $result = $apiInstance->createInvoice($create_invoice_request, $for_user_id);
+            return $this->response->setJSON($result);
+            exit();
+        } catch (\Xendit\XenditSdkException $e) {
+            echo 'Exception when calling InvoiceApi->createInvoice: ', $e->getMessage(), PHP_EOL;
+            echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+        }
+
+        // $apiInstance = new PaymentRequestApi();
+        // $idempotency_key = "5f9a3fbd571a1c4068aa40ceas"; // string
+        // $for_user_id = "66c744d4d361cea80de79d2b"; // string
+        // $with_split_rule = null; // string
+        // $payment_request_parameters = new PaymentRequestParameters([
+        //   'reference_id' => 'example-ref-1234',
+        //   'amount' => 15000,
+        //   'currency' => 'PHP',
+        //   'country' => 'PH',
+        //   'payment_method' => [
+        //     'type' => 'EWALLET',
+        //     'ewallet' => [
+        //       'channel_code' => 'SHOPEEPAY',
+        //       'channel_properties' => [
+        //         'success_return_url' => 'https://redirect.me/success'
+        //       ]
+        //     ],
+        //     'reusability' => 'ONE_TIME_USE'
+        //   ]
+        // ]); // \Xendit\PaymentRequest\PaymentRequestParameters
+
+        // try {
+        //     $result = $apiInstance->createPaymentRequest($idempotency_key, $for_user_id, $with_split_rule, $payment_request_parameters);
+        //         print_r($result);
+        // } catch (\Xendit\XenditSdkException $e) {
+        //     echo 'Exception when calling PaymentRequestApi->createPaymentRequest: ', $e->getMessage(), PHP_EOL;
+        //     echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+        // }
 
         // Configuration::setXenditKey("xnd_development_HbNUa00qditzQS5JBcn7uPSOjZjp5ZPylJPKfVVI8SwV5ebo97DcSytaAghzX");
 
@@ -43,29 +101,29 @@ class TestController extends BaseController
         //     echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
         // }
 
-        $apiInstance = new PayoutApi();
-        $idempotency_key = "DISB-12345"; // string | A unique key to prevent duplicate requests from pushing through our system. No expiration.
-        $for_user_id = "66c744d4d361cea80de79d2b"; // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information.
-        $create_payout_request = new CreatePayoutRequest([
-          'reference_id' => 'DISB-002',
-          'currency' => 'PHP',
-          'channel_code' => 'PH_GCASH',
-          'channel_properties' => [
-            'account_holder_name' => 'John Doe',
-            'account_number' => '09123423412'
-          ],
-          'amount' => 500,
-          'description' => 'Test Bank Payout',
-          'type' => 'DIRECT_DISBURSEMENT'
-        ]); // \Xendit\Payout\CreatePayoutRequest
+        // $apiInstance = new PayoutApi();
+        // $idempotency_key = "DISB-12345"; // string | A unique key to prevent duplicate requests from pushing through our system. No expiration.
+        // $for_user_id = "66c744d4d361cea80de79d2b"; // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information.
+        // $create_payout_request = new CreatePayoutRequest([
+        //   'reference_id' => 'DISB-002',
+        //   'currency' => 'PHP',
+        //   'channel_code' => 'PH_GCASH',
+        //   'channel_properties' => [
+        //     'account_holder_name' => 'John Doe',
+        //     'account_number' => '09123423412'
+        //   ],
+        //   'amount' => 500,
+        //   'description' => 'Test Bank Payout',
+        //   'type' => 'DIRECT_DISBURSEMENT'
+        // ]); // \Xendit\Payout\CreatePayoutRequest
 
-        try {
-            $result = $apiInstance->createPayout($idempotency_key, $for_user_id, $create_payout_request);
-                print_r($result);
-        } catch (\Xendit\XenditSdkException $e) {
-            echo 'Exception when calling PayoutApi->createPayout: ', $e->getMessage(), PHP_EOL;
-            echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
-        }
+        // try {
+        //     $result = $apiInstance->createPayout($idempotency_key, $for_user_id, $create_payout_request);
+        //         print_r($result);
+        // } catch (\Xendit\XenditSdkException $e) {
+        //     echo 'Exception when calling PayoutApi->createPayout: ', $e->getMessage(), PHP_EOL;
+        //     echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+        // }
     }
 
     public function testJson()

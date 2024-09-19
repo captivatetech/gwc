@@ -104,6 +104,7 @@
                                 <th>Bank Name</th>
                                 <th>Depository Branch Code</th>
                                 <th>Loan Amount</th>
+                                <th>Amount to Receive</th>
                                 <th>Account Number</th>
                             </tr>
                         </thead>
@@ -236,7 +237,7 @@
 
         let totalDisbursementAmount = 0;
         $("#tbl_disbursementList tbody input:checkbox:checked").map(function(){
-            let amountStr = $(this).parents('tr').find('td:eq(5)').text();
+            let amountStr = $(this).parents('tr').find('td:eq(6)').text();
             totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
         });
 

@@ -36,6 +36,11 @@ class CreateBillingDetailsTable extends Migration
                 'constraint'        => [20,2],
                 'null'              => true,
             ],
+            'penalty_type'              => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
+                'null'              => true,
+            ],
             'billing_series'            => [
                 'type'              => 'INT',
                 'constraint'        => 11,

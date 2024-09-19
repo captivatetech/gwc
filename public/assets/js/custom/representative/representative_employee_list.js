@@ -67,8 +67,8 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         minLimit = netSalary * 0.25;
         maxLimit = netSalary * 0.35;
 
-        $('#txt_minimumAmount').val(COMMONHELPER.numberWithCommas(minLimit));
-        $('#txt_maximumAmount').val(COMMONHELPER.numberWithCommas(maxLimit));
+        $('#txt_minimumAmount').val(COMMONHELPER.numberWithCommas(minLimit.toFixed(2)));
+        $('#txt_maximumAmount').val(COMMONHELPER.numberWithCommas(maxLimit.toFixed(2)));
     }
 
     thisRepresentativeEmployeeList.r_calculateEmployeeYearsStayed = function()

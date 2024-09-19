@@ -28,7 +28,7 @@
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
- 
+    
     <div class="content-page">
         <div class="content">
 
@@ -39,27 +39,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
-                                <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Loan Application Number</th>
-                                            <th>Type</th>
-                                            <th>Name</th>
-                                            <th>Company</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-
-                                <br>
-
+                                <center>
+                                    <img src="<?php echo base_url(); ?>public/assets/Adminto/images/under-construction.jpg" style="height: 60vh;">
+                                </center>
                             </div>
                         </div>
                     </div>
