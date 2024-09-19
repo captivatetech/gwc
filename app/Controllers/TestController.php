@@ -36,14 +36,14 @@ class TestController extends BaseController
 
         $apiInstance = new InvoiceApi();
         $create_invoice_request = new CreateInvoiceRequest([
-          'external_id' => 'test1234',
+          'external_id' => 'test12345',
           'description' => 'Test Invoice',
           'amount' => 10000,
           'invoice_duration' => 172800,
           'currency' => 'PHP',
           'reminder_time' => 1,
           'success_redirect_url' => 'https://www.youtube.com/watch?v=DFJZUCg3_DQ',
-          'failure_redirect_url' => ''
+          'failure_redirect_url' => 'https://www.youtube.com/watch?v=DFJZUCg3_DQ'
         ]); // \Xendit\Invoice\CreateInvoiceRequest
         $for_user_id = "66c744d4d361cea80de79d2b"; // string | Business ID of the sub-account merchant (XP feature)
 

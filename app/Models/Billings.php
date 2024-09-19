@@ -334,7 +334,25 @@ class Billings extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// PaymentController->r_editSuccessPayment()
+    ////////////////////////////////////////////////////////////
+    public function r_selectBilling($billingId)
+    {
+        $columns = [
+            'a.id',
+            'a.payment_status'
+        ];
+
+        $builder = $this->db->table('billings a');
+        $builder->select($columns);
+        $builder->where('a.id', $billingId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
     ///// BillingController->r_submitPayment()
+    ///// BillingController->r_editSuccessPayment()
     ////////////////////////////////////////////////////////////
     public function r_updateBilling($arrData, $billingId)
     {
@@ -378,6 +396,7 @@ class Billings extends Model
 
     ////////////////////////////////////////////////////////////
     ///// BillingController->r_submitPayment()
+    ///// BillingController->r_editSuccessPayment()
     ////////////////////////////////////////////////////////////
     public function r_updateBillingDetails($arrData)
     {

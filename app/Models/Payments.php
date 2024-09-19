@@ -116,7 +116,8 @@ class Payments extends Model
             'a.payment_date',
             'a.payment_amount',
             'a.payment_type',
-            'a.reference_number'
+            'a.reference_number',
+            'a.proof_of_payment'
         ];
 
         $builder = $this->db->table('payments a');
@@ -124,6 +125,7 @@ class Payments extends Model
         $builder->join('loans c','b.company_id = c.company_id','full');
         $builder->join('companies d','c.company_id = d.id','full');
         $builder->select($columns);
+        $builder->where('a.id',$paymentId);
         $builder->orderBy('a.id','DESC');
         $query = $builder->get();
         return  $query->getRowArray();

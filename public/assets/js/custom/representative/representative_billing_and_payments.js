@@ -124,6 +124,24 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
                     { "bSearchable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7, 8] }
                 ]
             });
+
+            let ids = $("#tbl_billingDetails tbody input:checkbox:checked").map(function () {
+                return $(this).val();
+            }).get();
+
+            let trCount = 0;
+            $("#tbl_billingDetails tbody tr").map(function () {
+                trCount++;
+            });
+
+            if(ids.length == trCount)
+            {
+                $('#chk_selectAllBillings').prop('checked',true).prop('disabled',true);
+            }
+            else
+            {
+                $('#chk_selectAllBillings').prop('checked',false).prop('disabled',false);
+            }
         });
     }
 
@@ -256,12 +274,19 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
             'route' : 'portal/representative/r-submit-payment',
             'data'  : formData
         }, function(data){
-            COMMONHELPER.Toaster('success','Payment Complete!');
-            setTimeout(function(){
-                $('#btn_submitPayment').prop('disabled',false);
-                $('#modal_billingDetails').modal('hide');
-                window.location.replace(`${baseUrl}portal/representative/billing-and-payments`);
-            }, 2000);
+            if(data[0] == 'Online-Payment')
+            {
+                window.location.replace(`${data[1]}`);
+            }
+            else
+            {
+                COMMONHELPER.Toaster('success',data[1]);
+                setTimeout(function(){
+                    $('#btn_submitPayment').prop('disabled',false);
+                    $('#modal_billingDetails').modal('hide');
+                    window.location.replace(`${baseUrl}portal/representative/billing-and-payments`);
+                }, 2000);
+            }
         }, function(data){ // Error
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitPayment').prop('disabled',true);
