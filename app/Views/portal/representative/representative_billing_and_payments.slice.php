@@ -142,7 +142,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title"> 
-                        <i class="feather-plus me-2"></i> Billing Details
+                        <i class="feather-plus me-2"></i> Billing & Payment Details
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

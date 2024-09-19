@@ -4,6 +4,10 @@ namespace App\Controllers\Portal;
 
 use App\Controllers\BaseController;
 
+use Xendit\Configuration;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\Invoice\CreateInvoiceRequest;
+
 class PaymentController extends BaseController
 {
     public function __construct()
@@ -88,16 +92,95 @@ class PaymentController extends BaseController
             $arrBillingIdsWithPenalties = json_decode($fields['arrBillingIdsWithPenalties'], true);
             if(count($billingIds) > 0)
             {
+                $arr = $this->employees->selectRepresentative($this->session->get('gwc_representative_id'));
+                $paymentNumber = $this->_generatePaymentNumber($arr['company_code']);
                 if($fields['slc_paymentType'] == 'Online-Payment')
                 {
-                    
+                    $xenditPrivateKey = getenv('xendit_private_key');
+                    Configuration::setXenditKey($xenditPrivateKey);
+
+                    $externalId = "EXT-".date('Ymd').time();
+                    $baseUrl = base_url();
+                    $arrParams = json_encode($fields);
+
+                    $apiInstance = new InvoiceApi();
+                    $createInvoiceRequest = new CreateInvoiceRequest([
+                      'external_id'             => $externalId,
+                      'description'             => 'System Payment Number: ' . $paymentNumber,
+                      'amount'                  => (float)str_replace(",", "", $fields['txt_paymentAmount']),
+                      'invoice_duration'        => 172800,
+                      'currency'                => 'PHP',
+                      'reminder_time'           => 1,
+                      'success_redirect_url'    => $baseUrl.'portal/representative/r-edit-success-payment/'.$arrParams,
+                      'failure_redirect_url'    => $baseUrl.'portal/representative/r-edit-failed-payment/'.$arrParams
+                    ]);
+
+                    $xenditUserId = getenv('xendit_user_id');
+
+                    try {
+                        $apiResult = $apiInstance->createInvoice($createInvoiceRequest, $xenditUserId);
+
+                        $arrData = [
+                            'billing_id'        => $fields['txt_billingId'],
+                            'payment_number'    => $paymentNumber,
+                            'payment_type'      => $fields['slc_paymentType'],
+                            'reference_number'  => $apiResult['external_id'],
+                            'payment_amount'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
+                            'payment_status'    => 'Pending',
+                            'payment_date'      => $fields['txt_paymentDate'],
+                            'proof_of_payment'  => $apiResult['invoice_url'],
+                            'created_by'        => $this->session->get('gwc_representative_id'),
+                            'created_date'      => date('Y-m-d H:i:s')
+                        ];
+
+                        /////////////////////////
+                        // promisory note document start
+                        /////////////////////////
+                        $pdfFile = $this->request->getFile('file_promisoryNote');
+
+                        if($pdfFile != null)
+                        {
+                            $newFileName = $pdfFile->getRandomName();
+                            $pdfFile->move(ROOTPATH . 'public/assets/uploads/representative/promisory/', $newFileName);
+
+                            if($pdfFile->hasMoved())
+                            {
+                                $arrData['promisory_note'] = $newFileName;
+                            }
+                        }
+                        else
+                        {
+                            $arrData['promisory_note'] = NULL;
+                        }                
+                        ///////////////////////
+                        // promisory note document end
+                        ///////////////////////
+
+                        $result = $this->payments->r_submitPayment($arrData);
+                        if($result > 0)
+                        {
+                            $msgResult[] = $fields['slc_paymentType'];
+                            $msgResult[] = $apiResult['invoice_url'];
+                            return $this->response->setJSON($msgResult);
+                            exit();
+                        }
+                        else
+                        {
+                            $msgResult[] = "Something went wrong, please try again";
+                            return $this->response->setStatusCode(401)->setJSON($msgResult);
+                            exit();
+                        }
+                    } catch (\Xendit\XenditSdkException $e) {
+                        echo 'Exception when calling InvoiceApi->createInvoice: ', $e->getMessage(), PHP_EOL;
+                        echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
+                    }
                 }
                 else
                 {
                     $arr = $this->employees->selectRepresentative($this->session->get('gwc_representative_id'));
                     $arrData = [
                         'billing_id'        => $fields['txt_billingId'],
-                        'payment_number'    => $this->_generatePaymentNumber($arr['company_code']),
+                        'payment_number'    => $paymentNumber,
                         'payment_type'      => $fields['slc_paymentType'],
                         'reference_number'  => $fields['txt_paymentReferenceNumber'],
                         'payment_amount'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
@@ -197,6 +280,7 @@ class PaymentController extends BaseController
                         }
                         $this->billings->r_updateBillingDetails($arrData);
 
+                        $msgResult[] = $fields['slc_paymentType'];
                         $msgResult[] = "Payment Completed!";
                         return $this->response->setJSON($msgResult);
                         exit();
@@ -222,6 +306,71 @@ class PaymentController extends BaseController
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
         }
+    }
+
+    public function r_editSuccessPayment($arrParams)
+    {
+        $arrFields = json_decode($arrParams, true);
+
+        $arrResult = $this->billings->r_selectBilling($arrFields['txt_billingId']);
+        if($arrResult['payment_status'] == 'UNPAID')
+        {
+            $billingIds = explode(',', $arrFields['arrBillingIds']);
+            $arrBillingIdsWithPenalties = json_decode($arrFields['arrBillingIdsWithPenalties'], true);
+
+            if((float)str_replace(",", "", $arrFields['txt_billingAmount']) == (float)str_replace(",", "", $arrFields['txt_paymentAmount']))
+            {
+                $paymentStatus = "PAID";
+            }
+            else
+            {
+                $paymentStatus = "PARTIAL";
+            }
+            $arrData = [];
+            $arrData = [
+                'total_paid'    => (float)str_replace(",", "", $arrFields['txt_paymentAmount']),
+                'balance'       => (float)str_replace(",", "", $arrFields['txt_balance']),
+                'payment_status'=> $paymentStatus,
+                'updated_by'    => $this->session->get('gwc_representative_id'),
+                'updated_date'  => date('Y-m-d H:i:s')
+            ];
+            $this->billings->r_updateBilling($arrData, $arrFields['txt_billingId']);
+
+            $arrData = [];
+            for ($i=0; $i < count($billingIds); $i++) 
+            { 
+                $arrData[] = [
+                    'id'                => $billingIds[$i],
+                    'payment_status'    => 'PAID',
+                    'penalty_type'      => null,
+                    'updated_by'        => $this->session->get('gwc_representative_id'),
+                    'updated_date'      => date('Y-m-d H:i:s')
+                ];
+            }
+            foreach ($arrBillingIdsWithPenalties as $key => $value) 
+            {
+                $arrData[] = [
+                    'id'                => $value['id'],
+                    'payment_status'    => 'UNPAID',
+                    'penalty_type'      => $value['penaltyType'],
+                    'updated_by'        => $this->session->get('gwc_representative_id'),
+                    'updated_date'      => date('Y-m-d H:i:s')
+                ];
+            }
+            $this->billings->r_updateBillingDetails($arrData);
+        }
+        else
+        {
+            $arrData = [
+                'payment_status' => "PAID"
+            ];
+        }
+        return $this->slice->view('portal.representative.representative_success_payment', $arrData);
+    }
+
+    public function r_editFailedPayment($arrParams)
+    {
+
     }
 
 
@@ -270,27 +419,27 @@ class PaymentController extends BaseController
                 if($result == 1)
                 {
 
-                    $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
+                    // $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
 
-                    $emailConfig = [
-                        'smtp_host'    => 'smtp.googlemail.com',
-                        'smtp_port'    => 465,
-                        'smtp_crypto'  => 'ssl',
-                        'smtp_user'    => 'ajhay.dev@gmail.com',
-                        'smtp_pass'    => 'uajtlnchouyuxaqp',
-                        'mail_type'    => 'html',
-                        'charset'      => 'iso-8859-1',
-                        'word_wrap'    => true
-                    ];
+                    // $emailConfig = [
+                    //     'smtp_host'    => 'smtp.googlemail.com',
+                    //     'smtp_port'    => 465,
+                    //     'smtp_crypto'  => 'ssl',
+                    //     'smtp_user'    => 'ajhay.dev@gmail.com',
+                    //     'smtp_pass'    => 'uajtlnchouyuxaqp',
+                    //     'mail_type'    => 'html',
+                    //     'charset'      => 'iso-8859-1',
+                    //     'word_wrap'    => true
+                    // ];
 
-                    $emailSender    = 'ajhay.dev@gmail.com';
-                    $emailReceiver  = $arrRepresentative['email_address'];
+                    // $emailSender    = 'ajhay.dev@gmail.com';
+                    // $emailReceiver  = $arrRepresentative['email_address'];
 
-                    $data = [
-                        'subjectTitle'  => 'Confirm Payment'
-                    ];
+                    // $data = [
+                    //     'subjectTitle'  => 'Confirm Payment'
+                    // ];
 
-                    sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
+                    // sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
 
                     $msgResult[] = "Success!<br>Payment Confirmed!";
                     return $this->response->setJSON($msgResult);
@@ -314,5 +463,10 @@ class PaymentController extends BaseController
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
         }
+    }
+
+    public function a_sendEmailToEmployees()
+    {
+        
     }
 }

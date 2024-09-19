@@ -244,6 +244,8 @@ $routes->post('portal/representative/r-submit-salary-advance-application', 'Port
 $routes->get('portal/representative/r-load-billings', 'Portal\BillingController::r_loadBillings');
 $routes->get('portal/representative/r-select-billing', 'Portal\BillingController::r_selectBilling');
 $routes->post('portal/representative/r-submit-payment', 'Portal\PaymentController::r_submitPayment');
+$routes->get('portal/representative/r-edit-success-payment/(:any)', 'Portal\PaymentController::r_editSuccessPayment/$1');
+$routes->get('portal/representative/r-edit-failed-payment/(:any)', 'Portal\PaymentController::r_editFailedPayment/$1');
 
     // REPRESENTATIVE MAINTENANCE USERS FUNCTIONS
 $routes->get('portal/user/load-user-users', 'Portal\UserController::loadUserUsers');

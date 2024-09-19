@@ -72,6 +72,18 @@ const ADMIN_PAYMENTS = (function(){
             $('#txt_paymentMethod').val(data['payment_type']);
             $('#txt_referenceNumber').val(data['reference_number']);
 
+            let proofOfPaymentLink = '';
+            if(data['payment_type'] == "Online-Payment")
+            {
+                proofOfPaymentLink = `<a href="${data['proof_of_payment']}" target="_blank">${data['proof_of_payment']}</a>`;
+                $('#div_proofOfPayment').html(proofOfPaymentLink);
+            }
+            else
+            {
+                proofOfPaymentLink = `<a href="${baseUrl}public/assets/uploads/representative/payments/${data['proof_of_payment']}" target="_blank">${baseUrl}public/assets/uploads/representative/payments/${data['proof_of_payment']}</a>`;
+                $('#div_proofOfPayment').html(proofOfPaymentLink);
+            }
+
         });
     }
 
@@ -90,13 +102,18 @@ const ADMIN_PAYMENTS = (function(){
                 setTimeout(function(){
                     $('#btn_submitPaymentValidation').prop('disabled',false);
                     $('#modal_paymentValidation').modal('hide');
-                    window.location.replace(`${baseUrl}portal/admin/payments`);
+                    ADMIN_PAYMENTS.a_sendEmailToEmployees();
                 }, 2000);
             }, function(data){ // Error
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
                 $('#btn_submitPaymentValidation').prop('disabled',true);
             });
         }
+    }
+
+    thisAdminPayments.a_sendEmailToEmployees = function()
+    {
+        
     }
 
     return thisAdminPayments;

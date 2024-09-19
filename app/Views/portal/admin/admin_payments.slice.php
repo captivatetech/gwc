@@ -44,7 +44,7 @@
                                     <thead>
                                     <tr>
                                         <th>Payment Date</th>
-                                        <th>Reference Number</th>
+                                        <th>Payment Number</th>
                                         <th>Company Name</th>
                                         <th>Billing Number</th>
                                         <th>Amount Paid</th>
@@ -163,6 +163,7 @@
                     </div>
                     <hr>
                     <h5>Proof of Payment</h5>
+                    <div id="div_proofOfPayment"></div>
 
                     <hr>
                     <form id="form_paymentValidation">
@@ -190,6 +191,29 @@
                 </div>
                 <div class="modal-footer modal-footer--sticky">
                     <button type="submit" class="btn gwc-button" id="btn_submitPaymentValidation" form="form_paymentValidation">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_sendEmailToEmployees" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle2"> 
+                        Payment Confirmation Email
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <i>Processing, Please wait...</i>
+                    </center>
+                    <div class="progress mt-1 mb-1">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" id="div_progressBar" style="width: 0%"></div>
+                    </div>
+                    <center>
+                        <i><span id="lbl_progress"></span></i>
+                    </center>
                 </div>
             </div>
         </div>
