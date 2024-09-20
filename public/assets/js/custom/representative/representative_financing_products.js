@@ -7,7 +7,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
 
     thisRepresentativeFinancingProducts.r_selectCompanyInformation = function(companyId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyController->r_selectCompanyInformation()
             'route' : '/portal/representative/r-select-company-information',
             'data'  : {
@@ -26,7 +26,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
 
     thisRepresentativeFinancingProducts.r_selectProductInformation = function(productCode)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // ProductController->r_selectFinancingProduct
             'route' : '/portal/representative/r-select-financing-product',
             'data'  : {
@@ -41,7 +41,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
 
     thisRepresentativeFinancingProducts.r_loadCompanyDocuments = function(companyId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyController->r_loadCompanyDocuments
             'route' : '/portal/representative/r-load-company-documents',
             'data'  : {
@@ -326,7 +326,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
 
     thisRepresentativeFinancingProducts.r_openCompanyDocumentPreview = function(documentId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyController->r_selectCompanyDocument
             'route' : '/portal/representative/r-select-company-document',
             'data'  : {
@@ -345,8 +345,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
 
         $('#btn_submitFinancingProduct').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // ProductSubscriptionController->r_addProductSubscription();
             'route' : 'portal/representative/r-add-product-subscription',
             'data'  : formData
@@ -356,7 +355,7 @@ const REPRESENTATIVE_FINANCING_PRODUCTS = (function(){
                 $('#btn_submitFinancingProduct').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/financing-products`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitFinancingProduct').prop('disabled',false);
         });

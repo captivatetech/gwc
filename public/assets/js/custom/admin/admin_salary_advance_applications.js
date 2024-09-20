@@ -7,12 +7,10 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
     thisAdminSalaryAdvanceApplications.a_loadProductSubscriptions = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // ProductSubscriptionController->a_loadProductSubscriptions();
             'route' : '/portal/admin/a-load-product-subscriptions',
-            'data'  : {
-                'companyId' : 'companyId'
-            }
+            'data'  : null
         }, function(data){
             let tbody = '';
             data.forEach(function(value,index){
@@ -42,14 +40,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
     thisAdminSalaryAdvanceApplications.a_selectProductSubscription = function(companyId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // ProductSubscriptionController::a_selectProductSubscription
             'route' : 'portal/admin/a-select-product-subscription',
             'data'  : {
                 'companyId' : companyId
             }
         }, function(data){
-
             $('#txt_subscriptionId').val(data['id']);
             $('#txt_companyId').val(data['company_id']);
 
@@ -69,7 +66,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             $('#slc_employeeListStatus').val(data['subscription_status']);
             $('#txt_remarks').val(data['remarks']);
 
-            if(data['subscription_status'] == 'Approve')
+            if(data['subscription_status'] == 'APPROVE')
             {
                 $('#btn_requestResubmission').prop('disabled',true);
                 $('#btn_acceptSubscription').prop('disabled',false);
@@ -88,7 +85,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
     thisAdminSalaryAdvanceApplications.a_loadCompanyDocuments = function(companyId, businessType)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyDocumentController->a_loadCompanyDocuments()
             'route' : 'portal/admin/a-load-company-documents',
             'data'  : {
@@ -96,7 +93,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 'businessType' : businessType
             }
         }, function(data){
-
             let arrAccept = [0,0];
 
             if(businessType == 'Corporation')
@@ -455,7 +451,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             arrAccept[1] = (arrAttachments.includes(0))? 0 : 1;
 
             $('#btn_acceptSubscription').prop('disabled',(arrAccept.includes(0))? true : false);
-
         });
     }
 
@@ -484,7 +479,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
         $('#btn_verifyDocument').prop('disabled',true);
         
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             'route' : 'portal/admin/a-verify-company-document',
             'data'  : formData
         }, function(data){
@@ -494,7 +489,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 $('#modal_companyDocumentPreview').modal('hide');
                 ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription($('#txt_companyId').val());
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_verifyDocument').prop('disabled',false);
         });
@@ -509,7 +504,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
         $('#btn_requestResubmission').prop('disabled',true);
         
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // ProductSubscriptionController::a_failedCompanySubscription()
             'route' : 'portal/admin/a-failed-company-subscription',
             'data'  : formData
@@ -521,7 +516,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 $('#div_salaryAdvanceEmployeeList').prop('hidden',true);
                 $('#div_salaryAdvanceUpdate').prop('hidden',true);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_requestResubmission').prop('disabled',false);
         });
@@ -541,7 +536,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
             $('#btn_requestResubmission').prop('disabled',true);
            
-            AJAXHELPER.editData({
+            AJAXHELPER.postData({
                 // ProductSubscriptionController::a_acceptCompanySubscription()
                 'route' : 'portal/admin/a-accept-company-subscription',
                 'data'  : formData
@@ -553,7 +548,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 let count = 0;
                 let importCount = 0;
                 ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
-            }, function(data){ // Error
+            }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
                 $('#btn_requestResubmission').prop('disabled',false);
             }); 
@@ -565,12 +560,11 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
         setTimeout(function(){  
             let formData = new FormData();
             formData.set("employeeId", arrData[count]['id']);
-            AJAXHELPER.editData({
+            AJAXHELPER.sendEmail({
                 // EmployeeController::a_sendEmployeeEmailVerification()
                 'route' : 'portal/admin/a-send-employee-email-verification',
                 'data'  : formData
             }, function(data){
-                
                 if(count == (parseInt(arrData.length) - 1))
                 {
                     progressRem = 100 - totalProgress;
@@ -599,7 +593,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         window.location.replace(`${baseUrl}portal/admin/salary-advance-applications`);
                     }, 1000);
                 }
-            }, function(data){ // Error
+            }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             }); 
         }, 1000);
@@ -612,7 +606,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
         $('#div_salaryAdvanceUpdate').prop('hidden',true);
         $('#div_salaryAdvanceAttachments').prop('hidden',true);
         
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyDocumentController->a_loadCompanyEmployees();
             'route' : '/portal/admin/a-load-company-employees',
             'data'  : {

@@ -8,7 +8,7 @@ const PROFILE = (function(){
     thisProfile.changePassword = function(thisForm)
     {
         let formData = new FormData(thisForm);
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             'route' : 'portal/admin/change-password',
             'data'  : formData
         }, function(data){
@@ -17,7 +17,7 @@ const PROFILE = (function(){
                 $('#btn_submitChangePassword').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             $('#txt_oldPassword').val('');
             $('#txt_newPassword').val('');
             $('#txt_confirmPassword').val('');

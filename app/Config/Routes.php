@@ -72,47 +72,47 @@ $routes->post('portal/e-email-verification', 'IndexController::e_emailVerificati
 /* 
     !== EMPLOYEE NAVIGATION
 */
-$routes->get('portal/employee/profile', 'Portal\NavigationController::employeeProfile');
-$routes->get('portal/employee/dashboard', 'Portal\NavigationController::employeeDashboard');
-$routes->get('portal/employee/loan-accounts', 'Portal\NavigationController::employeeLoanAccounts');
+$routes->get('portal/employee/profile', 'Portal\NavigationController::e_profile');
+$routes->get('portal/employee/dashboard', 'Portal\NavigationController::e_dashboard');
+$routes->get('portal/employee/loan-accounts', 'Portal\NavigationController::e_loanAccounts');
 
 
 /* 
     !== REPRESENTATIVE NAVIGATION
 */
-$routes->get('portal/representative/profile', 'Portal\NavigationController::representativeProfile');
-$routes->get('portal/representative/dashboard', 'Portal\NavigationController::representativeDashboard'); 
-$routes->get('portal/representative/company-profile', 'Portal\NavigationController::representativeCompanyProfile'); 
-$routes->get('portal/representative/financing-products', 'Portal\NavigationController::representativeFinancingProducts'); 
-$routes->get('portal/representative/employee-list', 'Portal\NavigationController::representativeEmployeeList'); 
-$routes->get('portal/representative/salary-advance-applications', 'Portal\NavigationController::representativeSalaryAdvanceApplications'); 
-$routes->get('portal/representative/billing-and-payments', 'Portal\NavigationController::representativeBillingAndPayments'); 
-$routes->get('portal/representative/maintenance-users', 'Portal\NavigationController::representativeMaintenanceUsers'); 
-$routes->get('portal/representative/maintenance-roles', 'Portal\NavigationController::representativeMaintenanceRoles'); 
-$routes->get('portal/representative/faqs', 'Portal\NavigationController::representativeFaqs'); 
+$routes->get('portal/representative/profile', 'Portal\NavigationController::r_profile');
+$routes->get('portal/representative/dashboard', 'Portal\NavigationController::r_dashboard'); 
+$routes->get('portal/representative/company-profile', 'Portal\NavigationController::r_companyProfile'); 
+$routes->get('portal/representative/financing-products', 'Portal\NavigationController::r_financingProducts'); 
+$routes->get('portal/representative/employee-list', 'Portal\NavigationController::r_employeeList'); 
+$routes->get('portal/representative/salary-advance-applications', 'Portal\NavigationController::r_salaryAdvanceApplications'); 
+$routes->get('portal/representative/billing-and-payments', 'Portal\NavigationController::r_billingAndPayments'); 
+$routes->get('portal/representative/maintenance-users', 'Portal\NavigationController::r_maintenanceUsers'); 
+$routes->get('portal/representative/maintenance-roles', 'Portal\NavigationController::r_maintenanceRoles'); 
+$routes->get('portal/representative/faqs', 'Portal\NavigationController::r_faqs'); 
 
 
 /* 
     !== ADMIN NAVIGATION
 */
-$routes->get('portal/admin/profile', 'Portal\NavigationController::adminProfile');
-$routes->get('portal/admin/dashboard', 'Portal\NavigationController::adminDashboard'); 
-$routes->get('portal/admin/applications', 'Portal\NavigationController::adminApplications'); 
-$routes->get('portal/admin/partners-list', 'Portal\NavigationController::adminPartnersList'); 
-$routes->get('portal/admin/salary-advance-applications', 'Portal\NavigationController::adminSalaryAdvanceApplications'); 
-$routes->get('portal/admin/business-expansion-applications', 'Portal\NavigationController::adminBusinessExpansionApplications'); 
-$routes->get('portal/admin/payment-now-applications', 'Portal\NavigationController::adminPaymentNowApplications'); 
-$routes->get('portal/admin/salary-advance-accounts', 'Portal\NavigationController::adminSalaryAdvanceAccounts'); 
-$routes->get('portal/admin/business-expansion-accounts', 'Portal\NavigationController::adminBusinessExpansionAccounts'); 
-$routes->get('portal/admin/payment-now-accounts', 'Portal\NavigationController::adminPaymentNowAccounts'); 
-$routes->get('portal/admin/billings', 'Portal\NavigationController::adminBillings'); 
-$routes->get('portal/admin/payments', 'Portal\NavigationController::adminPayments'); 
-$routes->get('portal/admin/maintenance-users', 'Portal\NavigationController::adminMaintenanceUsers'); 
-$routes->get('portal/admin/maintenance-roles', 'Portal\NavigationController::adminMaintenanceRoles'); 
-$routes->get('portal/admin/maintenance-fees', 'Portal\NavigationController::adminMaintenanceFees'); 
-$routes->get('portal/admin/maintenance-faqs', 'Portal\NavigationController::adminMaintenanceFaqs'); 
-$routes->get('portal/admin/reports', 'Portal\NavigationController::adminReports'); 
-$routes->get('portal/admin/audit-trail', 'Portal\NavigationController::adminAuditTrail'); 
+$routes->get('portal/admin/profile', 'Portal\NavigationController::a_profile');
+$routes->get('portal/admin/dashboard', 'Portal\NavigationController::a_dashboard'); 
+$routes->get('portal/admin/applications', 'Portal\NavigationController::a_applications'); 
+$routes->get('portal/admin/partners-list', 'Portal\NavigationController::a_partnersList'); 
+$routes->get('portal/admin/salary-advance-applications', 'Portal\NavigationController::a_advanceApplications'); 
+$routes->get('portal/admin/business-expansion-applications', 'Portal\NavigationController::a_businessExpansionApplications'); 
+$routes->get('portal/admin/payment-now-applications', 'Portal\NavigationController::a_paymentNowApplications'); 
+$routes->get('portal/admin/salary-advance-accounts', 'Portal\NavigationController::a_salaryAdvanceAccounts'); 
+$routes->get('portal/admin/business-expansion-accounts', 'Portal\NavigationController::a_businessExpansionAccounts'); 
+$routes->get('portal/admin/payment-now-accounts', 'Portal\NavigationController::a_paymentNowAccounts'); 
+$routes->get('portal/admin/billings', 'Portal\NavigationController::a_billings'); 
+$routes->get('portal/admin/payments', 'Portal\NavigationController::a_payments'); 
+$routes->get('portal/admin/maintenance-users', 'Portal\NavigationController::a_maintenanceUsers'); 
+$routes->get('portal/admin/maintenance-roles', 'Portal\NavigationController::a_maintenanceRoles'); 
+$routes->get('portal/admin/maintenance-fees', 'Portal\NavigationController::a_maintenanceFees'); 
+$routes->get('portal/admin/maintenance-faqs', 'Portal\NavigationController::a_maintenanceFaqs'); 
+$routes->get('portal/admin/reports', 'Portal\NavigationController::a_reports'); 
+$routes->get('portal/admin/audit-trail', 'Portal\NavigationController::a_auditTrail'); 
 
 
 
@@ -321,6 +321,7 @@ $routes->get('portal/admin/a-load-billing-details', 'Portal\BillingController::a
 $routes->get('portal/admin/a-load-payments', 'Portal\PaymentController::a_loadPayments');
 $routes->get('portal/admin/a-select-payment', 'Portal\PaymentController::a_selectPayment');
 $routes->post('portal/admin/a-confirm-payment', 'Portal\PaymentController::a_confirmPayment');
+$routes->post('portal/admin/a-send-email-to-employees', 'Portal\PaymentController::a_sendEmailToEmployees');
 
     // ADMIN MAINTENANCE USERS FUNCTIONS
 $routes->get('portal/admin/load-admin-users', 'Portal\UserController::loadAdminUsers');

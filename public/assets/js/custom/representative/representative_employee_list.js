@@ -9,9 +9,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_loadEmployees = function(companyId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // EmployeeController->r_loadEmployees();
-            'route' : '/portal/representative/r-load-employees',
+            'route' : 'portal/representative/r-load-employees',
             'data'  : {
                 'companyId' : companyId
             }
@@ -73,7 +73,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_calculateEmployeeYearsStayed = function()
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // EmployeeController->r_calculateEmployeeYearsStayed();
             'route' : 'portal/representative/r-calculate-employee-years-stayed',
             'data'  : {
@@ -90,8 +90,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('txt_companyId',$("#txt_companyId").val());
 
         $('#btn_submitEmployee').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // EmployeeController->r_addEmployee();
             'route' : 'portal/representative/r-add-employee',
             'data'  : formData
@@ -101,7 +100,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 $('#btn_submitEmployee').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/employee-list`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitEmployee').prop('disabled',false);
         });
@@ -109,7 +108,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_selectEmployee = function(employeeId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // EmployeeController->r_selectEmployee();
             'route' : '/portal/representative/r-select-employee',
             'data'  : {
@@ -144,12 +143,10 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_loadBankDepositories = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyController->r_loadBankDepositories();
             'route' : 'portal/representative/r-load-bank-depositories',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let options = `<option value="" selected disabled>---</option>`;
             data.forEach(function(value,index){
@@ -172,8 +169,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('txt_companyId',$("#txt_companyId").val());
 
         $('#btn_submitEmployee').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // EmployeeController->r_editEmployee();
             'route' : 'portal/representative/r-edit-employee',
             'data'  : formData
@@ -183,7 +179,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 $('#btn_submitEmployee').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/employee-list`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitEmployee').prop('disabled',false);
         });
@@ -204,7 +200,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 setTimeout(function(){
                     window.location.replace(`${baseUrl}portal/representative/employee-list`);
                 }, 1000);
-            }, function(data){ // Error
+            }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             });
         }
@@ -222,7 +218,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         var fileName = document.getElementById('file_employeeList').files[0].name;
         let formData = new FormData();
         formData.set('employeeList',document.getElementById('file_employeeList').files[0],fileName);
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // EmployeeController->r_uploadFile();
             'route' : 'portal/representative/r-upload-file',
             'data'  : formData
@@ -274,7 +270,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
             $('#tbl_mapping tbody').html('');
             $('#tbl_mapping tbody').html(tbody);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
         });
     }
@@ -301,12 +297,10 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_loadCustomMaps = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // EmployeeController->r_loadCustomMaps();
             'route' : '/portal/representative/r-load-custom-maps',
-            'data'  : {
-                'employeeId' : 'employeeId'
-            }
+            'data'  : null
         }, function(data){
             let options = '<option value="">--No Saved Maps--</option>';
             data.forEach(function(value,index){
@@ -318,7 +312,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_selectCustomMap = function(mapId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // EmployeeController->r_selectCustomMap();
             'route' : '/portal/representative/r-select-custom-map',
             'data'  : {
@@ -356,7 +350,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('chk_saveCustomMapping',($('#chk_saveCustomMapping').is(':checked'))? 'YES' : 'NO');
         formData.set('txt_customMapName',$('#txt_customMapName').val());
         formData.set('arrEmployeeList',JSON.stringify(_arrEmployeeList['arrEmployeeList']));
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // EmployeeController->r_mappingAndDuplicateHandling();
             'route' : 'portal/representative/r-mapping-and-duplicate-handling',
             'data'  : formData
@@ -472,19 +466,14 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 _arrEmployeeList['arrDataForImport'] = data['arrDataForImport'];
 
                 tbody = '';
-                // let countForInsert = 0;
-                // let countForUpdate = 0;
-                // let totalCount = 0;
                 data['arrDataForImport'].forEach(function(value,key){
                     if(value['id'] == '')
                     {
                         tbody += `<tr class="table-success">`;
-                        // countForInsert++;
                     }
                     else
                     {
                         tbody += `<tr class="table-warning">`;
-                        // countForUpdate++;
                     }
                     tr = `<td style="white-space:nowrap">${value['id']}</td>`;
                     tr += `<td style="white-space:nowrap">${value['row_number']}</td>`;
@@ -493,19 +482,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     });
                     tbody += tr;
                     tbody += `</tr>`;
-                    // totalCount++;
                 });
-
-                // let percentForInsert = (countForInsert / totalCount) * 100;
-                // let percentForUpdate = (countForUpdate / totalCount) * 100;
-
-                // $('#lbl_percentForInsert').text(`${(percentForInsert>0)? (percentForInsert).toFixed(0):0} %`);
-                // $('#lbl_countForInsert').text(`${countForInsert} out of ${totalCount}`);
-                // $('#div_percentForInsert').css('width',`${((countForInsert / totalCount) * 100).toFixed(0)}%`);
-
-                // $('#lbl_percentForUpdate').text(`${(percentForUpdate>0)? (percentForUpdate).toFixed(0):0} %`);
-                // $('#lbl_countForUpdate').text(`${countForUpdate} out of ${totalCount}`);
-                // $('#div_percentForUpdate').css('width',`${((countForUpdate / totalCount) * 100).toFixed(0)}%`);
 
                 $('#tbl_importData').DataTable().destroy();
                 $('#tbl_importData tbody').html(tbody);
@@ -514,19 +491,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     'order'     : [[1, 'asc']]
                 });
 
-                // if(data['arrDataForImport'].length > 0)
-                // {
-                //     $('#btn_submitEmployee').prop('disabled',false);
-                // }
-                // else
-                // {
-                //     $('#btn_submitEmployee').prop('disabled',true);
-                // }
-
                 $('#btn_submitStepThree').prop('disabled',false);
             }
-
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
         });
     }
@@ -554,18 +521,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
     thisRepresentativeEmployeeList.r_importEmployees = function()
     {
         let alertMsg = '';
-        // console.log(_arrEmployeeList['arrUniqueValues']);
-        // if(_arrEmployeeList['arrUniqueValues'].length > 0)
-        // {
-        //     alertMsg = 'Please Confirm!';
-        // }
-        // else
-        // {
-        //     alertMsg = 'Continue upload without duplicate handling!';
-        // }
-
         alertMsg = 'Please Confirm!';
-        
         if(confirm(alertMsg))
         {
             $('#div_progressBarContainer').prop('hidden',false);
@@ -617,7 +573,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
         formData.set('txt_companyCode',$('#txt_companyCode').val());
         formData.set('arrDataForImport',JSON.stringify(_arrEmployeeList['arrDataForImport']));
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // EmployeeController->r_importEmployees();
             'route' : 'portal/representative/r-import-employees',
             'data'  : formData
@@ -661,7 +617,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     }, 1000);
                 }
             }
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
         });
     }
@@ -734,7 +690,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_loadCompanyAttachments = function(companyId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyDocumentController->r_loadCompanyAttachments();
             'route' : '/portal/representative/r-load-company-attachments',
             'data'  : {
@@ -788,8 +744,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('txt_companyId',$("#txt_companyId").val());
 
         $('#btn_submitCompanyAttachment').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // CompanyDocumentController->r_addCompanyAttachment();
             'route' : 'portal/representative/r-add-company-attachment',
             'data'  : formData
@@ -800,7 +755,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 REPRESENTATIVE_EMPLOYEE_LIST.r_loadCompanyAttachments($("#txt_companyId").val());
                 $('#modal_companyAttachment').modal('hide');
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCompanyAttachment').prop('disabled',false);
         });
@@ -808,7 +763,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_selectCompanyAttachment = function(documentId, documentCode, documentName)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyDocumentController->r_selectCompanyAttachment();
             'route' : '/portal/representative/r-select-company-attachment',
             'data'  : {
@@ -842,8 +797,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         formData.set('txt_companyId',$("#txt_companyId").val());
 
         $('#btn_submitCompanyAttachment').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyDocumentController->r_editCompanyAttachment();
             'route' : 'portal/representative/r-edit-company-attachment',
             'data'  : formData
@@ -854,7 +808,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 REPRESENTATIVE_EMPLOYEE_LIST.r_loadCompanyAttachments($("#txt_companyId").val());
                 $('#modal_companyAttachment').modal('hide');
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCompanyAttachment').prop('disabled',false);
         });

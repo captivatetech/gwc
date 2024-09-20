@@ -17,7 +17,7 @@ class NavigationController extends BaseController
     /*
         START EMPLOYEE
     */
-    public function employeeProfile()
+    public function e_profile()
     {
         if($this->session->has('gwc_employee_loggedIn'))
         {
@@ -51,7 +51,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function employeeDashboard()
+    public function e_dashboard()
     {
         if($this->session->has('gwc_employee_loggedIn'))
         {
@@ -87,7 +87,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function employeeLoanAccounts()
+    public function e_loanAccounts()
     {
         if($this->session->has('gwc_employee_loggedIn'))
         {
@@ -127,7 +127,7 @@ class NavigationController extends BaseController
     /*
         START REPRESENTATIVE
     */
-    public function representativeProfile()
+    public function r_profile()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -161,7 +161,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeDashboard()
+    public function r_dashboard()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -195,7 +195,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeCompanyProfile()
+    public function r_companyProfile()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -233,7 +233,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeFinancingProducts()
+    public function r_financingProducts()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -269,7 +269,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeEmployeeList()
+    public function r_employeeList()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -307,7 +307,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeSalaryAdvanceApplications()
+    public function r_salaryAdvanceApplications()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -345,7 +345,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeBillingAndPayments()
+    public function r_billingAndPayments()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -380,7 +380,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeMaintenanceUsers()
+    public function r_maintenanceUsers()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -414,7 +414,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeMaintenanceRoles()
+    public function r_maintenanceRoles()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -448,7 +448,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function representativeFaqs()
+    public function r_faqs()
     {
         if($this->session->has('gwc_representative_loggedIn'))
         {
@@ -488,7 +488,7 @@ class NavigationController extends BaseController
     /*
         START ADMIN
     */
-    public function adminProfile()
+    public function a_profile()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -523,7 +523,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminDashboard()
+    public function a_dashboard()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -558,7 +558,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminApplications()
+    public function a_applications()
     {       
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -594,7 +594,7 @@ class NavigationController extends BaseController
         
     }
 
-    public function adminPartnersList()
+    public function a_partnersList()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -629,7 +629,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminSalaryAdvanceApplications()
+    public function a_advanceApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -664,7 +664,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminBusinessExpansionApplications()
+    public function a_businessExpansionApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -699,7 +699,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminPaymentNowApplications()
+    public function a_paymentNowApplications()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -734,7 +734,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminSalaryAdvanceAccounts()
+    public function a_salaryAdvanceAccounts()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -769,7 +769,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminBusinessExpansionAccounts()
+    public function a_businessExpansionAccounts()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -804,7 +804,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminPaymentNowAccounts()
+    public function a_paymentNowAccounts()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -839,7 +839,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminBillings()
+    public function a_billings()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -874,7 +874,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminPayments()
+    public function a_payments()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -909,7 +909,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminMaintenanceUsers()
+    public function a_maintenanceUsers()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -944,7 +944,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminMaintenanceRoles()
+    public function a_maintenanceRoles()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -979,7 +979,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminMaintenanceFees()
+    public function a_maintenanceFees()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -1014,12 +1014,12 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminMaintenanceFaqs()
+    public function a_maintenanceFaqs()
     {
         
     }
 
-    public function adminReports()
+    public function a_reports()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -1054,7 +1054,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function adminAuditTrail()
+    public function a_auditTrail()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {

@@ -126,7 +126,7 @@ class PaymentController extends BaseController
                             'payment_type'      => $fields['slc_paymentType'],
                             'reference_number'  => $apiResult['external_id'],
                             'payment_amount'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
-                            'payment_status'    => 'Pending',
+                            'payment_status'    => 'PENDING',
                             'payment_date'      => $fields['txt_paymentDate'],
                             'proof_of_payment'  => $apiResult['invoice_url'],
                             'created_by'        => $this->session->get('gwc_representative_id'),
@@ -184,7 +184,7 @@ class PaymentController extends BaseController
                         'payment_type'      => $fields['slc_paymentType'],
                         'reference_number'  => $fields['txt_paymentReferenceNumber'],
                         'payment_amount'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
-                        'payment_status'    => 'Pending',
+                        'payment_status'    => 'PENDING',
                         'payment_date'      => $fields['txt_paymentDate'],
                         'created_by'        => $this->session->get('gwc_representative_id'),
                         'created_date'      => date('Y-m-d H:i:s')
@@ -239,14 +239,15 @@ class PaymentController extends BaseController
                     $result = $this->payments->r_submitPayment($arrData);
                     if($result > 0)
                     {
-                        if((float)str_replace(",", "", $fields['txt_billingAmount']) == (float)str_replace(",", "", $fields['txt_paymentAmount']))
-                        {
-                            $paymentStatus = "PAID";
-                        }
-                        else
-                        {
-                            $paymentStatus = "PARTIAL";
-                        }
+                        // if((float)str_replace(",", "", $fields['txt_billingAmount']) == (float)str_replace(",", "", $fields['txt_paymentAmount']))
+                        // {
+                        //     $paymentStatus = "PAID";
+                        // }
+                        // else
+                        // {
+                        //     $paymentStatus = "PARTIAL";
+                        // }
+                        $paymentStatus = 'PENDING';
                         $arrData = [];
                         $arrData = [
                             'total_paid'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
@@ -262,7 +263,7 @@ class PaymentController extends BaseController
                         { 
                             $arrData[] = [
                                 'id'                => $billingIds[$i],
-                                'payment_status'    => 'PAID',
+                                'payment_status'    => 'PENDING',
                                 'penalty_type'      => null,
                                 'updated_by'        => $this->session->get('gwc_representative_id'),
                                 'updated_date'      => date('Y-m-d H:i:s')
@@ -318,14 +319,15 @@ class PaymentController extends BaseController
             $billingIds = explode(',', $arrFields['arrBillingIds']);
             $arrBillingIdsWithPenalties = json_decode($arrFields['arrBillingIdsWithPenalties'], true);
 
-            if((float)str_replace(",", "", $arrFields['txt_billingAmount']) == (float)str_replace(",", "", $arrFields['txt_paymentAmount']))
-            {
-                $paymentStatus = "PAID";
-            }
-            else
-            {
-                $paymentStatus = "PARTIAL";
-            }
+            // if((float)str_replace(",", "", $arrFields['txt_billingAmount']) == (float)str_replace(",", "", $arrFields['txt_paymentAmount']))
+            // {
+            //     $paymentStatus = "PAID";
+            // }
+            // else
+            // {
+            //     $paymentStatus = "PARTIAL";
+            // }
+            $paymentStatus = 'PENDING';
             $arrData = [];
             $arrData = [
                 'total_paid'    => (float)str_replace(",", "", $arrFields['txt_paymentAmount']),
@@ -341,7 +343,7 @@ class PaymentController extends BaseController
             { 
                 $arrData[] = [
                     'id'                => $billingIds[$i],
-                    'payment_status'    => 'PAID',
+                    'payment_status'    => 'PENDING',
                     'penalty_type'      => null,
                     'updated_by'        => $this->session->get('gwc_representative_id'),
                     'updated_date'      => date('Y-m-d H:i:s')
@@ -358,11 +360,15 @@ class PaymentController extends BaseController
                 ];
             }
             $this->billings->r_updateBillingDetails($arrData);
+
+            $arrData = [
+                'payment_status' => "UNPAID"
+            ];
         }
         else
         {
             $arrData = [
-                'payment_status' => "PAID"
+                'payment_status' => "PENDING"
             ];
         }
         return $this->slice->view('portal.representative.representative_success_payment', $arrData);
@@ -418,32 +424,44 @@ class PaymentController extends BaseController
                 $result = $this->payments->a_confirmPayment($arrData, $fields['txt_paymentId']);
                 if($result == 1)
                 {
+                    $arrData = [
+                        'payment_status' => 'PAID'
+                    ];
+                    $this->payments->a_updateBilling($arrData, $fields['txt_billingId']);
 
-                    // $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
+                    $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
+                    $emailConfig = [
+                        'smtp_host'    => 'smtp.googlemail.com',
+                        'smtp_port'    => 465,
+                        'smtp_crypto'  => 'ssl',
+                        'smtp_user'    => 'ajhay.dev@gmail.com',
+                        'smtp_pass'    => 'uajtlnchouyuxaqp',
+                        'mail_type'    => 'html',
+                        'charset'      => 'iso-8859-1',
+                        'word_wrap'    => true
+                    ];
 
-                    // $emailConfig = [
-                    //     'smtp_host'    => 'smtp.googlemail.com',
-                    //     'smtp_port'    => 465,
-                    //     'smtp_crypto'  => 'ssl',
-                    //     'smtp_user'    => 'ajhay.dev@gmail.com',
-                    //     'smtp_pass'    => 'uajtlnchouyuxaqp',
-                    //     'mail_type'    => 'html',
-                    //     'charset'      => 'iso-8859-1',
-                    //     'word_wrap'    => true
-                    // ];
+                    $emailSender    = 'ajhay.dev@gmail.com';
+                    $emailReceiver  = $arrRepresentative['email_address'];
 
-                    // $emailSender    = 'ajhay.dev@gmail.com';
-                    // $emailReceiver  = $arrRepresentative['email_address'];
+                    $data = [
+                        'subjectTitle'  => 'Confirm Payment'
+                    ];
 
-                    // $data = [
-                    //     'subjectTitle'  => 'Confirm Payment'
-                    // ];
-
-                    // sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
-
-                    $msgResult[] = "Success!<br>Payment Confirmed!";
-                    return $this->response->setJSON($msgResult);
-                    exit();
+                    $result = sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
+                    if($result > 0)
+                    {
+                        $arrData[] = "Confirm-Payment";
+                        $arrData[] = $this->employees->a_loadEmployeeDetails($fields['txt_billingId']);
+                        return $this->response->setJSON($arrData);
+                        exit();
+                    }
+                    else
+                    {
+                        $msgResult[] = "Error!<br>Something went wrong!";
+                        return $this->response->setStatusCode(401)->setJSON($msgResult);
+                        exit();
+                    }
                 }
                 else
                 {
@@ -454,7 +472,56 @@ class PaymentController extends BaseController
             }
             else if($fields['slc_paymentStatus'] == 'RETURN')
             {
+                $arrData = [
+                    'payment_status' => 'RETURN', 
+                    'return_remarks' => $fields['txt_returnRemarks']
+                ];
 
+                $result = $this->payments->a_confirmPayment($arrData, $fields['txt_paymentId']);
+                if($result == 1)
+                {
+
+                    $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
+
+                    $emailConfig = [
+                        'smtp_host'    => 'smtp.googlemail.com',
+                        'smtp_port'    => 465,
+                        'smtp_crypto'  => 'ssl',
+                        'smtp_user'    => 'ajhay.dev@gmail.com',
+                        'smtp_pass'    => 'uajtlnchouyuxaqp',
+                        'mail_type'    => 'html',
+                        'charset'      => 'iso-8859-1',
+                        'word_wrap'    => true
+                    ];
+
+                    $emailSender    = 'ajhay.dev@gmail.com';
+                    $emailReceiver  = $arrRepresentative['email_address'];
+
+                    $data = [
+                        'subjectTitle'  => 'Return Payment',
+                        'returnRemarks' => $fields['txt_returnRemarks']
+                    ];
+
+                    $result = sendSliceMail('representative_return_payment',$emailConfig,$emailSender,$emailReceiver,$data);
+                    if($result > 0)
+                    {
+                        $msgResult[] = "Return-Payment";
+                        return $this->response->setJSON($arrData);
+                        exit();
+                    }
+                    else
+                    {
+                        $msgResult[] = "Error!<br>Something went wrong!";
+                        return $this->response->setStatusCode(401)->setJSON($msgResult);
+                        exit();
+                    }
+                }
+                else
+                {
+                    $msgResult[] = "Error!<br>Something went wrong!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
             }
         }
         else
@@ -467,6 +534,53 @@ class PaymentController extends BaseController
 
     public function a_sendEmailToEmployees()
     {
-        
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'payment_status' => 'PAID'
+        ];
+
+        $result = $this->payments->a_updateBillingDetails($arrData, $fields['billing_details_id']);
+
+        if($result > 0)
+        {
+            $emailConfig = [
+                'smtp_host'    => 'smtp.googlemail.com',
+                'smtp_port'    => 465,
+                'smtp_crypto'  => 'ssl',
+                'smtp_user'    => 'ajhay.dev@gmail.com',
+                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'mail_type'    => 'html',
+                'charset'      => 'iso-8859-1',
+                'word_wrap'    => true
+            ];
+
+            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailReceiver  = $fields['email_address'];
+
+            $data = [
+                'subjectTitle'  => 'Confirm Payment'
+            ];
+
+            $result = sendSliceMail('employee_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
+            if($result > 0)
+            {
+                $msgResult[] = "Success!<br>Payment confirmation sent!";
+                return $this->response->setJSON($msgResult);
+                exit();
+            }
+            else
+            {
+                $msgResult[] = "Error!<br>Something went wrong!";
+                return $this->response->setStatusCode(401)->setJSON($msgResult);
+                exit();
+            }
+        }
+        else
+        {
+            $msgResult[] = "Error!<br>Something went wrong!";
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }   
     }
 }

@@ -7,11 +7,9 @@ const ROLES = (function(){
 
     thisRole.loadRoles = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             'route' : 'portal/admin/load-admin-roles',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let tbody = '';
             data.forEach(function(value,key){
@@ -55,7 +53,6 @@ const ROLES = (function(){
     {
         let arrAccessModules = [];
         $('#tbl_rolesConfig tbody tr.module').each(function(){
-          
             let moduleStatus = ($(this).find('td:eq(0) input[type="checkbox"]').is(':checked'))? 1 : 0;
 
             let viewStatus = ($(this).find('td:eq(1) input[type="checkbox"]').is(':checked'))? 1 : 0;
@@ -75,7 +72,6 @@ const ROLES = (function(){
             ];
 
             arrAccessModules.push(rowData);
-          
         });
 
         let formData = new FormData(thisForm);
@@ -83,7 +79,7 @@ const ROLES = (function(){
 
         $('#btn_saveRole').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             'route' : 'portal/admin/add-admin-role',
             'data'  : formData
         }, function(data){
@@ -92,7 +88,7 @@ const ROLES = (function(){
                 $('#btn_saveRole').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/maintenance-roles`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_saveRole').prop('disabled',false);
         });
@@ -100,13 +96,12 @@ const ROLES = (function(){
 
     thisRole.copyRole = function(roleId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             'route' : 'portal/admin/select-admin-role',
             'data'  : {
                 'roleId' : roleId
             }
         }, function(data){
-
             $('#txt_roleId').val('');
             $('#txt_roleName').val(data['role_name']);
             $('#txt_roleDescription').val(data['role_description']);
@@ -165,19 +160,17 @@ const ROLES = (function(){
 
             $('#lbl_modalTitle').html('<i class="feather-copy me-2"></i> Copy Role');
             $('#modal_roles').modal('show');
-
         });
     }
 
     thisRole.selectRole = function(roleId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             'route' : 'portal/admin/select-admin-role',
             'data'  : {
                 'roleId' : roleId
             }
         }, function(data){
-
             $('#txt_roleId').val(data['id']);
             $('#txt_roleName').val(data['role_name']);
             $('#txt_roleDescription').val(data['role_description']);
@@ -236,7 +229,6 @@ const ROLES = (function(){
 
             $('#lbl_modalTitle').html('<i class="feather-edit-3 me-2"></i> Edit Role');
             $('#modal_roles').modal('show');
-
         });
     }
 
@@ -272,7 +264,7 @@ const ROLES = (function(){
 
         $('#btn_saveRole').prop('disabled',true);
 
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             'route' : 'portal/admin/edit-admin-role',
             'data'  : formData
         }, function(data){
@@ -281,7 +273,7 @@ const ROLES = (function(){
                 $('#btn_saveRole').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/maintenance-roles`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_saveRole').prop('disabled',false);
         });
@@ -291,7 +283,7 @@ const ROLES = (function(){
     {
         if(confirm('Please confirm!'))
         {
-            AJAXHELPER.removeData({
+            AJAXHELPER.postData({
                 'route' : 'portal/admin/remove-admin-role',
                 'data'  : {
                     'roleId' : roleId
@@ -301,7 +293,7 @@ const ROLES = (function(){
                 setTimeout(function(){
                     window.location.replace(`${baseUrl}portal/admin/maintenance-roles`);
                 }, 1000);
-            }, function(data){ // Error
+            }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             });
         }

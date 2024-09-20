@@ -8,9 +8,7 @@ const EMPLOYEE_PROFILE = (function(){
     {
         AJAXHELPER.selectData({
             'route' : '/portal/employee/select-employee-profile',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             console.log(data);
         });

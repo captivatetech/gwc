@@ -38,17 +38,16 @@ const EMPLOYEE_DASHBOARD = (function(){
 
         $('#btn_submitLoanReadinessAssessment').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // EmployeeAssessmentController->e_addLoanReadinessAssessment();
             'route' : 'portal/employee/e-add-loan-readiness-assessement',
             'data'  : formData
         }, function(data){
-            // COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_submitLoanReadinessAssessment').prop('disabled',false);
                 EMPLOYEE_DASHBOARD.e_openSalaryAdvanceModal(data);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitLoanReadinessAssessment').prop('disabled',false);
         });
@@ -58,12 +57,10 @@ const EMPLOYEE_DASHBOARD = (function(){
 
     thisEmployeeDashboard.e_openSalaryAdvanceModal = function(arrData)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // EmployeeController->e_selectEmployeeInformation();
             'route' : 'portal/employee/e-select-employee-information',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             $('#modal_loanReadinessAssessment').modal('hide');
             $('#modal_salaryAdvanceApplication').modal('show');
@@ -137,7 +134,7 @@ const EMPLOYEE_DASHBOARD = (function(){
 
         $('#btn_submitSalaryAdvanceApplication').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // LoanController->e_submitSalaryAdvanceApplication();
             'route' : 'portal/employee/e-submit-salary-advance-application',
             'data'  : formData
@@ -148,7 +145,7 @@ const EMPLOYEE_DASHBOARD = (function(){
                 $('#modal_salaryAdvanceApplication').modal('hide');
                 window.location.replace(`${baseUrl}portal/employee/dashboard`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitSalaryAdvanceApplication').prop('disabled',false);
         });

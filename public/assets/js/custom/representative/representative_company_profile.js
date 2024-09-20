@@ -7,7 +7,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_selectCompanyInformation = function(companyId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyController->r_selectCompanyInformation();
             'route' : 'portal/representative/r-select-company-information',
             'data'  : {
@@ -44,7 +44,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
         $('#btn_submitCompanyInformation').prop('disabled',true);
 
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editCompanyInformation();
             'route' : 'portal/representative/r-edit-company-information',
             'data'  : formData
@@ -54,7 +54,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitCompanyInformation').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCompanyInformation').prop('disabled',false);
         });
@@ -62,7 +62,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_loadCompanyDocuments = function(companyId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             //CompanyController->r_loadCompanyDocuments()
             'route' : 'portal/representative/r-load-company-documents',
             'data'  : {
@@ -255,7 +255,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         }
         else
         {
-            AJAXHELPER.selectData({
+            AJAXHELPER.getData({
                 // CompanyController->r_selectCompanyDocument();
                 'route' : 'portal/representative/r-select-company-document',
                 'data'  : {
@@ -327,8 +327,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.append("file_companyDocument", $('#file_companyDocument')[0].files[0]);
 
         $('#btn_submitRepCompanyDocuments').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // CompanyController->r_addCompanyDocument();
             'route' : 'portal/representative/r-add-company-document',
             'data'  : formData
@@ -339,7 +338,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#modal_repCompanyDocuments').modal('hide');
                 REPRESENTATIVE_COMPANY_PROFILE.r_loadCompanyDocuments($('#txt_companyId').val());
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitRepCompanyDocuments').prop('disabled',false);
         });
@@ -352,8 +351,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.append("file_companyDocument", $('#file_companyDocument')[0].files[0]);
 
         $('#btn_submitRepCompanyDocuments').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editCompanyDocument();
             'route' : 'portal/representative/r-edit-company-document',
             'data'  : formData
@@ -374,7 +372,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_selectCompanySettings = function(companyId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyController->r_selectCompanySettings();
             'route' : 'portal/representative/r-select-company-settings',
             'data'  : {
@@ -398,12 +396,10 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_loadBankDepositories = function(bankDepository)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyController->r_loadBankDepositories();
             'route' : 'portal/representative/r-load-bank-depositories',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let options = `<option value="" selected disabled>---</option>`;
             data.forEach(function(value,index){
@@ -428,8 +424,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.set('rdb_bpoUser',($('#rdb_bpoUser').is(':checked'))? '1' : '');
 
         $('#btn_submitCompanySettings').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editCompanySettings();
             'route' : 'portal/representative/r-edit-company-settings',
             'data'  : formData
@@ -439,7 +434,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitCompanySettings').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCompanySettings').prop('disabled',false);
         });
@@ -448,7 +443,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_loadCompanyRepresentatives = function(companyId)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyController->r_loadCompanyRepresentatives();
             'route' : 'portal/representative/r-load-company-representatives',
             'data'  : {
@@ -487,8 +482,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
 
         $('#btn_submitHrCompanyRepresentative').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // CompanyController->r_addCompanyHR();
             'route' : 'portal/representative/r-add-company-hr',
             'data'  : formData
@@ -498,7 +492,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitHrCompanyRepresentative').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitHrCompanyRepresentative').prop('disabled',false);
         });
@@ -510,8 +504,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
 
         $('#btn_submitHrCompanyRepresentative').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editCompanyHR();
             'route' : 'portal/representative/r-edit-company-hr',
             'data'  : formData
@@ -521,7 +514,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitHrCompanyRepresentative').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitHrCompanyRepresentative').prop('disabled',false);
         });
@@ -533,8 +526,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
 
         $('#btn_submitBpoCompanyRepresentative').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // CompanyController->r_addCompanyBPO();
             'route' : 'portal/representative/r-add-company-bpo',
             'data'  : formData
@@ -544,7 +536,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitBpoCompanyRepresentative').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitBpoCompanyRepresentative').prop('disabled',false);
         });
@@ -556,8 +548,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
         formData.set('txt_companyId',$('#txt_companyId').val());
 
         $('#btn_submitBpoCompanyRepresentative').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editCompanyBPO();
             'route' : 'portal/representative/r-edit-company-bpo',
             'data'  : formData
@@ -567,7 +558,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitBpoCompanyRepresentative').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitBpoCompanyRepresentative').prop('disabled',false);
         });
@@ -580,7 +571,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_loadCompanyRepresentativeIdentifications = function(employeeId, category)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // CompanyController->r_loadCompanyRepresentativeIdentifications()
             'route' : 'portal/representative/r-load-company-representative-identifications',
             'data'  : {
@@ -588,7 +579,6 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 'category'   : category
             }
         }, function(data){
-
             let hrCompanyId = ``;
             let hrGovernmentId = ``;
 
@@ -637,7 +627,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
     thisRepresentativeCompanyProfile.r_openCompanyRepresentativeIdentificationModal = function(identificationId, employeeId, identificationType, identificationCategory)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // CompanyController->r_selectRepresentativeIdentification();
             'route' : 'portal/representative/r-select-representative-identification',
             'data'  : {
@@ -711,7 +701,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
         $('#btn_submitRepIdentificationDocuments').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // CompanyController->r_addRepresentativeIdentification();
             'route' : 'portal/representative/r-add-representative-identification',
             'data'  : formData
@@ -721,7 +711,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitRepIdentificationDocuments').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitRepIdentificationDocuments').prop('disabled',false);
         });
@@ -734,7 +724,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
 
         $('#btn_submitRepIdentificationDocuments').prop('disabled',true);
 
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
             // CompanyController->r_editRepresentativeIdentification();
             'route' : 'portal/representative/r-edit-representative-identification',
             'data'  : formData
@@ -744,7 +734,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 $('#btn_submitRepIdentificationDocuments').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/company-profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitRepIdentificationDocuments').prop('disabled',false);
         });

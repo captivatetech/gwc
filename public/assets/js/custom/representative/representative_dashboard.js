@@ -7,9 +7,7 @@ const USER_DASHBOARD = (function(){
     {
         AJAXHELPER.selectData({
             'route' : '/portal/user/select-user-dashboard',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             console.log(data);
         });

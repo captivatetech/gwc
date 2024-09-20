@@ -7,14 +7,11 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
 
     thisRepresentativeSalaryAdvanceApplications.r_loadSalaryAdvanceApplications = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->r_loadSalaryAdvanceApplications
             'route' : '/portal/representative/r-load-salary-advance-applications',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
@@ -48,7 +45,7 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
     thisRepresentativeSalaryAdvanceApplications.r_selectLoanApplicationDetails = function(loanId)
     {
         $('#modal_loanApplicationDetails').modal('show');
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // LoanController->r_selectLoanApplicationDetails
             'route' : '/portal/representative/r-select-loan-application-details',
             'data'  : {
@@ -93,9 +90,8 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
         formData.set('loanId', $('#txt_loanId').val());
 
         $('#btn_rejectApplication').prop('disabled',true);
-
-        AJAXHELPER.addData({
-            // LoanController::r_submitSalaryAdvanceApplication()
+        AJAXHELPER.postData({
+            // LoanController->r_submitSalaryAdvanceApplication()
             'route' : 'portal/representative/r-submit-salary-advance-application',
             'data'  : formData
         }, function(data){
@@ -104,7 +100,7 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
                 $('#btn_rejectApplication').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/salary-advance-applications`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_rejectApplication').prop('disabled',false);
         });

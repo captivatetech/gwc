@@ -7,14 +7,11 @@ const EMPLOYEE_LOAN_ACCOUNTS = (function(){
 
     thisEmployeeLoanAccounts.e_loadLoanAccounts = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->e_loadLoanAccounts()
             'route' : '/portal/employee/e-load-loan-accounts',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>

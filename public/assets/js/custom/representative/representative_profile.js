@@ -7,12 +7,10 @@ const REPRESENTATIVE_PROFILE = (function(){
 
     thisRepresentativeProfile.selectRepresentativeInformation = function()
     {
-        AJAXHELPER.selectData({
-            
+        AJAXHELPER.getData({
+            // EmployeeController->selectRepresentativeInformation
             'route' : 'portal/representative/select-representative-information',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             $('#txt_employeeId').val(data['id']);
             $('#txt_lastName').val(data['last_name']);
@@ -29,8 +27,8 @@ const REPRESENTATIVE_PROFILE = (function(){
         let formData = new FormData(thisForm);
 
         $('#btn_submitRepInformation').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
+            // EmployeeController->editRepresentativeInformation
             'route' : 'portal/representative/edit-representative-information',
             'data'  : formData
         }, function(data){
@@ -39,7 +37,7 @@ const REPRESENTATIVE_PROFILE = (function(){
                 $('#btn_submitRepInformation').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitRepInformation').prop('disabled',false);
         });
@@ -47,11 +45,10 @@ const REPRESENTATIVE_PROFILE = (function(){
 
     thisRepresentativeProfile.loadRepresentativeIdentifications = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
+            // EmployeeIdentificationController->loadRepresentativeIdentifications
             'route' : 'portal/representative/load-representative-identifications',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let tbody = "";
             
@@ -122,8 +119,8 @@ const REPRESENTATIVE_PROFILE = (function(){
         formData.append("file_idPicture", $('#file_idPicture')[0].files[0]);
 
         $('#btn_submitRepIdentification').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
+            // EmployeeIdentificationController->addRepresentativeIdentification
             'route' : 'portal/representative/add-representative-identification',
             'data'  : formData
         }, function(data){
@@ -132,7 +129,7 @@ const REPRESENTATIVE_PROFILE = (function(){
                 $('#btn_submitRepIdentification').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitRepIdentification').prop('disabled',false);
         });
@@ -140,7 +137,8 @@ const REPRESENTATIVE_PROFILE = (function(){
 
     thisRepresentativeProfile.selectRepresentativeIdentification = function(identificationId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
+            // EmployeeIdentificationController->selectRepresentativeIdentification
             'route' : 'portal/representative/select-representative-identification',
             'data'  : {
                 'identificationId' : identificationId
@@ -156,6 +154,7 @@ const REPRESENTATIVE_PROFILE = (function(){
         if(confirm('Please confirm!'))
         {
             AJAXHELPER.removeData({
+                // EmployeeIdentificationController->removeRepresentativeIdentification
                 'route' : 'portal/representative/remove-representative-identification',
                 'data'  : {
                     'identificationId' : identificationId
@@ -165,7 +164,7 @@ const REPRESENTATIVE_PROFILE = (function(){
                 setTimeout(function(){
                     window.location.replace(`${baseUrl}portal/representative/profile`);
                 }, 1000);
-            }, function(data){ // Error
+            }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             });
         }
@@ -177,8 +176,8 @@ const REPRESENTATIVE_PROFILE = (function(){
         formData.append("file_profilePicture", $('#file_profilePicture')[0].files[0]);
 
         $('#btn_submitProfilePicture').prop('disabled',true);
-
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
+            // EmployeeController->editRepresentativeProfilePicture
             'route' : 'portal/representative/edit-representative-profile-picture',
             'data'  : formData
         }, function(data){
@@ -187,7 +186,7 @@ const REPRESENTATIVE_PROFILE = (function(){
                 $('#btn_submitProfilePicture').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/representative/profile`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitProfilePicture').prop('disabled',false);
         });

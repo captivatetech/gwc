@@ -267,7 +267,7 @@
 <!-- Ajax Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/helper/ajax_helper.js"></script>
 <!-- Custom Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/{{ $customScripts }}.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/admin/{{ $customScripts }}.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){

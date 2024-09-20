@@ -14,10 +14,6 @@
 <!-- third party css end -->
 
 
-<!-- Plugins css -->
-<link href="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url();?>public/assets/Adminto/libs/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
-
 <style type="text/css">
   /*INTERNAL STYLES*/
   
@@ -281,10 +277,10 @@
                                             <td width="30%">Employee List Status</td>
                                             <td>
                                                 <select class="form-control form-select" id="slc_employeeListStatus">
-                                                    <option value="">--status--</option>
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Approve">Approve</option>
-                                                    <option value="Resubmit">Resubmit</option>
+                                                    <option value="">--Status--</option>
+                                                    <option value="PENDING">PENDING</option>
+                                                    <option value="APPROVE">APPROVE</option>
+                                                    <option value="RESUBMIT">RESUBMIT</option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -429,13 +425,6 @@
 
 <!-- Datatables init -->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
-
-<!-- Plugins js -->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.js"></script>
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/dropify/js/dropify.min.js"></script>
-
-<!-- Init js-->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/form-fileuploads.init.js"></script>
 
 <!-- Common Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>

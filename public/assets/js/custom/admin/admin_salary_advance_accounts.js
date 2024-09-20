@@ -7,14 +7,11 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
 
     thisAdminSalaryAdvanceAccounts.a_loadSalaryAdvanceAccounts = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->a_loadSalaryAdvanceAccounts
             'route' : 'portal/admin/a-load-salary-advance-accounts',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
@@ -34,14 +31,11 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
 
     thisAdminSalaryAdvanceAccounts.a_loadDisbursementLists = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->a_loadDisbursementLists
             'route' : 'portal/admin/a-load-disbursement-lists',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
@@ -112,7 +106,6 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
             }
         }
         
-
         if(ids.length == 0)
         {
             $('#btn_downloadFile').prop('disabled',true);
@@ -152,12 +145,10 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
     thisAdminSalaryAdvanceAccounts.a_loadAccountBalance = function()
     {
         $('#btn_reloadXenditBalance').prop('disabled',true);
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->a_loadAccountBalance
             'route' : 'portal/admin/a-load-account-balance',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             $('#lbl_xenditBalance').text(COMMONHELPER.numberWithCommas(data['balance']));
             $('#btn_reloadXenditBalance').prop('disabled',false);
@@ -200,7 +191,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
         let formData = new FormData();
         formData.set("loanId", arrLoanIds[counter]);
         
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // LoanController->a_proceedDisbursement
             'route' : 'portal/admin/a-proceed-disbursement',
             'data'  : formData
@@ -237,7 +228,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
                     window.location.replace(`${baseUrl}portal/admin/salary-advance-accounts`);
                 }, 2000);
             }
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_proceedDisbursement').prop('disabled',false);
         });
