@@ -7,14 +7,11 @@ const ADMIN_BILLINGS = (function(){
 
     thisAdminBillings.a_loadBillings = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // BillingController->a_loadBillings
             'route' : 'portal/admin/a-load-billings',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
@@ -40,15 +37,13 @@ const ADMIN_BILLINGS = (function(){
     thisAdminBillings.a_loadBillingDetails = function(billingId)
     {
         $('#modal_billingDetails').modal('show');
-
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // BillingController->a_loadBillingDetails
             'route' : 'portal/admin/a-load-billing-details',
             'data'  : {
                 'billingId' : billingId
             }
         }, function(data){
-
             $('#txt_billingNumber').val(data['arrBillingDetails']['billing_number']);
             $('#txt_companyName').val(data['arrBillingDetails']['company_name']);
             $('#txt_companyCode').val(data['arrBillingDetails']['company_code']);

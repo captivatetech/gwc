@@ -167,6 +167,7 @@
 
                     <hr>
                     <form id="form_paymentValidation">
+                        <input type="hidden" id="txt_billingId" name="txt_billingId">
                         <input type="hidden" id="txt_paymentId" name="txt_paymentId">
                         <input type="hidden" id="txt_companyId" name="txt_companyId">
                         <div class="row">
@@ -201,7 +202,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title" id="lbl_modalTitle2"> 
-                        Payment Confirmation Email
+                        Sending notifications to employees
                     </h5>
                 </div>
                 <div class="modal-body">

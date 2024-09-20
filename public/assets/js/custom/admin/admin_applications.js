@@ -8,20 +8,17 @@ const ADMIN_APPLICATIONS = (function(){
 
     thisAdminApplications.a_loadApplications = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // LoanController->a_loadApplications
             'route' : 'portal/admin/a-load-applications',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
-
             let tbody = '';
             data.forEach(function(value,index){
                 let applicationStatus = "";
-                if(value['application_status'] == 'Processing')
+                if(value['application_status'] == 'PROCESSING')
                 {
-                    applicationStatus = 'Pending';
+                    applicationStatus = 'PENDING';
                 }
                 else
                 {
@@ -57,7 +54,7 @@ const ADMIN_APPLICATIONS = (function(){
     thisAdminApplications.a_selectApplication = function(loanId)
     {
         $('#modal_loanApplicationDetails').modal('show');
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
             // LoanController->a_selectApplication
             'route' : 'portal/admin/a-select-application',
             'data'  : {
@@ -99,7 +96,7 @@ const ADMIN_APPLICATIONS = (function(){
 
         $('#btn_approveApplication').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // LoanController::a_approveApplication()
             'route' : 'portal/admin/a-approve-application',
             'data'  : formData
@@ -109,7 +106,7 @@ const ADMIN_APPLICATIONS = (function(){
                 $('#btn_approveApplication').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/applications`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_approveApplication').prop('disabled',false);
         });
@@ -122,7 +119,7 @@ const ADMIN_APPLICATIONS = (function(){
 
         $('#btn_rejectApplication').prop('disabled',true);
 
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // LoanController::a_rejectApplication()
             'route' : 'portal/admin/a-reject-application',
             'data'  : formData
@@ -132,7 +129,7 @@ const ADMIN_APPLICATIONS = (function(){
                 $('#btn_rejectApplication').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/applications`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_rejectApplication').prop('disabled',false);
         });

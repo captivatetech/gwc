@@ -99,7 +99,7 @@ class LoanController extends BaseController
             'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ''),
             'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ''),
             'purpose_of_loan'       => $fields['purposeOfLoan'],
-            'application_status'    => 'Pending',  
+            'application_status'    => 'PENDING',  
             // 'disbursement_status'=> null,
             // 'disbursement_date'  => null,
             // 'billing_date'       => null,
@@ -156,7 +156,7 @@ class LoanController extends BaseController
         $fields = $this->request->getPost();
 
         $arrData = [
-            'application_status'    => 'Processing',
+            'application_status'    => 'PROCESSING',
             'updated_by'            => $this->session->get('gwc_representative_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
@@ -204,8 +204,8 @@ class LoanController extends BaseController
 
         $arrData = [
             'account_number'        => $accountNumber,
-            'application_status'    => 'Approved',
-            'disbursement_status'   => 'Pending',
+            'application_status'    => 'APPROVED',
+            'disbursement_status'   => 'PENDING',
             'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
@@ -230,7 +230,7 @@ class LoanController extends BaseController
         $fields = $this->request->getPost();
 
         $arrData = [
-            'application_status'    => 'Rejected',
+            'application_status'    => 'REJECTED',
             'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
@@ -378,7 +378,7 @@ class LoanController extends BaseController
                         }
 
                         $arrData = [
-                            'disbursement_status' => 'Accepted',
+                            'disbursement_status' => 'ACCEPTED',
                             'disbursement_date'   => $disbursementDate,
                             'billing_date'        => $billingDate,
                         ];

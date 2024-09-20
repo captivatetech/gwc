@@ -909,4 +909,24 @@ class Employees extends Model
         return  $query->getRowArray();
     }
 
+    ////////////////////////////////////////////////////////////
+    ///// PaymentController->a_confirmPayment()
+    ////////////////////////////////////////////////////////////
+    public function a_loadEmployeeDetails($billingId)
+    {
+        $columns = [
+            'a.id',
+            'c.email_address'
+        ];
+
+        $builder = $this->db->table('billing_details a');
+        $builder->join('loans b','b.id = a.loan_id','full');
+        $builder->join('employees c','c.id = b.employee_id','full');
+        $builder->select($columns);
+        $builder->where('a.billing_id',$billingId);
+        $builder->where('a.payment_status','PENDING');
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
+
 }

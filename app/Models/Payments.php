@@ -107,6 +107,7 @@ class Payments extends Model
     {
         $columns = [
             'a.id',
+            'a.billing_id',
             'b.company_id',
             'd.company_name',
             '(SELECT product_name FROM products WHERE id = c.product_id) as product_name',
@@ -140,6 +141,40 @@ class Payments extends Model
             $this->db->transStart();
                 $builder = $this->db->table('payments');
                 $builder->where('id',$paymentId);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// PaymentController->a_confirmPayment()
+    ////////////////////////////////////////////////////////////
+    public function a_updateBilling($arrData, $billingId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('billings');
+                $builder->where('id',$billingId);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// PaymentController->a_sendEmailToEmployees()
+    ////////////////////////////////////////////////////////////
+    public function a_updateBillingDetails($arrData, $billingDetailsId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('billing_details');
+                $builder->where('id',$billingDetailsId);
                 $builder->update($arrData);
             $this->db->transComplete();
             return ($this->db->transStatus() === TRUE)? 1 : 0;

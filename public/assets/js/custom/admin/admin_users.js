@@ -7,11 +7,10 @@ const USERS = (function(){
 
     thisUser.loadRoles = function(roleId = null)
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
+            // RoleController->loadAdminRoles
             'route' : 'portal/admin/load-admin-roles',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let options = '<option value="" data-icon="feather-globe" selected>Select Role</option>';
             data.forEach(function(value,key){
@@ -30,13 +29,13 @@ const USERS = (function(){
 
     thisUser.selectRole = function(roleId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
+            // RoleController->selectAdminRole
             'route' : 'portal/admin/select-admin-role',
             'data'  : {
                 'roleId' : roleId
             }
         }, function(data){
-
             $('#div_userRoleConfiguration').prop('hidden',false);
 
             $('#txt_roleId').val(data['id']);
@@ -76,9 +75,6 @@ const USERS = (function(){
                 count++;
             });
 
-            console.log(moduleStatusChecked);
-            console.log(count);
-
             moduleStatus = (moduleStatusChecked == count)? true : false;
             $('#tbl_rolesConfig thead tr td:eq(0)').find('input[type="checkbox"]').prop('checked',moduleStatus);
 
@@ -100,17 +96,15 @@ const USERS = (function(){
 
             $('#lbl_modalTitle').html('<i class="feather-edit-3 me-2"></i> Edit Role');
             $('#modal_roles').modal('show');
-
         });
     }
 
     thisUser.loadUsers = function()
     {
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
+            // UserController->loadAdminUsers
             'route' : 'portal/admin/load-admin-users',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let tbody = "";
             data.forEach(function(value, key){
@@ -176,7 +170,6 @@ const USERS = (function(){
             ];
 
             arrAccessModules.push(rowData);
-          
         });
 
         let formData = new FormData(thisForm);
@@ -184,7 +177,8 @@ const USERS = (function(){
 
         $('#btn_saveUser').prop('disabled',true);
         
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
+            // UserController->addAdminUser
             'route' : 'portal/admin/add-admin-user',
             'data'  : formData
         }, function(data){
@@ -193,7 +187,7 @@ const USERS = (function(){
                 $('#btn_saveUser').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/maintenance-users`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_saveUser').prop('disabled',false);
         });
@@ -201,7 +195,8 @@ const USERS = (function(){
 
     thisUser.selectUser = function(userId)
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
+            // UserController->selectAdminUser
             'route' : 'portal/admin/select-admin-user',
             'data'  : {
                 'userId' : userId
@@ -301,7 +296,6 @@ const USERS = (function(){
             ];
 
             arrAccessModules.push(rowData);
-          
         });
 
         let formData = new FormData(thisForm);
@@ -309,7 +303,8 @@ const USERS = (function(){
 
         $('#btn_saveUser').prop('disabled',true);
 
-        AJAXHELPER.editData({
+        AJAXHELPER.postData({
+            // UserController->editAdminUser
             'route' : 'portal/admin/edit-admin-user',
             'data'  : formData
         }, function(data){
@@ -318,7 +313,7 @@ const USERS = (function(){
                 $('#btn_saveUser').prop('disabled',false);
                 window.location.replace(`${baseUrl}portal/admin/maintenance-users`);
             }, 1000);
-        }, function(data){ // Error
+        }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_saveUser').prop('disabled',false);
         });
@@ -329,6 +324,7 @@ const USERS = (function(){
         if(confirm('Please Confirm!'))
         {
             AJAXHELPER.removeData({
+                // UserController->removeAdminUser
                 'route' : 'portal/admin/remove-admin-user',
                 'data'  : {
                     'userId' : userId
@@ -338,7 +334,7 @@ const USERS = (function(){
                 setTimeout(function(){
                     window.location.replace(`${baseUrl}portal/admin/maintenance-users`);
                 }, 1000);
-            }, function(data){ // Error
+            }, function(data){
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             });
         }

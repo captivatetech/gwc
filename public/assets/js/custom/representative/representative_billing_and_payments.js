@@ -7,11 +7,10 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
 
     thisRepresentativeBillingAndPayments.r_loadBillings = function()
     {
-        AJAXHELPER.selectData({
+        AJAXHELPER.getData({
+            // BillingController->r_loadBillings
             'route' : 'portal/representative/r-load-billings',
-            'data'  : {
-                'sample' : 'sample'
-            }
+            'data'  : null
         }, function(data){
             let tbody = '';
             data.forEach(function(value,index){
@@ -37,8 +36,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
     thisRepresentativeBillingAndPayments.r_selectBilling = function(billingId)
     {
         $('#modal_billingDetails').modal('show');
-
-        AJAXHELPER.loadData({
+        AJAXHELPER.getData({
             // BillingController->r_selectBilling
             'route' : 'portal/representative/r-select-billing',
             'data'  : {
@@ -179,7 +177,6 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
             }
         }
 
-
         if(trCount > ids.length && ids.length != 0)
         {
             $('#div_promisoryNote').prop('hidden',false);
@@ -190,7 +187,6 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
             $('#div_promisoryNote').prop('hidden',true);
             $('#file_promisoryNote').prop('required',false);
         }
-        
 
         if(ids.length == 0)
         {
@@ -243,9 +239,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
 
     thisRepresentativeBillingAndPayments.r_submitPayment = function(thisForm)
     {
-        // alert('In-progress');
         let formData = new FormData(thisForm);
-
         formData.set("file_proofOfPayment", $('#file_proofOfPayment')[0].files[0]);
 
         let arrBillingIds = $("#tbl_billingDetails tbody input:checkbox:checked").map(function () {
@@ -268,8 +262,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
         formData.set("file_promisoryNote", $('#file_promisoryNote')[0].files[0]);
 
         $('#btn_submitPayment').prop('disabled',true);
-
-        AJAXHELPER.addData({
+        AJAXHELPER.postData({
             // PaymentController->r_submitPayment
             'route' : 'portal/representative/r-submit-payment',
             'data'  : formData
@@ -287,7 +280,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
                     window.location.replace(`${baseUrl}portal/representative/billing-and-payments`);
                 }, 2000);
             }
-        }, function(data){ // Error
+        }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitPayment').prop('disabled',true);
         });
