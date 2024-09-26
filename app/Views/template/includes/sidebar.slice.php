@@ -16,7 +16,11 @@
                 <img src="<?php echo base_url();?>public/assets/uploads/representative/profiles/{{ $profilePicture }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail avatar-md">
                 @endif
                 <div class="dropdown">
+                    @if($firstName == "" && $lastName == "")
+                    <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">Please update your profile</a>
+                    @else
                     <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown"  aria-expanded="false">{{ $userName }}</a>
+                    @endif
                     <div class="dropdown-menu user-pro-dropdown">
 
                         @if($userType == 'employee')
@@ -79,6 +83,8 @@
                     <span>Company Representative</span>
                     @elseif($userType == 'employee')
                     <span>Employee / Borrower</span>
+                    @else
+                    <span>[<i>#############</i>]</span>
                     @endif
                 </p>
 

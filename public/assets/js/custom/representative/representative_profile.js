@@ -53,15 +53,24 @@ const REPRESENTATIVE_PROFILE = (function(){
             let tbody = "";
             
             data.forEach(function(value,index){
-                if(value['category'] == 'Primary')
+                if(value['category'] == 'PRIMARY')
                 {
+                    let expiryDate = '';
+                    if(value['expiry_date'] == "0000-00-00")
+                    {
+                        expiryDate = "---";
+                    }
+                    else
+                    {
+                        expiryDate = value['expiry_date'];
+                    }
                     tbody += `<tr>
                                 <td>${value['type']}</td>
                                 <td>${value['id_number']}</td>
                                 <td>${value['date_issued']}</td>
                                 <td>${value['placed_issued']}</td>
-                                <td>${value['issued_by']}</td>
-                                <td>${value['expiry_date']}</td>
+                                <td>${COMMONHELPER.validateFields(value['issued_by'],'---')}</td>
+                                <td>${expiryDate}</td>
                                 <td>
                                     <div class="btn-group mb-2">
                                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -83,15 +92,24 @@ const REPRESENTATIVE_PROFILE = (function(){
 
             tbody = "";
             data.forEach(function(value,index){
-                if(value['category'] == 'Secondary')
+                if(value['category'] == 'SECONDARY')
                 {
+                    let expiryDate = '';
+                    if(value['expiry_date'] == "0000-00-00")
+                    {
+                        expiryDate = "---";
+                    }
+                    else
+                    {
+                        expiryDate = value['expiry_date'];
+                    }
                     tbody += `<tr>
                                 <td>${value['type']}</td>
                                 <td>${value['id_number']}</td>
                                 <td>${value['date_issued']}</td>
                                 <td>${value['placed_issued']}</td>
-                                <td>${value['issued_by']}</td>
-                                <td>${value['expiry_date']}</td>
+                                <td>${COMMONHELPER.validateFields(value['issued_by'], '---')}</td>
+                                <td>${expiryDate}</td>
                                 <td>
                                     <div class="btn-group mb-2">
                                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -145,18 +145,94 @@
                                                 <div class="row mb-3">
                                                     <div class="col-8 col-xl-6">
                                                         <select class="form-select" id="slc_industry" name="slc_industry" required>
-                                                            <option value="">Industry</option>
-                                                            <option>Secondary</option>
+                                                            <option value="">--Industry--</option>
+                                                            <option value="Advertising-Industry">Advertising-Industry</option>
+                                                            <option value="Agriculture-And-Farming">Agriculture-And-Farming</option>
+                                                            <option value="Art">Art</option>
+                                                            <option value="Aerospace">Aerospace</option>
+                                                            <option value="Antiques-And-Collectibles">Antiques-And-Collectibles</option>
+                                                            <option value="Automotive-Industry">Automotive-Industry</option>
+                                                            <option value="Banking-And-Financial-Services">Banking-And-Financial-Services</option>
+                                                            <option value="Biotechnology">Biotechnology</option>
+                                                            <option value="Building-Materials-And-Supplies">Building-Materials-And-Supplies</option>
+                                                            <option value="Business-Services">Business-Services</option>
+                                                            <option value="Chemical-Industry">Chemical-Industry</option>
+                                                            <option value="Cleaning-Products-And-Services">Cleaning-Products-And-Services</option>
+                                                            <option value="Cloud-Computing">Cloud-Computing</option>
+                                                            <option value="Computer-Hardware">Computer-Hardware</option>
+                                                            <option value="Construction-Industry">Construction-Industry</option>
+                                                            <option value="Consulting">Consulting</option>
+                                                            <option value="Consumer-Electronics">Consumer-Electronics</option>
+                                                            <option value="Consumer-Goods">Consumer-Goods</option>
+                                                            <option value="Consumer-Healthcare">Consumer-Healthcare</option>
+                                                            <option value="Crafts">Crafts</option>
+                                                            <option value="Culture-Industry">Culture-Industry</option>
+                                                            <option value="Cybersecurity">Cybersecurity</option>
+                                                            <option value="Data-Storage-And-Management">Data-Storage-And-Management</option>
+                                                            <option value="Defense-Industry">Defense-Industry</option>
+                                                            <option value="Design-Industry">Design-Industry</option>
+                                                            <option value="Ecommerce">Ecommerce</option>
+                                                            <option value="Education-And-Training">Education-And-Training</option>
+                                                            <option value="Electic-Vehicles">Electic-Vehicles</option>
+                                                            <option value="Enery">Enery</option>
+                                                            <option value="Entertainment-Industry">Entertainment-Industry</option>
+                                                            <option value="Environmental-Services">Environmental-Services</option>
+                                                            <option value="Events-Industry">Events-Industry</option>
+                                                            <option value="Fabrics-And-Textiles">Fabrics-And-Textiles</option>
+                                                            <option value="Fashion-Industry">Fashion-Industry</option>
+                                                            <option value="Fintech">Fintech</option>
+                                                            <option value="Food-And-Beverages">Food-And-Beverages</option>
+                                                            <option value="Healthcare-Industry">Healthcare-Industry</option>
+                                                            <option value="Heavy-Industry">Heavy-Industry</option>
+                                                            <option value="Hospitality">Hospitality</option>
+                                                            <option value="Information-Technology">Information-Technology</option>
+                                                            <option value="Insurance">Insurance</option>
+                                                            <option value="Jewelry">Jewelry</option>
+                                                            <option value="Leisure-And-Recreation">Leisure-And-Recreation</option>
+                                                            <option value="Logistics-And-Supply-Chain">Logistics-And-Supply-Chain</option>
+                                                            <option value="Luxury-Goods">Luxury-Goods</option>
+                                                            <option value="Machinery-And-Heavy-Equipment">Machinery-And-Heavy-Equipment</option>
+                                                            <option value="Manufacturing">Manufacturing</option>
+                                                            <option value="Media">Media</option>
+                                                            <option value="Medical-Devices-And-Supplies">Medical-Devices-And-Supplies</option>
+                                                            <option value="Mining">Mining</option>
+                                                            <option value="Music-Industry">Music-Industry</option>
+                                                            <option value="Personal-Services">Personal-Services</option>
+                                                            <option value="Pet-Care-And-Supplies">Pet-Care-And-Supplies</option>
+                                                            <option value="Pharmaceutical-Industry">Pharmaceutical-Industry</option>
+                                                            <option value="Photography">Photography</option>
+                                                            <option value="Printing">Printing</option>
+                                                            <option value="Professional-Services">Professional-Services</option>
+                                                            <option value="Publishing">Publishing</option>
+                                                            <option value="Quantum-Computing">Quantum-Computing</option>
+                                                            <option value="Real-Estate">Real-Estate</option>
+                                                            <option value="Restaurant-And-Food-Services">Restaurant-And-Food-Services</option>
+                                                            <option value="Retail">Retail</option>
+                                                            <option value="Robotics">Robotics</option>
+                                                            <option value="Security">Security</option>
+                                                            <option value="Social-Media-Industry">Social-Media-Industry</option>
+                                                            <option value="Software-And-Fitness">Software-And-Fitness</option>
+                                                            <option value="Sustainable-And-Ethical-Consumer-Products">Sustainable-And-Ethical-Consumer-Products</option>
+                                                            <option value="Technology">Technology</option>
+                                                            <option value="Telecom-Industry">Telecom-Industry</option>
+                                                            <option value="Tools-And-Hardware">Tools-And-Hardware</option>
+                                                            <option value="Toys-And-Games">Toys-And-Games</option>
+                                                            <option value="Traditional-Products">Traditional-Products</option>
+                                                            <option value="Transportation">Transportation</option>
+                                                            <option value="Travel-And-Tourism">Travel-And-Tourism</option>
+                                                            <option value="Utilities">Utilities</option>
+                                                            <option value="Video-Game-Industry">Video-Game-Industry</option>
+                                                            <option value="Waste-Management">Waste-Management</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-8 col-xl-6">
-                                                        <input type="text" class="form-control" id="txt_mobileNumber" name="txt_mobileNumber" placeholder="Mobile Number" required>
+                                                        <input type="text" class="form-control" id="txt_mobileNumber" name="txt_mobileNumber" placeholder="Mobile Number" pattern="[0]{1}[0-9]{10}" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <div class="col-8 col-xl-6">
-                                                        <input type="text" class="form-control" id="txt_telephoneNumber" name="txt_telephoneNumber" placeholder="Telephone Number" required>
+                                                        <input type="tel" class="form-control" id="txt_telephoneNumber" name="txt_telephoneNumber" placeholder="Telephone Number" required>
                                                     </div>
                                                     <div class="col-8 col-xl-6">
                                                         <input type="text" class="form-control" id="txt_companyEmail" name="txt_companyEmail" placeholder="Company Email" required>
@@ -165,7 +241,7 @@
 
                                                 <div class="row mb-3">
                                                     <div class="col-8 col-xl-6">
-                                                        <input type="text" class="form-control" id="txt_companyWebsite" name="txt_companyWebsite" placeholder="Company Website" required>
+                                                        <input type="url" class="form-control" id="txt_companyWebsite" name="txt_companyWebsite" placeholder="Company Website" required>
                                                     </div>
                                                     <div class="col-8 col-xl-6">
                                                         <input type="text" class="form-control" id="txt_taxIdentificationNumber" name="txt_taxIdentificationNumber" placeholder="Tax Identification Number" required>
