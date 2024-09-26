@@ -16,24 +16,36 @@ class EmployeeIdentityController extends BaseController
     {
         $fields = $this->request->getGet();
         $arrData = $this->employees->loadRepresentativeIdentifications($this->session->get('gwc_representative_id'));
-        return $this->response->setJSON($arrData);
+        $arrNewData = [];
+        foreach ($arrData as $key => $value) 
+        {
+            $arrNewData[] = [
+                'id'            => $value['id'],
+                'employee_id'   => $value['employee_id'],
+                'type'          => explode("=",$value['type'])[1],
+                'category'      => $value['category'],
+                'id_number'     => $value['id_number'],
+                'id_picture'    => $value['id_picture'],
+                'date_issued'   => $value['date_issued'],
+                'placed_issued' => $value['placed_issued'],
+                'issued_by'     => $value['issued_by'],
+                'expiry_date'   => $value['expiry_date'],
+                'id_status'     => $value['id_status'],
+                'created_by'    => $value['created_by'],
+                'created_date'  => $value['created_date']
+            ];
+        }
+        return $this->response->setJSON($arrNewData);
     }
 
     public function addRepresentativeIdentification()
     {
         $this->validation->setRules([
-            'txt_type' => [
+            'slc_type' => [
                 'label'  => 'Type',
                 'rules'  => 'required',
                 'errors' => [
                     'required'    => 'Type is required'
-                ],
-            ],
-            'slc_category' => [
-                'label'  => 'Category',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Category is required'
                 ],
             ],
             'txt_idNumber' => [
@@ -56,20 +68,6 @@ class EmployeeIdentityController extends BaseController
                 'errors' => [
                     'required'    => 'Place Issued is required'
                 ],
-            ],
-            'txt_issuedBy' => [
-                'label'  => 'Issued By',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Issued By is required'
-                ],
-            ],
-            'txt_expiryDate' => [
-                'label'  => 'Expiry Date',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'    => 'Expiry Date is required'
-                ],
             ]
         ]);
 
@@ -77,10 +75,12 @@ class EmployeeIdentityController extends BaseController
         {
             $fields = $this->request->getPost();
 
+            $category = explode('=', $fields['slc_type']);
+
             $arrData = [
                 'employee_id'       => $this->session->get('gwc_representative_id'),
-                'type'              => $fields['txt_type'],
-                'category'          => $fields['slc_category'],
+                'type'              => $fields['slc_type'],
+                'category'          => $category[0],
                 'id_number'         => $fields['txt_idNumber'],
                 'date_issued'       => $fields['txt_dateIssued'],
                 'placed_issued'     => $fields['txt_placeIssued'],

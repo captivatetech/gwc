@@ -215,7 +215,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title"> 
-                        <i class="feather-plus me-2"></i> Add New [Identification]
+                        <i class="feather-plus me-2"></i> Add New Identification
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -224,16 +224,26 @@
                         <div class="row mb-3">
                             <label for="txt_type" class="col-4 col-xl-2 col-form-label">ID Name</label>
                             <div class="col-8 col-xl-10">
-                                <input type="text" class="form-control" id="txt_type" name="txt_type" placeholder="" required>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="slc_category" class="col-4 col-xl-2 col-form-label">Category</label>
-                            <div class="col-8 col-xl-10">
-                                <select class="form-select" id="slc_category" name="slc_category" required>
-                                    <option value="Primary">Primary</option>
-                                    <option value="Secondary">Secondary</option>
+                                <select class="form-control form-select" id="slc_type" name="slc_type">
+                                    <option value="">---</option>
+                                    <option value="PRIMARY=NATIONAL-ID"><i>(Primary)</i> NATIONAL-ID</option>
+                                    <option value="PRIMARY=PASSPORT-ID"><i>(Primary)</i> PASSPORT-ID</option>
+                                    <option value="PRIMARY=DRIVERS-LICENSE"><i>(Primary)</i> DRIVERS-LICENSE</option>
+                                    <option value="PRIMARY=SSS-GSIS"><i>(Primary)</i> SSS-GSIS</option>
+                                    <option value="PRIMARY=PRC"><i>(Primary)</i> PRC</option>
+                                    <option value="PRIMARY=POSTAL-ID"><i>(Primary)</i> POSTAL-ID</option>
+                                    <option value="PRIMARY=VOTERS-ID"><i>(Primary)</i> VOTERS-ID</option>
+                                    <option value="PRIMARY=UMID"><i>(Primary)</i> UMID</option>
+                                    <option value="PRIMARY=ACR-IMMIGRANT-COR"><i>(Primary)</i> ACR-IMMIGRANT-COR</option>
+                                    <option value="SECONDARY=AFP-ID"><i>(Secondary)</i> AFP-ID</option>
+                                    <option value="SECONDARY=PNP-ID"><i>(Secondary)</i> PNP-ID</option>
+                                    <option value="SECONDARY=BFP-ID"><i>(Secondary)</i> BFP-ID</option>
+                                    <option value="SECONDARY=PWD-ID"><i>(Secondary)</i> PWD-ID</option>
+                                    <option value="SECONDARY=DSWD-CERTIFICATION"><i>(Secondary)</i> DSWD-CERTIFICATION</option>
+                                    <option value="SECONDARY=GSIS-ECARD"><i>(Secondary)</i> GSIS-ECARD</option>
+                                    <option value="SECONDARY=OFW-ID"><i>(Secondary)</i> OFW-ID</option>
+                                    <option value="SECONDARY=POLICE-CLEARANCE"><i>(Secondary)</i> POLICE-CLEARANCE</option>
+                                    <option value="SECONDARY=SEAMANS-BOOK"><i>(Secondary)</i> SEAMANS-BOOK</option>
                                 </select>
                             </div>
                         </div>
@@ -262,14 +272,14 @@
                         <div class="row mb-3">
                             <label for="txt_issuedBy" class="col-4 col-xl-2 col-form-label">Issued By</label>
                             <div class="col-8 col-xl-10">
-                                <input type="text" class="form-control" id="txt_issuedBy" name="txt_issuedBy" placeholder="" required>
+                                <input type="text" class="form-control" id="txt_issuedBy" name="txt_issuedBy" placeholder="">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="txt_expiryDate" class="col-4 col-xl-2 col-form-label">Valid Until</label>
                             <div class="col-8 col-xl-10">
-                                <input type="date" class="form-control" id="txt_expiryDate" name="txt_expiryDate" placeholder="" required>
+                                <input type="date" class="form-control" id="txt_expiryDate" name="txt_expiryDate" placeholder="">
                             </div>
                         </div>
 
@@ -296,7 +306,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title" id="lbl_modalTitle"> 
-                        <i class="feather-plus me-2"></i> Preview [Identification]
+                        <i class="feather-plus me-2"></i> Preview Identification
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

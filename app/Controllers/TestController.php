@@ -15,6 +15,15 @@ use Xendit\Invoice\CreateInvoiceRequest;
 // use Xendit\BalanceAndTransaction\BalanceApi;
 // use Xendit\BalanceAndTransaction\TransactionApi;
 
+use zsign\OAuth;
+use zsign\ZohoSign;
+use zsign\SignException;
+use zsign\api\Fields;
+use zsign\api\Actions;
+use zsign\api\RequestObject;
+use zsign\api\fields\ImageField;
+use CURLfile;
+
 class TestController extends BaseController
 {
     public function sample()
@@ -148,22 +157,68 @@ class TestController extends BaseController
 
     public function testZohoSign()
     {
+        try{
 
-        // $curl = curl_init("https://sign.zoho.com/api/v1/templates");
-        // curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        //     'Authorization:Zoho-oauthtoken 1000.928b54a3cb9e47afae1de4cc88f76468.13c97c8bd555d2590ed8467d6d5309a9',
-        // ));
-        // curl_setopt($curl, CURLOPT_POST, false);
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // $result = curl_exec($curl);
-        // curl_close($curl);
+            /*********
+                STEP 1 : Set user credentials
+            **********/
+
+            $user = new OAuth( array(
+                OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::DC           => "COM",
+                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2",
+                // OAuth::ACCESS_TOKEN => "1000.512ca146138470bd84df0c6a498f9a17.48dde378b2aa452edfff9f0c04341644" // optional. If not set, will auto refresh for access token
+            ) );
+
+            ZohoSign::setCurrentUser( $user );
+
+            $user->generateAccessTokenUsingRefreshToken();  // manully generate access token. Else, will auto refresh.
+
+            $access_token = $user->getAccessToken(); // get and store access token so to avoid unnecessary regeneration.
+
+            /*********
+            STEP 2 : Get template object by ID
+            **********/
+
+            $template = ZohoSign::getTemplate( 418013000000032001 );
+        
+            /*********
+            STEP 3 : Set values to the same object & send for signature
+            **********/
+
+            $template->setRequestName("May Sample API Test");
+            $template->setNotes("Call us back if you need clarificaions regarding agreement");
+
+            $template->setPrefillTextField( "txt_field1",  "field1" );
+            $template->setPrefillTextField( "txt_field2",  "field2" );
+            $template->setPrefillTextField( "txt_field3",  "field3" );
+            $template->setPrefillTextField( "txt_field4",  "field4" );
+            $template->setPrefillTextField( "txt_field5",  "field5" );
+            $template->setPrefillTextField( "txt_field6",  "field6" );
+            $template->setPrefillTextField( "txt_field7",  "field7" );
+            $template->setPrefillTextField( "txt_field8",  "field8" );
+            $template->setPrefillTextField( "txt_field9",  "field9" );
+            $template->setPrefillTextField( "txt_field10",  "field10" );
+        
+            $template->getActionByRole("Recepient1")->setRecipientName("Jaun");
+            $template->getActionByRole("Recepient1")->setRecipientEmail("ajhay.dev@gmail.com");
+
+            $template->getActionByRole("Recepient2")->setRecipientName("Pedro");
+            $template->getActionByRole("Recepient2")->setRecipientEmail("ajhay.work@gmail.com");
+        
+            $resp_obj = ZohoSign::sendTemplate( $template, true );
+
+            echo ":: ".$resp_obj->getRequestId()." : ".$resp_obj->getRequestStatus();
 
 
-        // return $response;
 
-        $result = sendTemplate();
 
-        return $this->response->setJSON($result);
+        }catch( SignException $signEx ){
+            // log it
+            echo "SIGN EXCEPTION : ".$signEx;
+        }catch( Exception $ex ){
+            // handle it
+        }
     }
 }

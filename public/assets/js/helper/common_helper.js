@@ -67,11 +67,11 @@ const COMMONHELPER = (function(){
         
     }
 
-    // thisCommonHelper.validateFields = function(defValue, altValue)
-    // {
-    //     let emptyValues = ['','null','NULL','N/A','n/a'];
-    //     // return (!defValue.includes(emptyValues))? defValue : altValue;
-    // }
+    thisCommonHelper.validateFields = function(defValue, altValue)
+    {
+        let emptyValues = ["",'','null','NULL','N/A','n/a'];
+        return (emptyValues.includes(defValue))? altValue : defValue;
+    }
 
     return thisCommonHelper;
 
