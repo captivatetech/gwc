@@ -109,7 +109,7 @@ const REPRESENTATIVE_BILLING_AND_PAYMENTS = (function(){
                             <td style="text-align:right;">Php.${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['billing_amount'])}</td>
                             <td>${value['payment_terms']} months</td>
-                            <td>${value['billing_series']} of ${value['payment_terms']}</td>
+                            <td>${value['billing_series']} of ${value['number_of_deductions']}</td>
                             <td class="p-1">
                                 ${slc}
                             </td>

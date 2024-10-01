@@ -369,18 +369,21 @@ class LoanController extends BaseController
 
                         if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate1))
                         {
-                            $billingDate = date('d', strtotime($payrollDate1."+ 5 days"));
+                            $billingDate1 = date('d', strtotime($payrollDate1."+ 5 days"));
                         }
 
                         if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate2))
                         {
-                            $billingDate = date('d', strtotime($payrollDate2."+ 5 days"));
+                            $billingDate1 = date('d', strtotime($payrollDate2."+ 5 days"));
                         }
+
+                        $billingDate2 = date('d', strtotime(date("Y-m-".$billingDate1)."+ 15 days"));
 
                         $arrData = [
                             'disbursement_status' => 'ACCEPTED',
                             'disbursement_date'   => $disbursementDate,
-                            'billing_date'        => $billingDate,
+                            'billing_date_1'      => $billingDate1,
+                            'billing_date_2'      => $billingDate2
                         ];
                         $this->loans->a_updateDisbursementStatus($arrData, $loanId);
 

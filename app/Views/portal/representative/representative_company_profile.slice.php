@@ -235,7 +235,7 @@
                                                         <input type="tel" class="form-control" id="txt_telephoneNumber" name="txt_telephoneNumber" placeholder="Telephone Number" required>
                                                     </div>
                                                     <div class="col-8 col-xl-6">
-                                                        <input type="text" class="form-control" id="txt_companyEmail" name="txt_companyEmail" placeholder="Company Email" required>
+                                                        <input type="email" class="form-control" id="txt_companyEmail" name="txt_companyEmail" placeholder="Company Email" required>
                                                     </div>
                                                 </div>
 
@@ -530,32 +530,64 @@
                                                 <div class="row mb-3">
                                                     <label for="txt_payrollPayoutDate1" class="col-4 col-xl-2 col-form-label">First</label>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_payrollPayoutDate1" name="txt_payrollPayoutDate1" placeholder="" required>
+                                                        <select id="slc_payrollPayoutDate1" name="slc_payrollPayoutDate1" class="form-control form-select" required>
+                                                            <option value="">---</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                            <option value="21">21</option>
+                                                            <option value="22">22</option>
+                                                            <option value="23">23</option>
+                                                            <option value="24">24</option>
+                                                            <option value="25">25</option>
+                                                            <option value="26">26</option>
+                                                            <option value="27">27</option>
+                                                            <option value="28">28</option>
+                                                            <option value="29">29</option>
+                                                            <option value="30">30</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-8 col-xl-1">
                                                         
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_cutOffMinDate1" name="txt_cutOffMinDate1" placeholder="" required>
+                                                        <input type="text" class="form-control" id="txt_cutOffMinDate1" name="txt_cutOffMinDate1" placeholder="" readonly>
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate1" name="txt_cutOffMaxDate1" placeholder="" required>
+                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate1" name="txt_cutOffMaxDate1" placeholder="" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="txt_payrollPayoutDate2" class="col-4 col-xl-2 col-form-label">Second</label>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_payrollPayoutDate2" name="txt_payrollPayoutDate2" placeholder="" required>
+                                                        <input type="text" class="form-control" id="txt_payrollPayoutDate2" name="txt_payrollPayoutDate2" placeholder="" readonly>
                                                     </div>
                                                     <div class="col-8 col-xl-1">
                                                         
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_cutOffMinDate2" name="txt_cutOffMinDate2" placeholder="" required>
+                                                        <input type="text" class="form-control" id="txt_cutOffMinDate2" name="txt_cutOffMinDate2" placeholder="" readonly>
                                                     </div>
                                                     <div class="col-8 col-xl-3">
-                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate2" name="txt_cutOffMaxDate2" placeholder="" required>
+                                                        <input type="text" class="form-control" id="txt_cutOffMaxDate2" name="txt_cutOffMaxDate2" placeholder="" readonly>
                                                     </div>
                                                 </div>
 
@@ -907,6 +939,10 @@
         {
             REPRESENTATIVE_COMPANY_PROFILE.r_editCompanyDocument(this);
         }
+    });
+
+    $('#slc_payrollPayoutDate1').on('change', function(){
+        REPRESENTATIVE_COMPANY_PROFILE.r_populatePayrollDates(this);
     });
 
     $('#form_companySettings').on('submit', function(e){

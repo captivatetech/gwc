@@ -198,6 +198,7 @@ $routes->post('portal/representative/r-edit-company-document', 'Portal\CompanyDo
     /* !-- COMPANY SETTINGS --! */
 $routes->get('portal/representative/r-select-company-settings', 'Portal\CompanyController::r_selectCompanySettings');
 $routes->get('portal/representative/r-load-bank-depositories', 'Portal\CompanyController::r_loadBankDepositories');
+$routes->get('portal/representative/r-populate-payroll-dates', 'Portal\CompanyController::r_populatePayrollDates');
 $routes->post('portal/representative/r-edit-company-settings', 'Portal\CompanyController::r_editCompanySettings');
     /* !-- COMPANY REPRESENTATIVES --! */
 $routes->get('portal/representative/r-load-company-representatives', 'Portal\CompanyController::r_loadCompanyRepresentatives');

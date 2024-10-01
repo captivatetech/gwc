@@ -21,16 +21,13 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
                             <td>${value['application_status']}</td>
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
                             <td>
-                                <div class="btn-group mb-2">
-                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Actions <i class="mdi mdi-chevron-down"></i>
+                                <div class="dropdown">
+                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
-                                    <div class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 33px, 0px);">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_selectLoanApplicationDetails(${value['id']})">
-                                            Update
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_loadLoanApplicationDocuments(${value['id']})">View & Print Documents
-                                        </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_selectLoanApplicationDetails(${value['id']})">Update</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_loadLoanApplicationDocuments(${value['id']})">View & Print Documents</a>
                                     </div>
                                 </div>
                             </td>

@@ -6,6 +6,8 @@
     <title></title>
 </head>
 <body>
-    <h1>Employee Payment Confirmation</h1>
+    <center>
+        <img src="https://drive.google.com/drive-viewer/AKGpihYF5TXNEGMIokljARhkzxAWmZbq0DbcRppjgUGJLXcHV-EFBJ8Eq_ztUBVyTCFS2eHHkT2j8EWVgZsjypvOvEIrJx6nOOAWHtU=s1600-rw-v1" style="height: 100%;">
+    </center>
 </body>
 </html>

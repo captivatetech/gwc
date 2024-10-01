@@ -33,21 +33,12 @@ const ADMIN_APPLICATIONS = (function(){
                             <td style="text-align:right;">${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
                             <td>${applicationStatus}</td>
                             <td>                                                        
-                                <div class="btn-group mb-2">
-                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Actions <i class="mdi mdi-chevron-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 33px, 0px);">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_APPLICATIONS.a_selectApplication(${value['id']})">
-                                            Update
-                                        </a>
-                                    </div>
-                                </div>
+                                <a href="javascript:void(0)" onclick="ADMIN_APPLICATIONS.a_selectApplication(${value['id']})">Update</a>
                             </td>`;
             });
             $('#tbl_applications').DataTable().destroy();
             $('#tbl_applications tbody').html(tbody);
-            $('#tbl_applications').DataTable();
+            $('#tbl_applications').DataTable({'scrollX':true});
         });
     }
 

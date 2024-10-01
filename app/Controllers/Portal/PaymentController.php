@@ -444,8 +444,11 @@ class PaymentController extends BaseController
                     $emailSender    = 'ajhay.dev@gmail.com';
                     $emailReceiver  = $arrRepresentative['email_address'];
 
+                    $arrResult = $this->billings->a_loadBillingDetails($fields['txt_billingId']);
+
                     $data = [
-                        'subjectTitle'  => 'Confirm Payment'
+                        'subjectTitle'  => 'Confirm Payment',
+                        'billingNumber' => $arrResult['billing_number']
                     ];
 
                     $result = sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);

@@ -145,6 +145,31 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData['data']);
     }
 
+    public function r_populatePayrollDates()
+    {
+        $fields = $this->request->getGet();
+
+        $date1 = $fields['thisDate'];
+        $date2 = date('d', strtotime(date('Y-m-'.$date1). '+ 15 days'));
+
+        $date1End = date('d', strtotime(date('Y-m-'.$date1). '- 5 days'));
+        $date1Start = date('d', strtotime(date('Y-m-'.$date1End). '- 14 days'));
+
+        $date2End = date('d', strtotime(date('Y-m-'.$date2). '- 5 days'));
+        $date2Start = date('d', strtotime(date('Y-m-'.$date2End). '- 14 days'));
+
+        $arrData = [
+            'date1'         => $date1,
+            'date1Start'    => $date1Start,
+            'date1End'      => $date1End,
+            'date2'         => $date2,
+            'date2Start'    => $date2Start,
+            'date2End'      => $date2End
+        ];
+
+        return $this->response->setJSON($arrData);
+    }
+
     public function r_editCompanySettings()
     {
         $this->validation->setRules([
@@ -169,7 +194,7 @@ class CompanyController extends BaseController
                     'required'    => 'Branch Code is required',
                 ],
             ],
-            'txt_payrollPayoutDate1' => [
+            'slc_payrollPayoutDate1' => [
                 'label'  => 'Payout Date 1',
                 'rules'  => 'required',
                 'errors' => [
@@ -221,7 +246,7 @@ class CompanyController extends BaseController
                 'bank_depository'       => $fields['slc_bankDepository'],
                 'branch_name'           => $fields['txt_branchName'],
                 'branch_code'           => $fields['txt_branchCode'],
-                'payroll_payout_date1'  => $fields['txt_payrollPayoutDate1'],
+                'payroll_payout_date1'  => $fields['slc_payrollPayoutDate1'],
                 'cut_off_min_date1'     => $fields['txt_cutOffMinDate1'],
                 'cut_off_max_date1'     => $fields['txt_cutOffMaxDate1'],
                 'payroll_payout_date2'  => $fields['txt_payrollPayoutDate2'],

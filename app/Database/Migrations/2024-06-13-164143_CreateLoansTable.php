@@ -96,7 +96,12 @@ class CreateLoansTable extends Migration
                 'constraint'        => 50,
                 'null'              => true,
             ],
-            'billing_date'              => [
+            'billing_date_1'            => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
+                'null'              => true,
+            ],
+            'billing_date_2'            => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 50,
                 'null'              => true,

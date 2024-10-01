@@ -15,7 +15,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
-                            <td>???</td>
+                            <td h-align="middle">${value['created_date']}</td>
                             <td>${value['company_name']}</td>
                             <td>${value['company_code']}</td>
                             <td>${value['subscription_status']}</td>
@@ -34,7 +34,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             });
             $("#tbl_salaryAdvance").DataTable().destroy();
             $('#tbl_salaryAdvance tbody').html(tbody);
-            $("#tbl_salaryAdvance").DataTable({'scrollX':true});
+            $("#tbl_salaryAdvance").DataTable();
         });
     }
 
@@ -616,17 +616,17 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
-                            <td>???</td>
+                            <td>${value['identification_number']}</td>
                             <td>${value['last_name']}</td>
                             <td>${value['first_name']}</td>
                             <td>${value['middle_name']}</td>
                             <td>${value['email_address']}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>${COMMONHELPER.validateFields(value['mobile_number'],'---')}</td>
+                            <td>${COMMONHELPER.validateFields(value['department'],'---')}</td>
+                            <td>${COMMONHELPER.validateFields(value['position'],'---')}</td>
+                            <td>${COMMONHELPER.validateFields(value['date_hired'],'---')}</td>
+                            <td>${COMMONHELPER.validateFields(value['gross_salary'],'---')}</td>
+                            <td>${COMMONHELPER.validateFields(value['net_salary'],'---')}</td>
                         </tr>`;
             });
             $("#tbl_employeeList").DataTable().destroy();
