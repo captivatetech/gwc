@@ -101,9 +101,9 @@ class Products extends Model
             'a.subscription_status',
             'a.remarks',
             'a.created_by',
-            'a.created_date',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date',
             'a.updated_by',
-            'a.updated_date'
+            'DATE_FORMAT(a.updated_date, "%Y-%m-%d") as updated_date'
         ];
 
         $builder = $this->db->table('product_subscriptions a');

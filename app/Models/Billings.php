@@ -90,13 +90,15 @@ class Billings extends Model
             'a.business_type',
             'a.business_industry',
             'a.tax_identification_number',
-            'SUM(b.monthly_dues) as total_monthly_dues'
+            'SUM(b.monthly_dues) as total_monthly_dues',
+            'SUM(b.deduction_per_cutoff) as total_deduction_per_cutoff',
         ];
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
         $builder->join('loans b','a.id = b.company_id', 'left');
-        $builder->where('b.billing_date', $dateNow);
+        $builder->orWhere('b.billing_date_1', $dateNow);
+        $builder->orWhere('b.billing_date_2', $dateNow);
         $builder->groupBy('a.id');
         $query = $builder->get();
         return  $query->getResultArray();
@@ -145,7 +147,10 @@ class Billings extends Model
         $builder = $this->db->table('loans a');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
-        $builder->where('a.billing_date', $dateNow);
+        $builder->groupStart();
+            $builder->orWhere('a.billing_date_1', $dateNow);
+            $builder->orWhere('a.billing_date_2', $dateNow);
+        $builder->groupEnd();
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -192,6 +197,7 @@ class Billings extends Model
 
     ////////////////////////////////////////////////////////////
     ///// BillingController->a_loadBillingDetails()
+    ///// PaymentController->a_confirmPayment()
     ////////////////////////////////////////////////////////////
     public function a_loadBillingDetails($billingId)
     {
@@ -229,6 +235,7 @@ class Billings extends Model
             'b.loan_amount',
             'a.billing_amount',
             'b.payment_terms',
+            'b.number_of_deductions',
             '(SELECT COUNT(id) FROM billing_details WHERE loan_id = a.loan_id AND payment_status = "PAID") as billing_series'
         ];
 
@@ -320,6 +327,7 @@ class Billings extends Model
             'a.penalty_type',
             'a.payment_status',
             'b.payment_terms',
+            'b.number_of_deductions',
             '(SELECT COUNT(id) FROM billing_details WHERE loan_id = a.loan_id AND payment_status = "PAID") as billing_series'
         ];
 

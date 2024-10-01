@@ -382,7 +382,7 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             REPRESENTATIVE_COMPANY_PROFILE.r_loadBankDepositories(data['bank_depository']);
             $('#txt_branchName').val(data['branch_name']);
             $('#txt_branchCode').val(data['branch_code']);
-            $('#txt_payrollPayoutDate1').val(data['payroll_payout_date1']);
+            $('#slc_payrollPayoutDate1').val(data['payroll_payout_date1']);
             $('#txt_cutOffMinDate1').val(data['cut_off_min_date1']);
             $('#txt_cutOffMaxDate1').val(data['cut_off_max_date1']);
             $('#txt_payrollPayoutDate2').val(data['payroll_payout_date2']);
@@ -413,6 +413,23 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                 }
             });
             $('#slc_bankDepository').html(options);
+        });
+    }
+
+    thisRepresentativeCompanyProfile.r_populatePayrollDates = function(thisDate)
+    {
+        AJAXHELPER.getData({
+            // CompanyController->r_populatePayrollDates();
+            'route' : 'portal/representative/r-populate-payroll-dates',
+            'data'  : {
+                'thisDate': $(thisDate).val()
+            }
+        }, function(data){
+            $('#txt_cutOffMinDate1').val(data['date1Start']);
+            $('#txt_cutOffMaxDate1').val(data['date1End']);
+            $('#txt_payrollPayoutDate2').val(data['date2']);
+            $('#txt_cutOffMinDate2').val(data['date2Start']);
+            $('#txt_cutOffMaxDate2').val(data['date2End']);
         });
     }
 

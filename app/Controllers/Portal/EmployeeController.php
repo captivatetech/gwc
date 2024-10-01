@@ -772,7 +772,7 @@ class EmployeeController extends BaseController
     public function a_loadCompanyEmployees()
     {
         $fields = $this->request->getGet();
-        $arrData = $this->employees->a_loadCompanyEmployees($fields['companyId']);
+        $arrData = $this->employees->a_loadCompanyEmployees($fields['companyId'],'employee');
         return $this->response->setJSON($arrData);
     }
 

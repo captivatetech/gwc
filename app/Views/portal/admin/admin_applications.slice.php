@@ -42,7 +42,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="tbl_applications" class="table table-bordered dt-responsive table-responsive nowrap">
+                                <table id="tbl_applications" class="table table-bordered nowrap" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th>Date</th>

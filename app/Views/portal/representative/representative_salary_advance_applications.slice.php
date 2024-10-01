@@ -18,6 +18,10 @@
   .tbl-custom tbody tr td {
     padding: 5px;
   }
+
+  #tbl_salaryAdvanceApplications tbody tr td {
+    vertical-align: middle;
+  }
   
 </style>
 

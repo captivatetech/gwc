@@ -69,7 +69,7 @@ const COMMONHELPER = (function(){
 
     thisCommonHelper.validateFields = function(defValue, altValue)
     {
-        let emptyValues = ["",'','null','NULL','N/A','n/a'];
+        let emptyValues = [null,"",'','null','NULL','N/A','n/a'];
         return (emptyValues.includes(defValue))? altValue : defValue;
     }
 

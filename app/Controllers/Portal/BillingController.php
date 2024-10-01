@@ -65,14 +65,14 @@ class BillingController extends BaseController
 
     public function a_generateBillings()
     {
-        $completeDateNow = date('Y-m-d');
+        $completeDateNow = date('Y-m-15');
 
         $arrResult = $this->billings->a_countGeneratedBillings($completeDateNow);
         if(count($arrResult) == 0)
         {
-            $dateNow = date('d');
+            $dateNow = date('15');
             $arrBillings = $this->billings->a_generateBillings($dateNow);
-            $dueDate = date('Y-m-d', strtotime(date('Y-m-d'). '+ 15 days'));
+            $dueDate = date('Y-m-d', strtotime(date('Y-m-15'). '+ 15 days'));
 
             if(count($arrBillings) > 0)
             {
@@ -84,15 +84,15 @@ class BillingController extends BaseController
                     $arrData = [
                         'company_id'        => $value['id'],
                         'billing_number'    => $this->_generateBillingNumber($value['company_code']),
-                        'billing_date'      => date('Y-m-d'),
-                        'total_amount'      => $value['total_monthly_dues'],
+                        'billing_date'      => date('Y-m-15'),
+                        'total_amount'      => $value['total_deduction_per_cutoff'],
                         'total_paid'        => null,
                         'penalty'           => null,
                         'balance'           => null,
                         'due_date'          => $dueDate,
                         'payment_status'    => 'UNPAID', // UNPAID | PAID | PARTIAL
                         'created_by'        => null,
-                        'created_date'      => date('Y-m-d H:i:s')
+                        'created_date'      => date('Y-m-15 H:i:s')
                     ]; 
 
                     $arr['company_id'] = $value['id'];
@@ -104,13 +104,13 @@ class BillingController extends BaseController
                 $arrBillingDetails = [];
                 foreach ($arrBillingIds as $key => $value) 
                 {
-                    $arr = $this->billings->a_generateBillingDetails($value['company_id'], date('d'));
+                    $arr = $this->billings->a_generateBillingDetails($value['company_id'], date('15'));
                     foreach ($arr as $key => $val) 
                     {
                         $arrBillingDetails[] = [
                             'billing_id'    => $value['billing_id'],
                             'loan_id'       => $val['id'],
-                            'billing_amount'=> $val['monthly_dues'],
+                            'billing_amount'=> $val['deduction_per_cutoff'],
                             'billing_series'=> (int)$val['billing_series'] + 1,
                             'payment_status'=> 'UNPAID',
                             'created_by'    => $this->session->get('gwc_admin_id'),

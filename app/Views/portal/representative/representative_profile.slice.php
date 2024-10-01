@@ -221,74 +221,121 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="form_repIdentification">
-                        <div class="row mb-3">
-                            <label for="txt_type" class="col-4 col-xl-2 col-form-label">ID Name</label>
-                            <div class="col-8 col-xl-10">
-                                <select class="form-control form-select" id="slc_type" name="slc_type">
-                                    <option value="">---</option>
-                                    <option value="PRIMARY=NATIONAL-ID"><i>(Primary)</i> NATIONAL-ID</option>
-                                    <option value="PRIMARY=PASSPORT-ID"><i>(Primary)</i> PASSPORT-ID</option>
-                                    <option value="PRIMARY=DRIVERS-LICENSE"><i>(Primary)</i> DRIVERS-LICENSE</option>
-                                    <option value="PRIMARY=SSS-GSIS"><i>(Primary)</i> SSS-GSIS</option>
-                                    <option value="PRIMARY=PRC"><i>(Primary)</i> PRC</option>
-                                    <option value="PRIMARY=POSTAL-ID"><i>(Primary)</i> POSTAL-ID</option>
-                                    <option value="PRIMARY=VOTERS-ID"><i>(Primary)</i> VOTERS-ID</option>
-                                    <option value="PRIMARY=UMID"><i>(Primary)</i> UMID</option>
-                                    <option value="PRIMARY=ACR-IMMIGRANT-COR"><i>(Primary)</i> ACR-IMMIGRANT-COR</option>
-                                    <option value="SECONDARY=AFP-ID"><i>(Secondary)</i> AFP-ID</option>
-                                    <option value="SECONDARY=PNP-ID"><i>(Secondary)</i> PNP-ID</option>
-                                    <option value="SECONDARY=BFP-ID"><i>(Secondary)</i> BFP-ID</option>
-                                    <option value="SECONDARY=PWD-ID"><i>(Secondary)</i> PWD-ID</option>
-                                    <option value="SECONDARY=DSWD-CERTIFICATION"><i>(Secondary)</i> DSWD-CERTIFICATION</option>
-                                    <option value="SECONDARY=GSIS-ECARD"><i>(Secondary)</i> GSIS-ECARD</option>
-                                    <option value="SECONDARY=OFW-ID"><i>(Secondary)</i> OFW-ID</option>
-                                    <option value="SECONDARY=POLICE-CLEARANCE"><i>(Secondary)</i> POLICE-CLEARANCE</option>
-                                    <option value="SECONDARY=SEAMANS-BOOK"><i>(Secondary)</i> SEAMANS-BOOK</option>
-                                </select>
+
+                        <div class="row mb-1">
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_type">ID Name</label>
+                                            </td>
+                                            <td width="70%">
+                                                <select class="form-control form-select" id="slc_type" name="slc_type">
+                                                    <option value="">---</option>
+                                                    <option value="PRIMARY=NATIONAL-ID"><i>(Primary)</i> NATIONAL-ID</option>
+                                                    <option value="PRIMARY=PASSPORT-ID"><i>(Primary)</i> PASSPORT-ID</option>
+                                                    <option value="PRIMARY=DRIVERS-LICENSE"><i>(Primary)</i> DRIVERS-LICENSE</option>
+                                                    <option value="PRIMARY=SSS-GSIS"><i>(Primary)</i> SSS-GSIS</option>
+                                                    <option value="PRIMARY=PRC"><i>(Primary)</i> PRC</option>
+                                                    <option value="PRIMARY=POSTAL-ID"><i>(Primary)</i> POSTAL-ID</option>
+                                                    <option value="PRIMARY=VOTERS-ID"><i>(Primary)</i> VOTERS-ID</option>
+                                                    <option value="PRIMARY=UMID"><i>(Primary)</i> UMID</option>
+                                                    <option value="PRIMARY=ACR-IMMIGRANT-COR"><i>(Primary)</i> ACR-IMMIGRANT-COR</option>
+                                                    <option value="SECONDARY=AFP-ID"><i>(Secondary)</i> AFP-ID</option>
+                                                    <option value="SECONDARY=PNP-ID"><i>(Secondary)</i> PNP-ID</option>
+                                                    <option value="SECONDARY=BFP-ID"><i>(Secondary)</i> BFP-ID</option>
+                                                    <option value="SECONDARY=PWD-ID"><i>(Secondary)</i> PWD-ID</option>
+                                                    <option value="SECONDARY=DSWD-CERTIFICATION"><i>(Secondary)</i> DSWD-CERTIFICATION</option>
+                                                    <option value="SECONDARY=GSIS-ECARD"><i>(Secondary)</i> GSIS-ECARD</option>
+                                                    <option value="SECONDARY=OFW-ID"><i>(Secondary)</i> OFW-ID</option>
+                                                    <option value="SECONDARY=POLICE-CLEARANCE"><i>(Secondary)</i> POLICE-CLEARANCE</option>
+                                                    <option value="SECONDARY=SEAMANS-BOOK"><i>(Secondary)</i> SEAMANS-BOOK</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_idNumber">ID Number</label>
+                                            </td>
+                                            <td width="70%">
+                                                <input type="text" class="form-control" id="txt_idNumber" name="txt_idNumber" required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="txt_idNumber" class="col-4 col-xl-2 col-form-label">ID Number</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="text" class="form-control" id="txt_idNumber" name="txt_idNumber" placeholder="" required>
+                        <div class="row mb-1">
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_dateIssued">Date Issued</label>
+                                            </td>
+                                            <td width="70%">
+                                                <input type="date" class="form-control" id="txt_dateIssued" name="txt_dateIssued" required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_placeIssued">Place Issued</label>
+                                            </td>
+                                            <td width="70%">
+                                                <input type="text" class="form-control" id="txt_placeIssued" name="txt_placeIssued" required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="txt_dateIssued" class="col-4 col-xl-2 col-form-label">Date Issued</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="date" class="form-control" id="txt_dateIssued" name="txt_dateIssued" placeholder="" required>
+                        <div class="row mb-1">
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_issuedBy">Issued By</label>
+                                            </td>
+                                            <td width="70%">
+                                                <input type="text" class="form-control" id="txt_issuedBy" name="txt_issuedBy">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%">
+                                                <label for="txt_expiryDate">Valid Until</label>
+                                            </td>
+                                            <td width="70%">
+                                                <input type="date" class="form-control" id="txt_expiryDate" name="txt_expiryDate">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="txt_placeIssued" class="col-4 col-xl-2 col-form-label">Place Issued</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="text" class="form-control" id="txt_placeIssued" name="txt_placeIssued" placeholder="" required>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="txt_issuedBy" class="col-4 col-xl-2 col-form-label">Issued By</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="text" class="form-control" id="txt_issuedBy" name="txt_issuedBy" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="txt_expiryDate" class="col-4 col-xl-2 col-form-label">Valid Until</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="date" class="form-control" id="txt_expiryDate" name="txt_expiryDate" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="file_idPicture" class="col-4 col-xl-2 col-form-label">Upload Picture</label>
-                            <div class="col-8 col-xl-10">
-                                <input type="file" id="file_idPicture" name="file_idPicture" data-plugins="dropify" accept="image/*" required/>
-                            </div>
-                        </div>
+                        <input type="file" id="file_idPicture" name="file_idPicture" data-plugins="dropify" accept="image/*" required/>
 
                     </form>
                 </div>

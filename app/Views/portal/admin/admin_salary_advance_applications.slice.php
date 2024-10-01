@@ -17,6 +17,9 @@
 <style type="text/css">
   /*INTERNAL STYLES*/
   
+  #tbl_salaryAdvance tbody tr td {
+    vertical-align: middle;
+  }
   
 </style>
 
@@ -70,6 +73,8 @@
                                 <input type="hidden" id="txt_subscriptionId">
 
                                 <h4>Product Subscription</h4>
+
+                                <hr>
 
                                 <h5>Business Profile</h5>
                                 <table class="table">
@@ -278,7 +283,6 @@
                                             <td>
                                                 <select class="form-control form-select" id="slc_employeeListStatus">
                                                     <option value="">--Status--</option>
-                                                    <option value="PENDING">PENDING</option>
                                                     <option value="APPROVE">APPROVE</option>
                                                     <option value="RESUBMIT">RESUBMIT</option>
                                                 </select>
@@ -450,7 +454,7 @@
     });
 
     $('#slc_employeeListStatus').on('change',function(){
-        if($(this).val() == 'Approve')
+        if($(this).val() == 'APPROVE')
         {
             $('#btn_requestResubmission').prop('disabled',true);
             $('#btn_acceptSubscription').prop('disabled',false);
