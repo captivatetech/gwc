@@ -71,6 +71,29 @@ const ADMIN_BILLINGS = (function(){
         });
     }
 
+
+    thisAdminBillings.a_generate_billing = function()
+    {
+        let txtDate = $('#txt_date').val();
+        if(confirm('Please Confirm!'))
+        {
+            AJAXHELPER.getData({
+                // BillingController->a_generateBillings
+                'route' : 'portal/admin/a-generate-billings',
+                'data'  : {
+                    'txtDate' : txtDate
+                }
+            }, function(data){
+                COMMONHELPER.Toaster('success',data[0]);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}portal/admin/billings`);
+                }, 1000);
+            }, function(data){
+                COMMONHELPER.Toaster('warning',data['responseJSON'][0]);
+            });
+        }
+    }
+
     return thisAdminBillings;
 
 })();

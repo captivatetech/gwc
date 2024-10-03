@@ -9,6 +9,14 @@ use Xendit\Payout\PayoutApi;
 use Xendit\Payout\CreatePayoutRequest;
 use Xendit\BalanceAndTransaction\BalanceApi;
 
+use zsign\OAuth;
+use zsign\ZohoSign;
+use zsign\SignException;
+use zsign\api\Fields;
+use zsign\api\Actions;
+use zsign\api\RequestObject;
+use zsign\api\fields\ImageField;
+
 class LoanController extends BaseController
 {
     public function __construct()

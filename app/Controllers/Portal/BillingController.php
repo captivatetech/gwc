@@ -65,14 +65,18 @@ class BillingController extends BaseController
 
     public function a_generateBillings()
     {
-        $completeDateNow = date('Y-m-15');
+        $fields = $this->request->getGet();
+
+        $completeDateNow = date($fields['txtDate']); //date('Y-m-15');
 
         $arrResult = $this->billings->a_countGeneratedBillings($completeDateNow);
         if(count($arrResult) == 0)
         {
-            $dateNow = date('15');
+            $dateNow = date('d',strtotime(date($fields['txtDate']))); //date('15');
+
             $arrBillings = $this->billings->a_generateBillings($dateNow);
-            $dueDate = date('Y-m-d', strtotime(date('Y-m-15'). '+ 15 days'));
+
+            $dueDate = date('Y-m-d', strtotime(date($fields['txtDate']). '+ 15 days')); //date('Y-m-d', strtotime(date('Y-m-15'). '+ 15 days'));
 
             if(count($arrBillings) > 0)
             {
@@ -84,7 +88,7 @@ class BillingController extends BaseController
                     $arrData = [
                         'company_id'        => $value['id'],
                         'billing_number'    => $this->_generateBillingNumber($value['company_code']),
-                        'billing_date'      => date('Y-m-15'),
+                        'billing_date'      => date($fields['txtDate']), //date('Y-m-15'),
                         'total_amount'      => $value['total_deduction_per_cutoff'],
                         'total_paid'        => null,
                         'penalty'           => null,
@@ -92,7 +96,7 @@ class BillingController extends BaseController
                         'due_date'          => $dueDate,
                         'payment_status'    => 'UNPAID', // UNPAID | PAID | PARTIAL
                         'created_by'        => null,
-                        'created_date'      => date('Y-m-15 H:i:s')
+                        'created_date'      => date('Y-m-d H:i:s')
                     ]; 
 
                     $arr['company_id'] = $value['id'];
@@ -104,7 +108,8 @@ class BillingController extends BaseController
                 $arrBillingDetails = [];
                 foreach ($arrBillingIds as $key => $value) 
                 {
-                    $arr = $this->billings->a_generateBillingDetails($value['company_id'], date('15'));
+                    $ddate = date('d',strtotime(date($fields['txtDate']))); //date('15');
+                    $arr = $this->billings->a_generateBillingDetails($value['company_id'], $ddate);
                     foreach ($arr as $key => $val) 
                     {
                         $arrBillingDetails[] = [
@@ -121,18 +126,19 @@ class BillingController extends BaseController
 
                 $this->billings->a_addGeneratedBillingDetails($arrBillingDetails);
 
-                return $this->response->setJSON($arrBillingDetails);
+                $msgResult[] = "Billing generation complete!";
+                return $this->response->setJSON($msgResult);
             }
             else
             {
                 $msgResult[] = "No Billing was generated!";
-                return $this->response->setJSON($msgResult);
+                return $this->response->setStatusCode(401)->setJSON($msgResult);
             }
         }
         else
         {
             $msgResult[] = "Billing was already generated!";
-            return $this->response->setJSON($msgResult);
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
         }
         
     }

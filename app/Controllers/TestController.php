@@ -181,7 +181,7 @@ class TestController extends BaseController
             STEP 2 : Get template object by ID
             **********/
 
-            $template = ZohoSign::getTemplate( 418013000000032001 );
+            $template = ZohoSign::getTemplate( 418013000000051001 );
         
             /*********
             STEP 3 : Set values to the same object & send for signature
@@ -206,13 +206,13 @@ class TestController extends BaseController
 
             $template->getActionByRole("Recepient2")->setRecipientName("Pedro");
             $template->getActionByRole("Recepient2")->setRecipientEmail("ajhay.work@gmail.com");
+
+            $template->getActionByRole("Recepient3")->setRecipientName("Ya");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
         
             $resp_obj = ZohoSign::sendTemplate( $template, true );
 
             echo ":: ".$resp_obj->getRequestId()." : ".$resp_obj->getRequestStatus();
-
-
-
 
         }catch( SignException $signEx ){
             // log it
