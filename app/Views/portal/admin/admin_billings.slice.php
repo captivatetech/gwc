@@ -61,6 +61,17 @@
 
                                 <br>
 
+                                <div style="border: 2px solid red; padding: 5px;">
+                                    <br>
+                                    <center>
+                                        <input type="date" id="txt_date" value="<?php echo date('Y-m-d'); ?>">
+                                        <button style="border-radius: 5px;" type="button" id="btn_generateBilling">Generate Billing</button>
+                                        <br>
+                                        <br>
+                                        <p style="color:red;"><i>This section is for testing purposes</i></p>
+                                    </center>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -214,6 +225,10 @@
     //jQuery Events
 
     ADMIN_BILLINGS.a_loadBillings();
+
+    $('#btn_generateBilling').on('click', function(){
+        ADMIN_BILLINGS.a_generate_billing();
+    });
     
     
   });
