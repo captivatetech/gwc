@@ -893,11 +893,14 @@ class Employees extends Model
     ////////////////////////////////////////////////////////////
     ///// LoanController->a_proceedDisbursement()
     ///// PaymentController->a_confirmPayment()
+    ///// LoanController->e_submitSalaryAdvanceApplication()
     ////////////////////////////////////////////////////////////
     public function a_selectRepresentative($companyId)
     {
         $columns = [
             'a.id',
+            'a.first_name',
+            'a.last_name',
             'a.email_address'
         ];
 

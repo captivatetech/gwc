@@ -107,6 +107,7 @@ class Loans extends Model
         $columns = [
             'a.id',
             'a.employee_id',
+            'a.request_id',
             'a.application_number',
             'b.identification_number',
             'b.first_name',
@@ -206,6 +207,7 @@ class Loans extends Model
         $columns = [
             'a.id',
             'a.employee_id',
+            'a.request_id',
             'a.application_number',
             'b.identification_number',
             'b.first_name',

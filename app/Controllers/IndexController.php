@@ -149,20 +149,6 @@ class IndexController extends BaseController
                 'errors' => [
                     'required' => 'Email Address is required'
                 ],
-            ],
-            'txt_userPassword' => [
-                'label'  => 'Password',
-                'rules'  => 'required',
-                'errors' => [
-                    'required' => 'Password is Incorrect',
-                ],
-            ],
-            'txt_userConfirmPassword' => [
-                'label'  => 'Confirm Password',
-                'rules'  => 'required',
-                'errors' => [
-                    'required' => 'Confirm Password is Incorrect',
-                ],
             ]
         ]);
 
@@ -177,62 +163,52 @@ class IndexController extends BaseController
 
             if($result == null)
             {
-                if($fields['txt_userPassword'] == $fields['txt_userConfirmPassword'])
+                $arrData = [
+                    'email_address' => $fields['txt_userEmail'],
+                    'auth_code'     => encrypt_code(generate_code(10)),
+                    'user_type'     => 'representative',
+                    'created_date'  => date('Y-m-d H:i:s')
+                ];
+                
+                $result = $this->employees->createAccount($arrData);
+                if($result > 0)
                 {
-                    $arrData = [
-                        'email_address' => $fields['txt_userEmail'],
-                        'user_password' => encrypt_code($fields['txt_userPassword']),
-                        'auth_code'     => encrypt_code(generate_code(10)),
-                        'user_type'     => 'representative',
-                        'created_date'  => date('Y-m-d H:i:s')
+                    $emailConfig = [
+                        'smtp_host'    => 'smtp.googlemail.com',
+                        'smtp_port'    => 465,
+                        'smtp_crypto'  => 'ssl',
+                        'smtp_user'    => 'ajhay.dev@gmail.com',
+                        'smtp_pass'    => 'uajtlnchouyuxaqp',
+                        'mail_type'    => 'html',
+                        'charset'      => 'iso-8859-1',
+                        'word_wrap'    => true
                     ];
-                    
-                    $result = $this->employees->createAccount($arrData);
-                    if($result > 0)
+
+                    $emailSender    = 'ajhay.dev@gmail.com';
+                    $emailReceiver  = $arrData['email_address'];
+
+                    $data = [
+                        'subjectTitle'  => 'Email Verification',
+                        'emailAddress'  => $arrData['email_address'],
+                        'authCode'      => decrypt_code($arrData['auth_code'])
+                    ];
+
+                    $emailResult = sendSliceMail('representative_registration',$emailConfig,$emailSender,$emailReceiver,$data);
+
+                    if($emailResult == true)
                     {
-                        $emailConfig = [
-                            'smtp_host'    => 'smtp.googlemail.com',
-                            'smtp_port'    => 465,
-                            'smtp_crypto'  => 'ssl',
-                            'smtp_user'    => 'ajhay.dev@gmail.com',
-                            'smtp_pass'    => 'uajtlnchouyuxaqp',
-                            'mail_type'    => 'html',
-                            'charset'      => 'iso-8859-1',
-                            'word_wrap'    => true
-                        ];
-
-                        $emailSender    = 'ajhay.dev@gmail.com';
-                        $emailReceiver  = $arrData['email_address'];
-
-                        $data = [
-                            'subjectTitle'  => 'Email Verification',
-                            'emailAddress'  => $arrData['email_address'],
-                            'authCode'      => decrypt_code($arrData['auth_code'])
-                        ];
-
-                        $emailResult = sendSliceMail('representative_registration',$emailConfig,$emailSender,$emailReceiver,$data);
-
-                        if($emailResult == true)
-                        {
-                            $msgResult[] = "Registration complete!";
-                        }
-                        else
-                        {
-                            $msgResult[] = "Email verification not sent!";
-                            return $this->response->setStatusCode(401)->setJSON($msgResult);
-                            exit();
-                        }
+                        $msgResult[] = "Registration complete!";
                     }
                     else
                     {
-                        $msgResult[] = "Something went wrong, please try again";
+                        $msgResult[] = "Email verification not sent!";
                         return $this->response->setStatusCode(401)->setJSON($msgResult);
                         exit();
                     }
                 }
                 else
                 {
-                    $msgResult[] = "Confirm password not match!";
+                    $msgResult[] = "Something went wrong, please try again";
                     return $this->response->setStatusCode(401)->setJSON($msgResult);
                     exit();
                 }

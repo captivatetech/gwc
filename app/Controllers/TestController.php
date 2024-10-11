@@ -155,6 +155,94 @@ class TestController extends BaseController
         echo $json_data['Data'][0]['channel_code'];
     }
 
+    public function testDownloadDocument($requestId)
+    {
+
+        $user = new OAuth( array(
+            OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+            OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+            OAuth::DC           => "COM",
+            OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+        ) );
+
+        ZohoSign::setCurrentUser( $user );
+
+        $user->generateAccessTokenUsingRefreshToken();  // manully generate access token. Else, will auto refresh.
+
+        $access_token = $user->getAccessToken(); // get and store access token so to avoid unnecessary regeneration.
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://sign.zoho.com/api/v1/requests/$requestId/pdf");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: Zoho-oauthtoken $access_token"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        header('Content-type: application/pdf');
+        $response = curl_exec($ch);
+
+        curl_close($ch);      
+
+        // echo '<iframe src="$response">';
+        echo $response;
+        exit();
+        
+        // Header content type
+        // header('Content-type: application/pdf');
+        // header('Content-Disposition: inline;
+        // filename="' . $response . '"');
+        // header('Content-Transfer-Encoding: binary');
+        // header('Accept-Ranges: bytes');
+        
+        // // Read the file
+        // @readfile($response);
+        // exit();
+
+        // try{
+
+        //     /*********
+        //         STEP 1 : Set user credentials
+        //     **********/
+
+        //     $user = new OAuth( array(
+        //         OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+        //         OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+        //         OAuth::DC           => "COM",
+        //         OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2",
+        //         // OAuth::ACCESS_TOKEN => "1000.512ca146138470bd84df0c6a498f9a17.48dde378b2aa452edfff9f0c04341644" // optional. If not set, will auto refresh for access token
+        //     ) );
+
+        //     ZohoSign::setCurrentUser( $user );
+
+        //     $user->generateAccessTokenUsingRefreshToken();  // manully generate access token. Else, will auto refresh.
+
+        //     $access_token = $user->getAccessToken(); // get and store access token so to avoid unnecessary regeneration.
+
+        //     /*********
+        //     STEP 2 : Get template object by ID
+        //     **********/
+        //     // $dir = getenv('HOMEDRIVE').getenv('HOMEPATH').'\Downloads';
+        //     // ZohoSign::setDownloadPath($dir);
+        //     // ZohoSign::getDownloadPath();
+
+        //     // $document = ZohoSign::downloadDocument(418013000000056015,418013000000056001);
+
+        //     $document = ZohoSign::getRequest(418013000000056015);
+
+        //     print_r($document);
+        //     exit();
+
+        //     // $msgResult = json_decode(json_encode($resp_obj),true);
+        //     // return $this->response->setJSON($msgResult);
+        //     // exit();
+
+        // }catch( SignException $signEx ){
+        //     // log it
+        //     echo "SIGN EXCEPTION : ".$signEx;
+        // }catch( Exception $ex ){
+        //     // handle it
+        // }
+    }
+
     public function testZohoSign()
     {
         try{
@@ -200,19 +288,47 @@ class TestController extends BaseController
             $template->setPrefillTextField( "txt_field8",  "field8" );
             $template->setPrefillTextField( "txt_field9",  "field9" );
             $template->setPrefillTextField( "txt_field10",  "field10" );
+            $template->setPrefillTextField( "txt_field11",  "field11" );
+            $template->setPrefillTextField( "txt_field12",  "field12" );
+            $template->setPrefillTextField( "txt_field13",  "field13" );
+            $template->setPrefillTextField( "txt_field14",  "field14" );
+            $template->setPrefillTextField( "txt_field15",  "field15" );
+            $template->setPrefillTextField( "txt_field16",  "field16" );
+            $template->setPrefillTextField( "txt_field17",  "field17" );
+            $template->setPrefillTextField( "txt_field18",  "field18" );
+            $template->setPrefillTextField( "txt_field19",  "field19" );
+            $template->setPrefillTextField( "txt_field20",  "field20" );
+            $template->setPrefillTextField( "txt_field21",  "field21" );
+            $template->setPrefillTextField( "txt_field22",  "field22" );
+            $template->setPrefillTextField( "txt_field23",  "field23" );
+            $template->setPrefillTextField( "txt_field24",  "field24" );
+            $template->setPrefillTextField( "txt_field25",  "field25" );
+            $template->setPrefillTextField( "txt_field26",  "field26" );
+            $template->setPrefillTextField( "txt_field27",  "field27" );
+            $template->setPrefillTextField( "txt_field28",  "field28" );
         
             $template->getActionByRole("Recepient1")->setRecipientName("Jaun");
             $template->getActionByRole("Recepient1")->setRecipientEmail("ajhay.dev@gmail.com");
+            $template->setPrefillTextField( "txt_employeeName",  "Hello" );
 
             $template->getActionByRole("Recepient2")->setRecipientName("Pedro");
             $template->getActionByRole("Recepient2")->setRecipientEmail("ajhay.work@gmail.com");
+            $template->setPrefillTextField( "txt_representativeName",  "World" );
 
             $template->getActionByRole("Recepient3")->setRecipientName("Ya");
             $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
+            $template->setPrefillTextField( "txt_lenderName",  "Hi" );
         
             $resp_obj = ZohoSign::sendTemplate( $template, true );
 
-            echo ":: ".$resp_obj->getRequestId()." : ".$resp_obj->getRequestStatus();
+            // echo ":: ".$resp_obj->getRequestId()." : ".$resp_obj->getRequestStatus();
+
+            print_r($resp_obj);
+            exit();
+
+            // $msgResult = json_decode(json_encode($resp_obj),true);
+            // return $this->response->setJSON($msgResult);
+            // exit();
 
         }catch( SignException $signEx ){
             // log it

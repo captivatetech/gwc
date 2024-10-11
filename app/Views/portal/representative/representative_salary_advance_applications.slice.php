@@ -162,20 +162,7 @@
                             </table>
                             <hr>
                             <h6>Attached Documents <small>(Signed Documents)</small></h6>
-                            <table style="width: 100%;" class="tbl-custom">
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>Application Form</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Authority to Deduct</td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <i><p style="color:red;">Please check your email to sign or click <a href="javascript:void(0)" id="lnk_downloadDocument">here</a> to download the document.</p></i>
                         </div>
                         <div class="col-lg-6">
                             <h6>Loan Details</h6>

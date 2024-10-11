@@ -46,7 +46,8 @@ const INDEX = (function(){
     {
         $('#btn_submitCreateAccount').prop('disabled',true);
         let formData = new FormData(thisForm);
-        AJAXHELPER.validateData({
+        AJAXHELPER.postData({
+            // IndexController->createAccount()
             'route' : 'portal/create-account',
             'data'  : formData
         }, function(data){ // Success
@@ -56,8 +57,6 @@ const INDEX = (function(){
             $('#btn_submitCreateAccount').prop('disabled',false);
         }, function(data){ // Error
             $('#txt_userEmail').val('');
-            $('#txt_userPassword').val('');
-            $('#txt_userConfirmPassword').val('');
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCreateAccount').prop('disabled',false);
         });

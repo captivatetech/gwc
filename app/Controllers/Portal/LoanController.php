@@ -76,73 +76,141 @@ class LoanController extends BaseController
 
     public function e_submitSalaryAdvanceApplication()
     {
-        $fields = $this->request->getPost();
+        try{
 
-        $loanAmount = (float)$fields['loanAmount'];
-        $interestRate = (float)$fields['interestRate'];
-        $paymentTerms = $fields['paymentTerms'];
+            $userData = $this->employees->selectEmployee($this->session->get('gwc_employee_id'));
+            $companyData = $this->companies->selectCompany($userData['company_id']);
+            $representativeData = $this->employees->a_selectRepresentative($userData['company_id']);
 
-        $amountToReceive = $loanAmount - 300;
-        $totalInterest = ($interestRate / 100) * $loanAmount;
-        $totalLoan = $loanAmount + $totalInterest;
+            $fields = $this->request->getPost();
 
-        $numberOfDeductions = ((int)substr($paymentTerms,0,1)) * 2;
-        $monthlyDues = $totalLoan / (int)substr($paymentTerms, 0, 1);
-        $deductionPerCutoff = $totalLoan / $numberOfDeductions;
+            $loanAmount = (float)$fields['loanAmount'];
+            $interestRate = (float)$fields['interestRate'];
+            $paymentTerms = $fields['paymentTerms'];
 
-        $userData = $this->employees->selectEmployee($this->session->get('gwc_employee_id'));
-        $companyData = $this->companies->selectCompany($userData['company_id']);
+            $amountToReceive = $loanAmount - 300;
+            $totalInterest = ($interestRate / 100) * $loanAmount;
+            $totalLoan = $loanAmount + $totalInterest;
 
-        $arrData = [
-            'company_id'            => $userData['company_id'],
-            'employee_id'           => $userData['id'],
-            'product_id'            => 1,
-            'application_number'    => $this->_generateApplicationNumber($companyData['company_code']),
-            // 'account_number'     => null,
-            'loan_amount'           => $loanAmount,
-            'amount_to_receive'     => $amountToReceive,
-            'total_interest'        => $totalInterest,
-            'payment_terms'         => $paymentTerms,
-            'number_of_deductions'  => $numberOfDeductions,
-            'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ''),
-            'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ''),
-            'purpose_of_loan'       => $fields['purposeOfLoan'],
-            'application_status'    => 'PENDING',  
-            // 'disbursement_status'=> null,
-            // 'disbursement_date'  => null,
-            // 'billing_date'       => null,
-            // 'loan_status'        => null,
-            'created_by'            => $this->session->get('gwc_employee_id'),
-            'created_date'          => date('Y-m-d H:i:s')
-        ];
+            $numberOfDeductions = ((int)substr($paymentTerms,0,1)) * 2;
+            $monthlyDues = $totalLoan / (int)substr($paymentTerms, 0, 1);
+            $deductionPerCutoff = $totalLoan / $numberOfDeductions;
 
-        $result = $this->loans->e_submitSalaryAdvanceApplication($arrData);
-        if($result > 0)
-        {
+            $user = new OAuth( array(
+                OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::DC           => "COM",
+                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+            ) );
 
-            $arrData = [
-                'employee_id'       => $this->session->get('gwc_employee_id'),
-                'answer'            => $fields['answers'],
-                'persona'           => $fields['persona'],
-                'total_score'       => $fields['totalScore'],
-                'assessment_status' => '1',
-                'created_by'        => $this->session->get('gwc_employee_id'),
-                'created_date'      => date('Y-m-d H:i:s')
-            ];
+            ZohoSign::setCurrentUser( $user );
+            $user->generateAccessTokenUsingRefreshToken();
+            $access_token = $user->getAccessToken();
 
-            $this->employees->e_addEmployeeAssessment($arrData);
+            $template = ZohoSign::getTemplate( 418013000000051001 );
 
-            $msgResult[] = "Salary Loan Application Submitted!";
-            return $this->response->setJSON($msgResult);
-            exit();
-        }
-        else
-        {
-            $msgResult[] = "Something went wrong, please try again";
-            return $this->response->setStatusCode(401)->setJSON($msgResult);
-            exit();
-        }
+            $template->setRequestName("May Sample API Test");
+            $template->setNotes("Call us back if you need clarificaions regarding agreement");
+
+            $template->setPrefillTextField( "txt_field1",  "field1" );
+            $template->setPrefillTextField( "txt_field2",  "field2" );
+            $template->setPrefillTextField( "txt_field3",  "field3" );
+            $template->setPrefillTextField( "txt_field4",  "field4" );
+            $template->setPrefillTextField( "txt_field5",  "field5" );
+            $template->setPrefillTextField( "txt_field6",  "field6" );
+            $template->setPrefillTextField( "txt_field7",  "field7" );
+            $template->setPrefillTextField( "txt_field8",  "field8" );
+            $template->setPrefillTextField( "txt_field9",  "field9" );
+            $template->setPrefillTextField( "txt_field10",  "field10" );
+            $template->setPrefillTextField( "txt_field11",  "field11" );
+            $template->setPrefillTextField( "txt_field12",  "field12" );
+            $template->setPrefillTextField( "txt_field13",  "field13" );
+            $template->setPrefillTextField( "txt_field14",  "field14" );
+            $template->setPrefillTextField( "txt_field15",  "field15" );
+            $template->setPrefillTextField( "txt_field16",  "field16" );
+            $template->setPrefillTextField( "txt_field17",  "field17" );
+            $template->setPrefillTextField( "txt_field18",  "field18" );
+            $template->setPrefillTextField( "txt_field19",  "field19" );
+            $template->setPrefillTextField( "txt_field20",  "field20" );
+            $template->setPrefillTextField( "txt_field21",  "field21" );
+            $template->setPrefillTextField( "txt_field22",  "field22" );
+            $template->setPrefillTextField( "txt_field23",  "field23" );
+            $template->setPrefillTextField( "txt_field24",  "field24" );
+            $template->setPrefillTextField( "txt_field25",  "field25" );
+            $template->setPrefillTextField( "txt_field26",  "field26" );
+            $template->setPrefillTextField( "txt_field27",  "field27" );
+            $template->setPrefillTextField( "txt_field28",  "field28" );
         
+            $employeeName = $userData['first_name'] . " " . $userData['last_name'];
+            $template->getActionByRole("Recepient1")->setRecipientName($employeeName);
+            $template->getActionByRole("Recepient1")->setRecipientEmail($userData['email_address']);
+            $template->setPrefillTextField( "txt_employeeName",  $employeeName );
+
+            $representativeName = $representativeData['first_name'] . " " . $representativeData['last_name'];
+            $template->getActionByRole("Recepient2")->setRecipientName($representativeName);
+            $template->getActionByRole("Recepient2")->setRecipientEmail($representativeData['email_address']);
+            $template->setPrefillTextField( "txt_representativeName",  $representativeName );
+
+            $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
+            $template->setPrefillTextField( "txt_lenderName",  "GWC Admin" );
+        
+            $resp_obj = ZohoSign::sendTemplate( $template, true );
+
+            if($resp_obj->getRequestId() != null)
+            {
+                $arrData = [
+                    'company_id'            => $userData['company_id'],
+                    'employee_id'           => $userData['id'],
+                    'product_id'            => 1,
+                    'request_id'            => $resp_obj->getRequestId(),
+                    'application_number'    => $this->_generateApplicationNumber($companyData['company_code']),
+                    'loan_amount'           => $loanAmount,
+                    'amount_to_receive'     => $amountToReceive,
+                    'total_interest'        => $totalInterest,
+                    'payment_terms'         => $paymentTerms,
+                    'number_of_deductions'  => $numberOfDeductions,
+                    'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ''),
+                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ''),
+                    'purpose_of_loan'       => $fields['purposeOfLoan'],
+                    'application_status'    => 'PENDING', 
+                    'created_by'            => $this->session->get('gwc_employee_id'),
+                    'created_date'          => date('Y-m-d H:i:s')
+                ];
+
+                $result = $this->loans->e_submitSalaryAdvanceApplication($arrData);
+                if($result > 0)
+                {
+
+                    $arrData = [
+                        'employee_id'       => $this->session->get('gwc_employee_id'),
+                        'answer'            => $fields['answers'],
+                        'persona'           => $fields['persona'],
+                        'total_score'       => $fields['totalScore'],
+                        'assessment_status' => '1',
+                        'created_by'        => $this->session->get('gwc_employee_id'),
+                        'created_date'      => date('Y-m-d H:i:s')
+                    ];
+
+                    $this->employees->e_addEmployeeAssessment($arrData);
+
+                    $msgResult[] = "Loan Application Complete!";
+                    return $this->response->setJSON($msgResult);
+                    exit();
+                }
+                else
+                {
+                    $msgResult[] = "Something went wrong, please try again";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
+        }catch( SignException $signEx ){
+            // log it
+            // echo "SIGN EXCEPTION : ".$signEx;
+        }catch( Exception $ex ){
+            // handle it
+        }        
     }
 
     public function r_loadSalaryAdvanceApplications()
