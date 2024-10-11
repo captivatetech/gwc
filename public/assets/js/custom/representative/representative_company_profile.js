@@ -405,11 +405,11 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
             data.forEach(function(value,index){
                 if(bankDepository == value['channel_code'])
                 {
-                    options += `<option value="${value['channel_code']}" selected>${value['channel_name']}</options>`;
+                    options += `<option value="${value['channel_code']}" selected>[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
                 else
                 {
-                    options += `<option value="${value['channel_code']}">${value['channel_name']}</options>`;
+                    options += `<option value="${value['channel_code']}">[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
             });
             $('#slc_bankDepository').html(options);

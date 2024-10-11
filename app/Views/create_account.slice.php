@@ -16,6 +16,9 @@
 		<link href="<?php echo base_url();?>public/assets/Adminto/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url();?>public/assets/Adminto/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
+        <!-- loader -->
+        <link href="<?php echo base_url();?>public/assets/lib/loader/waitMe.min.css" rel="stylesheet" type="text/css"/>
+
     </head>
 
     <body class="loading authentication-bg authentication-bg-pattern">
@@ -44,16 +47,6 @@
                                         <div class="mb-3">
                                             <label for="txt_userEmail" class="form-label">Email address</label>
                                             <input type="email" class="form-control" id="txt_userEmail" name="txt_userEmail" placeholder="Email Address" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="txt_userPassword" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="txt_userPassword" name="txt_userPassword" placeholder="Password" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="txt_userConfirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" id="txt_userConfirmPassword" name="txt_userConfirmPassword" placeholder="Confirm Password" required>
                                         </div>
 
                                         <div class="mb-3 d-grid text-center">
@@ -95,6 +88,9 @@
         <script src="<?php echo base_url();?>public/assets/Adminto/libs/feather-icons/feather.min.js"></script>
 
         <script src="<?php echo base_url();?>public/assets/Adminto/libs/sweetalert2/sweetalert2.min.js"></script>
+
+        <!-- Loader -->
+        <script src="<?php echo base_url();?>public/assets/lib/loader/waitMe.min.js"></script>
 
         <!-- App js -->
         <script src="<?php echo base_url();?>public/assets/Adminto/js/app.min.js"></script>

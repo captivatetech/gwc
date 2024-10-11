@@ -31,6 +31,11 @@ class CreateLoansTable extends Migration
                 'constraint'        => 11,
                 'null'              => true,
             ],
+            'request_id'                => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
+                'null'              => true,
+            ],
             'application_number'        => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,

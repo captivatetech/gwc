@@ -51,6 +51,8 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
         }, function(data){
             $('#txt_loanId').val(data['id']);
 
+            $('#lnk_downloadDocument').attr('onclick',`REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS.r_downloadDocument('${data['request_id']}')`);
+
             $('#txt_applicationDate').val(data['created_date']);
             $('#txt_applicationNumber').val(data['application_number']);
             $('#txt_employeeName').val(`${data['last_name']}, ${data['first_name']}`);
@@ -79,6 +81,12 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
     thisRepresentativeSalaryAdvanceApplications.r_loadLoanApplicationDocuments = function(loanId)
     {
         $('#modal_loanApplicationDocuments').modal('show');
+    }
+
+    thisRepresentativeSalaryAdvanceApplications.r_downloadDocument = function(requestId)
+    {
+        // TestController->testDownloadDocument()
+        window.open(`${baseUrl}test-download-document/${requestId}`, "_blank");
     }
 
     thisRepresentativeSalaryAdvanceApplications.r_submitSalaryAdvanceApplication = function()

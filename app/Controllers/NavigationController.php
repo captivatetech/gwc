@@ -45,6 +45,7 @@ class NavigationController extends BaseController
         {
             $data['status'] = 'failed';
         }
+
         return $this->slice->view('email_verification', $data);
     }
 

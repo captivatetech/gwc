@@ -10,6 +10,7 @@ class CompanyController extends BaseController
     {
         $this->companies = model('Companies');
         $this->employees = model('Employees');
+        $this->banks     = model('Banks');
     }
 
     public function r_selectCompanyInformation()
@@ -140,9 +141,12 @@ class CompanyController extends BaseController
 
     public function r_loadBankDepositories()
     {
-        $jsonData = file_get_contents(base_url() . "public/channel_codes.json");
-        $arrData = json_decode($jsonData, true);
-        return $this->response->setJSON($arrData['data']);
+        // $jsonData = file_get_contents(base_url() . "public/channel_codes.json");
+        // $arrData = json_decode($jsonData, true);
+        // return $this->response->setJSON($arrData['data']);
+
+        $arrData = $this->banks->loadBanks();
+        return $this->response->setJSON($arrData);
     }
 
     public function r_populatePayrollDates()

@@ -53,6 +53,8 @@ const ADMIN_APPLICATIONS = (function(){
             }
         }, function(data){
             $('#txt_loanId').val(data['id']);
+
+            $('#lnk_downloadDocument').attr('onclick',`ADMIN_APPLICATIONS.a_downloadDocument('${data['request_id']}')`);
             
             $('#txt_applicationDate').val(data['created_date']);
             $('#txt_applicationNumber').val(data['application_number']);
@@ -79,6 +81,11 @@ const ADMIN_APPLICATIONS = (function(){
         });
     }
 
+    thisAdminApplications.a_downloadDocument = function(requestId)
+    {
+        // TestController->testDownloadDocument();
+        window.open(`${baseUrl}test-download-document/${requestId}`, "_blank");
+    }
 
     thisAdminApplications.a_approveApplication = function()
     {

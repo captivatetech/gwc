@@ -228,13 +228,13 @@
                                 <tr>
                                     <td width="30%">Last Name</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_lastName" name="txt_lastName">
+                                        <input type="text" class="form-control" id="txt_lastName" name="txt_lastName" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">First Name</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_firstName" name="txt_firstName">
+                                        <input type="text" class="form-control" id="txt_firstName" name="txt_firstName" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -246,13 +246,13 @@
                                 <tr>
                                     <td width="30%">Tax Identification Number</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_taxIdentificationNumber" name="txt_taxIdentificationNumber">
+                                        <input type="text" class="form-control" id="txt_taxIdentificationNumber" name="txt_taxIdentificationNumber" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Position / Designation</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_position" name="txt_position">
+                                        <input type="text" class="form-control" id="txt_position" name="txt_position" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -264,19 +264,19 @@
                                 <tr>
                                     <td width="30%">Gross Salary</td>
                                     <td class="p-1">
-                                        <input type="number" class="form-control" id="txt_grossSalary" name="txt_grossSalary">
+                                        <input type="number" class="form-control" id="txt_grossSalary" name="txt_grossSalary" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Net Salary</td>
                                     <td class="p-1">
-                                        <input type="number" class="form-control" id="txt_netSalary" name="txt_netSalary">
+                                        <input type="number" class="form-control" id="txt_netSalary" name="txt_netSalary" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Marital Status</td>
                                     <td class="p-1">
-                                        <select class="form-control form-select" id="slc_maritalStatus" name="slc_maritalStatus">
+                                        <select class="form-control form-select" id="slc_maritalStatus" name="slc_maritalStatus" required>
                                            <option value="">--Select Status--</option>
                                            <option value="Single">Single</option> 
                                            <option value="Married">Married</option> 
@@ -292,19 +292,19 @@
                                 <tr>
                                     <td width="30%">Mobile Number</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_mobileNumber" name="txt_mobileNumber">
+                                        <input type="text" class="form-control" id="txt_mobileNumber" name="txt_mobileNumber" pattern="[0]{1}[0-9]{10}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Email Address</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_emailAddress" name="txt_emailAddress">
+                                        <input type="email" class="form-control" id="txt_emailAddress" name="txt_emailAddress" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Date Hired</td>
                                     <td class="p-1">
-                                        <input type="date" class="form-control" id="txt_dateHired" name="txt_dateHired">
+                                        <input type="date" class="form-control" id="txt_dateHired" name="txt_dateHired" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -316,7 +316,7 @@
                                 <tr>
                                     <td width="30%">Employment Status</td>
                                     <td class="p-1">
-                                        <select class="form-control form-select" id="slc_employmentStatus" name="slc_employmentStatus">
+                                        <select class="form-control form-select" id="slc_employmentStatus" name="slc_employmentStatus" required>
                                            <option value="">--Select Employment Status--</option>
                                            <option value="Contractual">Contractual</option> 
                                            <option value="Probitionary">Probitionary</option> 
@@ -334,7 +334,7 @@
                                 <tr>
                                     <td width="30%">Payroll Bank Account</td>
                                     <td class="p-1">
-                                        <input type="text" class="form-control" id="txt_payrollBankAccount" name="txt_payrollBankAccount">
+                                        <input type="text" class="form-control" id="txt_payrollBankAccount" name="txt_payrollBankAccount" required>
                                     </td>
                                 </tr>
                             </tbody>
@@ -364,7 +364,7 @@
                                 <tr>
                                     <td width="30%">Employee Status</td>
                                     <td class="p-1">
-                                        <select class="form-control form-select" id="slc_employeeStatus" name="slc_employeeStatus">
+                                        <select class="form-control form-select" id="slc_employeeStatus" name="slc_employeeStatus" required>
                                            <option value="">--Select Status--</option>
                                            <option value="1">Active</option> 
                                            <option value="0">Inactive</option> 
@@ -469,33 +469,6 @@
 
                             <div id="div_forImport">
                                 <hr>
-                                <!-- <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="info-box" style="background-color:#C3E6CB;">
-                                            <span class="info-box-icon bg-success" id="lbl_percentForInsert" style="font-size:15px;">0%</span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">FOR INSERT</span>
-                                                <span class="info-box-number" id="lbl_countForInsert">0</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-success" id="div_percentForInsert" style="width: 0%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="info-box" style="background-color:#FFEEBA;">
-                                            <span class="info-box-icon bg-warning" id="lbl_percentForUpdate" style="font-size:15px;">0%</span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">FOR UPDATE</span>
-                                                <span class="info-box-number" id="lbl_countForUpdate">0</span>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-warning" id="div_percentForUpdate" style="width: 0%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br> -->
                                 <label class="text-muted">Ready for import</label>
                                 <br>
                                 <table class="table table-sm table-bordered table-hover mb-3" id="tbl_importData" style="width:100%;">

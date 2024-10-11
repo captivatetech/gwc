@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
 /////////////////////////////////////////////////////////////////////////////
 $routes->get('test', 'TestController::sample');
 $routes->get('test-zoho-sign', 'TestController::testZohoSign');
+$routes->get('test-download-document/(:any)', 'TestController::testDownloadDocument/$1');
 $routes->get('test-xendit', 'TestController::testXendit');
 $routes->get('test-json', 'TestController::testJson');
 
@@ -344,6 +345,13 @@ $routes->post('portal/admin/add-admin-fee', 'Portal\FeeController::addAdminFee')
 $routes->get('portal/admin/select-admin-fee', 'Portal\FeeController::selectAdminFee');
 $routes->post('portal/admin/edit-admin-fee', 'Portal\FeeController::editAdminFee');
 $routes->post('portal/admin/remove-admin-fee', 'Portal\FeeController::removeAdminFee');
+
+    // ADMIN MAINTENANCE BANKS FUNCTIONS
+$routes->get('portal/admin/load-banks', 'Portal\BankController::loadBanks');
+$routes->post('portal/admin/add-bank', 'Portal\BankController::addBank');
+$routes->get('portal/admin/select-bank', 'Portal\BankController::selectBank');
+$routes->post('portal/admin/edit-bank', 'Portal\BankController::editBank');
+$routes->post('portal/admin/remove-bank', 'Portal\BankController::removeBank');
 
     // ADMIN MAINTENANCE FAQS FUNCTIONS
 $routes->get('portal/admin/load-admin-faqs', 'Portal\FaqController::loadAdminFaqs');
