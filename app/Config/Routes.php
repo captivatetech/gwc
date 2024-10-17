@@ -232,6 +232,8 @@ $routes->post('portal/representative/r-mapping-and-duplicate-handling', 'Portal\
 $routes->get('portal/representative/r-download-duplicate-rows-from-csv-employee', 'Portal\EmployeeController::r_downloadDuplicateRowsFromCSVEmployee');
 $routes->post('portal/representative/r-import-employees', 'Portal\EmployeeController::r_importEmployees');
 
+$routes->get('portal/representative/r-print-employee-list/(:any)', 'Portal\EmployeeController::r_printEmployeeList/$1');
+
 $routes->get('portal/representative/r-load-company-attachments', 'Portal\CompanyDocumentController::r_loadCompanyAttachments');
 $routes->post('portal/representative/r-add-company-attachment', 'Portal\CompanyDocumentController::r_addCompanyAttachment');
 $routes->get('portal/representative/r-select-company-attachment', 'Portal\CompanyDocumentController::r_selectCompanyAttachment');

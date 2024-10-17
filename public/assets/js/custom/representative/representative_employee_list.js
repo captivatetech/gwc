@@ -29,7 +29,22 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     employeeStatus = `<span class="text-danger">Inactive</span>`;
                 }
 
+                let actions = '';
+
+                if($('#txt_subscriptionStatus').val() == "APPROVE")
+                {
+                    actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>`;
+                }
+                else
+                {
+                    actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>`;
+                }
+
                 tbody += `<tr>
+                            <td>
+                                <input type="checkbox" class="chk-employees" value="${value['id']}" onchange="REPRESENTATIVE_EMPLOYEE_LIST.r_unselectEmployee();">
+                            </td>
                             <td>${value['identification_number']}</td>
                             <td>${value['first_name']} ${value['last_name']}</td>
                             <td>${value['email_address']}</td>
@@ -44,8 +59,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                                     Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>
+                                        ${actions}
                                     </div>
                                 </div>
                             </td>
@@ -55,6 +69,52 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#tbl_employees tbody').html(tbody);
             $("#tbl_employees").DataTable({pageLength:10,lengthMenu:[10,20,50,100,200,500]});
         });
+    }
+
+    thisRepresentativeEmployeeList.r_unselectEmployee = function()
+    {
+        let ids = $("#tbl_employees tbody input:checkbox:checked").map(function () {
+            return $(this).val();
+        }).get();
+
+        let trCount = 0;
+        $("#tbl_employees tbody tr").map(function () {
+            trCount++;
+        });
+
+        if(trCount >= $('#tbl_employees_length select').val())
+        {
+            if(ids.length == $('#tbl_employees_length select').val())
+            {
+                $('#chk_selectAllEmployees').prop('checked',true);
+            }
+            else
+            {
+                $('#chk_selectAllEmployees').prop('checked',false);
+            }
+        }
+        else
+        {   
+            if(trCount == ids.length)
+            {
+                $('#chk_selectAllEmployees').prop('checked',true);
+            }
+            else
+            {
+                $('#chk_selectAllEmployees').prop('checked',false);
+            }
+        }
+    }
+
+    thisRepresentativeEmployeeList.r_printEmployeeList = function()
+    {
+        let ids = $("#tbl_employees tbody input:checkbox:checked").map(function () {
+            return $(this).val();
+        }).get();
+
+        let arrIds = JSON.stringify(ids);
+
+        window.open(`${baseUrl}portal/representative/r-print-employee-list/${arrIds}`, '_blank');
     }
 
     thisRepresentativeEmployeeList.r_calculateCreditLimit = function()
@@ -120,7 +180,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#txt_lastName').val(data['last_name']);
             $('#txt_firstName').val(data['first_name']);
             $('#txt_middleName').val(data['middle_name']);
-            $('#txt_taxIdentificationNumber').val(data['identification_number']);
+            $('#txt_taxIdentificationNumber').val(data['tax_identification_number']);
             $('#txt_position').val(data['position']);
             $('#txt_department').val(data['department']);
             $('#txt_grossSalary').val(data['gross_salary']);
@@ -152,11 +212,11 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             data.forEach(function(value,index){
                 if($('#txt_payrollBank').val() == value['channel_code'])
                 {
-                    options += `<option value="${value['channel_code']}" selected>${value['channel_name']}</options>`;
+                    options += `<option value="${value['channel_code']}" selected>[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
                 else
                 {
-                    options += `<option value="${value['channel_code']}">${value['channel_name']}</options>`;
+                    options += `<option value="${value['channel_code']}">[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
             });
             $('#slc_payrollBank').html(options);
@@ -249,18 +309,23 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                             <td>${value}</td>
                             <td>${_arrEmployeeList['arrEmployeeList'][0][key]}</td>
                             <td>
-                                <select class="form-control form-select form-control-sm select2" style="width:100%;">
+                                <select class="form-control form-select form-control-sm select2" onchange="REPRESENTATIVE_EMPLOYEE_LIST.r_selectField(this)" style="width:100%;">
                                     <option value="" selected>--Map Field--</option>
                                     <option value="first_name" ${(value.replace(' ','_').toLowerCase() == 'first_name')? 'selected' : ''}>First Name</option>
                                     <option value="middle_name" ${(value.replace(' ','_').toLowerCase() == 'middle_name')? 'selected' : ''}>Middle Name</option>
                                     <option value="last_name" ${(value.replace(' ','_').toLowerCase() == 'last_name')? 'selected' : ''}>Last Name</option>
-                                    <option value="marital_status" ${(value.replace(' ','_').toLowerCase() == 'marital_status')? 'selected' : ''}>Marital Status</option>
-                                    <option value="email_address" ${(value.replace(' ','_').toLowerCase() == 'email_address')? 'selected' : ''}>Email Address</option>
-                                    <option value="mobile_number" ${(value.replace(' ','_').toLowerCase() == 'mobile_number')? 'selected' : ''}>Mobile Number</option>
-                                    <option value="permanent_address" ${(value.replace(' ','_').toLowerCase() == 'permanent_address')? 'selected' : ''}>Permanent Address</option>
-                                    <option value="department" ${(value.replace(' ','_').toLowerCase() == 'department')? 'selected' : ''}>Department</option>
+                                    <option value="tax_identification_number" ${(value.replace(' ','_').toLowerCase() == 'tax_identification_number')? 'selected' : ''}>Tax Identification Number</option>
                                     <option value="position" ${(value.replace(' ','_').toLowerCase() == 'position')? 'selected' : ''}>Position</option>
+                                    <option value="department" ${(value.replace(' ','_').toLowerCase() == 'department')? 'selected' : ''}>Department</option>
+                                    <option value="gross_salary" ${(value.replace(' ','_').toLowerCase() == 'gross_salary')? 'selected' : ''}>Gross Salary</option>
+                                    <option value="net_salary" ${(value.replace(' ','_').toLowerCase() == 'net_salary')? 'selected' : ''}>Net Salary</option>
+                                    <option value="marital_status" ${(value.replace(' ','_').toLowerCase() == 'marital_status')? 'selected' : ''}>Marital Status</option>
+                                    <option value="permanent_address" ${(value.replace(' ','_').toLowerCase() == 'permanent_address')? 'selected' : ''}>Home Address</option>
+                                    <option value="mobile_number" ${(value.replace(' ','_').toLowerCase() == 'mobile_number')? 'selected' : ''}>Mobile Number</option>
+                                    <option value="email_address" ${(value.replace(' ','_').toLowerCase() == 'email_address')? 'selected' : ''}>Email Address</option>
                                     <option value="date_hired" ${(value.replace(' ','_').toLowerCase() == 'date_hired')? 'selected' : ''}>Date Hired</option>
+                                    <option value="employment_status" ${(value.replace(' ','_').toLowerCase() == 'employment_status')? 'selected' : ''}>Employment Status</option>
+                                    <option value="payroll_bank_number" ${(value.replace(' ','_').toLowerCase() == 'payroll_bank_number')? 'selected' : ''}>Payroll Bank Number</option>
                                 </select>
                             </td>
                             <td>${defaultValue}</td>
@@ -272,6 +337,13 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#tbl_mapping tbody').html(tbody);
         }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_selectField = function(dis)
+    {
+        $('#tbl_mapping tbody tr').each(function(){
+            arrFields.push($(this).find('td:eq(3) select').val());
         });
     }
 

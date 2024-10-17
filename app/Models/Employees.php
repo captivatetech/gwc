@@ -526,6 +526,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.minimum_credit_amount',
             'a.maximum_credit_amount',
@@ -596,6 +597,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.employment_status',
             'a.years_stayed',
@@ -650,6 +652,41 @@ class Employees extends Model
     }
 
 
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->r_printEmployeeList()
+    ////////////////////////////////////////////////////////////
+    public function r_loadSelectedEmployees($arrEmployeeIds)
+    {
+        $columns = [
+            'a.id',
+            'a.company_id',
+            'a.identification_number',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.permanent_address',
+            'a.department',
+            'a.position',
+            'a.tax_identification_number',
+            'a.date_hired',
+            'a.employment_status',
+            'a.years_stayed',
+            'a.gross_salary',
+            'a.net_salary',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            'a.payroll_bank_number',
+            'a.employee_status'
+        ];
+
+        $builder = $this->db->table('employees a')->select($columns);
+        $builder->whereIn('a.id',$arrEmployeeIds);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
 
 
     ////////////////////////////////////////////////////////////
@@ -670,6 +707,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.employment_status',
             'a.years_stayed',
@@ -737,6 +775,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.years_stayed',
             'a.gross_salary',
@@ -776,6 +815,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.years_stayed',
             'a.gross_salary',
@@ -820,6 +860,7 @@ class Employees extends Model
             'a.permanent_address',
             'a.department',
             'a.position',
+            'a.tax_identification_number',
             'a.date_hired',
             'a.employment_status',
             'a.years_stayed',
