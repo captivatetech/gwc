@@ -90,6 +90,11 @@ class CreateEmployeesTable extends Migration
                 'constraint'        => 100,
                 'null'              => true,
             ],
+            'tax_identification_number' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 100,
+                'null'              => true,
+            ],
             'persona'               => [
                 'type'              => 'TEXT',
                 'null'              => true,

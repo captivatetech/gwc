@@ -141,10 +141,6 @@ class CompanyController extends BaseController
 
     public function r_loadBankDepositories()
     {
-        // $jsonData = file_get_contents(base_url() . "public/channel_codes.json");
-        // $arrData = json_decode($jsonData, true);
-        // return $this->response->setJSON($arrData['data']);
-
         $arrData = $this->banks->loadBanks();
         return $this->response->setJSON($arrData);
     }

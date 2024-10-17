@@ -46,12 +46,16 @@
                 <p>Click <a href="<?php echo base_url('portal/representative/financing-products'); ?>">here</a> to subscribe for a product.</p>
                 @else
                 <input type="hidden" id="txt_companyId" name="txt_companyId" value="{{ $companyId }}">
+                <input type="hidden" id="txt_subscriptionStatus" value="{{ $subscriptionStatus }}">
 
                 <div class="row" id="div_employeeList">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 
+                                @if($subscriptionStatus == "APPROVE")
+                                <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_requestForUpdate"><i class="fe-check"></i> REQUEST FOR UPDATE</button>
+                                @else
                                 <div class="row">
                                     <div class="col-8 col-xl-3 d-grid">
                                         <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_addEmployee"><i class="fe-plus"></i> ADD NEW</button>
@@ -60,13 +64,15 @@
                                         <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_importEmployees"><i class="fe-plus"></i> BATCH UPLOAD</button>
                                     </div>
                                 </div>
-
-                                <p class="text-muted font-14 mb-3">
-                                </p>
+                                @endif  
+                                <p class="text-muted font-14 mb-3"></p>                              
 
                                 <table id="tbl_employees" class="table table-bordered dt-responsive table-responsive nowrap">
                                     <thead>
                                         <tr>
+                                            <th>
+                                                <input type="checkbox" id="chk_selectAllEmployees">
+                                            </th>
                                             <th>ID No.</th>
                                             <th>Name</th>
                                             <th>Email</th>
@@ -85,7 +91,14 @@
 
                                 <br>
 
-                                <div class="justify-content-end row mt-3">
+                                @if($subscriptionStatus == "APPROVE")
+                                <div class="justify-content-end row mt-2">
+                                    <div class="col-8 col-xl-4 d-grid">
+                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments"><i class="fe-eye"></i> VIEW ATTACH DOCUMENTS</button>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="justify-content-end row mt-2">
                                     <div class="col-8 col-xl-3 d-grid">
                                         <button type="button" id="btn_printEmployeeList" class="btn gwc-button waves-effect waves-light">Print Updated List</button>
                                     </div>
@@ -93,6 +106,7 @@
                                         <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments">Attach Documents</button>
                                     </div>
                                 </div>
+                                @endif
 
                             </div>
                         </div>
@@ -127,7 +141,11 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment01" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-01', 'Sworn Statement');">
+                                                        @if($subscriptionStatus != "APPROVE")
                                                         <i class="fe-upload"></i>
+                                                        @else
+                                                        <i class="fe-eye"></i>
+                                                        @endif
                                                     </a>
                                                 </center>
                                             </td>
@@ -142,7 +160,11 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment02" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-02', 'Employee List');">
+                                                        @if($subscriptionStatus != "APPROVE")
                                                         <i class="fe-upload"></i>
+                                                        @else
+                                                        <i class="fe-eye"></i>
+                                                        @endif
                                                     </a>
                                                 </center>
                                             </td>
@@ -157,7 +179,11 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment03" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-03', 'BIR Employee List');">
+                                                        @if($subscriptionStatus != "APPROVE")
                                                         <i class="fe-upload"></i>
+                                                        @else
+                                                        <i class="fe-eye"></i>
+                                                        @endif
                                                     </a>
                                                 </center>
                                             </td>
@@ -172,7 +198,11 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment04" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-04', 'SSS R3');">
+                                                        @if($subscriptionStatus != "APPROVE")
                                                         <i class="fe-upload"></i>
+                                                        @else
+                                                        <i class="fe-eye"></i>
+                                                        @endif
                                                     </a>
                                                 </center>
                                             </td>
@@ -203,6 +233,29 @@
     <!-- ============================================================== -->
     <!-- End Page content -->
     <!-- ============================================================== -->
+
+    <div class="modal fade" id="modal_requestForUpdate" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle"> 
+                        <i class="feather-plus me-2"></i> Request for Update
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_requestForUpdate">
+                        <label>Remarks:</label>
+                        <textarea rows="5" class="form-control" id="txt_requestForUpdateRemarks" name="txt_requestForUpdateRemarks" required></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitRequestForUpdate" form="form_requestForUpdate">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="modal_employee" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
@@ -518,22 +571,30 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_companyAttachment">
+                        @if($subscriptionStatus != "APPROVE")
                         <input type="hidden" id="txt_attachmentId" name="txt_attachmentId">
                         <input type="hidden" id="txt_attachmentCode" name="txt_attachmentCode">
                         <input type="hidden" id="txt_attachmentName" name="txt_attachmentName">
                         <center><div id="div_companyAttachmentResult"></div></center>
                         <input type="file" id="file_companyAttachment" name="file_companyAttachment" data-plugins="dropify" accept="application/pdf" required />
+                        <br>
+                        @endif
                         <div id="div_companyAttachmentPreview" hidden>
-                            <br>
                             <label>Document Preview:</label>
+                            @if($subscriptionStatus != "APPROVE")
                             <iframe src="" id="iframe_companyAttachmentPreview" style="width:100%; height: 60vh;"></iframe>
+                            @else
+                            <iframe src="" id="iframe_companyAttachmentPreview" style="width:100%; height: 70vh;"></iframe>
+                            @endif
                         </div>
                     </form>
                 </div>
+                @if($subscriptionStatus != "APPROVE")
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn gwc-button" id="btn_submitCompanyAttachment" form="form_companyAttachment">Submit</button>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -585,6 +646,10 @@
 
     REPRESENTATIVE_EMPLOYEE_LIST.r_loadEmployees($('#txt_companyId').val());
     REPRESENTATIVE_EMPLOYEE_LIST.r_loadBankDepositories();
+
+    $('#btn_requestForUpdate').on('click',function(){
+        $('#modal_requestForUpdate').modal('show');
+    });
 
     $('#btn_addEmployee').on('click',function(){
         $('#txt_employeeId').val('');
@@ -669,6 +734,23 @@
 
     $('#btn_stepThreeCancel').on('click',function(){
         REPRESENTATIVE_EMPLOYEE_LIST.r_stepThreeCancel();
+    });
+
+
+
+    $('#chk_selectAllEmployees').on('change',function(){
+        if($(this).is(':checked'))
+        { 
+            $('.chk-employees').prop('checked',true);
+        }
+        else
+        {
+            $('.chk-employees').prop('checked',false);
+        }
+    });
+
+    $('#btn_printEmployeeList').on('click',function(){
+        REPRESENTATIVE_EMPLOYEE_LIST.r_printEmployeeList();
     });
 
 

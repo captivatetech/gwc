@@ -263,6 +263,9 @@ class NavigationController extends BaseController
                     $data['firstName'] = $userData['first_name'];
                     $data['lastName'] = $userData['last_name'];
                     $data['companyId'] = $userData['company_id'];
+                    $data['companyCode'] = $userData['company_code'];
+                    $data['bankDepository'] = $userData['bank_depository'];
+                    $data['subscriptionStatus'] = $userData['subscription_status'];
                     $data['businessType'] = $userData['business_type']; 
                     $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_financing_products', $data);
