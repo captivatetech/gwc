@@ -739,13 +739,13 @@ class EmployeeController extends BaseController
 
         // set document information
         $pdf->setCreator(PDF_CREATOR);
-        $pdf->setAuthor('Nicola Asuni');
-        $pdf->setTitle('TCPDF Example 001');
-        $pdf->setSubject('TCPDF Tutorial');
-        $pdf->setKeywords('TCPDF, PDF, example, test, guide');
+        // $pdf->setAuthor('Nicola Asuni');
+        $pdf->setTitle('Employee List');
+        // $pdf->setSubject('TCPDF Tutorial');
+        // $pdf->setKeywords('TCPDF, PDF, example, test, guide');
 
         // set default header data
-        $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
+        $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Employee List', 'Generated Date: '.date('Y-m-d') , array(0,64,255), array(0,64,128));
         $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         // set header and footer fonts
@@ -790,13 +790,55 @@ class EmployeeController extends BaseController
         // set text shadow effect
         $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
 
+        $tbody = "";
+        foreach ($arrData as $key => $value) 
+        {
+            $employeeNumber = $value['identification_number'];
+            $lastName = $value['last_name'];
+            $firstName = $value['first_name'];
+            $grossSalary = $value['gross_salary'];
+            $netSalary = $value['net_salary'];
+            $tbody .= <<<EOD
+                <tr>
+                    <td>$employeeNumber</td>
+                    <td>$lastName</td>
+                    <td>$firstName</td>
+                    <td style="text-align: right;">$grossSalary</td>
+                    <td style="text-align: right;">$netSalary</td>
+                </tr>
+            EOD;
+        }
+        
+
         // Set some content to print
         $html = <<<EOD
-        <h1>Welcome to <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a>!</h1>
-        <i>This is the first example of TCPDF library.</i>
-        <p>This text is printed using the <i>writeHTMLCell()</i> method but you can also use: <i>Multicell(), writeHTML(), Write(), Cell() and Text()</i>.</p>
-        <p>Please check the source code documentation and other examples for further information.</p>
-        <p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
+
+            <style>
+            table {
+                border: 1px solid black;
+            }
+            th {
+                border: 1px solid black;
+            }
+            td {
+                border: 1px solid black;
+            }
+            </style>
+
+            <table style="width:100%; font-size: 10px;">
+                <thead>
+                    <tr>
+                        <th><b>ID Number</b></th>
+                        <th><b>Last Name</b></th>
+                        <th><b>First Name</b></th>
+                        <th><b>Gross Salary</b></th>
+                        <th><b>Net Salary</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    $tbody
+                </tbody>
+            </table>
         EOD;
 
         // Print text using writeHTMLCell()
