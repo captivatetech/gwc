@@ -27,6 +27,7 @@ class ProductSubscriptionController extends BaseController
             'product_id'            => $fields['txt_productId'],
             'company_id'            => $fields['txt_companyId'],
             'subscription_status'   => 'PENDING',
+            'access_status'         => 'OPEN',
             'created_by'            => $this->session->get('gwc_representative_id'),
             'created_date'          => date('Y-m-d H:i:s')
         ];
@@ -68,7 +69,8 @@ class ProductSubscriptionController extends BaseController
         $fields = $this->request->getPost();
 
         $arrData = [
-            'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit
+            'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit | Onhold
+            'access_status'         => 'OPEN',
             'remarks'               => $fields['txt_remarks'],
             'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
@@ -81,20 +83,21 @@ class ProductSubscriptionController extends BaseController
             $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
             $emailConfig = [
-                'smtp_host'    => 'smtp.googlemail.com',
-                'smtp_port'    => 465,
-                'smtp_crypto'  => 'ssl',
-                'smtp_user'    => 'ajhay.dev@gmail.com',
-                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'smtp_host'    => 'smtppro.zoho.com',
+                'smtp_port'    => 587,
+                'smtp_crypto'  => 'tls',
+                'smtp_user'    => 'loans@goldwatercap.net',
+                'smtp_pass'    => 'sFkhLq2Ka9wm',
                 'mail_type'    => 'html',
                 'charset'      => 'iso-8859-1',
                 'word_wrap'    => true
             ];
 
-            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];
 
             $data = [
+                'emailName'    => 'GOLDWATER CAPITAL',
                 'subjectTitle' => 'Failed Subscription',
                 'emailAddress' => $repDetails['email_address'],
                 'remarks'      => $fields['txt_remarks']
@@ -119,7 +122,8 @@ class ProductSubscriptionController extends BaseController
         $fields = $this->request->getPost();
 
         $arrData = [
-            'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit
+            'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit | Onhold
+            'access_status'         => "CLOSE",
             'remarks'               => $fields['txt_remarks'],
             'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
@@ -131,20 +135,21 @@ class ProductSubscriptionController extends BaseController
             $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
             $emailConfig = [
-                'smtp_host'    => 'smtp.googlemail.com',
-                'smtp_port'    => 465,
-                'smtp_crypto'  => 'ssl',
-                'smtp_user'    => 'ajhay.dev@gmail.com',
-                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'smtp_host'    => 'smtppro.zoho.com',
+                'smtp_port'    => 587,
+                'smtp_crypto'  => 'tls',
+                'smtp_user'    => 'loans@goldwatercap.net',
+                'smtp_pass'    => 'sFkhLq2Ka9wm',
                 'mail_type'    => 'html',
                 'charset'      => 'iso-8859-1',
                 'word_wrap'    => true
             ];
 
-            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];
 
             $data = [
+                'emailName'    => 'GOLDWATER CAPITAL',
                 'subjectTitle' => 'Accept Subscription',
                 'emailAddress' => $repDetails['email_address'],
                 'remarks'      => $fields['txt_remarks']

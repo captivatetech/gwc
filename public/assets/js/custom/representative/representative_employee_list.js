@@ -112,9 +112,15 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             return $(this).val();
         }).get();
 
-        let arrIds = JSON.stringify(ids);
-
-        window.open(`${baseUrl}portal/representative/r-print-employee-list/${arrIds}`, '_blank');
+        if(ids.length > 0)
+        {
+            let arrIds = JSON.stringify(ids);
+            window.open(`${baseUrl}portal/representative/r-print-employee-list/${arrIds}`, '_blank');
+        }
+        else
+        {
+            alert('No selected employees to print!');
+        }
     }
 
     thisRepresentativeEmployeeList.r_calculateCreditLimit = function()
@@ -227,6 +233,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
     {
         let formData = new FormData(thisForm);
         formData.set('txt_companyId',$("#txt_companyId").val());
+        formData.set('txt_accessStatus',$("#txt_accessStatus").val());
 
         $('#btn_submitEmployee').prop('disabled',true);
         AJAXHELPER.postData({

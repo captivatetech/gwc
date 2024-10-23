@@ -768,7 +768,20 @@ class CompanyController extends BaseController
 
 
 
+    public function a_loadPartnersList()
+    {
+        $fields = $this->request->getGet();
+        $arrData = $this->companies->a_loadPartnersList();
+        $newArrData = [];
 
+        foreach ($arrData as $key => $value) 
+        {
+            $value['company_website'] = prep_url($value['company_website']);
+            $newArrData[] = $value;
+        }
+
+        return $this->response->setJSON($newArrData);
+    }
 
 
 

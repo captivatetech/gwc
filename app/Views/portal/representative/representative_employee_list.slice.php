@@ -47,13 +47,14 @@
                 @else
                 <input type="hidden" id="txt_companyId" name="txt_companyId" value="{{ $companyId }}">
                 <input type="hidden" id="txt_subscriptionStatus" value="{{ $subscriptionStatus }}">
+                <input type="hidden" id="txt_accessStatus" value="{{ $accessStatus }}">
 
                 <div class="row" id="div_employeeList">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 
-                                @if($subscriptionStatus == "APPROVE")
+                                @if($accessStatus == "CLOSE")
                                 <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_requestForUpdate"><i class="fe-check"></i> REQUEST FOR UPDATE</button>
                                 @else
                                 <div class="row">
@@ -91,7 +92,7 @@
 
                                 <br>
 
-                                @if($subscriptionStatus == "APPROVE")
+                                @if($accessStatus == "CLOSE")
                                 <div class="justify-content-end row mt-2">
                                     <div class="col-8 col-xl-4 d-grid">
                                         <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments"><i class="fe-eye"></i> VIEW ATTACH DOCUMENTS</button>
@@ -141,7 +142,7 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment01" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-01', 'Sworn Statement');">
-                                                        @if($subscriptionStatus != "APPROVE")
+                                                        @if($accessStatus != "CLOSE")
                                                         <i class="fe-upload"></i>
                                                         @else
                                                         <i class="fe-eye"></i>
@@ -160,7 +161,7 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment02" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-02', 'Employee List');">
-                                                        @if($subscriptionStatus != "APPROVE")
+                                                        @if($accessStatus != "CLOSE")
                                                         <i class="fe-upload"></i>
                                                         @else
                                                         <i class="fe-eye"></i>
@@ -179,7 +180,7 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment03" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-03', 'BIR Employee List');">
-                                                        @if($subscriptionStatus != "APPROVE")
+                                                        @if($accessStatus != "CLOSE")
                                                         <i class="fe-upload"></i>
                                                         @else
                                                         <i class="fe-eye"></i>
@@ -198,7 +199,7 @@
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment04" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-04', 'SSS R3');">
-                                                        @if($subscriptionStatus != "APPROVE")
+                                                        @if($accessStatus != "CLOSE")
                                                         <i class="fe-upload"></i>
                                                         @else
                                                         <i class="fe-eye"></i>
@@ -317,13 +318,21 @@
                                 <tr>
                                     <td width="30%">Gross Salary</td>
                                     <td class="p-1">
+                                        @if($accessStatus == "OPEN")
                                         <input type="number" class="form-control" id="txt_grossSalary" name="txt_grossSalary" required>
+                                        @else
+                                        <input type="number" class="form-control" id="txt_grossSalary" name="txt_grossSalary" required readonly>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Net Salary</td>
                                     <td class="p-1">
+                                        @if($accessStatus == "OPEN")
                                         <input type="number" class="form-control" id="txt_netSalary" name="txt_netSalary" required>
+                                        @else
+                                        <input type="number" class="form-control" id="txt_netSalary" name="txt_netSalary" required readonly>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>
@@ -571,7 +580,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_companyAttachment">
-                        @if($subscriptionStatus != "APPROVE")
+                        @if($accessStatus != "CLOSE")
                         <input type="hidden" id="txt_attachmentId" name="txt_attachmentId">
                         <input type="hidden" id="txt_attachmentCode" name="txt_attachmentCode">
                         <input type="hidden" id="txt_attachmentName" name="txt_attachmentName">
@@ -581,7 +590,7 @@
                         @endif
                         <div id="div_companyAttachmentPreview" hidden>
                             <label>Document Preview:</label>
-                            @if($subscriptionStatus != "APPROVE")
+                            @if($accessStatus != "CLOSE")
                             <iframe src="" id="iframe_companyAttachmentPreview" style="width:100%; height: 60vh;"></iframe>
                             @else
                             <iframe src="" id="iframe_companyAttachmentPreview" style="width:100%; height: 70vh;"></iframe>
@@ -589,7 +598,7 @@
                         </div>
                     </form>
                 </div>
-                @if($subscriptionStatus != "APPROVE")
+                @if($accessStatus != "CLOSE")
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn gwc-button" id="btn_submitCompanyAttachment" form="form_companyAttachment">Submit</button>

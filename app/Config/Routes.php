@@ -294,6 +294,7 @@ $routes->post('portal/admin/a-approve-application', 'Portal\LoanController::a_ap
 $routes->post('portal/admin/a-reject-application', 'Portal\LoanController::a_rejectApplication');
 
     // ADMIN PARTNERS LIST FUNCTIONS
+$routes->get('portal/admin/a-load-partners-list', 'Portal\CompanyController::a_loadPartnersList');
 
     // ADMIN FINANCING PRODUCTS FUNCTIONS
 

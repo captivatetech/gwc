@@ -40,17 +40,16 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
+                                <table id="tbl_partnersList" class="table table-bordered dt-responsive table-responsive nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Loan Application Number</th>
-                                            <th>Type</th>
-                                            <th>Name</th>
-                                            <th>Company</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Company Code</th>
+                                            <th>Company Name</th>
+                                            <th>Company Email</th>
+                                            <th>Mobile Number</th>
+                                            <th>Company Website</th>
+                                            <th>Business Type</th>
+                                            <th>Business Industry</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,6 +63,8 @@
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">  
                 
             </div> <!-- container-fluid -->
 
@@ -113,6 +114,8 @@
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
+
+    ADMIN_PARTNERS_LIST.a_loadPartnersList();
     
     
   });

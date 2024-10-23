@@ -209,7 +209,8 @@ class Employees extends Model
             'b.bpo_user',
             'b.company_code',
             'b.bank_depository',
-            'c.subscription_status'
+            'c.subscription_status',
+            'c.access_status'
         ];
 
         $builder = $this->db->table('employees a');

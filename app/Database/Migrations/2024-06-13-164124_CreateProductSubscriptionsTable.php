@@ -31,6 +31,11 @@ class CreateProductSubscriptionsTable extends Migration
                 'constraint'        => 100,
                 'null'              => true,
             ],
+            'access_status'             => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
+                'null'              => true, // CLOSE, OPEN
+            ],
             'remarks'                   => [
                 'type'              => 'TEXT',
                 'null'              => true,
