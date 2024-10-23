@@ -415,8 +415,6 @@ class EmployeeController extends BaseController
                 'date_hired'                => $fields['txt_dateHired'],
                 'years_stayed'              => $fields['txt_yearsStayed'],
                 'employment_status'         => $fields['slc_employmentStatus'],
-                'gross_salary'              => $fields['txt_grossSalary'],
-                'net_salary'                => $fields['txt_netSalary'],
                 'minimum_credit_amount'     => str_replace(",","",$fields['txt_minimumAmount']),
                 'maximum_credit_amount'     => str_replace(",","",$fields['txt_maximumAmount']),
                 'payroll_bank_number'       => $fields['txt_payrollBankAccount'],
@@ -424,6 +422,12 @@ class EmployeeController extends BaseController
                 'updated_by'                => $this->session->get('gwc_representative_id'),
                 'updated_date'              => date('Y-m-d H:i:s')
             ];
+
+            if($fields['txt_accessStatus'] == 'OPEN')
+            {
+                $arrData['gross_salary'] = $fields['txt_grossSalary'];
+                $arrData['net_salary'] = $fields['txt_netSalary'];
+            }
 
             $whereParams = [
                 'a.id !='           => $fields['txt_employeeId'],
@@ -875,20 +879,21 @@ class EmployeeController extends BaseController
             $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
 
             $emailConfig = [
-                'smtp_host'    => 'smtp.googlemail.com',
-                'smtp_port'    => 465,
-                'smtp_crypto'  => 'ssl',
-                'smtp_user'    => 'ajhay.dev@gmail.com',
-                'smtp_pass'    => 'uajtlnchouyuxaqp',
+                'smtp_host'    => 'smtppro.zoho.com',
+                'smtp_port'    => 587,
+                'smtp_crypto'  => 'tls',
+                'smtp_user'    => 'loans@goldwatercap.net',
+                'smtp_pass'    => 'sFkhLq2Ka9wm',
                 'mail_type'    => 'html',
                 'charset'      => 'iso-8859-1',
                 'word_wrap'    => true
             ];
 
-            $emailSender    = 'ajhay.dev@gmail.com';
+            $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $arrDetails['email_address'];
 
             $data = [
+                'emailName'     => 'GOLDWATER CAPITAL',
                 'subjectTitle'  => 'Email Verification',
                 'emailAddress'  => $arrDetails['email_address'],
                 'authCode'      => decrypt_code($arrData['auth_code'])

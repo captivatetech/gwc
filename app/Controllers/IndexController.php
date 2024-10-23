@@ -174,20 +174,21 @@ class IndexController extends BaseController
                 if($result > 0)
                 {
                     $emailConfig = [
-                        'smtp_host'    => 'smtp.googlemail.com',
-                        'smtp_port'    => 465,
-                        'smtp_crypto'  => 'ssl',
-                        'smtp_user'    => 'ajhay.dev@gmail.com',
-                        'smtp_pass'    => 'uajtlnchouyuxaqp',
+                        'smtp_host'    => 'smtppro.zoho.com',
+                        'smtp_port'    => 587,
+                        'smtp_crypto'  => 'tls',
+                        'smtp_user'    => 'loans@goldwatercap.net',
+                        'smtp_pass'    => 'sFkhLq2Ka9wm',
                         'mail_type'    => 'html',
                         'charset'      => 'iso-8859-1',
                         'word_wrap'    => true
                     ];
 
-                    $emailSender    = 'ajhay.dev@gmail.com';
+                    $emailSender    = 'loans@goldwatercap.net';
                     $emailReceiver  = $arrData['email_address'];
 
                     $data = [
+                        'emailName'     => 'GOLDWATER CAPITAL',
                         'subjectTitle'  => 'Email Verification',
                         'emailAddress'  => $arrData['email_address'],
                         'authCode'      => decrypt_code($arrData['auth_code'])

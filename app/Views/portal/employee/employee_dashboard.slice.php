@@ -563,7 +563,16 @@
                             <div class="col-lg-6">
                                 <select class="form-control form-select" id="slc_purposeOfLoan" name="slc_purposeOfLoan" required>
                                     <option value="">---</option>
-                                    <option value="Emergency-Fund">Emergency Fund</option>
+                                    <option value="Unexpected-Medical-Expenses">Unexpected Medical Expenses</option>
+                                    <option value="Emergency-Funds">Emergency Funds</option>
+                                    <option value="Tuition-and-Educational-Fees">Tuition and Educational Fees</option>
+                                    <option value="Debt-Repayment">Debt Repayment</option>
+                                    <option value="Household-Repairs-and-Maintenance">Household Repairs and Maintenance</option>
+                                    <option value="Utility-Bills">Utility Bills</option>
+                                    <option value="Car-Repair-and-Maintenance">Car Repair and Maintenance</option>
+                                    <option value="Rent-or-Mortgage-Payments">Rent or Mortgage Payments</option>
+                                    <option value="Groceries-and-Daily-Necessities">Groceries and Daily Necessities</option>
+                                    <option value="Starting-a-Small-Business-or-Side-Hustle">Starting a Small Business or Side Hustle</option>
                                 </select>
                             </div>
                         </div>

@@ -307,6 +307,7 @@ class NavigationController extends BaseController
                     $data['companyCode'] = $userData['company_code'];
                     $data['bankDepository'] = $userData['bank_depository'];
                     $data['subscriptionStatus'] = $userData['subscription_status'];
+                    $data['accessStatus'] = $userData['access_status'];
                     $data['profilePicture'] = $userData['profile_picture'];
                     return $this->slice->view('portal.representative.representative_employee_list', $data);
                 }

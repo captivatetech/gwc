@@ -603,7 +603,7 @@ function sendSliceMail($type,$config,$senderEmail,$receiverEmail,&$data)
 	$CIEmail = \Config\Services::email();
 	$CIEmail->initialize($config);
 
-	$CIEmail->setFrom($senderEmail);
+	$CIEmail->setFrom($senderEmail,$data['emailName']);
 	$CIEmail->setTo($receiverEmail);
 
 	$CIEmail->setSubject($data['subjectTitle']);
