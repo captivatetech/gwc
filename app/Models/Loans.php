@@ -153,6 +153,36 @@ class Loans extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// NavigationController->e_dashboard()
+    ////////////////////////////////////////////////////////////
+    public function e_selectLoanAccount($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.account_number',
+            'a.application_number',
+            'a.application_status',
+            'a.loan_amount',
+            'a.total_interest',
+            'a.payment_terms',
+            'a.monthly_dues',
+            'a.deduction_per_cutoff',
+            'a.purpose_of_loan',
+            'a.loan_status',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date',
+            '(SELECT MAX(billing_series) FROM billing_details WHERE loan_id = a.id) as max_billing_series',
+            '(SELECT SUM(billing_amount) FROM billing_details WHERE loan_id = a.id AND payment_status = "PAID") as total_payment'
+        ];
+
+        $builder = $this->db->table('loans a');
+        $builder->select($columns);
+        $builder->where('a.employee_id', $employeeId);
+        $builder->orderBy('a.id','DESC');
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
     ///// LoanController->e_loadLoanAccounts()
     ////////////////////////////////////////////////////////////
     public function e_loadLoanAccounts($employeeId)
@@ -162,7 +192,11 @@ class Loans extends Model
             'a.application_number',
             'a.application_status',
             'a.loan_amount',
-            'a.created_date'
+            'a.payment_terms',
+            'a.monthly_dues',
+            'a.deduction_per_cutoff',
+            'a.purpose_of_loan',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date'
         ];
 
         $builder = $this->db->table('loans a');

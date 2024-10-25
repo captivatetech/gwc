@@ -190,8 +190,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
     {
         let formData = new FormData();
         formData.set("loanId", arrLoanIds[counter]);
-        
-        AJAXHELPER.postData({
+        AJAXHELPER.sendEmail({
             // LoanController->a_proceedDisbursement
             'route' : 'portal/admin/a-proceed-disbursement',
             'data'  : formData

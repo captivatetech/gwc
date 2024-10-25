@@ -154,6 +154,29 @@ class LoanController extends BaseController
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
             $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
             $template->setPrefillTextField( "txt_lenderName",  "GWC Admin" );
+
+            $table1 = <<< EOD
+                <table>
+                    <tr>
+                        <td>Account Name</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Account Number</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Interest Rate</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>Promesory Note Value</b></td>
+                        <td></td>
+                    </tr>
+                </table>
+            EOD;
+
+            $template->setPrefillTextField( "txt_table1", $table1 );
         
             $resp_obj = ZohoSign::sendTemplate( $template, true );
 
@@ -174,6 +197,7 @@ class LoanController extends BaseController
                     'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ''),
                     'purpose_of_loan'       => $fields['purposeOfLoan'],
                     'application_status'    => 'PENDING', 
+                    'loan_status'           => 'PENDING',
                     'created_by'            => $this->session->get('gwc_employee_id'),
                     'created_date'          => date('Y-m-d H:i:s')
                 ];
@@ -442,57 +466,66 @@ class LoanController extends BaseController
                         }
 
                         $disbursementDate = date("d");
+                        $billingDateStart = "";
 
                         if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate1))
                         {
                             $billingDate1 = date('d', strtotime($payrollDate1."+ 5 days"));
+                            $billingDateStart = date('Y-m-d', strtotime($payrollDate1."+ 5 days"));
                         }
 
                         if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate2))
                         {
                             $billingDate1 = date('d', strtotime($payrollDate2."+ 5 days"));
+                            $billingDateStart = date('Y-m-d', strtotime($payrollDate2."+ 5 days"));
                         }
 
                         $billingDate2 = date('d', strtotime(date("Y-m-".$billingDate1)."+ 15 days"));
 
-                        $arrData = [
+                        $arr = [
                             'disbursement_status' => 'ACCEPTED',
+                            'loan_status'         => 'ACTIVE',
                             'disbursement_date'   => $disbursementDate,
                             'billing_date_1'      => $billingDate1,
                             'billing_date_2'      => $billingDate2
                         ];
-                        $this->loans->a_updateDisbursementStatus($arrData, $loanId);
+                        $this->loans->a_updateDisbursementStatus($arr, $loanId);
 
                         $emailConfig = [
-                            'smtp_host'    => 'smtp.googlemail.com',
-                            'smtp_port'    => 465,
-                            'smtp_crypto'  => 'ssl',
-                            'smtp_user'    => 'ajhay.dev@gmail.com',
-                            'smtp_pass'    => 'uajtlnchouyuxaqp',
+                            'smtp_host'    => 'smtppro.zoho.com',
+                            'smtp_port'    => 587,
+                            'smtp_crypto'  => 'tls',
+                            'smtp_user'    => 'loans@goldwatercap.net',
+                            'smtp_pass'    => 'sFkhLq2Ka9wm',
                             'mail_type'    => 'html',
                             'charset'      => 'iso-8859-1',
                             'word_wrap'    => true
                         ];
 
                         $arrEmployeeDetails = $this->employees->a_selectEmployee($arrResult['employee_id']);
-                        $emailSender    = 'ajhay.dev@gmail.com';
+
+                        $emailSender    = 'loans@goldwatercap.net';
                         $emailReceiver  = $arrEmployeeDetails['email_address'];
+
                         $data = [
-                            'subjectTitle'  => 'Disbursement',
-                            'emailAddress'  => '',
-                            'authCode'      => ''
+                            'emailName'         => 'GOLDWATER CAPITAL',
+                            'subjectTitle'      => 'Disbursement',
+                            'disbursemntAmount' => number_format($arrData['amount'],2,'.',','),
+                            'bankAccount'       => $arrData['account_number'],
+                            'dateAndTime'       => date('Y-m-d H:i:s'),
+                            'billingDate'       => $billingDateStart
                         ];
                         sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
 
-                        $arrRepresentativeDetails = $this->employees->a_selectRepresentative($arrResult['company_id']);
-                        $emailSender    = 'ajhay.dev@gmail.com';
-                        $emailReceiver  = $arrRepresentativeDetails['email_address'];
-                        $data = [
-                            'subjectTitle'  => 'Disbursement',
-                            'emailAddress'  => '',
-                            'authCode'      => ''
-                        ];
-                        sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
+                        // $arrRepresentativeDetails = $this->employees->a_selectRepresentative($arrResult['company_id']);
+                        // $emailSender    = 'ajhay.dev@gmail.com';
+                        // $emailReceiver  = $arrRepresentativeDetails['email_address'];
+                        // $data = [
+                        //     'subjectTitle'  => 'Disbursement',
+                        //     'emailAddress'  => '',
+                        //     'authCode'      => ''
+                        // ];
+                        // sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
                     }
 
                     $msgResult[] = "Loan Disbursement Complete";

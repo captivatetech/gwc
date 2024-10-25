@@ -48,12 +48,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Date</th>
-                                                    <th>Billing Number</th>
-                                                    <th>Billing Amount</th>
-                                                    <th>Paid Amount</th>
-                                                    <th>Due Balance</th>
-                                                    <th>Due Date</th>
-                                                    <th>Status</th>
+                                                    <th>Application Number</th>
+                                                    <th>Application Status</th>
+                                                    <th>Laon Amount</th>
+                                                    <th>Payment Terms</th>
+                                                    <th>Monthly Dues</th>
+                                                    <th>Deduction Per Cut-off</th>
+                                                    <th>Purpose of Loan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

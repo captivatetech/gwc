@@ -66,15 +66,15 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             $('#slc_employeeListStatus').val(data['subscription_status']);
             $('#txt_remarks').val(data['remarks']);
 
-            if(data['subscription_status'] == 'APPROVE')
+            if(data['subscription_status'] == 'APPROVE' && data['access_status'] == 'CLOSE')
             {
-                $('#btn_requestResubmission').prop('disabled',true);
-                $('#btn_acceptSubscription').prop('disabled',false);
+                $('#btn_requestResubmission').prop('disabled',true).prop('hidden',true);
+                $('#btn_acceptSubscription').prop('disabled',false).prop('hidden',true);
             }
             else
             {
-                $('#btn_requestResubmission').prop('disabled',false);
-                $('#btn_acceptSubscription').prop('disabled',true);
+                $('#btn_requestResubmission').prop('disabled',false).prop('hidden',false);
+                $('#btn_acceptSubscription').prop('disabled',true).prop('hidden',false);
             }
 
             $('#div_salaryAdvanceList').prop('hidden',true);
@@ -105,8 +105,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
                     if(value['document_code'] == 'Corporation-01')
                     {
-                        arrCorporation[0] = 1;
-
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -119,14 +117,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrCorporation[0] = 1;
                         }
                         $('#tr_corporation01 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Corporation-02')
                     {
-                        arrCorporation[1] = 1;
-
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -139,14 +136,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrCorporation[1] = 1;
                         }
                         $('#tr_corporation02 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Corporation-03')
-                    {
-                        arrCorporation[2] = 1;
-                        
+                    {                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -159,14 +155,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrCorporation[2] = 1;
                         }
                         $('#tr_corporation03 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Corporation-04')
-                    {
-                        arrCorporation[3] = 1;
-                        
+                    {                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -179,14 +174,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrCorporation[3] = 1;
                         }
                         $('#tr_corporation04 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Corporation-05')
-                    {
-                        arrCorporation[4] = 1;
-                        
+                    {                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -199,6 +193,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrCorporation[4] = 1;
                         }
                         $('#tr_corporation05 td:eq(2)').html(documentStatus);
                     }
@@ -207,6 +202,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 $('#tbl_companyProprietorShipDocuments').prop('hidden',true);
                 $('#tbl_companyPartnershipDocuments').prop('hidden',true);
 
+                console.log(arrCorporation);
                 arrAccept[0] = (arrCorporation.includes(0))? 0 : 1;
             }
             else if(businessType == 'Proprietorship')
@@ -219,8 +215,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
                     if(value['document_code'] == 'Proprietorship-01')
                     {
-                        arrProprietorship[0] = 1;
-
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -233,14 +227,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrProprietorship[0] = 1;
                         }
                         $('#tr_proprietorship01 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Proprietorship-02')
                     {
-                        arrProprietorship[1] = 1;
-                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -253,6 +246,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrProprietorship[1] = 1;
                         }
                         $('#tr_proprietorship02 td:eq(2)').html(documentStatus);
                     }
@@ -273,8 +267,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
                     if(value['document_code'] == 'Partnership-01')
                     {
-                        arrPartnership[0] = 1;
-
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -287,14 +279,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrPartnership[0] = 1;
                         }
                         $('#tr_partnership01 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Partnership-02')
                     {
-                        arrPartnership[1] = 1;
-                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -307,14 +298,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrPartnership[1] = 1;
                         }
                         $('#tr_partnership02 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Partnership-03')
                     {
-                        arrPartnership[2] = 1;
-                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -327,14 +317,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrPartnership[2] = 1;
                         }
                         $('#tr_partnership03 td:eq(2)').html(documentStatus);
                     }
 
                     if(value['document_code'] == 'Partnership-04')
                     {
-                        arrPartnership[3] = 1;
-                        
                         documentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Document','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -347,6 +336,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             documentStatus = `<i class="text-success">Verified</i>`;
+                            arrPartnership[3] = 1;
                         }
                         $('#tr_partnership04 td:eq(2)').html(documentStatus);
                     }
@@ -368,8 +358,6 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 {
                     if(value['document_code'] == 'Attachment-01')
                     {
-                        arrAttachments[0] = 1;
-
                         attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -382,14 +370,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
+                            arrAttachments[0] = 1;
                         }
                         $('#tr_attachment01 td:eq(2)').html(attachmentStatus);
                     }
 
                     if(value['document_code'] == 'Attachment-02')
-                    {
-                        arrAttachments[1] = 1;
-                        
+                    {                        
                         attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -402,14 +389,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
+                            arrAttachments[1] = 1;
                         }
                         $('#tr_attachment02 td:eq(2)').html(attachmentStatus);
                     }
 
                     if(value['document_code'] == 'Attachment-03')
-                    {
-                        arrAttachments[2] = 1;
-                        
+                    {                        
                         attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -422,14 +408,13 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
+                            arrAttachments[2] = 1;
                         }
                         $('#tr_attachment03 td:eq(2)').html(attachmentStatus);
                     }
 
                     if(value['document_code'] == 'Attachment-04')
-                    {
-                        arrAttachments[3] = 1;
-                        
+                    {                        
                         attachmentAction = `<a href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_previewCompanyDocument(${companyId},${value['id']},'Attachment','${value['document_name']}','${value['document_file']}');">
                                         Preview
                                     </a>`;
@@ -442,15 +427,33 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
+                            arrAttachments[3] = 1;
                         }
                         $('#tr_attachment04 td:eq(2)').html(attachmentStatus);
                     }
                 }
             });
 
+            console.log(arrAttachments);
             arrAccept[1] = (arrAttachments.includes(0))? 0 : 1;
 
-            $('#btn_acceptSubscription').prop('disabled',(arrAccept.includes(0))? true : false);
+            console.log(arrAccept);
+
+            $('#btn_acceptSubscription').prop('disabled',(arrAccept.includes(0))? false : true);
+
+            if(arrAccept.includes(0))
+            {   
+                $('#slc_employeeListStatus').val('RESUBMIT');
+                $('#btn_requestResubmission').prop('disabled',false);
+                $('#btn_acceptSubscription').prop('disabled',true);
+            }
+            else
+            {
+                $('#slc_employeeListStatus').val('APPROVE');
+                $('#btn_requestResubmission').prop('disabled',true);
+                $('#btn_acceptSubscription').prop('disabled',false);
+            }
+
         });
     }
 
@@ -480,6 +483,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
         $('#btn_verifyDocument').prop('disabled',true);
         
         AJAXHELPER.postData({
+            // CompanyDocumentController->a_verifyCompanyDocument
             'route' : 'portal/admin/a-verify-company-document',
             'data'  : formData
         }, function(data){
@@ -525,9 +529,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
     thisAdminSalaryAdvanceApplications.a_acceptCompanySubscription = function()
     {
         if(confirm('Please Confirm!'))
-        {
-            $('#modal_employeeEmailVerification').modal('show');
-            
+        {            
             let formData = new FormData();
             formData.set("txt_companyId", $('#txt_companyId').val());
             formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
@@ -547,6 +549,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 let totalProgress = 0;
                 let count = 0;
                 let importCount = 0;
+                $('#modal_employeeEmailVerification').modal('show');
                 ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
             }, function(data){ 
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);

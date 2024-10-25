@@ -296,4 +296,232 @@ class IndexController extends BaseController
             exit();
         }
     }
+
+
+    // Forgot Password for employee & representative
+
+    public function forgotPassword()
+    {
+        $this->validation->setRules([
+            'txt_emailAddress' => [
+                'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => 'Email is Required',
+                ],
+            ]
+        ]);
+
+        if($this->validation->withRequest($this->request)->run())
+        {
+            $fields = $this->request->getPost();
+
+            $whereParams = [
+                'a.email_address' => $fields['txt_emailAddress']
+            ];
+            $erResult = $this->employees->validateEmployeeEmail($whereParams);
+            $aResult = $this->users->validateAdminEmail($whereParams);
+
+            if($erResult != null)
+            {
+                $arrData = [
+                    'auth_code'     => encrypt_code(generate_code(20))
+                ];
+
+                $result = $this->employees->forgotPassword($arrData, $fields['txt_emailAddress']);
+
+                if($result > 0)
+                {
+                    $emailConfig = [
+                        'smtp_host'    => 'smtppro.zoho.com',
+                        'smtp_port'    => 587,
+                        'smtp_crypto'  => 'tls',
+                        'smtp_user'    => 'loans@goldwatercap.net',
+                        'smtp_pass'    => 'sFkhLq2Ka9wm',
+                        'mail_type'    => 'html',
+                        'charset'      => 'iso-8859-1',
+                        'word_wrap'    => true
+                    ];
+
+                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailReceiver  = $fields['txt_emailAddress'];
+
+                    $data = [
+                        'emailName'     => 'GOLDWATER CAPITAL',
+                        'subjectTitle'  => 'RESET PASSWORD',
+                        'emailAddress'  => $fields['txt_emailAddress'],
+                        'authCode'      => decrypt_code($arrData['auth_code']),
+                        'firstName'     => $erResult['first_name']
+                    ];
+
+                    if($erResult['user_type'] == 'employee')
+                    {
+                        $emailResult = sendSliceMail('employee_forgot_password',$emailConfig,$emailSender,$emailReceiver,$data);
+                    }
+                    else
+                    {
+                        $emailResult = sendSliceMail('representative_forgot_password',$emailConfig,$emailSender,$emailReceiver,$data);
+                    }
+
+                    return $this->response->setJSON(["Success<br>Reset password sent to your email!"]);
+                    exit();
+                }
+                else
+                {
+                    $msgResult[] = "Someting went wrong!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
+            else if($aResult != null)
+            {
+                $arrData = [
+                    'auth_code'     => encrypt_code(generate_code(20))
+                ];
+
+                $result = $this->users->forgotPassword($arrData, $fields['txt_emailAddress']);
+
+                if($result > 0)
+                {
+                    $emailConfig = [
+                        'smtp_host'    => 'smtppro.zoho.com',
+                        'smtp_port'    => 587,
+                        'smtp_crypto'  => 'tls',
+                        'smtp_user'    => 'loans@goldwatercap.net',
+                        'smtp_pass'    => 'sFkhLq2Ka9wm',
+                        'mail_type'    => 'html',
+                        'charset'      => 'iso-8859-1',
+                        'word_wrap'    => true
+                    ];
+
+                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailReceiver  = $fields['txt_emailAddress'];
+
+                    $data = [
+                        'emailName'     => 'GOLDWATER CAPITAL',
+                        'subjectTitle'  => 'RESET PASSWORD',
+                        'emailAddress'  => $fields['txt_emailAddress'],
+                        'authCode'      => decrypt_code($arrData['auth_code']),
+                        'firstName'     => $aResult['first_name']
+                    ];
+
+                    $emailResult = sendSliceMail('admin_forgot_password',$emailConfig,$emailSender,$emailReceiver,$data);
+
+                    return $this->response->setJSON(["Success<br>Reset password sent to your email!"]);
+                    exit();
+                }
+                else
+                {
+                    $msgResult[] = "Someting went wrong!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
+            else
+            {
+                $msgResult[] = "Invalid Email";
+                return $this->response->setStatusCode(401)->setJSON($msgResult);
+                exit();
+            }
+        }
+        else
+        {
+            $msgResult[] = $this->validation->getErrors();
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }
+    }
+
+    public function changePassword()
+    {
+        $fields = $this->request->getPost();
+
+        if($fields['txt_employeePassword'] == $fields['txt_employeeConfirmPassword'])
+        {
+            if($fields['txt_userType'] == 'admin')
+            {
+                $whereParams = [
+                    'a.email_address'   => $fields['txt_emailAddress'],
+                    'a.auth_code'       => encrypt_code($fields['txt_authCode'])
+                ];
+                $result = $this->users->validateAuthCode($whereParams);
+
+                if($result != null)
+                {
+                    $arrData = [
+                        'user_password' => encrypt_code($fields['txt_employeePassword']),
+                        'auth_code'     => null
+                    ];
+                    $whereParams = [
+                        'email_address'   => $fields['txt_emailAddress'],
+                        'auth_code'       => encrypt_code($fields['txt_authCode'])
+                    ];
+
+                    $result = $this->users->changePassword($arrData, $whereParams);
+                    if($result > 0)
+                    {
+                        return $this->response->setJSON(["Success<br>Reset password complete!"]);
+                        exit();
+                    }
+                    else
+                    {
+                        $msgResult[] = "Someting went wrong!";
+                        return $this->response->setStatusCode(401)->setJSON($msgResult);
+                        exit();
+                    }
+                }
+                else
+                {
+                    $msgResult[] = "Authentication Failed!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }
+            else if($fields['txt_userType'] == 'representative' || $fields['txt_userType'] == 'employee')
+            {
+                $whereParams = [
+                    'a.email_address'   => $fields['txt_emailAddress'],
+                    'a.auth_code'       => encrypt_code($fields['txt_authCode'])
+                ];
+                $result = $this->employees->validateAuthCode($whereParams);
+
+                if($result != null)
+                {
+                    $arrData = [
+                        'user_password' => encrypt_code($fields['txt_employeePassword']),
+                        'auth_code'     => null
+                    ];
+                    $whereParams = [
+                        'email_address'   => $fields['txt_emailAddress'],
+                        'auth_code'       => encrypt_code($fields['txt_authCode'])
+                    ];
+
+                    $result = $this->employees->changePassword($arrData, $whereParams);
+                    if($result > 0)
+                    {
+                        return $this->response->setJSON(["Success<br>Reset password complete!"]);
+                        exit();
+                    }
+                    else
+                    {
+                        $msgResult[] = "Someting went wrong!";
+                        return $this->response->setStatusCode(401)->setJSON($msgResult);
+                        exit();
+                    }
+                }
+                else
+                {
+                    $msgResult[] = "Authentication Failed!";
+                    return $this->response->setStatusCode(401)->setJSON($msgResult);
+                    exit();
+                }
+            }            
+        }
+        else
+        {
+            $msgResult[] = "Password confirmation not match!";
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }
+    }
 }

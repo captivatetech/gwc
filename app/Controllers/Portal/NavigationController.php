@@ -12,6 +12,7 @@ class NavigationController extends BaseController
         $this->roles        = model('Roles');
         $this->employees    = model('Employees');
         $this->companies    = model('Companies');
+        $this->loans        = model('Loans');
     }
 
     /*
@@ -73,7 +74,47 @@ class NavigationController extends BaseController
                     $data['employeeId'] = $userData['id'];
                     $data['companyId'] = $userData['company_id'];
                     $data['profilePicture'] = $userData['profile_picture'];
+
+                    $arrData = $this->loans->e_selectLoanAccount($userData['id']);
+                    if($arrData != null)
+                    {
+                        if($arrData['loan_status'] == "ACTIVE")
+                        {
+                            $data['deductionPerCutoff'] = number_format($arrData['deduction_per_cutoff'],2,'.',',');
+                            $data['loanAccountNumber'] = $arrData['account_number'];
+
+                            $maxBillingSeries = (int)$arrData['max_billing_series'];
+                            // for ($i=0; $i < ; $i++) 
+                            // { 
+                            //     // code...
+                            // }
+
+                            $data['deductedOn'] = $maxBillingSeries;
+
+                            $totalLoan = (float)$arrData['loan_amount'] + (float)$arrData['total_interest'];
+                            $data['loanBalance'] =  number_format($totalLoan - (float)$arrData['total_payment'],2,'.',',');
+
+                            $data['loanStatus'] = $arrData['loan_status'];
+                        }
+                        else
+                        {
+                            $data['deductionPerCutoff'] = "0.00";
+                            $data['loanAccountNumber'] = "";
+                            $data['loanBalance'] = "0.00";
+                            $data['loanStatus'] = "PENDING";
+                        }
+                    }
+                    else
+                    {
+                        $data['deductionPerCutoff'] = "0.00";
+                        $data['loanAccountNumber'] = "";
+                        $data['loanBalance'] = "0.00";
+                        $data['loanStatus'] = "";
+                    }
+                    
+
                     return $this->slice->view('portal.employee.employee_dashboard', $data);
+                    // return $this->response->setJSON($data);
                 }
                 else
                 {

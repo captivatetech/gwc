@@ -455,6 +455,7 @@ class PaymentController extends BaseController
                     $result = sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
                     if($result > 0)
                     {
+                        $arrData = [];
                         $arrData[] = "Confirm-Payment";
                         $arrData[] = $this->employees->a_loadEmployeeDetails($fields['txt_billingId']);
                         return $this->response->setJSON($arrData);
@@ -565,7 +566,10 @@ class PaymentController extends BaseController
 
             $data = [
                 'emailName'     => 'GOLDWATER CAPITAL',
-                'subjectTitle'  => 'Confirm Payment'
+                'subjectTitle'  => 'Confirm Payment',
+                'paymentAmount' => $fields['payment_amount'],
+                'accountNumber' => $fields['account_number'],
+                'paymentDate'   => $fields['payment_date']
             ];
 
             $result = sendSliceMail('employee_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);

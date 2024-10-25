@@ -24,7 +24,7 @@ $routes->get('create-account', 'NavigationController::createAccount');
 $routes->get('representative-email-verification/(:any)/(:any)', 'NavigationController::representativeEmailVerification/$1/$2');
 $routes->get('employee-email-verification/(:any)/(:any)', 'NavigationController::employeeEmailVerification/$1/$2');
 $routes->get('forgot-password', 'NavigationController::forgotPassword');
-$routes->get('change-password', 'NavigationController::changePassword');
+$routes->get('change-password/(:any)/(:any)/(:any)', 'NavigationController::changePassword/$1/$2/$3');
 
 /////////////////////////////////////////////////////////////////////////////
 //////   FRONT END FUNCTIONS

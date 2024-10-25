@@ -91,6 +91,7 @@ class Employees extends Model
     ////////////////////////////////////////////////////////////
     ///// NavigationController->employeeEmailVerification()
     ///// IndexController->e_emailVerification()
+    ///// IndexController->forgotPassword()
     ////////////////////////////////////////////////////////////
     public function validateEmployeeEmail($whereParams)
     {
@@ -98,7 +99,8 @@ class Employees extends Model
             'a.id',
             'a.first_name',
             'a.last_name',
-            'a.email_address'
+            'a.email_address',
+            'a.user_type'
         ];
         
         $builder = $this->db->table('employees a');
@@ -143,10 +145,59 @@ class Employees extends Model
     }
 
 
+    ////////////////////////////////////////////////////////////
+    ///// IndexController->forgotPassword()
+    ////////////////////////////////////////////////////////////
+    public function forgotPassword($arrData, $emailAddress)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->where(['email_address'=>$emailAddress]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
 
+    ////////////////////////////////////////////////////////////
+    ///// IndexController->changePassword()
+    ////////////////////////////////////////////////////////////
+    public function validateAuthCode($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name',
+            'a.email_address',
+            'a.user_type'
+        ];
+        
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 
-
-
+    ////////////////////////////////////////////////////////////
+    ///// IndexController->changePassword()
+    ////////////////////////////////////////////////////////////
+    public function changePassword($arrData, $whereParams)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('employees');
+                $builder->where($whereParams);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
 
 
 
@@ -961,6 +1012,9 @@ class Employees extends Model
     {
         $columns = [
             'a.id',
+            'a.billing_amount as payment_amount',
+            'b.account_number',
+            '(SELECT payment_date FROM payments WHERE billing_id = a.billing_id) as payment_date',
             'c.email_address'
         ];
 

@@ -134,6 +134,9 @@ const ADMIN_PAYMENTS = (function(){
             let formData = new FormData();
             formData.set("billing_details_id", arrData[count]['id']);
             formData.set("email_address", arrData[count]['email_address']);
+            formData.set("account_number", arrData[count]['account_number']);
+            formData.set("payment_amount", arrData[count]['payment_amount']);
+            formData.set("payment_date", arrData[count]['payment_date']);
             AJAXHELPER.sendEmail({
                 // PaymentController::a_sendEmailToEmployees()
                 'route' : 'portal/admin/a-send-email-to-employees',
