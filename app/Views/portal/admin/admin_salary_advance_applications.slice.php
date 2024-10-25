@@ -281,7 +281,7 @@
                                         <tr>
                                             <td width="30%">Employee List Status</td>
                                             <td>
-                                                <select class="form-control form-select" id="slc_employeeListStatus">
+                                                <select class="form-control form-select" id="slc_employeeListStatus" disabled>
                                                     <option value="">--Status--</option>
                                                     <option value="APPROVE">APPROVE</option>
                                                     <option value="RESUBMIT">RESUBMIT</option>
@@ -386,7 +386,7 @@
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h5 class="modal-title" id="lbl_modalTitle2"> 
-                        Send Email Verifications
+                        Sending Email Verifications
                     </h5>
                 </div>
                 <div class="modal-body">
@@ -453,18 +453,18 @@
         $('#div_salaryAdvanceUpdate').prop('hidden',true);
     });
 
-    $('#slc_employeeListStatus').on('change',function(){
-        if($(this).val() == 'APPROVE')
-        {
-            $('#btn_requestResubmission').prop('disabled',true);
-            $('#btn_acceptSubscription').prop('disabled',false);
-        }
-        else
-        {
-            $('#btn_requestResubmission').prop('disabled',false);
-            $('#btn_acceptSubscription').prop('disabled',true);
-        }
-    }); 
+    // $('#slc_employeeListStatus').on('change',function(){
+    //     if($(this).val() == 'APPROVE')
+    //     {
+    //         $('#btn_requestResubmission').prop('disabled',true);
+    //         $('#btn_acceptSubscription').prop('disabled',false);
+    //     }
+    //     else
+    //     {
+    //         $('#btn_requestResubmission').prop('disabled',false);
+    //         $('#btn_acceptSubscription').prop('disabled',true);
+    //     }
+    // }); 
 
     $('#btn_requestResubmission').on('click',function(){
         ADMIN_SALARY_ADVANCE_APPLICATIONS.a_failedCompanySubscription();

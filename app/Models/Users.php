@@ -93,6 +93,77 @@ class Users extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// IndexController->forgotPassword()
+    ////////////////////////////////////////////////////////////
+    public function validateAdminEmail($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name'
+        ];
+        
+        $builder = $this->db->table('users a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// IndexController->forgotPassword()
+    ////////////////////////////////////////////////////////////
+    public function forgotPassword($arrData, $emailAddress)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('users');
+                $builder->where(['email_address'=>$emailAddress]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// NavigationController->changePassword()
+    ////////////////////////////////////////////////////////////
+    public function validateAuthCode($whereParams)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.last_name'
+        ];
+        
+        $builder = $this->db->table('users a');
+        $builder->select($columns);
+        $builder->where($whereParams);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// IndexController->changePassword()
+    ////////////////////////////////////////////////////////////
+    public function changePassword($arrData, $whereParams)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('users');
+                $builder->where($whereParams);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////
     ///// UserController->loadUsers()
     ///// UserController->addUser()
     ///// UserController->editUser()

@@ -15,6 +15,8 @@
 		<!-- icons -->
 		<link href="<?php echo base_url();?>public/assets/Adminto/css/icons.min.css" rel="stylesheet" type="text/css" />
 
+        <link href="<?php echo base_url();?>public/assets/Adminto/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
     </head>
 
     <body class="loading authentication-bg authentication-bg-pattern">
@@ -35,11 +37,11 @@
                             <div class="card-body p-4">
                                  
                                 <div class="text-center mb-4">
-                                    <h4 class="text-uppercase mt-0 mb-3 gwc-font">Reset Password</h4>
+                                    <h4 class="text-uppercase mt-0 mb-3 gwc-font">Forgot Password</h4>
                                     <p class="text-muted mb-0 font-13 gwc-font">Enter your email address and we'll send you an email with instructions to reset your password.  </p>
                                 </div>
 
-                                <form id="form_resetPassword">
+                                <form id="form_forgotPassword">
 
                                     <div class="mb-3">
                                         <label for="txt_emailAddress" class="form-label">Email address</label>
@@ -47,7 +49,7 @@
                                     </div>
 
                                     <div class="mb-3 text-center d-grid">
-                                        <button type="submit" class="btn gwc-button" id="btn_submitResetPassword"> RESET PASSWORD </button>
+                                        <button type="submit" class="btn gwc-button" id="btn_submitForgotPassword"> Submit Request </button>
                                     </div>
 
                                 </form>    
@@ -59,6 +61,9 @@
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
+
             </div>
             <!-- end container -->
         </div>
@@ -72,6 +77,7 @@
         <script src="<?php echo base_url();?>public/assets/Adminto/libs/waypoints/lib/jquery.waypoints.min.js"></script>
         <script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery.counterup/jquery.counterup.min.js"></script>
         <script src="<?php echo base_url();?>public/assets/Adminto/libs/feather-icons/feather.min.js"></script>
+        <script src="<?php echo base_url();?>public/assets/Adminto/libs/sweetalert2/sweetalert2.min.js"></script>
 
         <!-- App js -->
         <script src="<?php echo base_url();?>public/assets/Adminto/js/app.min.js"></script>
@@ -81,9 +87,9 @@
         <script src="<?php echo base_url();?>public/assets/js/index.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                $('#form_resetPassword').on('submit',function(e){
+                $('#form_forgotPassword').on('submit',function(e){
                     e.preventDefault();
-                    INDEX.resetPassword(this);
+                    INDEX.forgotPassword(this);
                 });
             });
         </script>

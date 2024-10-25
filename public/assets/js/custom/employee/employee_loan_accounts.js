@@ -15,13 +15,14 @@ const EMPLOYEE_LOAN_ACCOUNTS = (function(){
             let tbody = '';
             data.forEach(function(value,index){
                 tbody += `<tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>2011/07/25</td>
-                            <td>$170,750</td>
-                            <td>$320,800</td>
+                            <td>${value['created_date']}</td>
+                            <td>${value['application_number']}</td>
+                            <td>${value['application_status']}</td>
+                            <td>${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
+                            <td>${value['payment_terms']} month/s</td>
+                            <td>${COMMONHELPER.numberWithCommas(value['monthly_dues'])}</td>
+                            <td>${COMMONHELPER.numberWithCommas(value['deduction_per_cutoff'])}</td>
+                            <td>${value['purpose_of_loan']}</td>
                         </tr>`;
             });
             $('#tbl_loanAccounts').DataTable().destroy();

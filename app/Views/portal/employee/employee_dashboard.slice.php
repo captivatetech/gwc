@@ -13,10 +13,16 @@
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <!-- third party css end -->
 
+<!--Plugin CSS file with desired skin-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+
 <style type="text/css">
   /*INTERNAL STYLES*/
   
-  
+  .form-wizard-header{
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
 </style>
 
 @endsection
@@ -36,29 +42,79 @@
             <div class="container-fluid">
 
                 <div class="row">
-
-                    <div class="col-xl-12 col-md-12">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
-                                <h4 class="header-title mt-0 mb-4">Salary Advance</h4>
-
+                                <h4 class="mt-0 header-title">Credit Limit</h4>
+                                <br>
                                 <div class="row">
-                                    <div class="col-lg-9">
+                                    <div class="col-md-8">
+                                        <input type="text" style="pointer-events: none;" class="js-range-slider" name="my_range" value="" />
+                                    </div>
+                                    <div class="col-md-4">
                                         <input type="hidden" id="txt_employeeId" value="{{ $employeeId }}">
                                         <input type="hidden" id="txt_companyId" value="{{ $companyId }}">
+                                        <div style="float:right;">
+                                            @if($loanStatus == 'PAID' || $loanStatus == "")
+                                            <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">APPLY NOW</button>
+                                            @else
+                                                @if($loanStatus == 'PENDING')
+                                                <button type="button" class="btn btn-danger" disabled>PENDING APPLICATION</button>
+                                                @endif
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">Apply Now</button>
+                                </div>
+                                <br>
+                                <hr>
+                                <h4 class="mt-0 header-title">Salary Advance</h4>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>Due Payment </p>
+                                        <h2>Php {{ $deductionPerCutoff }}</h2>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>To be deducted on: </p>
+                                        <h3>------</h3>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <p>Loan Account Number: </p>
+                                        @if($loanAccountNumber != "")
+                                        <h3>{{ $loanAccountNumber }}</h3>
+                                        @else
+                                        <h3>------</h3>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div style="float:right;">
+                                            <button type="button" class="btn gwc-button">VIEW DETAILS</button>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <hr>
+                                <br>
 
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>Loan Balance</p>
+                                        <h2>Php {{ $loanBalance }}</h2>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>Maturity Date:</p>
+                                        <h3>------</h>
+                                    </div>
+                                </div>
+                                <br>
+                                
                             </div>
                         </div>
-                    </div><!-- end col -->
-
+                    </div>
                 </div>
 
                 <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
@@ -673,8 +729,8 @@
 @section('custom_scripts')
 
 
-<!-- knob plugin -->
-<script src="<?php echo base_url();?>public/assets/Adminto/libs/jquery-knob/jquery.knob.min.js"></script>
+<!--Plugin JavaScript file-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
 <!-- third party js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -1063,6 +1119,16 @@
         {
             alert('Fill-out required fields!');
         }
+    });
+
+    $(".js-range-slider").ionRangeSlider({
+      type: "single",
+      min: 0,
+      max: 1000,
+      from: 200,
+      to: 500,
+      grid: true,
+      disabled: true
     });
     
   });

@@ -62,17 +62,59 @@ const INDEX = (function(){
         });
     }
 
-    thisIndex.resetPassword = function(thisForm)
+    thisIndex.forgotPassword = function(thisForm)
     {
+        $('#btn_submitForgotPassword').prop('disabled',true);
+        $('#btn_submitForgotPassword').html('<i>Please wait...</i>');
         let formData = new FormData(thisForm);
         AJAXHELPER.validateData({
+            // IndexController->forgotPassword()
             'route' : 'portal/forgot-password',
             'data'  : formData
         }, function(data){ // Success
-            COMMONHELPER.Toaster('success',data[1]);
+            $('#btn_submitForgotPassword').html('Submit Request');
+            COMMONHELPER.Toaster('success',data[0]);
+            setTimeout(function(){
+                window.location.replace(`${baseUrl}login`);
+            }, 2000);
         }, function(data){ // Error
+            $('#btn_submitForgotPassword').prop('disabled',false);
+            $('#btn_submitForgotPassword').html('Submit Request');
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
         });
+    }
+
+    thisIndex.changePassword = function(thisForm)
+    {
+        if($('#txt_employeePassword').val() == $('#txt_employeeConfirmPassword').val())
+        {
+            $('#btn_submitChangePassword').prop('disabled',true);
+            $('#btn_submitChangePassword').html('<i>Please wait...</i>');
+            let formData = new FormData(thisForm);
+            AJAXHELPER.validateData({
+                // IndexController->changePassword()
+                'route' : 'portal/change-password',
+                'data'  : formData
+            }, function(data){ // Success
+                $('#btn_submitChangePassword').html('Submit');
+                COMMONHELPER.Toaster('success',data[0]);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}login`);
+                }, 2000);
+            }, function(data){ // Error
+                $('#btn_submitChangePassword').prop('disabled',false);
+                $('#btn_submitChangePassword').html('Submit');
+                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+                $('#txt_employeePassword').val("").focus();
+                $('#txt_employeeConfirmPassword').val("");
+            });
+        }
+        else
+        {
+            COMMONHELPER.Toaster('error',"Password confirmation not match!");
+            $('#txt_employeePassword').val("").focus();
+            $('#txt_employeeConfirmPassword').val("");
+        }
     }
 
     thisIndex.e_emailVerification = function(thisForm)

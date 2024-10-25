@@ -138,6 +138,7 @@ class Products extends Model
             'd.first_name',
             'd.last_name',
             'a.subscription_status',
+            'a.access_status',
             'a.remarks',
             'a.created_by',
             'a.created_date',

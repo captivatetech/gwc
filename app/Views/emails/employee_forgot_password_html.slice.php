@@ -351,7 +351,7 @@ padding-left: 18px !important
 <table align="center" background="https://d3k81ch9hvuctc.cloudfront.net/company/WVMenL/images/1270f65a-750c-49a7-ac4f-a5cb33269a39.png" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff url(https://d3k81ch9hvuctc.cloudfront.net/company/WVMenL/images/1270f65a-750c-49a7-ac4f-a5cb33269a39.png) center center / cover no-repeat;background-position:center center;background-repeat:no-repeat;background-size:cover;width:100%;border-radius:0px 0px 0px 0px;">
 <tbody>
 <tr>
-<td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:30px;padding-left:18px;padding-right:18px;padding-top:30px;text-align:center;">
+<td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:50px;padding-left:18px;padding-right:18px;padding-top:50px;text-align:center;">
 <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><![endif]-->
 <div class="content-padding">
 <!--[if true]><table border="0" cellpadding="0" cellspacing="0" width="564" style="width:564px;direction:ltr"><tr><![endif]-->
@@ -366,20 +366,74 @@ padding-left: 18px !important
 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
 <tbody>
 <tr>
-<td align="left" class="kl-text" style="font-size:0px;padding:0px;padding-top:0px;padding-right:18px;padding-bottom:0px;padding-left:18px;word-break:break-word;">
-<div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><strong>A payment of Php <span style="color:red;">{{ $paymentAmount }}</span> has been received for </strong></div>
-<div style="text-align: center;"><strong>loan account number <span style="color:red;">{{ $accountNumber }}</span> on <span style="color:red;">{{ $paymentDate }}</span>. </strong></div>
-<div style="text-align: center;"><strong> </strong></div>
-<div style="text-align: center;"><strong>Expect the payment to be posted on your account </strong></div>
-<div style="text-align: center;"><strong>within three banking days. </strong></div>
-<div style="text-align: center;"><strong> </strong></div>
-<div style="text-align: center;"><strong>Thank you. </strong></div>
-<div style="text-align: center;"><strong> </strong></div>
-<div style="text-align: center;"><strong>For more details about the GWC Salary Advance</strong></div>
-<div style="text-align: center;"><strong>Loan visit our website or email us at <span style="color: rgb(169, 127, 54);">loans@goldwatercap.net</span></strong></div>
-<div style="text-align: center;"><strong> </strong></div>
-<div style="text-align: center;"><strong>Concerns about your loan application? </strong></div>
-<div style="text-align: center;"><strong>Send an email to <span style="color: rgb(169, 127, 54);">help@goldwatercap.net</span></strong></div></div>
+<td align="left" class="kl-text" style="font-size:0px;padding:0px;padding-top:10px;padding-right:18px;padding-bottom:0px;padding-left:18px;word-break:break-word;">
+<div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 20px;">Hi [{{ $firstName }}],</span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 16px;"> </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">It seems like you requested to reset your password. </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">Don’t worry, we’ve got you covered! </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;"> </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">To reset your password, simply click the button below:</span></div></div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mj-column-per-100 mj-outlook-group-fix component-wrapper" style="font-size:0px;text-align:left;direction:ltr;vertical-align:top;width:100%;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;" width="100%">
+<tbody>
+<tr>
+<td class="" style="vertical-align:top;padding-top:10px;padding-right:0px;padding-bottom:0px;padding-left:0px;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
+<tbody>
+<tr>
+<td align="center" class="kl-image" style="font-size:0px;word-break:break-word;">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;">
+<tbody>
+<tr>
+<td class="" style="border:0;padding:0px 0px 0px 0px;width:250px;" valign="top">
+<a href="<?php echo base_url(); ?>change-password/e/{{ $emailAddress }}/{{ $authCode }}">
+    <img src="https://d3k81ch9hvuctc.cloudfront.net/company/WVMenL/images/f05b3ca2-227e-45d1-aa2c-d9c0da19d6c9.png" style="display:block;outline:none;text-decoration:none;height:auto;font-size:13px;width:100%;" width="250"/>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mj-column-per-100 mj-outlook-group-fix component-wrapper" style="font-size:0px;text-align:left;direction:ltr;vertical-align:top;width:100%;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;" width="100%">
+<tbody>
+<tr>
+<td class="" style="vertical-align:top;padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="" width="100%">
+<tbody>
+<tr>
+<td align="left" class="kl-text" style="font-size:0px;padding:0px;padding-top:10px;padding-right:18px;padding-bottom:0px;padding-left:18px;word-break:break-word;">
+<div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">If the button doesn't work, you can copy and paste the </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">following link into your browser: </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; color: rgb(169, 127, 54);"><code><?php echo base_url(); ?>change-password/e/{{ $emailAddress }}/{{ $authCode }}</code></span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">For your security, this link will expire in </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">[time frame, e.g., 24 hours] </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> If you didn’t request a password reset, </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">please ignore this email, and your account will remain secure. </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">If you need further assistance, feel free to contact us. </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">Thank you, </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">Goldwater Capital Support Team </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; color: rgb(169, 127, 54);">loans@goldwatercap.net</span></div></div>
 </td>
 </tr>
 </tbody>
@@ -499,9 +553,6 @@ padding-left: 18px !important
 <tbody>
 <tr>
 <td style="width:122px;">
-<a href="https://www.klaviyo.com/?utm_medium=freebie&amp;utm_source=brand&amp;utm_term=WVMenL" style="color:#000; text-decoration:underline" target="_blank">
-<img alt="Powered by Klaviyo" height="50" src="https://d3k81ch9hvuctc.cloudfront.net/assets/email/branding/klaviyo-branding-option-0.png" style="border:0;display:block;outline:none;text-decoration:none;height:50px;width:100%;font-size:13px;" width="122"/>
-</a>
 </td>
 </tr>
 </tbody>
