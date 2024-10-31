@@ -153,6 +153,8 @@ $routes->get('portal/employee/load-employee-profile', 'Portal\EmployeeController
 $routes->post('portal/employee/edit-employee-profile', 'Portal\EmployeeController::editEmployeeProfile');
     
     // EMPLOYEE DASHBOARD FUNCTIONS 
+$routes->get('portal/employee/e-choose-prefered-language', 'Portal\QuestionaireController::e_choosePreferedLangauge');
+
 $routes->post('portal/employee/e-add-loan-readiness-assessement', 'Portal\EmployeeAssessmentController::e_addLoanReadinessAssessment');
 
 $routes->get('portal/employee/e-select-employee-information', 'Portal\EmployeeController::e_selectEmployeeInformation');
@@ -239,6 +241,8 @@ $routes->post('portal/representative/r-add-company-attachment', 'Portal\CompanyD
 $routes->get('portal/representative/r-select-company-attachment', 'Portal\CompanyDocumentController::r_selectCompanyAttachment');
 $routes->post('portal/representative/r-edit-company-attachment', 'Portal\CompanyDocumentController::r_editCompanyAttachment');
 
+$routes->post('portal/representative/r-submit-access-request', 'Portal\ProductSubscriptionController::r_submitAccessRequest');
+
     // REPRESENTATIVE LOAN APPLICATIONS
 $routes->get('portal/representative/r-load-salary-advance-applications', 'Portal\LoanController::r_loadSalaryAdvanceApplications');
 $routes->get('portal/representative/r-select-loan-application-details', 'Portal\LoanController::r_selectLoanApplicationDetails');
@@ -310,6 +314,9 @@ $routes->post('portal/admin/a-accept-company-subscription', 'Portal\ProductSubsc
 $routes->post('portal/admin/a-send-employee-email-verification', 'Portal\EmployeeController::a_sendEmployeeEmailVerification');
 
 $routes->get('portal/admin/a-load-company-employees', 'Portal\EmployeeController::a_loadCompanyEmployees');
+
+$routes->get('portal/admin/a-select-product-subscription-status', 'Portal\ProductSubscriptionController::a_selectProductSubscriptionStatus');
+$routes->post('portal/admin/a-edit-product-subscription-status', 'Portal\ProductSubscriptionController::a_editProductSubscriptionStatus');
 
     // ADMIN FINANCING ACCOUNTS FUNCTIONS
 $routes->get('portal/admin/a-load-salary-advance-accounts', 'Portal\LoanController::a_loadSalaryAdvanceAccounts');

@@ -27,6 +27,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription(${value['id']})">Update</a>
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadCompanyEmployees(${value['company_id']})">Employee List</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscriptionStatus(${value['company_id']})">Access Status</a>
                                     </div>
                                 </div>
                             </td>
@@ -611,7 +612,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
         
         AJAXHELPER.getData({
             // CompanyDocumentController->a_loadCompanyEmployees();
-            'route' : '/portal/admin/a-load-company-employees',
+            'route' : 'portal/admin/a-load-company-employees',
             'data'  : {
                 'companyId' : companyId
             }
@@ -637,6 +638,59 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             $("#tbl_employeeList").DataTable({'scrollX':true});
         });
     }
+
+    thisAdminSalaryAdvanceApplications.a_selectProductSubscriptionStatus = function(companyId)
+    {
+        $('#modal_accessStatus').modal('show');
+        AJAXHELPER.getData({
+            // ProductSubscriptionController->a_selectProductSubscriptionStatus();
+            'route' : 'portal/admin/a-select-product-subscription-status',
+            'data'  : {
+                'companyId' : companyId
+            }
+        }, function(data){
+            if(data['access_request'] == 1)
+            {
+                $('#div_accessStatus').prop('hidden',false);
+                $('#txt_accessStatusRemarks').val(data['remarks']);
+                $('#txt_accessStatusDateRequest').val(data['updated_date']);
+            }
+            else
+            {
+                $('#div_accessStatus').prop('hidden',true);
+                $('#txt_accessStatusRemarks').val("");
+                $('#txt_accessStatusDateRequest').val("");
+            }
+            $('#txt_accessStatusCompanyId').val(companyId);            
+            $('#slc_accessStatus').val(data['access_status']);            
+        });
+    }
+
+    thisAdminSalaryAdvanceApplications.a_editProductSubscriptionStatus = function(thisForm)
+    {
+        let formData = new FormData(thisForm);
+        formData.set('txt_companyId',$("#txt_companyId").val());
+
+        $('#btn_submitAccessStatus').prop('disabled',true);
+        AJAXHELPER.postData({
+            // ProductSubscriptionController->a_editProductSubscriptionStatus();
+            'route' : 'portal/admin/a-edit-product-subscription-status',
+            'data'  : formData
+        }, function(data){
+            COMMONHELPER.Toaster('success',data[0]);
+            setTimeout(function(){
+                $('#btn_submitAccessStatus').prop('disabled',false);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}/portal/admin/salary-advance-applications`);   
+                }, 1000);
+            }, 1000);
+        }, function(data){
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            $('#btn_submitAccessStatus').prop('disabled',false);
+        });
+    }
+
+
 
     return thisAdminSalaryAdvanceApplications;
 

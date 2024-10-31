@@ -36,6 +36,11 @@ class CreateProductSubscriptionsTable extends Migration
                 'constraint'        => 50,
                 'null'              => true, // CLOSE, OPEN
             ],
+            'access_request'             => [
+                'type'              => 'INT',
+                'constraint'        => 11,
+                'null'              => true, // 1, 0
+            ],
             'remarks'                   => [
                 'type'              => 'TEXT',
                 'null'              => true,

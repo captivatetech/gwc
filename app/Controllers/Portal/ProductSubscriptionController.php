@@ -172,4 +172,64 @@ class ProductSubscriptionController extends BaseController
 
         return $this->response->setJSON($msgResult);
     }
+
+    public function r_submitAccessRequest()
+    {
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'access_request'        => 1,
+            'remarks'               => $fields['txt_requestForUpdateRemarks'],
+            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_date'          => date('Y-m-d H:i:s')
+        ];
+
+        $result = $this->products->r_submitAccessRequest($arrData, $fields['txt_companyId']);
+        if($result > 0)
+        {
+            $msgResult[] = "Request Sent!";
+            return $this->response->setJSON($msgResult);
+            exit();
+        }
+        else
+        {
+            $msgResult[] = "Something went wrong, please try again";
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }
+    }
+
+    public function a_selectProductSubscriptionStatus()
+    {
+        $fields = $this->request->getGet();
+        $arrData = $this->products->a_selectProductSubscriptionStatus($fields['companyId']);
+        return $this->response->setJSON($arrData);
+    }
+
+    public function a_editProductSubscriptionStatus()
+    {
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'access_status'         => "OPEN",
+            'access_request'        => 0,
+            'remarks'               => "",
+            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_date'          => date('Y-m-d H:i:s')
+        ];
+
+        $result = $this->products->a_editProductSubscriptionStatus($arrData, $fields['txt_companyId']);
+        if($result > 0)
+        {
+            $msgResult[] = "Access Status Changed!";
+            return $this->response->setJSON($msgResult);
+            exit();
+        }
+        else
+        {
+            $msgResult[] = "Something went wrong, please try again";
+            return $this->response->setStatusCode(401)->setJSON($msgResult);
+            exit();
+        }
+    }
 }

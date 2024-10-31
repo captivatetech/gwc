@@ -107,76 +107,242 @@ class LoanController extends BaseController
             $user->generateAccessTokenUsingRefreshToken();
             $access_token = $user->getAccessToken();
 
-            $template = ZohoSign::getTemplate( 418013000000051001 );
+            $template = ZohoSign::getTemplate( 418013000000095065 );
 
             $template->setRequestName("May Sample API Test");
             $template->setNotes("Call us back if you need clarificaions regarding agreement");
 
-            $template->setPrefillTextField( "txt_field1",  "field1" );
-            $template->setPrefillTextField( "txt_field2",  "field2" );
-            $template->setPrefillTextField( "txt_field3",  "field3" );
-            $template->setPrefillTextField( "txt_field4",  "field4" );
-            $template->setPrefillTextField( "txt_field5",  "field5" );
-            $template->setPrefillTextField( "txt_field6",  "field6" );
-            $template->setPrefillTextField( "txt_field7",  "field7" );
-            $template->setPrefillTextField( "txt_field8",  "field8" );
-            $template->setPrefillTextField( "txt_field9",  "field9" );
-            $template->setPrefillTextField( "txt_field10",  "field10" );
-            $template->setPrefillTextField( "txt_field11",  "field11" );
-            $template->setPrefillTextField( "txt_field12",  "field12" );
-            $template->setPrefillTextField( "txt_field13",  "field13" );
-            $template->setPrefillTextField( "txt_field14",  "field14" );
-            $template->setPrefillTextField( "txt_field15",  "field15" );
-            $template->setPrefillTextField( "txt_field16",  "field16" );
-            $template->setPrefillTextField( "txt_field17",  "field17" );
-            $template->setPrefillTextField( "txt_field18",  "field18" );
-            $template->setPrefillTextField( "txt_field19",  "field19" );
-            $template->setPrefillTextField( "txt_field20",  "field20" );
-            $template->setPrefillTextField( "txt_field21",  "field21" );
-            $template->setPrefillTextField( "txt_field22",  "field22" );
-            $template->setPrefillTextField( "txt_field23",  "field23" );
-            $template->setPrefillTextField( "txt_field24",  "field24" );
-            $template->setPrefillTextField( "txt_field25",  "field25" );
-            $template->setPrefillTextField( "txt_field26",  "field26" );
-            $template->setPrefillTextField( "txt_field27",  "field27" );
-            $template->setPrefillTextField( "txt_field28",  "field28" );
+            $template->setPrefillTextField( "txt_f1",  "-" );
+            $template->setPrefillTextField( "txt_f2",  "-" );
+            $template->setPrefillTextField( "txt_f3",  "-" );
+            $template->setPrefillTextField( "txt_f4",  "-" );
+            $template->setPrefillTextField( "txt_f5",  "-" );
+            $template->setPrefillTextField( "txt_f6",  "-" );
+            $template->setPrefillTextField( "txt_f7",  "-" );
+            $template->setPrefillTextField( "txt_f8",  "-" );
+            $template->setPrefillTextField( "txt_f9",  "-" );
+            $template->setPrefillTextField( "txt_f10",  "-" );
+            $template->setPrefillTextField( "txt_f11",  "-" );
+            $template->setPrefillTextField( "txt_f12",  "-" );
+            $template->setPrefillTextField( "txt_f13",  "-" );
+            $template->setPrefillTextField( "txt_f14",  "-" );
+            $template->setPrefillTextField( "txt_f15",  "-" );
+            $template->setPrefillTextField( "txt_f16",  "-" );
+            $template->setPrefillTextField( "txt_f17",  "-" );
+            $template->setPrefillTextField( "txt_f18",  "-" );
+            $template->setPrefillTextField( "txt_f19",  "-" );
+            $template->setPrefillTextField( "txt_f20",  "-" );
+            $template->setPrefillTextField( "txt_f21",  "-" );
+            $template->setPrefillTextField( "txt_f22",  "-" );
+            $template->setPrefillTextField( "txt_f23",  "-" );
+            $template->setPrefillTextField( "txt_f24",  "-" );
+            $template->setPrefillTextField( "txt_f25",  "-" );
+            $template->setPrefillTextField( "txt_f26",  "-" );
+            $template->setPrefillTextField( "txt_f27",  "-" );
+            $template->setPrefillTextField( "txt_f28",  "-" );
         
             $employeeName = $userData['first_name'] . " " . $userData['last_name'];
             $template->getActionByRole("Recepient1")->setRecipientName($employeeName);
             $template->getActionByRole("Recepient1")->setRecipientEmail($userData['email_address']);
-            $template->setPrefillTextField( "txt_employeeName",  $employeeName );
+            $template->setPrefillTextField( "txt_employeeName1",  $employeeName );
 
             $representativeName = $representativeData['first_name'] . " " . $representativeData['last_name'];
             $template->getActionByRole("Recepient2")->setRecipientName($representativeName);
             $template->getActionByRole("Recepient2")->setRecipientEmail($representativeData['email_address']);
-            $template->setPrefillTextField( "txt_representativeName",  $representativeName );
+            $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
             $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
-            $template->setPrefillTextField( "txt_lenderName",  "GWC Admin" );
+            $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
 
-            $table1 = <<< EOD
-                <table>
-                    <tr>
-                        <td>Account Name</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Account Number</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Interest Rate</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><b>Promesory Note Value</b></td>
-                        <td></td>
-                    </tr>
-                </table>
-            EOD;
 
-            $template->setPrefillTextField( "txt_table1", $table1 );
+            $template->setPrefillTextField( "txt_accountName", "-");
+            $template->setPrefillTextField( "txt_accountNumber", "-");
+            $template->setPrefillTextField( "txt_interestRate", "-");
+            $template->setPrefillTextField( "txt_promisoryNote", "-");
+
+            $template->setPrefillTextField( "txt_maStartDate", "-");
+            $template->setPrefillTextField( "txt_maEndDate", "-");
+
+            $template->setPrefillTextField( "txt_dst", "-");
+            $template->setPrefillTextField( "txt_insurance", "-");
+            $template->setPrefillTextField( "txt_notarialFees", "-");
+            $template->setPrefillTextField( "txt_otherAdminFees", "-");
+
+            $arrPaymentDate = [
+                '10-Oct-24',
+                '25-Oct-24',
+                '10-Nov-24',
+                '25-Nov-24',
+                '10-Dec-24',
+                '25-Dec-24'
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $paymentDate = null;
+                for ($x=0; $x < count($arrPaymentDate); $x++) 
+                { 
+                    if(isset($arrPaymentDate[$i]))
+                    {
+                        $paymentDate = $arrPaymentDate[$i];
+                    }
+                }
+                $series = $i+1;
+                if($paymentDate != null)
+                {
+                    $template->setPrefillTextField( "txt_paymentDate$series", $paymentDate);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_paymentDate$series", "-");
+                }
+            }
+
+            $arrAmount = [
+                933.09,
+                933.09,
+                933.09,
+                933.09,
+                933.09,
+                933.09
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $amount = null;
+                for ($x=0; $x < count($arrAmount); $x++) 
+                { 
+                    if(isset($arrAmount[$i]))
+                    {
+                        $amount = number_format((int)$arrAmount[$i], 2, '.', ',');
+                    }
+                }
+                $series = $i+1;
+                if($amount != null)
+                {
+                    $template->setPrefillTextField( "txt_amount$series", $amount);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_amount$series", "-");
+                }
+            }
+
+            $arrt1Balance = [
+                4665.41,
+                3732.32,
+                2799.23,
+                1866.14,
+                933.05,
+                0.04
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $t1Balance = null;
+                for ($x=0; $x < count($arrt1Balance); $x++) 
+                { 
+                    if(isset($arrt1Balance[$i]))
+                    {
+                        $t1Balance = number_format((int)$arrt1Balance[$i], 2, '.', ',');
+                    }
+                }
+                $series = $i+1;
+                if($t1Balance != null)
+                {
+                    $template->setPrefillTextField( "txt_t1bal$series", $t1Balance);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_t1bal$series", "-");
+                }
+            }
+
+            $arrMonth = [
+                'OCTOBER',
+                'NOVEMBER',
+                'DECEMBER'
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $month = null;
+                for ($x=0; $x < count($arrMonth); $x++) 
+                { 
+                    if(isset($arrMonth[$i]))
+                    {
+                        $month = $arrMonth[$i];
+                    }
+                }
+                $series = $i+1;
+                if($month != null)
+                {
+                    $template->setPrefillTextField( "txt_month$series", $month);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_month$series", "-");
+                }
+            }
+
+            $arrAmortization = [
+                1866.17,
+                1866.17,
+                1866.17
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $amort = null;
+                for ($x=0; $x < count($arrAmortization); $x++) 
+                { 
+                    if(isset($arrAmortization[$i]))
+                    {
+                        $amort = number_format((int)$arrAmortization[$i], 2, '.', ',');
+                    }
+                }
+                $series = $i+1;
+                if($amort != null)
+                {
+                    $template->setPrefillTextField( "txt_amort$series", $amort);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_amort$series", "-");
+                }
+            }
+
+            $arrt2Balance = [
+                3732.33,
+                1866.16,
+                0.01
+            ];
+            $series = 0;
+            for ($i=0; $i < 16; $i++) 
+            { 
+                $t2Balance = null;
+                for ($x=0; $x < count($arrt2Balance); $x++) 
+                { 
+                    if(isset($arrt2Balance[$i]))
+                    {
+                        $t2Balance = number_format((int)$arrt2Balance[$i], 2, '.', ',');
+                    }
+                }
+                $series = $i+1;
+                if($t2Balance != null)
+                {
+                    $template->setPrefillTextField( "txt_t2bal$series", $t2Balance);
+                }
+                else
+                {
+                    $template->setPrefillTextField( "txt_t2bal$series", "-");
+                }
+            }
+
+            $template->setPrefillTextField( "txt_employeeName2", "-");
+            $template->setPrefillTextField( "txt_representativeName2", "-");
+            $template->setPrefillTextField( "txt_lenderName2", "-");
         
             $resp_obj = ZohoSign::sendTemplate( $template, true );
 
@@ -193,8 +359,8 @@ class LoanController extends BaseController
                     'total_interest'        => $totalInterest,
                     'payment_terms'         => $paymentTerms,
                     'number_of_deductions'  => $numberOfDeductions,
-                    'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ''),
-                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ''),
+                    'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ','),
+                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ','),
                     'purpose_of_loan'       => $fields['purposeOfLoan'],
                     'application_status'    => 'PENDING', 
                     'loan_status'           => 'PENDING',
@@ -231,9 +397,11 @@ class LoanController extends BaseController
             }
         }catch( SignException $signEx ){
             // log it
-            // echo "SIGN EXCEPTION : ".$signEx;
+            echo "SIGN EXCEPTION : ".$signEx;
         }catch( Exception $ex ){
             // handle it
+            print_r($ex);
+            exit();
         }        
     }
 
@@ -246,9 +414,42 @@ class LoanController extends BaseController
 
     public function r_selectLoanApplicationDetails()
     {
-        $fields = $this->request->getGet();
-        $arrResult = $this->loans->r_selectLoanApplicationDetails($fields['loanId']);
-        return $this->response->setJSON($arrResult);
+        try{
+            $fields = $this->request->getGet();
+            $arrResult = $this->loans->r_selectLoanApplicationDetails($fields['loanId']);
+
+            /*********
+                STEP 1 : Set user credentials
+            **********/
+
+            $user = new OAuth( array(
+                OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::DC           => "COM",
+                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+            ) );
+
+            ZohoSign::setCurrentUser( $user );
+            $user->generateAccessTokenUsingRefreshToken();
+            $access_token = $user->getAccessToken();
+
+            /*********
+            STEP 2 : Get particular document details
+            **********/
+
+            $req_obj = ZohoSign::getRequest( $arrResult['request_id'] ); // enter valid "request_id"
+            $arrResult['employee_action_status'] = $req_obj->getActions()[0]->getActionStatus();
+            $arrResult['representative_action_status'] = $req_obj->getActions()[1]->getActionStatus();
+            $arrResult['admin_action_status'] = $req_obj->getActions()[2]->getActionStatus();
+
+            return $this->response->setJSON($arrResult);
+            
+        }catch( SignException $signEx ){
+            // log it
+            echo "SIGN EXCEPTION : ".$signEx;
+        }catch( Exception $ex ){
+            // handle it
+        }
     }
 
     public function r_submitSalaryAdvanceApplication()
@@ -291,9 +492,42 @@ class LoanController extends BaseController
 
     public function a_selectApplication()
     {
-        $fields = $this->request->getGet();
-        $arrResult = $this->loans->a_selectApplication($fields['loanId']);
-        return $this->response->setJSON($arrResult);
+        try{
+            $fields = $this->request->getGet();
+            $arrResult = $this->loans->a_selectApplication($fields['loanId']);
+
+            /*********
+                STEP 1 : Set user credentials
+            **********/
+
+            $user = new OAuth( array(
+                OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::DC           => "COM",
+                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+            ) );
+
+            ZohoSign::setCurrentUser( $user );
+            $user->generateAccessTokenUsingRefreshToken();
+            $access_token = $user->getAccessToken();
+
+            /*********
+            STEP 2 : Get particular document details
+            **********/
+
+            $req_obj = ZohoSign::getRequest( $arrResult['request_id'] ); // enter valid "request_id"
+            $arrResult['employee_action_status'] = $req_obj->getActions()[0]->getActionStatus();
+            $arrResult['representative_action_status'] = $req_obj->getActions()[1]->getActionStatus();
+            $arrResult['admin_action_status'] = $req_obj->getActions()[2]->getActionStatus();
+
+            return $this->response->setJSON($arrResult);
+            
+        }catch( SignException $signEx ){
+            // log it
+            echo "SIGN EXCEPTION : ".$signEx;
+        }catch( Exception $ex ){
+            // handle it
+        }
     }
 
     public function a_approveApplication()

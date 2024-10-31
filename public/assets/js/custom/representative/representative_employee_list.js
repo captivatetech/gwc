@@ -31,14 +31,14 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
                 let actions = '';
 
-                if($('#txt_subscriptionStatus').val() == "APPROVE")
+                if($('#txt_subscriptionStatus').val() == "APPROVE" && $('#txt_accessStatus').val() == "CLOSE")
                 {
                     actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>`;
                 }
                 else
                 {
                     actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>`;
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>`;
                 }
 
                 tbody += `<tr>
@@ -890,6 +890,30 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
         }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitCompanyAttachment').prop('disabled',false);
+        });
+    }
+
+    thisRepresentativeEmployeeList.r_submitAccessRequest = function(thisForm)
+    {
+        let formData = new FormData(thisForm);
+        formData.set('txt_companyId',$("#txt_companyId").val());
+
+        $('#btn_submitRequestForUpdate').prop('disabled',true);
+        AJAXHELPER.postData({
+            // ProductSubscriptionController->r_submitAccessRequest();
+            'route' : 'portal/representative/r-submit-access-request',
+            'data'  : formData
+        }, function(data){
+            COMMONHELPER.Toaster('success',data[0]);
+            setTimeout(function(){
+                $('#btn_submitRequestForUpdate').prop('disabled',false);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
+                }, 1000);
+            }, 1000);
+        }, function(data){
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            $('#btn_submitRequestForUpdate').prop('disabled',false);
         });
     }
 

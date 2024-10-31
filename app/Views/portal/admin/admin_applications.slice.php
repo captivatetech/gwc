@@ -78,7 +78,7 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
-    <div class="modal fade" id="modal_loanApplicationDetails">
+    <div class="modal fade" id="modal_loanApplicationDetails" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
@@ -134,7 +134,12 @@
                             </table>
                             <hr>
                             <h6>Attached Documents <small>(Signed Documents)</small></h6>
-                            <i><p style="color:red;">Please check your email to sign or click <a href="javascript:void(0)" id="lnk_downloadDocument">here</a> to download the document.</p></i>
+                            <label>Employee Action Status: <b><span id="lbl_employeeActionStatus"></span></b></label>
+                            <br>
+                            <label>Representative Action Status: <b><span id="lbl_representativeActionStatus"></span></b></label>
+                            <br>
+                            <label>Admin Action Status: <b><span id="lbl_adminActionStatus"></span></b></label>
+                            <i><p style="color:red;">Please check your <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox" target="_blank">email</a> to sign or click <a href="javascript:void(0)" id="lnk_downloadDocument">here</a> to review the document.</p></i>
                         </div>
                         <div class="col-lg-6">
                             <h6>Loan Details</h6>
@@ -222,7 +227,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer modal-footer--sticky">
+                <div class="modal-footer modal-footer--sticky" id="div_footer" hidden>
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn gwc-button" id="btn_approveApplication">Approve</button>
                     <button type="button" class="btn btn-danger" id="btn_rejectApplication">Reject Application</button>
