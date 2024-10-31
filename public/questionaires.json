@@ -1,0 +1,116 @@
+{
+    "tagalog" : [
+        [
+            "Kayo ba ay nakakagawa ng budget at ito ay nasusundan sa isang buwan?",
+            "A. Yes, ito ay laging nasusundan",
+            "B. Yes, ito ay bihirang masundan",
+            "C. No, hindi ako gumagawa ng budget"
+        ],
+        [
+            "Ilang porsyento ng inyong sinasahod ang inyong naitatabi sa ipon kada buwan?",
+            "A. Halos kalahati (50%) ng aking sahod ay aking naitatabi",
+            "B. Halos 30% ng aking sahod ang aking naitatabi",
+            "C. Halos 10% ng aking sahod ay aking naitatabi",
+            "D. Wala akong naitatabi sa aking sinasahod.",
+            [
+                "Upang madaling maunawaan ang sagot sa tanong, naririto ang example. Kung ikaw ay sumasahod ng Php 20,000 sa isang buwan.",
+                "50% - Php 10,000 savings",
+                "30% - Php 6,000 savings",
+                "10% - Php 2,000 savings"
+            ]
+        ],
+        [
+            "Ilang porsyento ng inyong sahod ang napupunta sa pagbabayad ng mga kinauutang at ng mga iba pang bayarin?",
+            "A. Higit kalahati (50%) ng aking sahod ang ipinambabayad sa pinagkakautangan at mga bayarin.",
+            "B. Halos 30% ng aking sahod  angipinambabayad sa pinagkakautangan at mga bayarin.",
+            "C. Halos 10% ng aking sahod ang ipinambabayad sa pinagkakautangan at mga bayarin."
+        ],
+        [
+            "Kung kayo ay kakapusin sa pambayad ng mga pagkaka-uutang at bayarin, alin sa mga sumusunod ang inyong gagawin?",
+            "A. Hindi muna babayaran ang bayarin sa nakatakdang araw at magbabayad na lang kapag nakaluwag-luwag na.",
+            "B. Kakausapin ang pinagkakautangan at makikipag-kasundo ng ibang araw upang mabayaran ang natitirang bahagi ng bayarin.",
+            "C. Ako ay maghahanap ng makakatulong o mahihiraman sa aking pamilya o mga kamag-anak upang hindi masira ang aking pangalan sa pinagkakautangan.",
+            "D. Gagamitin ang aking emergency fund o nakatabing ipon para sa mga emergency upang mabayaran ang bayarin."
+        ],
+        [
+            "Kung kayo ay may credit card, ano ang inyong kasalukuyang kinagawian?",
+            "A. Binabayaran ko lang ang minimum amount sa billing.",
+            "B. Binabayaran ko ang minimum maging ang balanse kapag nakaluluwag-luwag.",
+            "C. Kung kaya, ako ay nagbabayad ng buo upang makaiwas sa interest charges.",
+            "D. Ako ay palaging nagbabayad ng buong balanse.",
+            "E. Ako ay kasalukuyang walang credit card."
+        ],
+        [
+            "Kung ikaw ay may biglaang kailangan pagkagastusan, saan mo kukunin ang iyong panggastos?",
+            "A. Uutang sa aking pamilya at kaibigan",
+            "B. Uutang sa kumpanya",
+            "C. Gagamitin ang aking credit card kung maari",
+            "D. Gagamitin ang aking savings o naitabing pera",
+            "E. Hindi ko alam ang sagot sa tanong."
+        ],
+        [
+            "Alin sa mga sumusunod ang iyong pananaw tungkol sa paghiram ng pera o pag-utang sa bangko?",
+            "A. Ako ay natatakot umutang dahil baka ito ay hindi ko mabayaran",
+            "B. Ako ay umiiwas umutang kung ito naman ay hindi kailangan",
+            "C. Naiintindihan ko na ang paghiram ng pera at paggamit nito sa produktibong pamamaraan ay maaring makatulong upang kumita pa",
+            "D. Wala akong pananaw tungkol sa paghiram ng pera."
+        ]
+    ],
+    "english" : [
+        [
+            "Do you create a budget and follow it each month?",
+            "A. Yes, I always follow it",
+            "B. Yes, but I rarely follow it",
+            "C. No, I don’t create a budget"
+        ],
+        [
+            "What percentage of your income do you save each month?",
+            "A. I save almost half (50%) of my income",
+            "B. I save around 30% of my income",
+            "C. I save around 10% of my income",
+            "D. I don’t save any of my income",
+            [
+                "Example for clarity: If your monthly income is Php 20,000:",
+                "50% = Php 10,000 in savings",
+                "30% = Php 6,000 in savings",
+                "10% = Php 2,000 in savings"
+            ]
+        ],
+        [
+            "What percentage of your income goes toward paying debts and other bills?",
+            "A. More than half (50%) of my income",
+            "B. Around 30% of my income",
+            "C. Around 10% of my income"
+        ],
+        [
+            "If you struggle to pay debts and bills, what will you do?",
+            "A. Delay payments until I have enough funds",
+            "B. Negotiate with creditors for an extended deadline",
+            "C. Ask family or relatives for financial help to avoid damaging my reputation",
+            "E. Use my emergency fund or savings"
+        ],
+        [
+            "What is your habit regarding credit card payments?",
+            "A. I only pay the minimum amount due",
+            "B. I pay both the minimum and additional balance when I can",
+            "C. I pay in full whenever possible to avoid interest charges",
+            "D. I always pay the full balance",
+            "E. I don’t have a credit card"
+        ],
+        [
+            "If you encounter an unexpected expense, where will you get the money?",
+            "A. Borrow from family and friends",
+            "B. Borrow from my employer",
+            "C. Use my credit card if possible",
+            "D. Use my savings or money set aside",
+            "E. I don’t know"
+        ],
+        [
+            "What is your perspective on borrowing money from a bank?",
+            "A. I’m afraid to borrow, fearing I won’t be able to repay",
+            "B. I avoid borrowing unless it’s absolutely necessary",
+            "C. I understand that borrowing and using funds productively can help me earn more",
+            "D. I have no opinion about borrowing"
+        ]
+    ]
+}

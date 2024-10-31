@@ -128,6 +128,27 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
+    <div class="modal fade" id="modal_preferedLangauge" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> Prefered Laguage
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <div class="pt-4 pb-4">
+                            <button type="button" class="btn btn-lg gwc-button" id="btn_preferedLangaugeTagalog">TAGALOG</button>
+                            <button type="button" class="btn btn-lg gwc-button" id="btn_preferedLangaugeEnglish">ENGLISH</button>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal_loanReadinessAssessment" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -148,7 +169,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 1 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question1">
                                     Kayo ba ay nakakagawa ng budget at ito ay nasusundan sa isang buwan?
                                 </p>
 
@@ -182,8 +203,8 @@
                                 <h3>Gold Water Capital</h3>
                                 <h5 class="text-muted">Savings</h5>
 
-                                <p>Upang madaling maunawaan ang sagot sa tanong, naririto ang example. Kung ikaw ay sumasahod ng Php 20,000 sa isang buwan.</p>
-                                <ul>
+                                <p id="lbl_question2Example">Upang madaling maunawaan ang sagot sa tanong, naririto ang example. Kung ikaw ay sumasahod ng Php 20,000 sa isang buwan.</p>
+                                <ul id="lbl_question2ExampleList">
                                     <li>50% - Php 10,000 savings</li>
                                     <li>30% - Php 6,000 savings</li>
                                     <li>10% - Php 2,000 savings</li>
@@ -192,7 +213,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 2 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question2">
                                     Ilang porsyento ng inyong sinasahod ang inyong naitatabi sa ipon kada buwan?
                                 </p>
 
@@ -237,7 +258,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 3 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question3">
                                     Ilang porsyento ng inyong sahod ang napupunta sa pagbabayad ng mga kinauutang at ng mga iba pang bayarin?
                                 </p>
 
@@ -275,7 +296,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 4 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question4">
                                     Kung kayo ay kakapusin sa pambayad ng mga pagkaka-uutang at bayarin, alin sa mga sumusunod ang inyong gagawin?
                                 </p>
 
@@ -321,7 +342,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 5 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question5">
                                     Kung kayo ay may credit card, ano ang inyong kasalukuyang kinagawian?
                                 </p>
 
@@ -375,7 +396,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 6 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question6">
                                     Kung ikaw ay may biglaang kailangan pagkagastusan, saan mo kukunin ang iyong panggastos?
                                 </p>
 
@@ -429,7 +450,7 @@
                             <div class="col-lg-8">
                                 <h5>Part 7 of 7</h5>
 
-                                <p>
+                                <p id="lbl_question7">
                                     Alin sa mga sumusunod ang iyong pananaw tungkol sa paghiram ng pera o pag-utang sa bangko?
                                 </p>
 
@@ -475,37 +496,37 @@
                             <div class="col-lg-8">
                                 <h5>Question & Answers</h5>
 
-                                <h6>
+                                <h6 id="h6_question1">
                                     1) Kayo ba ay nakakagawa ng budget at ito ay nasusundan sa isang buwan?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer1"></label>
 
-                                <h6>
+                                <h6 id="h6_question2">
                                     2) Ilang porsyento ng inyong sinasahod ang inyong naitatabi sa ipon kada buwan?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer2"></label>
 
-                                <h6>
+                                <h6 id="h6_question3">
                                     3) Ilang porsyento ng inyong sahod ang napupunta sa pagbabayad ng mga kinauutang at ng mga iba pang bayarin?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer3"></label>
 
-                                <h6>
+                                <h6 id="h6_question4">
                                     4) Kung kayo ay kakapusin sa pambayad ng mga pagkaka-uutang at bayarin, alin sa mga sumusunod ang inyong gagawin?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer4"></label>
 
-                                <h6>
+                                <h6 id="h6_question5">
                                     5) Kung kayo ay may credit card, ano ang inyong kasalukuyang kinagawian?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer5"></label>
 
-                                <h6>
+                                <h6 id="h6_question6">
                                     6) Kung ikaw ay may biglaang kailangan pagkagastusan, saan mo kukunin ang iyong panggastos?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer6"></label>
 
-                                <h6>
+                                <h6 id="h6_question7">
                                     7) Alin sa mga sumusunod ang iyong pananaw tungkol sa paghiram ng pera o pag-utang sa bangko?
                                 </h6>
                                 <label class="mb-2 text-muted" id="lbl_answer7"></label>
@@ -765,7 +786,15 @@
     // EMPLOYEE_DASHBOARD.loadSample();
 
     $('#btn_openLoanReadinessAssessmentModal').on('click',function(){
-        EMPLOYEE_DASHBOARD.e_openLoanReadinessAssessmentModal();
+        EMPLOYEE_DASHBOARD.e_loadPreferedLangauge();
+    });
+
+    $('#btn_preferedLangaugeTagalog').on('click',function(){
+        EMPLOYEE_DASHBOARD.e_choosePreferedLangauge("tagalog");
+    });
+
+    $('#btn_preferedLangaugeEnglish').on('click',function(){
+        EMPLOYEE_DASHBOARD.e_choosePreferedLangauge("english");
     });
 
     /* ======= QUESTION #1 ==========*/

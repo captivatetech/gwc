@@ -156,4 +156,69 @@ class Products extends Model
         $query = $builder->get();
         return  $query->getRowArray();
     }
+
+    ////////////////////////////////////////////////////
+    ///// ProductSubscriptionController->r_submitAccessRequest()
+    ////////////////////////////////////////////////////
+    public function r_submitAccessRequest($arrData, $companyId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('product_subscriptions');
+                $builder->where('product_id',1);
+                $builder->where('company_id',$companyId);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+
+    ////////////////////////////////////////////////////
+    ///// ProductSubscriptionController->a_selectProductSubscriptionStatus()
+    ////////////////////////////////////////////////////
+    public function a_selectProductSubscriptionStatus($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.access_status',
+            'a.access_request',
+            'a.remarks',
+            'a.created_by',
+            'a.created_date',
+            'a.updated_by',
+            'a.updated_date'
+        ];
+
+        $builder = $this->db->table('product_subscriptions a');
+        $builder->join('products b','a.product_id = b.id','left');
+        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->join('employees d','c.id = d.company_id','left');
+        $builder->select($columns);
+        $builder->where('a.company_id',$companyId);
+        $builder->where('d.user_type','representative');
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
+
+
+    ////////////////////////////////////////////////////
+    ///// ProductSubscriptionController->a_editProductSubscriptionStatus()
+    ////////////////////////////////////////////////////
+    public function a_editProductSubscriptionStatus($arrData, $companyId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('product_subscriptions');
+                $builder->where('product_id',1);
+                $builder->where('company_id',$companyId);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
 }

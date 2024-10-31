@@ -792,6 +792,11 @@
         }
         
     });
+
+    $('#form_requestForUpdate').on('submit',function(e){
+        e.preventDefault();
+        REPRESENTATIVE_EMPLOYEE_LIST.r_submitAccessRequest(this);
+    });
     
   });
 </script>

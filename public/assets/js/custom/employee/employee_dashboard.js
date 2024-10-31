@@ -20,6 +20,87 @@ const EMPLOYEE_DASHBOARD = (function(){
 
     }
 
+    thisEmployeeDashboard.e_loadPreferedLangauge = function()
+    {
+        $('#modal_preferedLangauge').modal('show');
+    }
+
+    thisEmployeeDashboard.e_choosePreferedLangauge = function(preferedLanguage)
+    {
+        $('#modal_preferedLangauge').modal('hide');
+        AJAXHELPER.getData({
+            // QuestionaireController->e_choosePreferedLangauge();
+            'route' : 'portal/employee/e-choose-prefered-language',
+            'data'  : {
+                preferedLanguage : preferedLanguage
+            }
+        }, function(data){
+            //question 1
+            $('#lbl_question1').text(data[0][0]);
+            $('#lbl_answer1A-5').text(data[0][1]);
+            $('#lbl_answer1B-3').text(data[0][2]);
+            $('#lbl_answer1C-0').text(data[0][3]);
+
+            // question 2
+            $('#lbl_question2Example').text(data[1][5]);
+            $('#lbl_question2ExampleList li:eq(0)').text(data[1][5][0]);
+            $('#lbl_question2ExampleList li:eq(1)').text(data[1][5][1]);
+            $('#lbl_question2ExampleList li:eq(2)').text(data[1][5][2]);
+            $('#lbl_question2').text(data[1][0]);
+            $('#lbl_answer2A-5').text(data[1][1]);
+            $('#lbl_answer2B-4').text(data[1][2]);
+            $('#lbl_answer2C-1').text(data[1][3]);
+            $('#lbl_answer2D-0').text(data[1][4]);
+
+            // question 3
+            $('#lbl_question3').text(data[2][0]);
+            $('#lbl_answer3A-1').text(data[2][1]);
+            $('#lbl_answer3B-3').text(data[2][2]);
+            $('#lbl_answer3C-5').text(data[2][3]);
+
+            // question 4
+            $('#lbl_question4').text(data[3][0]);
+            $('#lbl_answer4A-1').text(data[3][1]);
+            $('#lbl_answer4B-3').text(data[3][2]);
+            $('#lbl_answer4C-3').text(data[3][3]);
+            $('#lbl_answer4D-5').text(data[3][4]);
+
+            // question 5
+            $('#lbl_question5').text(data[4][0]);
+            $('#lbl_answer5A-1').text(data[4][1]);
+            $('#lbl_answer5B-2').text(data[4][2]);
+            $('#lbl_answer5C-3').text(data[4][3]);
+            $('#lbl_answer5D-5').text(data[4][4]);
+            $('#lbl_answer5E-0').text(data[4][5]);
+
+            // question 6
+            $('#lbl_question6').text(data[5][0]);
+            $('#lbl_answer6A-1').text(data[5][1]);
+            $('#lbl_answer6B-1').text(data[5][2]);
+            $('#lbl_answer6C-3').text(data[5][3]);
+            $('#lbl_answer6D-5').text(data[5][4]);
+            $('#lbl_answer6E-0').text(data[5][5]);
+
+            // question 7
+            $('#lbl_question7').text(data[6][0]);
+            $('#lbl_answer7A-1').text(data[6][1]);
+            $('#lbl_answer7B-3').text(data[6][2]);
+            $('#lbl_answer7C-5').text(data[6][3]);
+            $('#lbl_answer7D-0').text(data[6][4]);
+
+            // reviewAnswer
+            $('#h6_question1').text(`1) ${data[0][0]}`);
+            $('#h6_question2').text(`2) ${data[1][0]}`);
+            $('#h6_question3').text(`3) ${data[2][0]}`);
+            $('#h6_question4').text(`4) ${data[3][0]}`);
+            $('#h6_question5').text(`5) ${data[4][0]}`);
+            $('#h6_question6').text(`6) ${data[5][0]}`);
+            $('#h6_question7').text(`7) ${data[6][0]}`);
+
+            EMPLOYEE_DASHBOARD.e_openLoanReadinessAssessmentModal();
+        });
+    }
+
     thisEmployeeDashboard.e_openLoanReadinessAssessmentModal = function()
     {
         $('#modal_loanReadinessAssessment').modal('show');

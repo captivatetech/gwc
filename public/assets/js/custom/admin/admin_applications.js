@@ -78,6 +78,29 @@ const ADMIN_APPLICATIONS = (function(){
             $('#lbl_numberOfDeductions').text(data['number_of_deductions']);
             $('#lbl_monthlyDues').text(COMMONHELPER.numberWithCommas(data['monthly_dues']));
             $('#lbl_deductionPerCutOff').text(COMMONHELPER.numberWithCommas(data['deduction_per_cutoff']));
+
+            $('#lbl_employeeActionStatus').text(data['employee_action_status']);
+            $('#lbl_representativeActionStatus').text(data['representative_action_status']);
+            $('#lbl_adminActionStatus').text(data['admin_action_status']);
+
+            if(data['application_status'] == 'APPROVED')
+            {
+                $('#div_footer').prop('hidden',true);
+                $('#btn_approveApplication').prop('disabled',true);
+            }
+            else
+            {
+                if(data['admin_action_status'] == 'SIGNED')
+                {
+                    $('#div_footer').prop('hidden',false);
+                    $('#btn_approveApplication').prop('disabled',false);
+                }
+                else
+                {
+                    $('#div_footer').prop('hidden',true);
+                    $('#btn_approveApplication').prop('disabled',true);
+                }
+            }            
         });
     }
 

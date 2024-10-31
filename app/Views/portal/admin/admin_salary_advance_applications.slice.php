@@ -404,6 +404,41 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal_accessStatus" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle1"> 
+                        Access Status for Employee List
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_accessStatus">
+                        <input type="hidden" id="txt_accessStatusCompanyId" name="txt_accessStatusCompanyId">
+                        <div id="div_accessStatus">
+                            <label>Remarks: </label>
+                            <textarea rows="5" class="form-control" id="txt_accessStatusRemarks" readonly></textarea>
+                            <br>
+                            <label>Date Requested: </label>
+                            <input type="text" class="form-control" id="txt_accessStatusDateRequest" readonly>
+                            <br>
+                        </div>
+                        <label>Access Status</label>
+                        <select id="slc_accessStatus" class="form-control form-select">
+                            <option value="OPEN">OPEN</option>
+                            <option value="CLOSE">CLOSE</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitAccessStatus" form="form_accessStatus">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -487,6 +522,10 @@
     });
 
 
+    $('#form_accessStatus').on('submit',function(e){
+        e.preventDefault();
+        ADMIN_SALARY_ADVANCE_APPLICATIONS.a_editProductSubscriptionStatus(this);
+    });
 
 
   });

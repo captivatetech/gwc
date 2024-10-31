@@ -20,6 +20,7 @@ class Actions
 	private $recipient_countrycode_iso; 
 	private $recipient_phonenumber; 
 	private $delivery_mode;
+	private $action_status;
 
 	private $language;
 	private $is_embedded; 	private $verification_type;
@@ -56,6 +57,7 @@ class Actions
 		$this->fields 				= (isset($response["fields"])) 					? new Fields($response["fields"]) 		: null;
 		$this->recipient_countrycode= (isset($response["recipient_countrycode"])) 	? $response["recipient_countrycode"] 	: null;
 		$this->recipient_phonenumber= (isset($response["recipient_phonenumber"])) 	? $response["recipient_phonenumber"] 	: null;
+		$this->action_status= (isset($response["action_status"])) 	? $response["action_status"] 	: null;
 
 		$this->language 			= (isset($response["language"])) 				? $response["language"] 				: null;
 		$this->verification_type	= (isset($response["verification_type"])) 		? $response["verification_type"] 		: null;
@@ -68,6 +70,10 @@ class Actions
 	} 
 
 	// GETTERS
+
+	public function getActionStatus(){
+		return $this->action_status;
+	} 
 
 	public function getVerifyRecipient(){
 		return $this->verify_recipient;
