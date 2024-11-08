@@ -10,9 +10,24 @@ const EMPLOYEE_DASHBOARD = (function(){
     let _arrAnswers = [];
     let _totalScore = 0;
 
-    thisEmployeeDashboard.loadSample = function()
+    thisEmployeeDashboard.e_loadCreditLimit = function()
     {
-        // alert();
+        AJAXHELPER.getData({
+            // EmployeeController->e_loadCreditLimit();
+            'route' : 'portal/employee/e-load-credit-limit',
+            'data'  : null
+        }, function(data){
+            $("#rng_creditLimitViewing").ionRangeSlider({
+                type: "single",
+                min: parseInt(data['minimum_credit_amount']),
+                max: parseInt(data['maximum_credit_amount']),
+                from_min: parseInt(data['max_loanable_amount']),
+                from_max: parseInt(data['max_loanable_amount']),
+                from_shadow: true,
+                grid: true,
+                step: 500
+            });
+        });
     }
 
     thisEmployeeDashboard.e_loadCreditDetails = function()
@@ -146,14 +161,25 @@ const EMPLOYEE_DASHBOARD = (function(){
             $('#modal_loanReadinessAssessment').modal('hide');
             $('#modal_salaryAdvanceApplication').modal('show');
 
-            $('#rng_creditLimit').prop('min',data['minimum_credit_amount']);
-            $('#rng_creditLimit').prop('max',data['maximum_credit_amount']);
+            $("#rng_creditLimit").ionRangeSlider({
+                type: "single",
+                min: parseInt(data['minimum_credit_amount']),
+                max: parseInt(data['maximum_credit_amount']),
+                from_min: parseInt(data['min_loanable_amount']),
+                from_max: parseInt(data['max_loanable_amount']),
+                from_shadow: true,
+                grid: true,
+                step: 500,
+                onChange: function (data) {
+                    $('#txt_loanAmount').val(data['from']);
+                    EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
+                }
+            });
 
             $('#lbl_min').text(COMMONHELPER.numberWithCommas(data['minimum_credit_amount']));
             $('#lbl_max').text(COMMONHELPER.numberWithCommas(data['maximum_credit_amount']));
 
-            $('#rng_creditLimit').val(data['minimum_credit_amount']);
-            $('#txt_loanAmount').val(data['minimum_credit_amount']);
+            $('#txt_loanAmount').val(parseInt(data['min_loanable_amount']));
 
             $('#lbl_loanAmount').text($('#txt_loanAmount').val());
             $('#lbl_totalInterest').text(`${arrData['interestRate']} %`);
@@ -230,6 +256,11 @@ const EMPLOYEE_DASHBOARD = (function(){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
             $('#btn_submitSalaryAdvanceApplication').prop('disabled',false);
         });
+    }
+
+    thisEmployeeDashboard.e_viewDashboardDetails = function()
+    {
+        $('#modal_viewDashboardDetails').modal('show');
     }
 
     return thisEmployeeDashboard;

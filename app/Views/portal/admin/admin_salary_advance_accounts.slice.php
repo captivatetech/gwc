@@ -81,7 +81,36 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
-   
+    <div class="modal fade" id="modal_selectCompany" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle2"> 
+                        Loan Disbursement
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="form_chooseCompany">
+                        <label>Choose Company</label>
+                        <select class="form-control form-select" id="slc_company" required></select>
+                        <br><br>
+                        <center>
+                            <span id="lbl_creditLimit">Php. 0.00</span>
+                            <br>
+                            --------------------------
+                            <br>
+                            <label>Credit Limit</label>
+                        </center>
+                        <input type="hidden" id="txt_companyName">
+                        <input type="hidden" id="txt_companyCreditLimit">
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="submit" class="btn gwc-button" id="btn_proceed" form="form_chooseCompany" disabled>Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="modal_disbursementList" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
@@ -110,6 +139,11 @@
                         </thead>
                     </table>
 
+                    <hr>
+                        <div class="row">
+                            <div class="col-lg-6">Company Name: <span id="lbl_companyName" style="font-weight: bold; color: red;"></span></div>
+                            <div class="col-lg-6">Credit Limit: <span id="lbl_companyCreditLimit" style="font-weight: bold; color: red;"></span> </div>
+                        </div>
                     <hr>
 
                     <div class="row">
@@ -205,6 +239,25 @@
     ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadSalaryAdvanceAccounts();
 
     $('#btn_disbursement').on('click',function(){
+        $('#modal_selectCompany').modal('show');
+        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadCompanies();
+    });
+
+    $('#slc_company').on('change',function(){
+        if($(this).val() == "")
+        {
+            $('#btn_proceed').prop('disabled',true);
+        }
+        else
+        {
+            $('#btn_proceed').prop('disabled',false);
+            ADMIN_SALARY_ADVANCE_ACCOUNTS.a_selectCompany(this);
+        }
+    });
+
+    $('#form_chooseCompany').on('submit',function(e){
+        e.preventDefault();
+        $('#modal_selectCompany').modal('hide');
         $('#modal_disbursementList').modal('show');
         ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadDisbursementLists();
         ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadAccountBalance();

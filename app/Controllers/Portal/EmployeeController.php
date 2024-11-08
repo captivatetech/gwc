@@ -920,12 +920,40 @@ class EmployeeController extends BaseController
 
 
 
+    public function e_loadCredetLimit()
+    {
+        $employeeId = $this->session->get('gwc_employee_id');
+        $arrData = $this->employees->e_loadCredetLimit($employeeId);
 
+        $min = round(((float)$arrData['minimum_credit_amount'] / 500),0,PHP_ROUND_HALF_DOWN) * 500;
+        $max = round(((float)$arrData['maximum_credit_amount'] / 500),0,PHP_ROUND_HALF_DOWN) * 500;
+        $minLoanableAmount = (int)((float)$arrData['minimum_credit_amount'] / 500) * 500;
+        $maxLoanableAmount = (int)((float)$arrData['maximum_credit_amount'] / 500) * 500;
+
+        $arrData = [
+            'minimum_credit_amount' => $min,
+            'maximum_credit_amount' => $max,
+            'min_loanable_amount' => $minLoanableAmount,
+            'max_loanable_amount' => $maxLoanableAmount
+        ];
+
+        return $this->response->setJSON($arrData);
+    }
 
     public function e_selectEmployeeInformation()
     {
         $employeeId = $this->session->get('gwc_employee_id');
         $arrData = $this->employees->e_selectEmployeeInformation($employeeId);
+
+        $min = round(((float)$arrData['minimum_credit_amount'] / 500),0,PHP_ROUND_HALF_DOWN) * 500;
+        $max = round(((float)$arrData['maximum_credit_amount'] / 500),0,PHP_ROUND_HALF_DOWN) * 500;
+        $minLoanableAmount = (int)((float)$arrData['minimum_credit_amount'] / 500) * 500;
+        $maxLoanableAmount = (int)((float)$arrData['maximum_credit_amount'] / 500) * 500;
+        
+        $arrData['minimum_credit_amount'] = $min;
+        $arrData['maximum_credit_amount'] = $max;
+        $arrData['min_loanable_amount'] = $minLoanableAmount;
+        $arrData['max_loanable_amount'] = $maxLoanableAmount;
         return $this->response->setJSON($arrData);
     }
 }

@@ -64,6 +64,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
 
             ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadCompanyDocuments(companyId,data['business_type']);
 
+            $('#txt_companyCreditLimit').val(data['company_credit_limit']);
             $('#slc_employeeListStatus').val(data['subscription_status']);
             $('#txt_remarks').val(data['remarks']);
 
@@ -530,32 +531,40 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
     thisAdminSalaryAdvanceApplications.a_acceptCompanySubscription = function()
     {
         if(confirm('Please Confirm!'))
-        {            
-            let formData = new FormData();
-            formData.set("txt_companyId", $('#txt_companyId').val());
-            formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
-            formData.set('slc_employeeListStatus', $('#slc_employeeListStatus').val());
-            formData.set('txt_remarks', $('#txt_remarks').val());
+        {          
+            if($('#txt_companyCreditLimit').val() == "")
+            {
+                alert('Credit limit is requried!')
+            }  
+            else
+            {
+                let formData = new FormData();
+                formData.set("txt_companyId", $('#txt_companyId').val());
+                formData.set("txt_subscriptionId", $('#txt_subscriptionId').val());
+                formData.set("txt_companyCreditLimit", $('#txt_companyCreditLimit').val());
+                formData.set('slc_employeeListStatus', $('#slc_employeeListStatus').val());
+                formData.set('txt_remarks', $('#txt_remarks').val());
 
-            $('#btn_requestResubmission').prop('disabled',true);
-           
-            AJAXHELPER.postData({
-                // ProductSubscriptionController::a_acceptCompanySubscription()
-                'route' : 'portal/admin/a-accept-company-subscription',
-                'data'  : formData
-            }, function(data){
-                let currentIndex = parseInt(data.length);
-                let progress = 100 / parseInt(data.length);
-                let progressRem = 100 % parseInt(data.length);
-                let totalProgress = 0;
-                let count = 0;
-                let importCount = 0;
-                $('#modal_employeeEmailVerification').modal('show');
-                ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
-            }, function(data){ 
-                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-                $('#btn_requestResubmission').prop('disabled',false);
-            }); 
+                $('#btn_requestResubmission').prop('disabled',true);
+                
+                AJAXHELPER.postData({
+                    // ProductSubscriptionController::a_acceptCompanySubscription()
+                    'route' : 'portal/admin/a-accept-company-subscription',
+                    'data'  : formData
+                }, function(data){
+                    let currentIndex = parseInt(data.length);
+                    let progress = 100 / parseInt(data.length);
+                    let progressRem = 100 % parseInt(data.length);
+                    let totalProgress = 0;
+                    let count = 0;
+                    let importCount = 0;
+                    $('#modal_employeeEmailVerification').modal('show');
+                    ADMIN_SALARY_ADVANCE_APPLICATIONS.a_sendEmployeeEmailVerification(currentIndex, progress, progressRem, totalProgress, count, importCount, data);
+                }, function(data){ 
+                    COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+                    $('#btn_requestResubmission').prop('disabled',false);
+                }); 
+            }
        }
     }
 

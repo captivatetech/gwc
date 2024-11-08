@@ -770,7 +770,7 @@ class CompanyController extends BaseController
 
     public function a_loadPartnersList()
     {
-        $fields = $this->request->getGet();
+        // $fields = $this->request->getGet();
         $arrData = $this->companies->a_loadPartnersList();
         $newArrData = [];
 
@@ -784,7 +784,27 @@ class CompanyController extends BaseController
     }
 
 
+    public function a_loadCompanies()
+    {
+        // $fields = $this->request->getGet();
+        $arrData = $this->companies->a_loadPartnersList();
+        $newArrData = [];
 
+        foreach ($arrData as $key => $value) 
+        {
+            $value['company_website'] = prep_url($value['company_website']);
+            $newArrData[] = $value;
+        }
+
+        return $this->response->setJSON($newArrData);
+    }
+
+    public function a_selectCompany()
+    {
+        $fields = $this->request->getGet();
+        $arrData = $this->companies->a_selectCompany($fields['company_id']);
+        return $this->response->setJSON($arrData);
+    }
 
 
 

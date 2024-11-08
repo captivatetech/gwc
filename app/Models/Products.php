@@ -137,6 +137,7 @@ class Products extends Model
             'c.business_type',
             'd.first_name',
             'd.last_name',
+            'a.company_credit_limit',
             'a.subscription_status',
             'a.access_status',
             'a.remarks',

@@ -29,12 +29,40 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
         });
     }
 
+    thisAdminSalaryAdvanceAccounts.a_loadCompanies = function()
+    {
+        AJAXHELPER.getData({
+            // CompanyController->a_loadCompanies
+            'route' : 'portal/admin/a-load-companies',
+            'data'  : null
+        }, function(data){
+            let options = `<option value="">--Choose Company--</option>`;
+            data.forEach(function(value, index){
+                options += `<option value="${value['id']}">${value['company_name']}</option>`;
+            });
+            $('#slc_company').html(options);
+        });
+    }
+
+    thisAdminSalaryAdvanceAccounts.a_selectCompany = function(dis)
+    {
+        AJAXHELPER.getData({
+            // CompanyController->a_selectCompany
+            'route' : 'portal/admin/a-select-company',
+            'data'  : {company_id : $(dis).val()}
+        }, function(data){
+            $('#lbl_creditLimit').text(`Php. ${COMMONHELPER.numberWithCommas(data['company_credit_limit'])}`);
+            $('#lbl_companyName').text(data['company_name']);
+            $('#lbl_companyCreditLimit').text(COMMONHELPER.numberWithCommas(data['company_credit_limit']));
+        });
+    }
+
     thisAdminSalaryAdvanceAccounts.a_loadDisbursementLists = function()
     {
         AJAXHELPER.getData({
             // LoanController->a_loadDisbursementLists
             'route' : 'portal/admin/a-load-disbursement-lists',
-            'data'  : null
+            'data'  : {company_id : $('#slc_company').val()}
         }, function(data){
             let tbody = '';
             data.forEach(function(value,index){
@@ -58,18 +86,12 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
                     { "bSearchable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7] }
                 ]
             });
-
-            let filter = `<div class="row">
-                            <div class="col-sm-6" style="padding-top: 6px;">
-                                <span>Company Name</span> 
-                            </div>
-                            <div class="col-sm-6">
-                                <select class="form-control form-select form-control-sm"></select>
-                            </div>
-                        </div>`;
-
-            $('#tbl_disbursementList_filter').html(`${filter}`);
         });
+    }
+
+    thisAdminSalaryAdvanceAccounts.a_selectCompanyFilter = function()
+    {
+
     }
 
     thisAdminSalaryAdvanceAccounts.a_unselectDisbursement = function()

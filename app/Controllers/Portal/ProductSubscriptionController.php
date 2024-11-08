@@ -122,6 +122,7 @@ class ProductSubscriptionController extends BaseController
         $fields = $this->request->getPost();
 
         $arrData = [
+            'company_credit_limit'  => $fields['txt_companyCreditLimit'],
             'subscription_status'   => $fields['slc_employeeListStatus'], // Approve | Pending | Resubmit | Onhold
             'access_status'         => "CLOSE",
             'remarks'               => $fields['txt_remarks'],

@@ -49,7 +49,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <input type="text" style="pointer-events: none;" class="js-range-slider" name="my_range" value="" />
+                                        <input type="text" id="rng_creditLimitViewing">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="hidden" id="txt_employeeId" value="{{ $employeeId }}">
@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div style="float:right;">
-                                            <button type="button" class="btn gwc-button">VIEW DETAILS</button>
+                                            <button type="button" class="btn gwc-button" id="btn_viewDetails">VIEW DETAILS</button>
                                         </div>
                                     </div>
                                 </div>
@@ -590,7 +590,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
                                 <center>
-                                    <input type="number" class="form-control form-control-sm" id="txt_loanAmount" name="txt_loanAmount" step=".01" required>
+                                    <input type="number" class="form-control form-control-sm" id="txt_loanAmount" name="txt_loanAmount" step=".01" style="text-align:center;" required readonly>
                                     <label>Loan Amount</label>
                                 </center>
                             </div>
@@ -603,32 +603,32 @@
                         <table style="width: 100%;">
                             <tr>
                                 <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="1 Month">
-                                    <span>1 Month</span>
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms1" value="1 Month">
+                                    <label for="rdb_paymentTerms1">1 Month</label>
                                 </td>
                                 <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="4 Months">
-                                    <span>4 Months</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="2 Months">
-                                    <span>2 Months</span>
-                                </td>
-                                <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="5 Months">
-                                    <span>5 Months</span>
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms4" value="4 Months">
+                                    <label for="rdb_paymentTerms4">4 Months</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="3 Months">
-                                    <span>3 Months</span>
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms2" value="2 Months">
+                                    <label for="rdb_paymentTerms2">2 Months</label>
                                 </td>
                                 <td width="50%">
-                                    <input type="radio" name="rdb_paymentTerms" value="6 Months" checked>
-                                    <span>6 Months</span>
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms5" value="5 Months">
+                                    <label for="rdb_paymentTerms5">5 Months</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms3" value="3 Months">
+                                    <label for="rdb_paymentTerms3">3 Months</label>
+                                </td>
+                                <td width="50%">
+                                    <input type="radio" name="rdb_paymentTerms" id="rdb_paymentTerms6" value="6 Months" checked>
+                                    <label for="rdb_paymentTerms6">6 Months</label>
                                 </td>
                             </tr>
                         </table>
@@ -743,6 +743,330 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal_viewDashboardDetails" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title"> 
+                        <i class="feather-plus me-2"></i> View Detials
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><small>ACCOUNT NAME</small></td>
+                                        <td width="50%;">
+                                            <small>
+                                                <span id="lbl_accountName"></span>
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>ACCOUNT NUMBER</small></td>
+                                        <td>
+                                            <small>
+                                                <span id="lbl_accountNumber" style="font-weight: bold;"></span>
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>INTEREST RATE</small></td>
+                                        <td>
+                                            <small>
+                                                <span id="lbl_interestRate" style="font-weight: bold;"></span>
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br>
+                                            <center><b><small>PROMISORY NOTE VALUE</small></b></center>
+                                            <br>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td width="40%;"></td>
+                                        <td width="40%;"><small>CI & APP FEE</small></td>
+                                        <td width="20%;"><center><b><small>WAIVED</small></b></center></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">
+                                            <small>MA START DATE</small>
+                                            <br>
+                                            <small>
+                                                <span id="lbl_maStartDate" style="font-weight: bold;"></span>
+                                            </small>
+                                        </td>
+                                        <td><small>DST</small></td>
+                                        <td><small></small></td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>INSURANCE</small></td>
+                                        <td><small></small></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">
+                                            <small>MA END DATE</small>
+                                            <br>
+                                            <small>
+                                                <span id="lbl_maEndDate" style="font-weight: bold;"></span>
+                                            </small>
+                                        </td>
+                                        <td><small>NOTARIAL FEES</small></td>
+                                        <td><small></small></td>
+                                    </tr>
+                                    <tr>
+                                        <td><small>OTHER ADMIN FEES</small></td>
+                                        <td><small></small></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="35%"><center><small>PAYMENT DATE</small></center></th>
+                                        <th width="35%"><center><small>AMOUNT TO PAY</small></center></th>
+                                        <th width="30%"><center><small>BALANCE</small></center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="35%"><center><small>MONTH</small></center></th>
+                                        <th width="35%"><center><small>MONTHLY AMORTIZATION</small></center></th>
+                                        <th width="30%"><center><small>BALANCE</small></center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -783,7 +1107,7 @@
   $(document).ready(function(){
     //jQuery Events
     
-    // EMPLOYEE_DASHBOARD.loadSample();
+    EMPLOYEE_DASHBOARD.e_loadCreditLimit();
 
     $('#btn_openLoanReadinessAssessmentModal').on('click',function(){
         EMPLOYEE_DASHBOARD.e_loadPreferedLangauge();
@@ -1125,15 +1449,6 @@
         EMPLOYEE_DASHBOARD.e_submitLoanReadinessAssessment();
     });
 
-    $('#rng_creditLimit').on('change',function(){
-        $('#txt_loanAmount').val($(this).val());
-    });
-
-    $('#txt_loanAmount').on('change',function(){
-        $('#rng_creditLimit').val($(this).val());
-        EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
-    });
-
     $('input[name=rdb_paymentTerms]').on('change',function(){
         EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
     });
@@ -1150,14 +1465,8 @@
         }
     });
 
-    $(".js-range-slider").ionRangeSlider({
-      type: "single",
-      min: 0,
-      max: 1000,
-      from: 200,
-      to: 500,
-      grid: true,
-      disabled: true
+    $('#btn_viewDetails').on('click',function(){
+        EMPLOYEE_DASHBOARD.e_viewDashboardDetails();
     });
     
   });
