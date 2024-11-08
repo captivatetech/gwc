@@ -26,6 +26,11 @@ class CreateProductSubscriptionsTable extends Migration
                 'constraint'        => 11,
                 'null'              => true,
             ],
+            'company_credit_limit'  => [
+                'type'              => 'DECIMAL',
+                'constraint'        => [20,2],
+                'null'              => true,
+            ],
             'subscription_status'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,
