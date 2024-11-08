@@ -405,6 +405,12 @@ class LoanController extends BaseController
         }        
     }
 
+    public function e_loadDashboardDetails()
+    {
+        $arrData = $this->loans->e_loadDashboardDetails($this->session->get('gwc_employee_id'));
+        return $this->response->setJSON($arrData);
+    }
+
     public function r_loadSalaryAdvanceApplications()
     {
         $userData = $this->employees->selectEmployee($this->session->get('gwc_representative_id'));
@@ -595,7 +601,7 @@ class LoanController extends BaseController
     public function a_loadDisbursementLists()
     {
         $fields = $this->request->getGet();
-        $arrResult = $this->loans->a_loadDisbursementLists();
+        $arrResult = $this->loans->a_loadDisbursementLists($fields['company_id']);
         return $this->response->setJSON($arrResult);
     }
 

@@ -279,6 +279,12 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
+                                            <td width="30%">Company Credit Limit</td>
+                                            <td>
+                                                <input type="number" id="txt_companyCreditLimit" class="form-control" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td width="30%">Employee List Status</td>
                                             <td>
                                                 <select class="form-control form-select" id="slc_employeeListStatus" disabled>

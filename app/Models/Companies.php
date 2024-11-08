@@ -576,13 +576,41 @@ class Companies extends Model
             'a.company_website',
             'a.business_type',
             'a.business_industry',
-            '(SELECT subscription_status FROM product_subscriptions WHERE company_id=a.id) AS subscription_status'
+            '(SELECT company_credit_limit FROM product_subscriptions WHERE company_id=a.id) AS company_credit_limit',
+            '(SELECT subscription_status FROM product_subscriptions WHERE company_id=a.id) AS subscription_status',
         ];
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
         $query = $builder->get();
         return  $query->getResultArray();
+    }
+
+    ////////////////////////////////////////////////////////////
+    ///// CompanyController->a_loadPartnersList()
+    ////////////////////////////////////////////////////////////
+    public function a_selectCompany($companyId)
+    {
+        $columns = [
+            'a.id',
+            'a.company_code',
+            'a.company_name',
+            'a.company_address',
+            'a.company_email',
+            'a.mobile_number',
+            'a.telephone_number',
+            'a.company_website',
+            'a.business_type',
+            'a.business_industry',
+            '(SELECT company_credit_limit FROM product_subscriptions WHERE company_id=a.id) AS company_credit_limit',
+            '(SELECT subscription_status FROM product_subscriptions WHERE company_id=a.id) AS subscription_status',
+        ];
+
+        $builder = $this->db->table('companies a');
+        $builder->select($columns);
+        $builder->where('id',$companyId);
+        $query = $builder->get();
+        return  $query->getRowArray();
     }
 
 

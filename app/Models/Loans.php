@@ -183,6 +183,14 @@ class Loans extends Model
     }
 
     ////////////////////////////////////////////////////////////
+    ///// LoanController->e_loadDashboardDetails()
+    ////////////////////////////////////////////////////////////
+    public function e_loadDashboardDetails()
+    {
+
+    }
+
+    ////////////////////////////////////////////////////////////
     ///// LoanController->e_loadLoanAccounts()
     ////////////////////////////////////////////////////////////
     public function e_loadLoanAccounts($employeeId)
@@ -335,7 +343,7 @@ class Loans extends Model
     ////////////////////////////////////////////////////////////
     ///// LoanController->a_loadDisbursementLists()
     ////////////////////////////////////////////////////////////
-    public function a_loadDisbursementLists()
+    public function a_loadDisbursementLists($companyId)
     {
         $columns = [
             'a.id',
@@ -355,6 +363,7 @@ class Loans extends Model
         $builder->join('employees b','a.employee_id = b.id','left');
         $builder->join('companies c','a.company_id = c.id','left');
         $builder->select($columns);
+        $builder->where('a.company_id', $companyId);
         $builder->where('a.application_status', 'Approved');
         $builder->where('a.disbursement_status', 'Pending');
         $builder->orderBy('a.id','DESC');

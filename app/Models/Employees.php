@@ -891,8 +891,24 @@ class Employees extends Model
 
 
 
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->e_loadCredetLimit()
+    ////////////////////////////////////////////////////////////
+    public function e_loadCredetLimit($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.minimum_credit_amount',
+            'a.maximum_credit_amount',
+            '(SELECT SUM(loan_amount) FROM loans WHERE employee_id = a.id) as total_loan'
+        ];
 
-
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->e_selectEmployeeInformation()

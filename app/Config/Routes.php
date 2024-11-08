@@ -153,12 +153,15 @@ $routes->get('portal/employee/load-employee-profile', 'Portal\EmployeeController
 $routes->post('portal/employee/edit-employee-profile', 'Portal\EmployeeController::editEmployeeProfile');
     
     // EMPLOYEE DASHBOARD FUNCTIONS 
+$routes->get('portal/employee/e-load-credit-limit', 'Portal\EmployeeController::e_loadCredetLimit');
 $routes->get('portal/employee/e-choose-prefered-language', 'Portal\QuestionaireController::e_choosePreferedLangauge');
 
 $routes->post('portal/employee/e-add-loan-readiness-assessement', 'Portal\EmployeeAssessmentController::e_addLoanReadinessAssessment');
 
 $routes->get('portal/employee/e-select-employee-information', 'Portal\EmployeeController::e_selectEmployeeInformation');
 $routes->post('portal/employee/e-submit-salary-advance-application', 'Portal\LoanController::e_submitSalaryAdvanceApplication');
+
+$routes->get('portal/employee/e-loadDashboardDetails', 'Portal\LoanController::e_loadDashboardDetails');
 
     // EMPLOYEE LOAN ACCOUNTS
 $routes->get('portal/employee/e-load-loan-accounts', 'Portal\LoanController::e_loadLoanAccounts');
@@ -320,6 +323,8 @@ $routes->post('portal/admin/a-edit-product-subscription-status', 'Portal\Product
 
     // ADMIN FINANCING ACCOUNTS FUNCTIONS
 $routes->get('portal/admin/a-load-salary-advance-accounts', 'Portal\LoanController::a_loadSalaryAdvanceAccounts');
+$routes->get('portal/admin/a-load-companies', 'Portal\CompanyController::a_loadCompanies');
+$routes->get('portal/admin/a-select-company', 'Portal\CompanyController::a_selectCompany');
 $routes->get('portal/admin/a-load-disbursement-lists', 'Portal\LoanController::a_loadDisbursementLists');
 $routes->post('portal/admin/a-proceed-disbursement', 'Portal\LoanController::a_proceedDisbursement');
 $routes->get('portal/admin/a-load-account-balance', 'Portal\LoanController::a_loadAccountBalance');
