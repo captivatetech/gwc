@@ -761,7 +761,7 @@
                                         <td><small>ACCOUNT NAME</small></td>
                                         <td width="50%;">
                                             <small>
-                                                <span id="lbl_accountName"></span>
+                                                <span id="lbl_accountName" style="font-weight: bold; text-transform: uppercase;"></span>
                                             </small>
                                         </td>
                                     </tr>
@@ -836,7 +836,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="tbl_paymentCutOffs">
                                 <thead>
                                     <tr>
                                         <th width="35%"><center><small>PAYMENT DATE</small></center></th>
@@ -949,7 +949,7 @@
                             </table>
                         </div>
                         <div class="col-lg-6">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="tbl_paymentMonthlyDues">
                                 <thead>
                                     <tr>
                                         <th width="35%"><center><small>MONTH</small></center></th>
@@ -1092,9 +1092,6 @@
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/pdfmake/build/pdfmake.min.js"></script>
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/pdfmake/build/vfs_fonts.js"></script>
 <!-- third party js ends -->
-
-<!-- Datatables init -->
-<script src="<?php echo base_url();?>public/assets/Adminto/js/pages/datatables.init.js"></script>
 
 <!-- Common Helpers Scripts -->
 <script type="text/javascript" src="<?php echo base_url();?>public/assets/js/helper/common_helper.js"></script>

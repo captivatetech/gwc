@@ -218,6 +218,7 @@ class Employees extends Model
             'a.middle_name',
             'a.last_name',
             'a.email_address',
+            'a.permanent_address',
             'a.position',
             'a.user_type',
             'a.profile_picture'
@@ -1010,7 +1011,8 @@ class Employees extends Model
             'a.id',
             'a.first_name',
             'a.last_name',
-            'a.email_address'
+            'a.email_address',
+            'a.permanent_address'
         ];
 
         $builder = $this->db->table('employees a');

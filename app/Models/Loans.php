@@ -154,6 +154,7 @@ class Loans extends Model
 
     ////////////////////////////////////////////////////////////
     ///// NavigationController->e_dashboard()
+    ///// LoanController->e_submitSalaryAdvanceApplication()
     ////////////////////////////////////////////////////////////
     public function e_selectLoanAccount($employeeId)
     {
@@ -185,9 +186,35 @@ class Loans extends Model
     ////////////////////////////////////////////////////////////
     ///// LoanController->e_loadDashboardDetails()
     ////////////////////////////////////////////////////////////
-    public function e_loadDashboardDetails()
+    public function e_loadDashboardDetails($employeeId)
     {
+        $columns = [
+            'a.id',
+            '(SELECT first_name FROM employees WHERE id = a.employee_id) as first_name',
+            '(SELECT last_name FROM employees WHERE id = a.employee_id) as last_name',
+            'a.application_number',
+            'a.application_status',
+            'a.account_number',
+            'a.loan_amount',
+            'a.interest_rate',
+            'a.total_interest',
+            'a.payment_terms',
+            'a.monthly_dues',
+            'a.deduction_per_cutoff',
+            'a.purpose_of_loan',
+            'a.first_billing_date',
+            'a.second_billing_date',
+            'a.first_due_date',
+            'a.second_due_date',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date'
+        ];
 
+        $builder = $this->db->table('loans a');
+        $builder->select($columns);
+        $builder->where('a.employee_id', $employeeId);
+        $builder->orderBy('a.id','DESC');
+        $query = $builder->get();
+        return  $query->getRowArray();
     }
 
     ////////////////////////////////////////////////////////////
