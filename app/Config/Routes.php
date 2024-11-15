@@ -161,7 +161,7 @@ $routes->post('portal/employee/e-add-loan-readiness-assessement', 'Portal\Employ
 $routes->get('portal/employee/e-select-employee-information', 'Portal\EmployeeController::e_selectEmployeeInformation');
 $routes->post('portal/employee/e-submit-salary-advance-application', 'Portal\LoanController::e_submitSalaryAdvanceApplication');
 
-$routes->get('portal/employee/e-loadDashboardDetails', 'Portal\LoanController::e_loadDashboardDetails');
+$routes->get('portal/employee/e-load-dashboard-details', 'Portal\LoanController::e_loadDashboardDetails');
 
     // EMPLOYEE LOAN ACCOUNTS
 $routes->get('portal/employee/e-load-loan-accounts', 'Portal\LoanController::e_loadLoanAccounts');

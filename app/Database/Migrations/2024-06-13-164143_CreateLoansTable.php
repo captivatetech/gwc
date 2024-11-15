@@ -56,6 +56,11 @@ class CreateLoansTable extends Migration
                 'constraint'        => [20,2],
                 'null'              => true,
             ],
+            'interest_rate'             => [
+                'type'              => 'DECIMAL',
+                'constraint'        => [20,2],
+                'null'              => true,
+            ],
             'total_interest'            => [
                 'type'              => 'DECIMAL',
                 'constraint'        => [20,2],
@@ -109,6 +114,22 @@ class CreateLoansTable extends Migration
             'billing_date_2'            => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 50,
+                'null'              => true,
+            ],
+            'first_billing_date'        => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
+            'second_billing_date'       => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
+            'first_due_date'            => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
+            'second_due_date'           => [
+                'type'              => 'DATE',
                 'null'              => true,
             ],
             'loan_status'               => [

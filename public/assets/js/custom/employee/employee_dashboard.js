@@ -261,6 +261,41 @@ const EMPLOYEE_DASHBOARD = (function(){
     thisEmployeeDashboard.e_viewDashboardDetails = function()
     {
         $('#modal_viewDashboardDetails').modal('show');
+        AJAXHELPER.getData({
+            // LoanController->e_loadDashboardDetails();
+            'route' : 'portal/employee/e-load-dashboard-details',
+            'data'  : null
+        }, function(data){
+            $('#lbl_accountName').text(`${data['loanDetails']['first_name']} ${data['loanDetails']['last_name']}`);
+            $('#lbl_accountNumber').text(data['loanDetails']['account_number']);
+            $('#lbl_interestRate').text(`${data['loanDetails']['interest_rate']} %`);
+            $('#lbl_maStartDate').text(data['loanDetails']['maStartDate']);
+            $('#lbl_maEndDate').text(data['loanDetails']['maEndDate']);
+
+            let tbody1 = '';
+            let balance1 = parseFloat(data['loanDetails']['loan_amount']) + parseFloat(data['loanDetails']['total_interest']);
+            data['loanPaymentDates'].forEach(function(value, index){
+                balance1 -= parseFloat(data['loanDetails']['deduction_per_cutoff']);
+                tbody1 += `<tr>
+                                <td><center>${value}<center></td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(data['loanDetails']['deduction_per_cutoff'])}</td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance1)}</td>
+                            </tr>`;
+            });
+            $('#tbl_paymentCutOffs tbody').html(tbody1);
+
+            let tbody2 = '';
+            let balance2 = parseFloat(data['loanDetails']['loan_amount']) + parseFloat(data['loanDetails']['total_interest']);
+            data['loanPaymentMonths'].forEach(function(value, index){
+                balance2 -= parseFloat(data['loanDetails']['monthly_dues']);
+                tbody2 += `<tr>
+                                <td><center>${value}<center></td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(data['loanDetails']['monthly_dues'])}</td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance2)}</td>
+                            </tr>`;
+            });
+            $('#tbl_paymentMonthlyDues tbody').html(tbody2);
+        });
     }
 
     return thisEmployeeDashboard;
