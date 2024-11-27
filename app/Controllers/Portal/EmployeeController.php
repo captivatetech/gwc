@@ -722,6 +722,34 @@ class EmployeeController extends BaseController
         {
             unset($value['id']);
             unset($value['row_number']);
+
+            $value['date_hired'] = NULL;
+            if(isset($value['date_hired']))
+            {
+                $date1 = $value['date_hired'];
+                $date2 = date('Y-m-d');
+
+                $year1 = date('Y', strtotime($date1));
+                $year2 = date('Y', strtotime($date2));
+
+                $month1 = date('m', strtotime($date1));
+                $month2 = date('m', strtotime($date2));
+
+                $value['years_stayed'] = (($year2 - $year1) * 12) + ($month2 - $month1);
+            }
+            if(isset($value['net_salary']))
+            {
+                $minLimit = 0;
+                $maxLimit = 0;
+
+                $netSalary = $value['net_salary'];
+
+                $minLimit = $netSalary * 0.25;
+                $maxLimit = $netSalary * 0.35;
+
+                $value['minimum_credit_amount'] = $minLimit;
+                $value['maximum_credit_amount'] = $maxLimit;
+            }
             $value['created_by'] = $this->session->get('gwc_representative_id');
             $value['created_date'] = date('Y-m-d H:i:s');
             $value['company_id'] = $fields['txt_companyId'];
@@ -878,16 +906,7 @@ class EmployeeController extends BaseController
         {
             $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
 
-            $emailConfig = [
-                'smtp_host'    => 'smtppro.zoho.com',
-                'smtp_port'    => 587,
-                'smtp_crypto'  => 'tls',
-                'smtp_user'    => 'loans@goldwatercap.net',
-                'smtp_pass'    => 'sFkhLq2Ka9wm',
-                'mail_type'    => 'html',
-                'charset'      => 'iso-8859-1',
-                'word_wrap'    => true
-            ];
+            $emailConfig = sliceMailConfig();
 
             $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $arrDetails['email_address'];

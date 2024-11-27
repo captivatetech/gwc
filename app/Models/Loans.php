@@ -212,6 +212,7 @@ class Loans extends Model
         $builder = $this->db->table('loans a');
         $builder->select($columns);
         $builder->where('a.employee_id', $employeeId);
+        $builder->where('a.loan_status', 'ACTIVE');
         $builder->orderBy('a.id','DESC');
         $query = $builder->get();
         return  $query->getRowArray();
