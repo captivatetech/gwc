@@ -573,6 +573,33 @@ function sample()
 	return $CIEmail->send(false);
 }
 
+function sliceMailConfig()
+{
+	// $emailConfig = [
+	//     'smtp_host'    => 'smtppro.zoho.com',
+	//     'smtp_port'    => 587,
+	//     'smtp_crypto'  => 'tls',
+	//     'smtp_user'    => 'loans@goldwatercap.net',
+	//     'smtp_pass'    => 'sFkhLq2Ka9wm',
+	//     'mail_type'    => 'html',
+	//     'charset'      => 'iso-8859-1',
+	//     'word_wrap'    => true
+	// ];
+
+	$emailConfig = [
+	    'smtp_host'    => 'smtp.zoho.com',
+	    'smtp_port'    => 587,
+	    'smtp_crypto'  => 'tls',
+	    'smtp_user'    => 'loans@goldwatercap.net',
+	    'smtp_pass'    => 'sFkhLq2Ka9wm',
+	    'mail_type'    => 'html',
+	    'charset'      => 'iso-8859-1',
+	    'word_wrap'    => true
+	];
+
+	return $emailConfig;
+}
+
 function sendSliceMail($type,$config,$senderEmail,$receiverEmail,&$data)
 {
 	$config = [

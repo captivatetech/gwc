@@ -279,7 +279,7 @@ const EMPLOYEE_DASHBOARD = (function(){
                 tbody1 += `<tr>
                                 <td><center>${value}<center></td>
                                 <td style="text-align: right;">${COMMONHELPER.numberWithCommas(data['loanDetails']['deduction_per_cutoff'])}</td>
-                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance1)}</td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance1.toFixed(2))}</td>
                             </tr>`;
             });
             $('#tbl_paymentCutOffs tbody').html(tbody1);
@@ -291,7 +291,7 @@ const EMPLOYEE_DASHBOARD = (function(){
                 tbody2 += `<tr>
                                 <td><center>${value}<center></td>
                                 <td style="text-align: right;">${COMMONHELPER.numberWithCommas(data['loanDetails']['monthly_dues'])}</td>
-                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance2)}</td>
+                                <td style="text-align: right;">${COMMONHELPER.numberWithCommas(balance2.toFixed(2))}</td>
                             </tr>`;
             });
             $('#tbl_paymentMonthlyDues tbody').html(tbody2);

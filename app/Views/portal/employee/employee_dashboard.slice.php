@@ -92,7 +92,11 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div style="float:right;">
+                                            @if($loanStatus == 'ACTIVE')
                                             <button type="button" class="btn gwc-button" id="btn_viewDetails">VIEW DETAILS</button>
+                                            @else
+                                            <button type="button" class="btn gwc-button" disabled>VIEW DETAILS</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

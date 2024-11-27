@@ -470,3 +470,6 @@ Parang dapat assignan ko ng weight per persona in the future
    GENERATED CODE (Templates Only): 1000.8c12d96555b82c8362c05fe6e204276f.3f91870cfcedceaec914407e79e4dcfc
    GENERATED CODE (Documents & Templates): 1000.8d5f6a3c13c8f17f2bb762179e99dcf0.e36448bf384bd52c73ce032638268bd4
    REFRESH TOKEN : 1000.1cf0cbcf1fb1b133f3c3942e1c0972db.0e98705934f83d4afd01bbe592ca83a9
+
+
+   channel_code,channel_type,bank_name,instant_processing,cutoff_processing,channel_status,created_by,created_date

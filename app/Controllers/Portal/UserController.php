@@ -87,16 +87,7 @@ class UserController extends BaseController
                 $result = $this->users->addUser($arrData);
                 if($result > 0)
                 {
-                    $emailConfig = [
-                        'smtp_host'    => 'smtp.googlemail.com',
-                        'smtp_port'    => 465,
-                        'smtp_crypto'  => 'ssl',
-                        'smtp_user'    => 'ajhay.dev@gmail.com',
-                        'smtp_pass'    => 'uajtlnchouyuxaqp',
-                        'mail_type'    => 'html',
-                        'charset'      => 'iso-8859-1',
-                        'word_wrap'    => true
-                    ];
+                    $emailConfig = sliceMailConfig();
 
                     $emailSender    = 'ajhay.dev@gmail.com';
                     $emailReceiver  = $arrData['email_address'];

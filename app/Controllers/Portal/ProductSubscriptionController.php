@@ -82,16 +82,7 @@ class ProductSubscriptionController extends BaseController
             // Select Company Representative email
             $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
-            $emailConfig = [
-                'smtp_host'    => 'smtppro.zoho.com',
-                'smtp_port'    => 587,
-                'smtp_crypto'  => 'tls',
-                'smtp_user'    => 'loans@goldwatercap.net',
-                'smtp_pass'    => 'sFkhLq2Ka9wm',
-                'mail_type'    => 'html',
-                'charset'      => 'iso-8859-1',
-                'word_wrap'    => true
-            ];
+            $emailConfig = sliceMailConfig();
 
             $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];
@@ -135,16 +126,7 @@ class ProductSubscriptionController extends BaseController
         {
             $repDetails = $this->employees->a_selectCompanyRepresentative($fields['txt_subscriptionId']);
 
-            $emailConfig = [
-                'smtp_host'    => 'smtppro.zoho.com',
-                'smtp_port'    => 587,
-                'smtp_crypto'  => 'tls',
-                'smtp_user'    => 'loans@goldwatercap.net',
-                'smtp_pass'    => 'sFkhLq2Ka9wm',
-                'mail_type'    => 'html',
-                'charset'      => 'iso-8859-1',
-                'word_wrap'    => true
-            ];
+            $emailConfig = sliceMailConfig();
 
             $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];

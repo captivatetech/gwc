@@ -430,16 +430,8 @@ class PaymentController extends BaseController
                     $this->payments->a_updateBilling($arrData, $fields['txt_billingId']);
 
                     $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
-                    $emailConfig = [
-                        'smtp_host'    => 'smtppro.zoho.com',
-                        'smtp_port'    => 587,
-                        'smtp_crypto'  => 'tls',
-                        'smtp_user'    => 'loans@goldwatercap.net',
-                        'smtp_pass'    => 'sFkhLq2Ka9wm',
-                        'mail_type'    => 'html',
-                        'charset'      => 'iso-8859-1',
-                        'word_wrap'    => true
-                    ];
+                    
+                    $emailConfig = sliceMailConfig();
 
                     $emailSender    = 'loans@goldwatercap.net';
                     $emailReceiver  = $arrRepresentative['email_address'];
@@ -488,16 +480,7 @@ class PaymentController extends BaseController
 
                     $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
 
-                    $emailConfig = [
-                        'smtp_host'    => 'smtppro.zoho.com',
-                        'smtp_port'    => 587,
-                        'smtp_crypto'  => 'tls',
-                        'smtp_user'    => 'loans@goldwatercap.net',
-                        'smtp_pass'    => 'sFkhLq2Ka9wm',
-                        'mail_type'    => 'html',
-                        'charset'      => 'iso-8859-1',
-                        'word_wrap'    => true
-                    ];
+                    $emailConfig = sliceMailConfig();
 
                     $emailSender    = 'loans@goldwatercap.net';
                     $emailReceiver  = $arrRepresentative['email_address'];
@@ -550,16 +533,7 @@ class PaymentController extends BaseController
 
         if($result > 0)
         {
-            $emailConfig = [
-                'smtp_host'    => 'smtppro.zoho.com',
-                'smtp_port'    => 587,
-                'smtp_crypto'  => 'tls',
-                'smtp_user'    => 'loans@goldwatercap.net',
-                'smtp_pass'    => 'sFkhLq2Ka9wm',
-                'mail_type'    => 'html',
-                'charset'      => 'iso-8859-1',
-                'word_wrap'    => true
-            ];
+            $emailConfig = sliceMailConfig();
 
             $emailSender    = 'loans@goldwatercap.net';
             $emailReceiver  = $fields['email_address'];
