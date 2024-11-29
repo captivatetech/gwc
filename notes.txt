@@ -473,3 +473,41 @@ Parang dapat assignan ko ng weight per persona in the future
 
 
    channel_code,channel_type,bank_name,instant_processing,cutoff_processing,channel_status,created_by,created_date
+
+
+   txt_borrowerAddress
+   : 
+   "Daraga, Albay"
+   txt_borrowerName
+   : 
+   "Nolielyn Hermo"
+   txt_dateFrom
+   : 
+   "6"
+   txt_interestPerMonth
+   : 
+   "3.75"
+   txt_loanGranted
+   : 
+   "6000.00"
+   txt_monthlyAmortization
+   : 
+   1225
+   txt_netProceeds
+   : 
+   5302
+   txt_nonFinanceCharges
+   : 
+   78
+   txt_notarialFee
+   : 
+   500
+   txt_serviceCharge
+   : 
+   120
+   txt_totalDeductions
+   : 
+   698
+   txt_totalNonFinanceCharges
+   : 
+   578
