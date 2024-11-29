@@ -322,6 +322,7 @@ class LoanController extends BaseController
         $newData['loanPaymentDates'][] = $dueDate2;
 
         $newData['loanPaymentMonths'][] = $dueMonth;
+        $maEndDate = null;
         for($i=0; $i < (int)$arrData['payment_terms'] - 1; $i++)
         {
             if($month1 < 12)
@@ -353,11 +354,12 @@ class LoanController extends BaseController
             $dueDate2 = date('Y-m-d', strtotime($dd2));
             $dueMonth = date("F $year2", strtotime($dueDate2));
             $newData['loanPaymentDates'][] = $dueDate2;
+            $maEndDate = $dueDate2;
 
             $newData['loanPaymentMonths'][] = $dueMonth;
         }
 
-        $arrData['maEndDate'] = $secondDueDate;
+        $arrData['maEndDate'] = $maEndDate;
         $newData['loanDetails'] = $arrData;
         return $this->response->setJSON($newData);
     }
@@ -718,6 +720,109 @@ class LoanController extends BaseController
                         //     'authCode'      => ''
                         // ];
                         // sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
+
+                        $maStartDate = $dueDateOne;
+
+                        $month1 = date('m', strtotime(date($dueDateOne)));
+                        $year1 = date('Y', strtotime(date($dueDateOne)));
+                        $firstDueDate = date($dueDateOne);
+
+                        $month2 = date('m', strtotime(date($dueDateTwo)));
+                        $year2 = date('Y', strtotime(date($dueDateTwo)));
+                        $secondDueDate = date($dueDateTwo);
+
+                        $dueDate1 = date('Y-m-d', strtotime($firstDueDate));
+                        $dueDate2 = date('Y-m-d', strtotime($secondDueDate));
+
+                        $maEndDate = null;
+                        for($i=0; $i < (int)$arrResult['payment_terms'] - 1; $i++)
+                        {
+                            if($month1 < 12)
+                            {
+                                $month1++;
+                            }
+                            else
+                            {
+                                $month1 = 1;
+                                $year1  += 1;
+                            }
+                            
+                            $dd1 = date("$year1-$month1-d", strtotime($firstDueDate));
+                            $dueDate1 = date('Y-m-d', strtotime($dd1));
+
+                            if($month2 < 12)
+                            {
+                                $month2++;
+                            }
+                            else
+                            {
+                                $month2 = 1;
+                                $year2  += 1;
+                            }
+
+                            $dd2 = date("$year2-$month2-d", strtotime($secondDueDate));
+                            $dueDate2 = date('Y-m-d', strtotime($dd2));
+
+                            $maEndDate = $dueDate2;
+                        }
+
+                        $user = new OAuth( array(
+                            OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                            OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                            OAuth::DC           => "COM",
+                            OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                        ) );
+
+                        ZohoSign::setCurrentUser( $user );
+                        $user->generateAccessTokenUsingRefreshToken();
+                        $access_token = $user->getAccessToken();
+
+                        $template = ZohoSign::getTemplate( 418013000000123017 );
+
+                        $template->setRequestName("Disclosure Statement");
+                        $template->setNotes("Call us back if you need clarificaions regarding agreement");
+
+                        $employeeName = $arrResult['first_name'] . " " . $arrResult['last_name'];
+                        $template->getActionByRole("Recepient1")->setRecipientName($employeeName);
+                        $template->getActionByRole("Recepient1")->setRecipientEmail($arrResult['email_address']);
+                        $template->setPrefillTextField( "txt_employeeName",  $employeeName );
+
+                        $template->setPrefillTextField( "txt_borrowerName",  $employeeName );
+                        $template->setPrefillTextField( "txt_borrowerAddress",  $arrResult['permanent_address'] );
+                        $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] );
+                        $template->setPrefillTextField( "txt_dateFrom",  $maStartDate );
+                        $template->setPrefillTextField( "txt_dateTo",  $maEndDate );
+                        $template->setPrefillTextField( "txt_interestRate",  $arrResult['interest_rate'] );
+                        $template->setPrefillTextField( "txt_paymentMonths",  $arrResult['payment_terms'] );
+
+                        $monthlyAmortization = 0;
+                        $loanAmount = $arrResult['loan_amount'];
+                        $paymentTerms = $arrResult['payment_terms'];
+
+                        $monthlyAmortization = ($loanAmount / $paymentTerms) + (float)$arrResult['total_interest'];
+                        $template->setPrefillTextField( "txt_monthlyAmortization",  $monthlyAmortization );
+
+                        $template->setPrefillTextField( "txt_loanGranted",  $loanAmount );
+
+                        $serviceCharge = $loanAmount * 0.02;
+                        $template->setPrefillTextField( "txt_serviceCharge",  $serviceCharge );
+
+                        $nonFinanceCharges = ($loanAmount / 1000) * 13;
+                        $template->setPrefillTextField( "txt_nonFinanceCharges",  $nonFinanceCharges );
+
+                        $notarialFee = 500;
+                        $template->setPrefillTextField( "txt_notarialFee",  $notarialFee );
+
+                        $totalNonFinanceCharges = $nonFinanceCharges + $notarialFee;
+                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  $totalNonFinanceCharges );
+
+                        $totalDeductions = $serviceCharge + $totalNonFinanceCharges;
+                        $template->setPrefillTextField( "txt_totalDeductions",  $totalDeductions );
+
+                        $netProceeds = $loanAmount - $totalDeductions;
+                        $template->setPrefillTextField( "txt_netProceeds",  $netProceeds );
+
+                        $resp_obj = ZohoSign::sendTemplate( $template, true );
                     }
 
                     $msgResult[] = "Loan Disbursement Complete";
