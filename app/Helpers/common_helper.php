@@ -814,44 +814,90 @@ function loadAccessModulesFromProfile($arrProfiles)
 
 
 
-
-
-
-function numbersToWords($number) 
+function numbersToWords($number)
 {
-    $words = array(
-        0 => 'zero', 1 => 'one', 2 => 'two',
-        3 => 'three', 4 => 'four', 5 => 'five',
-        6 => 'six', 7 => 'seven', 8 => 'eight',
-        9 => 'nine', 10 => 'ten', 11 => 'eleven',
-        12 => 'twelve', 13 => 'thirteen', 
-        14 => 'fourteen', 15 => 'fifteen',
-        16 => 'sixteen', 17 => 'seventeen', 18 => 'eighteen',
-        19 => 'nineteen', 20 => 'twenty', 30 => 'thirty',
-        40 => 'forty', 50 => 'fifty', 60 => 'sixty',
-        70 => 'seventy', 80 => 'eighty',
-        90 => 'ninety'
-    );
+	$wholeNumber = floor($number);
+	$decimalNumber = number_format(($number - $wholeNumber),2);
+	if($decimalNumber == 0)
+	{
+		return wholeNumberToWords($wholeNumber) . ' Pesos';
+	}
+	else
+	{
+		return wholeNumberToWords($wholeNumber) . ' Pesos and ' . decimalNumberToWords($decimalNumber) . ' Centavos';
+	}
+}
 
-    if ($number < 20) {
-        return $words[$number];
-    }
 
-    if ($number < 100) {
-        return $words[10 * floor($number / 10)] .
-               ' ' . $words[$number % 10];
-    }
+function wholeNumberToWords($number) 
+{
+	$words = array(
+		0 => '', 1 => 'One', 2 => 'Two',
+		3 => 'Three', 4 => 'Four', 5 => 'Five',
+		6 => 'Six', 7 => 'Seven', 8 => 'Eight',
+		9 => 'Nine', 10 => 'Ten', 11 => 'Eleven',
+		12 => 'Twelve', 13 => 'Thirteen', 
+		14 => 'Fourteen', 15 => 'Fifteen',
+		16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
+		19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
+		40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
+		70 => 'Seventy', 80 => 'Eighty',
+		90 => 'Ninety'
+	);
 
-    if ($number < 1000) {
-        return $words[floor($number / 100)] . ' hundred ' 
-               . numbersToWords($number % 100);
-    }
+	$wholeNumber = floor($number);
+	$decimalNumber = number_format(($number - $wholeNumber),2);
 
-    if ($number < 1000000) {
-        return numbersToWords(floor($number / 1000)) .
-               ' thousand ' . numbersToWords($number % 1000);
-    }
+	if ($wholeNumber < 20) 
+	{
+		return $words[$wholeNumber];
+	}
 
-    return numbersToWords(floor($number / 1000000)) .
-           ' million ' . numbersToWords($number % 1000000);
+	if ($wholeNumber < 100) 
+	{
+		return $words[10 * floor($wholeNumber / 10)] . ' ' . $words[$wholeNumber % 10];
+	}
+
+	if ($wholeNumber < 1000) 
+	{
+		return $words[floor($wholeNumber / 100)] . ' Hundred ' . wholeNumberToWords($wholeNumber % 100);
+	}
+
+	if ($wholeNumber < 1000000) 
+	{
+		return wholeNumberToWords(floor($wholeNumber / 1000)) . ' Thousand ' . wholeNumberToWords($wholeNumber % 1000);
+	}
+
+	return wholeNumberToWords(floor($wholeNumber / 1000000)) . ' Million ' . wholeNumberToWords($wholeNumber % 1000000);
+    
+}
+
+function decimalNumberToWords($number)
+{
+	$words = array(
+    	0 => '', 1 => 'One', 2 => 'Two',
+    	3 => 'Three', 4 => 'Four', 5 => 'Five',
+    	6 => 'Six', 7 => 'Seven', 8 => 'Eight',
+    	9 => 'Nine', 10 => 'Ten', 11 => 'Eleven',
+    	12 => 'Twelve', 13 => 'Thirteen', 
+    	14 => 'Fourteen', 15 => 'Fifteen',
+    	16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
+    	19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
+    	40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
+    	70 => 'Seventy', 80 => 'Eighty',
+    	90 => 'Ninety'
+  	);
+
+  	$str = explode(".",$number);
+  	$decimalNumber = (int)$str[1];
+
+  	if ($decimalNumber < 20) 
+  	{
+  		return $words[$decimalNumber];
+  	}
+
+  	if ($decimalNumber < 100) 
+  	{
+  		return $words[10 * floor($decimalNumber / 10)] . ' ' . $words[$decimalNumber % 10];
+  	}
 }

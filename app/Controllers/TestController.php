@@ -35,6 +35,18 @@ class TestController extends BaseController
         echo $year;
     }
 
+    public function testNumberToWords()
+    {
+        $number = 112.21;
+        
+        // $wholeNumber = floor($number);
+        // $decimalNumber = number_format(($number - $wholeNumber),2);
+
+        // $str = explode(".", $decimalNumber);
+        // echo $str[1];
+        echo numbersToWords($number);
+    }
+
     public function testXendit()
     {
         // $privateKey = getenv('xendit_private_key');

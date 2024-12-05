@@ -14,6 +14,7 @@ $routes->get('test-zoho-sign', 'TestController::testZohoSign');
 $routes->get('test-download-document/(:any)', 'TestController::testDownloadDocument/$1');
 $routes->get('test-xendit', 'TestController::testXendit');
 $routes->get('test-json', 'TestController::testJson');
+$routes->get('test-number-to-words', 'TestController::testNumberToWords');
 
 /////////////////////////////////////////////////////////////////////////////
 //////   FRONT END NAVIGATION

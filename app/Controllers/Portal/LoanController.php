@@ -800,27 +800,27 @@ class LoanController extends BaseController
                         $paymentTerms = $arrResult['payment_terms'];
 
                         $monthlyAmortization = ($loanAmount / $paymentTerms) + (float)$arrResult['total_interest'];
-                        $template->setPrefillTextField( "txt_monthlyAmortization",  $monthlyAmortization );
+                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,",",".") );
 
-                        $template->setPrefillTextField( "txt_loanGranted",  $loanAmount );
+                        $template->setPrefillTextField( "txt_loanGranted",  number_format($loanAmount,2,",",".") );
 
                         $serviceCharge = $loanAmount * 0.02;
-                        $template->setPrefillTextField( "txt_serviceCharge",  $serviceCharge );
+                        $template->setPrefillTextField( "txt_serviceCharge",  number_format($serviceCharge,2,",",".") );
 
                         $nonFinanceCharges = ($loanAmount / 1000) * 13;
-                        $template->setPrefillTextField( "txt_nonFinanceCharges",  $nonFinanceCharges );
+                        $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,",",".") );
 
                         $notarialFee = 500;
-                        $template->setPrefillTextField( "txt_notarialFee",  $notarialFee );
+                        $template->setPrefillTextField( "txt_notarialFee",  number_format($notarialFee,2,",",".") );
 
                         $totalNonFinanceCharges = $nonFinanceCharges + $notarialFee;
-                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  $totalNonFinanceCharges );
+                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges,2,",",".") );
 
                         $totalDeductions = $serviceCharge + $totalNonFinanceCharges;
-                        $template->setPrefillTextField( "txt_totalDeductions",  $totalDeductions );
+                        $template->setPrefillTextField( "txt_totalDeductions",  number_format($totalDeductions,2,",",".") );
 
                         $netProceeds = $loanAmount - $totalDeductions;
-                        $template->setPrefillTextField( "txt_netProceeds",  $netProceeds );
+                        $template->setPrefillTextField( "txt_netProceeds",  number_format($netProceeds,2,",",".") );
 
                         $resp_obj = ZohoSign::sendTemplate( $template, true );
                     }

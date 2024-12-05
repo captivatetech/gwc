@@ -109,12 +109,13 @@ const USERS = (function(){
             let tbody = "";
             data.forEach(function(value, key){
                 let status = (value['user_status'] == 1)? 'success' : 'warning';
+                let mobileNumber = (COMMONHELPER.validateFields(value['mobile_number'], "") == "")? "-" : `<a href="tel:">${value['mobile_number']}</a>`;
                 tbody += `<tr class="single-item">
                             <td>
                                 ${value['first_name']} ${value['last_name']}
                             </td>
                             <td><a href="javascript:void(0)">${value['email_address']}</a></td>
-                            <td><a href="tel:">${value['mobile_number']}</a></td>
+                            <td>${mobileNumber}</td>
                             <td>${value['role_name']}</td>
                             <td>
                                 <span class="badge bg-soft-${status} text-${status}">

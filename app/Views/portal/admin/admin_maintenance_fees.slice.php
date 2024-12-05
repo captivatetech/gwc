@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#bs-example-modal-lg">Add New</button>
+                            <button type="button" class="btn gwc-button" id="btn_addFee"><i class="fe-plus"></i> Add New</button>
 
                             <p class="text-muted font-14 mb-3"></p>
 
@@ -79,6 +79,8 @@
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
                 
             </div> <!-- container-fluid -->
 
@@ -90,34 +92,35 @@
     <!-- ============================================================== -->
 
     <!--  Modal content for the Large example -->
-    <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="modal_fees"  data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
                     <h4 class="modal-title" id="myLargeModalLabel">Add New Fees</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="form_fees">
+                        <input type="hidden" id="txt_feeId" name="txt_feeId">
                         <div class="row mb-3">
-                            <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Type</label>
+                            <label for="txt_feeType" class="col-4 col-xl-3 col-form-label">Type</label>
                             <div class="col-8 col-xl-9">
-                                <input type="text" class="form-control" id="inputEmail3" placeholder="Type">
+                                <input type="text" class="form-control" id="txt_feeType" name="txt_feeType" placeholder="Type" required>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputPassword3" class="col-4 col-xl-3 col-form-label">Amount</label>
+                            <label for="txt_feeAmount" class="col-4 col-xl-3 col-form-label">Amount</label>
                             <div class="col-8 col-xl-9">
-                                <input type="text" class="form-control" id="inputPassword3" placeholder="Amount">
+                                <input type="text" class="form-control" id="txt_feeAmount" name="txt_feeAmount" placeholder="Amount" required>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="inputPassword5" class="col-4 col-xl-3 col-form-label">Status</label>
-                            <div class="col-8 col-xl-9">
+                            <label for="slc_feeStatus" class="col-4 col-xl-3 col-form-label">Status</label>
+                            <div class="col-8 col-xl-9" id="slc_feeStatus" name="slc_feeStatus" required>
                                 <select id="inputState" class="form-select">
-                                    <option>Status</option>
-                                    <option>Active</option>
-                                    <option>Inactive</option>
+                                    <option value="">--Status--</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -125,7 +128,7 @@
                 </div>
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-danger">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="btn_saveRole" form="form_roles">Save</button>
+                    <button type="submit" class="btn btn-primary" id="btn_saveFee" form="form_fees">Save</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -171,8 +174,16 @@
 <script type="text/javascript">
   $(document).ready(function(){
     //jQuery Events
+
+    $('#btn_addFee').on('click',function(){
+        $('#modal_fees').modal('show');
+    });
     
-    
+    $('#form_fees').on('submit',function(e){
+        e.preventDefault();
+        let feeId = $('#txt_feeId').val();
+        (feeId == "")? ADMIN_FEES.addFee(this) : ADMIN_FEES.editFee(this);
+    });
   });
 </script>
 
