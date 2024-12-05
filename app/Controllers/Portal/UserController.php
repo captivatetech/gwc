@@ -89,12 +89,13 @@ class UserController extends BaseController
                 {
                     $emailConfig = sliceMailConfig();
 
-                    $emailSender    = 'ajhay.dev@gmail.com';
-                    $emailReceiver  = $arrData['email_address'];
+                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailReceiver  = $fields['txt_emailAddress'];
 
                     $data = [
+                        'emailName'    => 'GOLDWATER CAPITAL',
                         'subjectTitle' => 'Welcome Message',
-                        'emailAddress' => $arrData['email_address'],
+                        'emailAddress' => $fields['txt_emailAddress'],
                         'userPassword' => decrypt_code($arrData['user_password'])
                     ];
 

@@ -39,7 +39,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <button type="button" class="btn btn-primary" id="btn_addUser">Add User</button>
+                                <button type="button" class="btn gwc-button" id="btn_addUser"><i class="fe-plus"></i> Add User</button>
 
                                 <!-- <h4 class="mt-0 header-title">Billings</h4> -->
                                 <p class="text-muted font-14 mb-3">
@@ -77,7 +77,7 @@
     <!-- End Page content -->
     <!-- ============================================================== -->
 
-    <div class="modal fade" id="modal_users" tabindex="-1" >
+    <div class="modal fade" id="modal_users" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header--sticky">
