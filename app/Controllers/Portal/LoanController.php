@@ -194,8 +194,8 @@ class LoanController extends BaseController
                 if($paymentNumber != 0)
                 {
                     $template->setPrefillTextField( "txt_paymentDate$series", "Payment $series" );
-                    $template->setPrefillTextField( "txt_amount$series", number_format($deductionPerCutoff,2,",",".") );
-                    $template->setPrefillTextField( "txt_t1bal$series", number_format($t1Balance,2,",",".") );
+                    $template->setPrefillTextField( "txt_amount$series", number_format($deductionPerCutoff,2,".",",") );
+                    $template->setPrefillTextField( "txt_t1bal$series", number_format($t1Balance,2,".",",") );
                 }
                 else
                 {
@@ -222,8 +222,8 @@ class LoanController extends BaseController
                 if($monthNumber != 0)
                 {
                     $template->setPrefillTextField( "txt_month$series", "Month $series" );
-                    $template->setPrefillTextField( "txt_amort$series", number_format($monthlyDues,2,",",".") );
-                    $template->setPrefillTextField( "txt_t2bal$series", number_format($t2Balance,2,",",".") );
+                    $template->setPrefillTextField( "txt_amort$series", number_format($monthlyDues,2,".",",") );
+                    $template->setPrefillTextField( "txt_t2bal$series", number_format($t2Balance,2,".",",") );
                 }
                 else
                 {
@@ -253,8 +253,8 @@ class LoanController extends BaseController
                     'total_interest'        => $totalInterest,
                     'payment_terms'         => $paymentTerms,
                     'number_of_deductions'  => $numberOfDeductions,
-                    'monthly_dues'          => (float)number_format($monthlyDues, 2, '.', ','),
-                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2, '.', ','),
+                    'monthly_dues'          => (float)number_format($monthlyDues, 2,".",","),
+                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2,".",","),
                     'purpose_of_loan'       => $fields['purposeOfLoan'],
                     'application_status'    => 'PENDING', 
                     'loan_status'           => 'PENDING',
@@ -704,7 +704,7 @@ class LoanController extends BaseController
                         $data = [
                             'emailName'         => 'GOLDWATER CAPITAL',
                             'subjectTitle'      => 'Disbursement',
-                            'disbursemntAmount' => number_format($arrData['amount'],2,'.',','),
+                            'disbursemntAmount' => number_format($arrData['amount'],2,".",","),
                             'bankAccount'       => $arrData['account_number'],
                             'dateAndTime'       => date('Y-m-d H:i:s'),
                             'billingDate'       => $billingDateStart
@@ -800,27 +800,27 @@ class LoanController extends BaseController
                         $paymentTerms = $arrResult['payment_terms'];
 
                         $monthlyAmortization = ($loanAmount / $paymentTerms) + (float)$arrResult['total_interest'];
-                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,",",".") );
+                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,".",",") );
 
-                        $template->setPrefillTextField( "txt_loanGranted",  number_format($loanAmount,2,",",".") );
+                        $template->setPrefillTextField( "txt_loanGranted",  number_format($loanAmount,2,".",",") );
 
                         $serviceCharge = $loanAmount * 0.02;
-                        $template->setPrefillTextField( "txt_serviceCharge",  number_format($serviceCharge,2,",",".") );
+                        $template->setPrefillTextField( "txt_serviceCharge",  number_format($serviceCharge,2,".",",") );
 
                         $nonFinanceCharges = ($loanAmount / 1000) * 13;
-                        $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,",",".") );
+                        $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,".",",") );
 
                         $notarialFee = 500;
-                        $template->setPrefillTextField( "txt_notarialFee",  number_format($notarialFee,2,",",".") );
+                        $template->setPrefillTextField( "txt_notarialFee",  number_format($notarialFee,2,".",",") );
 
                         $totalNonFinanceCharges = $nonFinanceCharges + $notarialFee;
-                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges,2,",",".") );
+                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges,2,".",",") );
 
                         $totalDeductions = $serviceCharge + $totalNonFinanceCharges;
-                        $template->setPrefillTextField( "txt_totalDeductions",  number_format($totalDeductions,2,",",".") );
+                        $template->setPrefillTextField( "txt_totalDeductions",  number_format($totalDeductions,2,".",",") );
 
                         $netProceeds = $loanAmount - $totalDeductions;
-                        $template->setPrefillTextField( "txt_netProceeds",  number_format($netProceeds,2,",",".") );
+                        $template->setPrefillTextField( "txt_netProceeds",  number_format($netProceeds,2,".",",") );
 
                         $resp_obj = ZohoSign::sendTemplate( $template, true );
                     }

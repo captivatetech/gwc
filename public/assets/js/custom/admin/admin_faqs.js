@@ -1,32 +1,32 @@
 
-const ADMIN_FEES = (function(){
+const ADMIN_FAQS = (function(){
 
-    let thisAdminFees = {};
+    let thisAdminFaqs = {};
 
     let baseUrl = $('#txt_baseUrl').val();
 
-    thisAdminFees.loadFees = function()
+    thisAdminFaqs.loadFaqs = function()
     {
         AJAXHELPER.getData({
-            // FeeController->loadAdminFees
-            'route' : 'portal/admin/load-admin-fees',
+            // FaqController->loadAdminFaqs
+            'route' : 'portal/admin/load-admin-faqs',
             'data'  : null
         }, function(data){
             let tbody = '';
             data.forEach(function(value, index){
-                let feeStatus = (value['fee_status'] == '1')? `<span class="text-success">Active</span>` : `<span class="text-danger">Inactive</span>`;
+                let faqsStatus = (value['faq_status'] == '1')? `<span class="text-success">Active</span>` : `<span class="text-danger">Inactive</span>`;
                 tbody += `<tr>
                             <td>${value['type']}</td>
                             <td>${COMMONHELPER.numberWithCommas(parseFloat(value['amount']).toFixed(2))}</td>
-                            <td>${feeStatus}</td>
+                            <td>${faqsStatus}</td>
                             <td>                                                        
                                 <div class="dropdown">
                                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FEES.selectFee(${value['id']})">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FEES.removeFee(${value['id']})">Delete</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.selectFee(${value['id']})">Edit</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.removeFee(${value['id']})">Delete</a>
                                     </div>
                                 </div>
                             </td>
@@ -38,7 +38,7 @@ const ADMIN_FEES = (function(){
         });
     }
 
-    thisAdminFees.addFee = function(thisForm)
+    thisAdminFaqs.addFee = function(thisForm)
     {
         let formData = new FormData(thisForm);
         $('#btn_saveFee').prop('disabled',true);
@@ -58,7 +58,7 @@ const ADMIN_FEES = (function(){
         });
     }
 
-    thisAdminFees.selectFee = function(feeId)
+    thisAdminFaqs.selectFee = function(feeId)
     {
         $('#modal_fees').modal('show');
         AJAXHELPER.getData({
@@ -69,11 +69,11 @@ const ADMIN_FEES = (function(){
             $('#txt_feeId').val(data['id']);
             $('#txt_feeType').val(data['type']);
             $('#txt_feeAmount').val(data['amount']);
-            $('#slc_feeStatus').val(data['fee_status']);
+            $('#slc_faqsStatus').val(data['faq_status']);
         });
     }
 
-    thisAdminFees.editFee = function(thisForm)
+    thisAdminFaqs.editFee = function(thisForm)
     {
         let formData = new FormData(thisForm);
         $('#btn_saveFee').prop('disabled',true);
@@ -93,7 +93,7 @@ const ADMIN_FEES = (function(){
         });
     }
 
-    thisAdminFees.removeFee = function(feeId)
+    thisAdminFaqs.removeFee = function(feeId)
     {
         if(confirm('Please Confirm!'))
         {
@@ -112,6 +112,6 @@ const ADMIN_FEES = (function(){
         }
     }
 
-    return thisAdminFees;
+    return thisAdminFaqs;
 
 })();

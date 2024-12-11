@@ -44,7 +44,7 @@
 
                             <p class="text-muted font-14 mb-3"></p>
 
-                                <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
+                                <table id="tbl_fees" class="table table-bordered dt-responsive table-responsive nowrap">
                                     <thead>
                                         <tr>
                                             <th>Type</th>
@@ -54,22 +54,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>$320,800</td>
-                                            <td>Tiger Nixon</td>
-                                            <td>                                                        
-                                                <div class="dropdown">
-                                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions <i class="mdi mdi-chevron-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Edit</a>
-                                                        <a class="dropdown-item" href="#">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
 
@@ -116,8 +101,8 @@
                         </div>
                         <div class="row mb-3">
                             <label for="slc_feeStatus" class="col-4 col-xl-3 col-form-label">Status</label>
-                            <div class="col-8 col-xl-9" id="slc_feeStatus" name="slc_feeStatus" required>
-                                <select id="inputState" class="form-select">
+                            <div class="col-8 col-xl-9">
+                                <select id="slc_feeStatus" name="slc_feeStatus" class="form-select" required>
                                     <option value="">--Status--</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
@@ -175,7 +160,13 @@
   $(document).ready(function(){
     //jQuery Events
 
+    ADMIN_FEES.loadFees();
+
     $('#btn_addFee').on('click',function(){
+        $('#txt_feeId').val('');
+        $('#txt_feeType').val('');
+        $('#txt_feeAmount').val('');
+        $('#slc_feeStatus').val('');
         $('#modal_fees').modal('show');
     });
     

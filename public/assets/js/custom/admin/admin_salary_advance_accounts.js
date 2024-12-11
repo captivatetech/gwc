@@ -26,6 +26,8 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
             $('#tbl_salaryAdvanceAccounts').DataTable().destroy();
             $('#tbl_salaryAdvanceAccounts tbody').html(tbody);
             $('#tbl_salaryAdvanceAccounts').DataTable();
+
+            $('#btn_disbursement').prop('disabled', (data.length == 0)? true : false);
         });
     }
 
