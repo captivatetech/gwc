@@ -68,7 +68,7 @@
                                 @endif  
                                 <p class="text-muted font-14 mb-3"></p>                              
 
-                                <table id="tbl_employees" class="table table-bordered dt-responsive table-responsive nowrap">
+                                <table id="tbl_employees" class="table table-bordered dt-responsive table-responsive nowrap" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th>
