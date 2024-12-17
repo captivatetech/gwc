@@ -33,24 +33,49 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <div class="accordion custom-accordion" id="accordionExample">
-                                            <div class="card mb-2">
-                                                <div class="card-header bg-light">
-                                                    <h5 class="card-title m-0">
-                                                        <a href="#" class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            What is Lorem Ipsum?
-                                                        </a>
-                                                    </h5>
-                                                </div>
+                                        @if(count($arrFaqs) > 0)
 
-                                                <div id="collapseOne" class="collapse show" data-bs-parent="#accordionExample">
-                                                    <div class="card-body">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                                        <p class="mb-0">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.</p>
+                                            <?php $num = 0; ?>
+
+                                            @foreach($arrFaqs as $key => $value)
+
+                                            <div class="accordion custom-accordion" id="accordion{{ $value['id'] }}">
+                                                <div class="card mb-2">
+                                                    <div class="card-header bg-light">
+                                                        <h5 class="card-title m-0">
+                                                            <a href="#" class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ $value['id'] }}" aria-expanded="true" aria-controls="collapseOne{{ $value['id'] }}">
+                                                                {{ $value['question'] }}
+                                                            </a>
+                                                        </h5>
                                                     </div>
+
+                                                    
+                                                    <?php if($num == 0){ ?>
+                                                    <div id="collapseOne{{ $value['id'] }}" class="collapse show" data-bs-parent="#accordion{{ $value['id'] }}">
+                                                        <div class="card-body">
+                                                            <p>{{ $value['answer'] }}aaaa</p>
+                                                        </div>
+                                                    </div>
+                                                    <?php }else{ ?>
+                                                    <div id="collapseOne{{ $value['id'] }}" class="collapse" data-bs-parent="#accordion{{ $value['id'] }}">
+                                                        <div class="card-body">
+                                                            <p>{{ $value['answer'] }}ssss</p>
+                                                        </div>
+                                                    </div>
+                                                    <?php } ?>
+
+                                                    <?php $num++; ?>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            @endforeach
+                                        @else
+
+                                        <center>
+                                            <h3>No FAQs Found!</h3>
+                                        </center>
+
+                                        @endif
                                         
                                     </div>
                                 </div>
@@ -72,10 +97,6 @@
 
 @section('custom_scripts')
 
-<!-- Ajax Helpers Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/helper/ajax_helper.js"></script>
-<!-- Custom Scripts -->
-<script type="text/javascript" src="<?php echo base_url(); ?>public/assets/js/custom/{{ $customScripts }}.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){

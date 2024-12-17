@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-body">
 
-                            <button type="button" class="btn gwc-button" id="btn_addFaqs"><i class="fe-plus"></i> Add New</button>
+                            <button type="button" class="btn gwc-button" id="btn_addFaq"><i class="fe-plus"></i> Add New</button>
 
                             <p class="text-muted font-14 mb-3"></p>
 
@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="form_faqs">
-                        <input type="hidden" id="txt_feeId" name="txt_feeId">
+                        <input type="hidden" id="txt_faqId" name="txt_faqId">
                         <div class="row mb-3">
                             <label for="txt_question" class="col-4 col-xl-3 col-form-label">Question</label>
                             <div class="col-8 col-xl-9">
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="txt_feeAmount" class="col-4 col-xl-3 col-form-label">Answer</label>
+                            <label for="txt_answer" class="col-4 col-xl-3 col-form-label">Answer</label>
                             <div class="col-8 col-xl-9">
                                 <textarea rows="2" class="form-control" id="txt_answer" name="txt_answer" placeholder="Question" required></textarea>
                             </div>
@@ -112,7 +112,7 @@
                     </form>
                 </div>
                 <div class="modal-footer modal-footer--sticky">
-                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="btn_closeFaqs">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="btn_saveFaqs" form="form_faqs">Save</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -168,6 +168,10 @@
         $('#txt_answer').val('');
         $('#slc_faqsStatus').val('');
         $('#modal_faqs').modal('show');
+    });
+
+    $('#btn_closeFaqs').on('click',function(){
+        $('#modal_faqs').modal('hide');
     });
     
     $('#form_faqs').on('submit',function(e){

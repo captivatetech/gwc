@@ -658,6 +658,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 'companyId' : companyId
             }
         }, function(data){
+            $('#txt_companyId').val(companyId);
             if(data['access_request'] == 1)
             {
                 $('#div_accessStatus').prop('hidden',false);

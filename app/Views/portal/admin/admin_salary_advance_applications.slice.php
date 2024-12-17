@@ -44,6 +44,9 @@
                         <div class="card">
                             <div class="card-body">
 
+                                <input type="hidden" id="txt_companyId">
+                                <input type="hidden" id="txt_subscriptionId">
+
                                 <table id="tbl_salaryAdvance" class="table table-sm table-bordered table-hover nowrap mb-3" style="width: 100%;">
                                     <thead>
                                         <tr>
@@ -68,9 +71,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
-                                <input type="hidden" id="txt_companyId">
-                                <input type="hidden" id="txt_subscriptionId">
 
                                 <h4>Product Subscription</h4>
 
@@ -431,7 +431,7 @@
                             <br>
                         </div>
                         <label>Access Status</label>
-                        <select id="slc_accessStatus" class="form-control form-select">
+                        <select id="slc_accessStatus" name="slc_accessStatus" class="form-control form-select">
                             <option value="OPEN">OPEN</option>
                             <option value="CLOSE">CLOSE</option>
                         </select>

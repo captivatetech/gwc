@@ -458,7 +458,7 @@
                 <div class="modal-body">
                     <div id="div_stepOne">
                         <form id="form_stepOne">
-                            <input type="file" id="file_employeeList" name="file_employeeList" data-plugins="dropify" accept=".csv" required />
+                            <input type="file" id="file_employeeList" name="file_employeeList" data-plugins="dropify" accept=".csv, .xlsx" required />
                         </form>
                     </div>
                     <div id="div_stepTwo" hidden>
@@ -550,6 +550,7 @@
                 <div class="modal-footer modal-footer--sticky">
 
                     <div id="div_buttonStepOne">
+                        <a href="<?php echo base_url(); ?>public/assets/files/Employee-Batch-Import-Template.xlsx" class="btn btn-dark" download>Download Template</a>
                         <button type="submit" class="btn gwc-button" id="btn_submitStepOne" form="form_stepOne">Next</button>
                         <button type="button" class="btn btn-light" id="btn_stepOneCancel">Cancel</button>
                     </div>

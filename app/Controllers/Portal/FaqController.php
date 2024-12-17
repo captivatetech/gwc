@@ -20,25 +20,25 @@ class FaqController extends BaseController
     public function addAdminFaq()
     {
         $this->validation->setRules([
-            'txt_feeType' => [
-                'label'  => 'Type',
+            'txt_question' => [
+                'label'  => 'Question',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Type is required',
+                    'required'    => 'Question is required',
                 ],
             ],
-            'txt_feeAmount' => [
-                'label'  => 'Fee Amount',
+            'txt_answer' => [
+                'label'  => 'Answer',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Fee Amount is required',
+                    'required'    => 'Answer is required',
                 ],
             ],
-            'slc_feeStatus' => [
-                'label'  => 'Fee Status',
+            'slc_faqsStatus' => [
+                'label'  => 'FAQ Status',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Fee Status is required',
+                    'required'    => 'FAQ Status is required',
                 ],
             ]
         ]);
@@ -48,17 +48,17 @@ class FaqController extends BaseController
             $fields = $this->request->getPost();
 
             $arrData = [
-                'type'          => $fields['txt_feeType'],
-                'amount'        => $fields['txt_feeAmount'],
-                'fee_status'    => $fields['slc_feeStatus'],
+                'question'      => $fields['txt_question'],
+                'answer'        => $fields['txt_answer'],
+                'faq_status'    => $fields['slc_faqsStatus'],
                 'created_by'    => $this->session->get('gwc_admin_id'),
                 'created_date'  => date('Y-m-d H:i:s')
             ];
 
-            $result = $this->faq->addAdminFaq($arrData);
+            $result = $this->faqs->addAdminFaq($arrData);
             if($result > 0)
             {
-                $msgResult[] = "New fee saved successfully";
+                $msgResult[] = "New FAQ saved successfully";
                 return $this->response->setJSON($msgResult);
                 exit();
             }
@@ -77,35 +77,35 @@ class FaqController extends BaseController
         }
     }
 
-    public function selectAdminFee()
+    public function selectAdminFaq()
     {
         $fields = $this->request->getGet();
-        $data = $this->fees->selectAdminFee($fields['feeId']);
+        $data = $this->faqs->selectAdminFaq($fields['faqId']);
         return $this->response->setJSON($data);
     }
 
-    public function editAdminFee()
+    public function editAdminFaq()
     {
         $this->validation->setRules([
-            'txt_feeType' => [
-                'label'  => 'Type',
+            'txt_question' => [
+                'label'  => 'Question',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Type is required',
+                    'required'    => 'Question is required',
                 ],
             ],
-            'txt_feeAmount' => [
-                'label'  => 'Fee Amount',
+            'txt_answer' => [
+                'label'  => 'Answer',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Fee Amount is required',
+                    'required'    => 'Answer is required',
                 ],
             ],
-            'slc_feeStatus' => [
-                'label'  => 'Fee Status',
+            'slc_faqsStatus' => [
+                'label'  => 'FAQ Status',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'    => 'Fee Status is required',
+                    'required'    => 'FAQ Status is required',
                 ],
             ]
         ]);
@@ -115,17 +115,17 @@ class FaqController extends BaseController
             $fields = $this->request->getPost();
 
             $arrData = [
-                'type'          => $fields['txt_feeType'],
-                'amount'        => $fields['txt_feeAmount'],
-                'fee_status'    => $fields['slc_feeStatus'],
-                'created_by'    => $this->session->get('gwc_admin_id'),
-                'created_date'  => date('Y-m-d H:i:s')
+                'question'      => $fields['txt_question'],
+                'answer'        => $fields['txt_answer'],
+                'faq_status'    => $fields['slc_faqsStatus'],
+                'updated_by'    => $this->session->get('gwc_admin_id'),
+                'updated_date'  => date('Y-m-d H:i:s')
             ];
 
-            $result = $this->fees->editAdminFee($arrData, $fields['txt_feeId']);
+            $result = $this->faqs->editAdminFaq($arrData, $fields['txt_faqId']);
             if($result > 0)
             {
-                $msgResult[] = "Fee updated successfully";
+                $msgResult[] = "FAQ updated successfully";
                 return $this->response->setJSON($msgResult);
                 exit();
             }
@@ -144,13 +144,13 @@ class FaqController extends BaseController
         }
     }
 
-    public function removeAdminFee()
+    public function removeAdminFaq()
     {
         $fields = $this->request->getPost();
-        $result = $this->fees->removeAdminFee($fields['feeId']);
+        $result = $this->faqs->removeAdminFaq($fields['faqId']);
         if($result > 0)
         {
-            $msgResult[] = "Fee removed successfully";
+            $msgResult[] = "FAQ removed successfully";
         }
         else
         {
