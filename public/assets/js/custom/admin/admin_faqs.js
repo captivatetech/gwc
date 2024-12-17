@@ -16,8 +16,8 @@ const ADMIN_FAQS = (function(){
             data.forEach(function(value, index){
                 let faqsStatus = (value['faq_status'] == '1')? `<span class="text-success">Active</span>` : `<span class="text-danger">Inactive</span>`;
                 tbody += `<tr>
-                            <td>${value['type']}</td>
-                            <td>${COMMONHELPER.numberWithCommas(parseFloat(value['amount']).toFixed(2))}</td>
+                            <td>${value['question']}</td>
+                            <td>${value['answer']}</td>
                             <td>${faqsStatus}</td>
                             <td>                                                        
                                 <div class="dropdown">
@@ -25,86 +25,86 @@ const ADMIN_FAQS = (function(){
                                     Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.selectFee(${value['id']})">Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.removeFee(${value['id']})">Delete</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.selectFaq(${value['id']})">Edit</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_FAQS.removeFaq(${value['id']})">Delete</a>
                                     </div>
                                 </div>
                             </td>
                         </tr>`;
             });
-            $('#tbl_fees').DataTable().destroy();
-            $('#tbl_fees tbody').html(tbody);
-            $('#tbl_fees').DataTable();
+            $('#tbl_faqs').DataTable().destroy();
+            $('#tbl_faqs tbody').html(tbody);
+            $('#tbl_faqs').DataTable();
         });
     }
 
-    thisAdminFaqs.addFee = function(thisForm)
+    thisAdminFaqs.addFaq = function(thisForm)
     {
         let formData = new FormData(thisForm);
-        $('#btn_saveFee').prop('disabled',true);
+        $('#btn_saveFaqs').prop('disabled',true);
         AJAXHELPER.postData({
-            // FeeController->addAdminFee
-            'route' : 'portal/admin/add-admin-fee',
+            // FaqController->addAdminFaq
+            'route' : 'portal/admin/add-admin-faq',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
-                $('#btn_saveFee').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/admin/maintenance-fees`);
+                $('#btn_saveFaqs').prop('disabled',false);
+                window.location.replace(`${baseUrl}portal/admin/maintenance-faqs`);
             }, 1000);
         }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-            $('#btn_saveFee').prop('disabled',false);
+            $('#btn_saveFaqs').prop('disabled',false);
         });
     }
 
-    thisAdminFaqs.selectFee = function(feeId)
+    thisAdminFaqs.selectFaq = function(faqId)
     {
-        $('#modal_fees').modal('show');
+        $('#modal_faqs').modal('show');
         AJAXHELPER.getData({
-            // FeeController->selectAdminFee
-            'route' : 'portal/admin/select-admin-fee',
-            'data'  : {feeId : feeId}
+            // FaqController->selectAdminFaq
+            'route' : 'portal/admin/select-admin-faq',
+            'data'  : {faqId : faqId}
         }, function(data){
-            $('#txt_feeId').val(data['id']);
-            $('#txt_feeType').val(data['type']);
-            $('#txt_feeAmount').val(data['amount']);
+            $('#txt_faqId').val(data['id']);
+            $('#txt_question').val(data['question']);
+            $('#txt_answer').val(data['answer']);
             $('#slc_faqsStatus').val(data['faq_status']);
         });
     }
 
-    thisAdminFaqs.editFee = function(thisForm)
+    thisAdminFaqs.editFaq = function(thisForm)
     {
         let formData = new FormData(thisForm);
-        $('#btn_saveFee').prop('disabled',true);
+        $('#btn_saveFaqs').prop('disabled',true);
         AJAXHELPER.postData({
-            // FeeController->editAdminFee
-            'route' : 'portal/admin/edit-admin-fee',
+            // FaqController->editAdminFaq
+            'route' : 'portal/admin/edit-admin-faq',
             'data'  : formData
         }, function(data){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
-                $('#btn_saveFee').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/admin/maintenance-fees`);
+                $('#btn_saveFaqs').prop('disabled',false);
+                window.location.replace(`${baseUrl}portal/admin/maintenance-faqs`);
             }, 1000);
         }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-            $('#btn_saveFee').prop('disabled',false);
+            $('#btn_saveFaqs').prop('disabled',false);
         });
     }
 
-    thisAdminFaqs.removeFee = function(feeId)
+    thisAdminFaqs.removeFaq = function(faqId)
     {
         if(confirm('Please Confirm!'))
         {
             AJAXHELPER.removeData({
-                // FeeController->removeAdminFee
-                'route' : 'portal/admin/remove-admin-fee',
-                'data'  : {feeId : feeId}
+                // FeeController->removeAdminFaq
+                'route' : 'portal/admin/remove-admin-faq',
+                'data'  : {faqId : faqId}
             }, function(data){
                 COMMONHELPER.Toaster('success',data[0]);
                 setTimeout(function(){
-                    window.location.replace(`${baseUrl}portal/admin/maintenance-fees`);
+                    window.location.replace(`${baseUrl}portal/admin/maintenance-faqs`);
                 }, 1000);
             }, function(data){
                 COMMONHELPER.Toaster('error',data['responseJSON'][0]);

@@ -330,9 +330,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                                     <option value="permanent_address" ${(value.replace(' ','_').toLowerCase() == 'permanent_address')? 'selected' : ''}>Home Address</option>
                                     <option value="mobile_number" ${(value.replace(' ','_').toLowerCase() == 'mobile_number')? 'selected' : ''}>Mobile Number</option>
                                     <option value="email_address" ${(value.replace(' ','_').toLowerCase() == 'email_address')? 'selected' : ''}>Email Address</option>
-                                    <option value="date_hired" ${(value.replace(' ','_').toLowerCase() == 'date_hired')? 'selected' : ''}>Date Hired</option>
                                     <option value="employment_status" ${(value.replace(' ','_').toLowerCase() == 'employment_status')? 'selected' : ''}>Employment Status</option>
                                     <option value="payroll_bank_number" ${(value.replace(' ','_').toLowerCase() == 'payroll_bank_number')? 'selected' : ''}>Payroll Bank Number</option>
+                                    <option value="date_hired" ${(value.replace(' ','_').toLowerCase() == 'date_hired')? 'selected' : ''}>Date Hired</option>
                                 </select>
                             </td>
                             <td>${defaultValue}</td>
@@ -349,9 +349,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
 
     thisRepresentativeEmployeeList.r_selectField = function(dis)
     {
-        $('#tbl_mapping tbody tr').each(function(){
-            arrFields.push($(this).find('td:eq(3) select').val());
-        });
+        // $('#tbl_mapping tbody tr').each(function(){
+        //     arrFields.push($(this).find('td:eq(3) select').val());
+        // });
     }
 
     thisRepresentativeEmployeeList.r_stepOneCancel = function()
@@ -692,7 +692,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     $('#btn_submitStepThree').prop('disabled',false);
                     COMMONHELPER.Toaster('success','Employees uploaded successfully!');
                     setTimeout(function(){
-                        window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
+                        // window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
                     }, 1000);
                 }
             }

@@ -484,8 +484,6 @@ class EmployeeController extends BaseController
 
 
 
-
-
     public function r_uploadFile()
     {
         $fields = $this->request->getPost();
@@ -723,7 +721,7 @@ class EmployeeController extends BaseController
             unset($value['id']);
             unset($value['row_number']);
 
-            $value['date_hired'] = NULL;
+            // $value['date_hired'] = NULL;
             if(isset($value['date_hired']))
             {
                 $date1 = $value['date_hired'];
@@ -735,7 +733,7 @@ class EmployeeController extends BaseController
                 $month1 = date('m', strtotime($date1));
                 $month2 = date('m', strtotime($date2));
 
-                $value['years_stayed'] = (($year2 - $year1) * 12) + ($month2 - $month1);
+                $value['years_stayed'] = ($year2 - $year1) . ' years ' . ($month2 - $month1) . ' months';
             }
             if(isset($value['net_salary']))
             {

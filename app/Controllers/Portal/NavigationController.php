@@ -10,6 +10,7 @@ class NavigationController extends BaseController
     {
         $this->users        = model('Users');
         $this->roles        = model('Roles');
+        $this->faqs         = model('Faqs');
         $this->employees    = model('Employees');
         $this->companies    = model('Companies');
         $this->loans        = model('Loans');
@@ -535,6 +536,9 @@ class NavigationController extends BaseController
                     $data['firstName'] = $userData['first_name'];
                     $data['lastName'] = $userData['last_name'];
                     $data['profilePicture'] = $userData['profile_picture'];
+
+                    $data['arrFaqs'] = $this->faqs->loadAdminFaqs();
+                    
                     return $this->slice->view('portal.representative.representative_faqs', $data);
                 }
                 else
@@ -1117,7 +1121,40 @@ class NavigationController extends BaseController
 
     public function a_maintenanceFaqs()
     {
-        
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Maintenance > FAQs | GWC";
+                $data['customScripts'] = 'admin_faqs';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['firstName'] = $userData['first_name'];
+                    $data['lastName'] = $userData['last_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
+
+                    return $this->slice->view('portal.admin.admin_maintenance_faqs', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function a_reports()

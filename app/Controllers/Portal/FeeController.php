@@ -118,8 +118,8 @@ class FeeController extends BaseController
                 'type'          => $fields['txt_feeType'],
                 'amount'        => $fields['txt_feeAmount'],
                 'fee_status'    => $fields['slc_feeStatus'],
-                'created_by'    => $this->session->get('gwc_admin_id'),
-                'created_date'  => date('Y-m-d H:i:s')
+                'updated_by'    => $this->session->get('gwc_admin_id'),
+                'updated_date'  => date('Y-m-d H:i:s')
             ];
 
             $result = $this->fees->editAdminFee($arrData, $fields['txt_feeId']);
