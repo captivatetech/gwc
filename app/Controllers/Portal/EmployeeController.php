@@ -748,6 +748,7 @@ class EmployeeController extends BaseController
                 $value['minimum_credit_amount'] = $minLimit;
                 $value['maximum_credit_amount'] = $maxLimit;
             }
+            $value['employee_status'] = 1;
             $value['created_by'] = $this->session->get('gwc_representative_id');
             $value['created_date'] = date('Y-m-d H:i:s');
             $value['company_id'] = $fields['txt_companyId'];
