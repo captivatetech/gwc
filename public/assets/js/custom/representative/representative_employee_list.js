@@ -692,7 +692,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     $('#btn_submitStepThree').prop('disabled',false);
                     COMMONHELPER.Toaster('success','Employees uploaded successfully!');
                     setTimeout(function(){
-                        // window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
+                        window.location.replace(`${baseUrl}/portal/representative/employee-list`);   
                     }, 1000);
                 }
             }
