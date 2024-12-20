@@ -65,18 +65,21 @@ class BillingController extends BaseController
 
     public function a_generateBillings()
     {
-        $fields = $this->request->getGet();
+        // $fields = $this->request->getGet();
 
-        $completeDateNow = date($fields['txtDate']); //date('Y-m-15');
+        // $completeDateNow = date($fields['txtDate']); //date('Y-m-15');
+        $completeDateNow = date('Y-m-d');
 
         $arrResult = $this->billings->a_countGeneratedBillings($completeDateNow);
         if(count($arrResult) == 0)
         {
-            $dateNow = date('d',strtotime(date($fields['txtDate']))); //date('15');
+            //$dateNow = date('d',strtotime(date($fields['txtDate']))); //date('15');
+            $dateNow = date('d',strtotime(date('Y-m-d')));
 
             $arrBillings = $this->billings->a_generateBillings($dateNow);
 
-            $dueDate = date('Y-m-d', strtotime(date($fields['txtDate']). '+ 15 days')); //date('Y-m-d', strtotime(date('Y-m-15'). '+ 15 days'));
+            //$dueDate = date('Y-m-d', strtotime(date($fields['txtDate']). '+ 15 days')); //date('Y-m-d', strtotime(date('Y-m-15'). '+ 15 days'));
+            $dueDate = date('Y-m-d', strtotime(date('Y-m-d'). '+ 15 days'));
 
             if(count($arrBillings) > 0)
             {
@@ -88,7 +91,8 @@ class BillingController extends BaseController
                     $arrData = [
                         'company_id'        => $value['id'],
                         'billing_number'    => $this->_generateBillingNumber($value['company_code']),
-                        'billing_date'      => date($fields['txtDate']), //date('Y-m-15'),
+                        //'billing_date'      => date($fields['txtDate']), //date('Y-m-15'),
+                        'billing_date'      => date('Y-m-d'),
                         'total_amount'      => $value['total_deduction_per_cutoff'],
                         'total_paid'        => null,
                         'penalty'           => null,
@@ -108,7 +112,8 @@ class BillingController extends BaseController
                 $arrBillingDetails = [];
                 foreach ($arrBillingIds as $key => $value) 
                 {
-                    $ddate = date('d',strtotime(date($fields['txtDate']))); //date('15');
+                    //$ddate = date('d',strtotime(date($fields['txtDate']))); //date('15');
+                    $ddate = date('d',strtotime(date('Y-m-d')));
                     $arr = $this->billings->a_generateBillingDetails($value['company_id'], $ddate);
                     foreach ($arr as $key => $val) 
                     {
