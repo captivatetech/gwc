@@ -117,6 +117,16 @@ class EmployeeIdentityController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "New ID added successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_representative_id'),
+                    'module_name' => 'Employee Module',
+                    'activity_type' => 'Add Representative Identification',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
             }
             else
             {
@@ -150,6 +160,16 @@ class EmployeeIdentityController extends BaseController
         {
             unlink(ROOTPATH . 'public/assets/uploads/representative/identifications/' . $arrData['id_picture']);
             $msgResult[] = "ID removed successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Employee Module',
+                'activity_type' => 'Remove Representative Identification',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {

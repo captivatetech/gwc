@@ -95,7 +95,7 @@
                                 @if($accessStatus == "CLOSE")
                                 <div class="justify-content-end row mt-2">
                                     <div class="col-8 col-xl-4 d-grid">
-                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments"><i class="fe-eye"></i> VIEW ATTACH DOCUMENTS</button>
+                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments"><i class="fe-eye"></i> VIEW ATTACHED DOCUMENTS</button>
                                     </div>
                                 </div>
                                 @else
@@ -104,7 +104,7 @@
                                         <button type="button" id="btn_printEmployeeList" class="btn gwc-button waves-effect waves-light">Print Updated List</button>
                                     </div>
                                     <div class="col-8 col-xl-3 d-grid">
-                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments">Attach Documents</button>
+                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_attachDocuments">Attached Documents</button>
                                     </div>
                                 </div>
                                 @endif

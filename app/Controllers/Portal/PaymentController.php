@@ -65,6 +65,10 @@ class PaymentController extends BaseController
         return $paymentNumber;
     }
 
+    /*
+        USED IN: 
+        - REPRESENTATIVE_BILLING_AND_PAYMENTS->r_submitPayment()
+    */
     public function r_submitPayment()
     {
         $this->validation->setRules([
@@ -450,6 +454,17 @@ class PaymentController extends BaseController
                         $arrData = [];
                         $arrData[] = "Confirm-Payment";
                         $arrData[] = $this->employees->a_loadEmployeeDetails($fields['txt_billingId']);
+
+                        // for Audit Trail
+                        $arrData = [
+                            'user_id' => $this->session->get('gwc_admin_id'),
+                            'module_name' => 'Payment Module',
+                            'activity_type' => 'Confirm Payment',
+                            'activity_details' => '',
+                            'created_date' => date('Y-m-d H:i:s')
+                        ];
+                        $this->activities->addUserActivity($arrData);
+
                         return $this->response->setJSON($arrData);
                         exit();
                     }
@@ -495,6 +510,17 @@ class PaymentController extends BaseController
                     if($result > 0)
                     {
                         $msgResult[] = "Return-Payment";
+
+                        // for Audit Trail
+                        $arrData = [
+                            'user_id' => $this->session->get('gwc_admin_id'),
+                            'module_name' => 'Payment Module',
+                            'activity_type' => 'Return Payment',
+                            'activity_details' => '',
+                            'created_date' => date('Y-m-d H:i:s')
+                        ];
+                        $this->activities->addUserActivity($arrData);
+
                         return $this->response->setJSON($arrData);
                         exit();
                     }

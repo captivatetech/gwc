@@ -9,9 +9,14 @@ class CompanyDocumentController extends BaseController
     public function __construct()
     {
         $this->companies = model('Companies');
+        $this->activities = model('Activities');
     }
 
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_loadCompanyDocuments()
+        - REPRESENTATIVE_FINANCING_PRODUCTS->r_loadCompanyDocuments()
+    */
     public function r_loadCompanyDocuments()
     {
         $fields = $this->request->getGet();
@@ -19,6 +24,11 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_openCompanyDocumentModal()
+        - REPRESENTATIVE_FINANCING_PRODUCTS->r_openCompanyDocumentPreview()
+    */
     public function r_selectCompanyDocument()
     {
         $fields = $this->request->getGet();
@@ -26,6 +36,10 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_addCompanyDocument()
+    */
     public function r_addCompanyDocument()
     {
         $fields = $this->request->getPost();
@@ -66,6 +80,16 @@ class CompanyDocumentController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Document added successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Add Company Document',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -77,6 +101,10 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanyDocument()
+    */
     public function r_editCompanyDocument()
     {
         $fields = $this->request->getPost();
@@ -126,6 +154,16 @@ class CompanyDocumentController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Document updated successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Update Company Document',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -138,7 +176,10 @@ class CompanyDocumentController extends BaseController
     }
 
 
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_loadCompanyAttachments()
+    */
     public function r_loadCompanyAttachments()
     {
         $fields = $this->request->getGet();
@@ -146,6 +187,10 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_addCompanyAttachment()
+    */
     public function r_addCompanyAttachment()
     {
         $fields = $this->request->getPost();
@@ -186,6 +231,16 @@ class CompanyDocumentController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Attachment added successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Add Company Attachment',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -197,6 +252,10 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_selectCompanyAttachment()
+    */
     public function r_selectCompanyAttachment()
     {
         $fields = $this->request->getGet();
@@ -204,6 +263,10 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_editCompanyAttachment()
+    */
     public function r_editCompanyAttachment()
     {
         $fields = $this->request->getPost();
@@ -253,6 +316,16 @@ class CompanyDocumentController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Attachment updated successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Update Company Attachment',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -274,7 +347,10 @@ class CompanyDocumentController extends BaseController
 
 
 
-
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_loadCompanyDocuments()
+    */
     public function a_loadCompanyDocuments()
     {
         $fields = $this->request->getGet();
@@ -301,13 +377,17 @@ class CompanyDocumentController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_verifyCompanyDocument()
+    */
     public function a_verifyCompanyDocument()
     {
         $fields = $this->request->getPost();
 
         $arrData = [
             'document_status'       => 2,
-            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
         
@@ -315,6 +395,16 @@ class CompanyDocumentController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Document verified successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Verify Company Document',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {

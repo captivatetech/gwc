@@ -59,6 +59,17 @@ class FeeController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "New fee saved successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_admin_id'),
+                    'module_name' => 'Fees Module',
+                    'activity_type' => 'Add Fee',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
+
                 return $this->response->setJSON($msgResult);
                 exit();
             }
@@ -126,6 +137,17 @@ class FeeController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "Fee updated successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_admin_id'),
+                    'module_name' => 'Fees Module',
+                    'activity_type' => 'Update Fee',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
+
                 return $this->response->setJSON($msgResult);
                 exit();
             }
@@ -151,6 +173,16 @@ class FeeController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Fee removed successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Fees Module',
+                'activity_type' => 'Remove Fee',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {

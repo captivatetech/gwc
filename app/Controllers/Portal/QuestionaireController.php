@@ -11,6 +11,10 @@ class QuestionaireController extends BaseController
         //
     }
 
+    /*
+        USED IN:
+        - EMPLOYEE_DASHBOARD->e_choosePreferedLangauge()
+    */
     public function e_choosePreferedLangauge()
     {
         $fields = $this->request->getGet();

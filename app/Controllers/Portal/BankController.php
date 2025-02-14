@@ -41,6 +41,16 @@ class BankController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Bank removed successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Bank Module',
+                'activity_type' => 'Remove Bank',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {

@@ -39,13 +39,32 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <center>
+                                <!-- <center>
                                     <img src="<?php echo base_url(); ?>public/assets/Adminto/images/under-construction.jpg" style="height: 60vh;">
-                                </center>
+                                </center> -->
+
+                                <table id="tbl_auditTrails" class="table table-bordered dt-responsive table-responsive nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Module Name</th>
+                                            <th>Activity Type</th>
+                                            <th>Created Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+
+                                <br>
+
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
                 
             </div> <!-- container-fluid -->
 
@@ -96,6 +115,7 @@
   $(document).ready(function(){
     //jQuery Events
     
+    ADMIN_AUDIT_TRAILS.a_loadAuditTrails();
     
   });
 </script>

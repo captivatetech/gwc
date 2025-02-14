@@ -13,7 +13,7 @@ const EMPLOYEE_DASHBOARD = (function(){
     thisEmployeeDashboard.e_loadCreditLimit = function()
     {
         AJAXHELPER.getData({
-            // EmployeeController->e_loadCreditLimit();
+            // EmployeeController->e_loadCredetLimit();
             'route' : 'portal/employee/e-load-credit-limit',
             'data'  : null
         }, function(data){

@@ -102,6 +102,16 @@ class UserController extends BaseController
                     $emailResult = sendSliceMail('admin_registration',$emailConfig,$emailSender,$emailReceiver,$data);
                     
                     $msgResult[] = "New user saved successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Users Module',
+                        'activity_type' => 'Add User',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -203,6 +213,16 @@ class UserController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "User updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Users Module',
+                        'activity_type' => 'Update User',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -226,6 +246,16 @@ class UserController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "User removed successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Users Module',
+                'activity_type' => 'Remove User',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -285,6 +315,16 @@ class UserController extends BaseController
                     if($result > 0)
                     {
                         $msgResult[] = "Password changed successfully";
+
+                        // for Audit Trail
+                        $arrData = [
+                            'user_id' => $this->session->get('gwc_admin_id'),
+                            'module_name' => 'Users Module',
+                            'activity_type' => 'Change Password',
+                            'activity_details' => '',
+                            'created_date' => date('Y-m-d H:i:s')
+                        ];
+                        $this->activities->addUserActivity($arrData);
                     }
                     else
                     {
