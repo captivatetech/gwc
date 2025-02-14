@@ -74,6 +74,10 @@ class LoanController extends BaseController
         return $applicationNumber;
     }
 
+    /*
+        USED IN: 
+        - EMPLOYEE_DASHBOARD->e_submitSalaryAdvanceApplication()
+    */
     public function e_submitSalaryAdvanceApplication()
     {
         try{
@@ -279,6 +283,17 @@ class LoanController extends BaseController
                     $this->employees->e_addEmployeeAssessment($arrData);
 
                     $msgResult[] = "Loan Application Complete!";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_employee_id'),
+                        'module_name' => 'Loan Module',
+                        'activity_type' => 'Submit Salary Advance Application',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
+
                     return $this->response->setJSON($msgResult);
                     exit();
                 }
@@ -299,6 +314,10 @@ class LoanController extends BaseController
         }        
     }
 
+    /*
+        USED IN: 
+        - EMPLOYEE_DASHBOARD->e_viewDashboardDetails()
+    */
     public function e_loadDashboardDetails()
     {
         $arrData = $this->loans->e_loadDashboardDetails($this->session->get('gwc_employee_id'));
@@ -364,6 +383,10 @@ class LoanController extends BaseController
         return $this->response->setJSON($newData);
     }
 
+    /*
+        USED IN: 
+        - REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS->r_loadSalaryAdvanceApplications()
+    */
     public function r_loadSalaryAdvanceApplications()
     {
         $userData = $this->employees->selectEmployee($this->session->get('gwc_representative_id'));
@@ -371,6 +394,10 @@ class LoanController extends BaseController
         return $this->response->setJSON($arrResult);
     }
 
+    /*
+        USED IN: 
+        - REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS->r_selectLoanApplicationDetails()
+    */
     public function r_selectLoanApplicationDetails()
     {
         try{
@@ -411,6 +438,10 @@ class LoanController extends BaseController
         }
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS->r_submitSalaryAdvanceApplication()
+    */
     public function r_submitSalaryAdvanceApplication()
     {
         $fields = $this->request->getPost();
@@ -425,6 +456,17 @@ class LoanController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Salary Loan Application Submitted!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Loan Module',
+                'activity_type' => 'Submit Salary Advance Application',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
+
             return $this->response->setJSON($msgResult);
             exit();
         }
@@ -442,6 +484,10 @@ class LoanController extends BaseController
         return $this->response->setJSON($arrResult);
     }
 
+    /*
+        USED IN:
+        - ADMIN_APPLICATIONS->a_loadApplications()
+    */
     public function a_loadApplications()
     {
         $fields = $this->request->getGet();
@@ -449,6 +495,10 @@ class LoanController extends BaseController
         return $this->response->setJSON($arrResult);
     }
 
+    /*
+        USED IN:
+        - ADMIN_APPLICATIONS->a_selectApplication()
+    */
     public function a_selectApplication()
     {
         try{
@@ -489,6 +539,10 @@ class LoanController extends BaseController
         }
     }
 
+    /*
+        USED IN:
+        - ADMIN_APPLICATIONS->a_approveApplication()
+    */
     public function a_approveApplication()
     {
         $fields = $this->request->getPost();
@@ -507,6 +561,17 @@ class LoanController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Salary Loan Application Approved!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Loan Module',
+                'activity_type' => 'Approve Salary Advance Application',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
+
             return $this->response->setJSON($msgResult);
             exit();
         }
@@ -518,6 +583,10 @@ class LoanController extends BaseController
         }
     }
 
+    /*
+        USED IN:
+        - ADMIN_APPLICATIONS->a_rejectApplication()
+    */
     public function a_rejectApplication()
     {
         $fields = $this->request->getPost();
@@ -532,6 +601,17 @@ class LoanController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Salary Loan Application Rejected!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Loan Module',
+                'activity_type' => 'Reject Salary Advance Application',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
+
             return $this->response->setJSON($msgResult);
             exit();
         }
@@ -826,6 +906,17 @@ class LoanController extends BaseController
                     }
 
                     $msgResult[] = "Loan Disbursement Complete";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Loan Module',
+                        'activity_type' => 'Loan Disbursement',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
+
                     return $this->response->setJSON($msgResult);
                     exit();
                 }

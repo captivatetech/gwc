@@ -11,6 +11,10 @@ class ProductController extends BaseController
         $this->products = model('Products');
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_FINANCING_PRODUCTS->r_selectProductInformation()
+    */
     public function r_selectFinancingProduct()
     {
         $fields = $this->request->getGet();

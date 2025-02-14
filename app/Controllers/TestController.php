@@ -169,6 +169,10 @@ class TestController extends BaseController
         echo numbersToWords(7777);
     }
 
+    /*
+        USED IN: 
+        - ADMIN_APPLICATIONS->a_downloadDocument()
+    */
     public function testDownloadDocument($requestId)
     {
 

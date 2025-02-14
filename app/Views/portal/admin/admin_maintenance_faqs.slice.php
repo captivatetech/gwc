@@ -40,9 +40,9 @@
                         <div class="card">
                             <div class="card-body">
 
-                            <button type="button" class="btn gwc-button" id="btn_addFaq"><i class="fe-plus"></i> Add New</button>
+                                <button type="button" class="btn gwc-button" id="btn_addFaq"><i class="fe-plus"></i> Add New</button>
 
-                            <p class="text-muted font-14 mb-3"></p>
+                                <p class="text-muted font-14 mb-3"></p>
 
                                 <table id="tbl_faqs" class="table table-bordered dt-responsive table-responsive nowrap">
                                     <thead>

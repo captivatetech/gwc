@@ -11,6 +11,10 @@ class EmployeeAssessmentController extends BaseController
         $this->employees = model('Employees');
     }
 
+    /*
+        USED IN:
+        - EMPLOYEE_DASHBOARD->e_submitLoanReadinessAssessment()
+    */
     public function e_addLoanReadinessAssessment()
     {
         $fields = $this->request->getPost();

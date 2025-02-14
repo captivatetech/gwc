@@ -379,6 +379,7 @@ $routes->post('portal/admin/remove-admin-faq', 'Portal\FaqController::removeAdmi
     // ADMIN REPORTS FUNCTIONS
 
     // ADMIN AUDIT TRAIL FUNCTIONS
+$routes->get('portal/admin/a-load-audit-trails', 'Portal\AuditTrailController::a_loadAuditTrails');
 
 /* 
     !== END ADMIN FUNCTION --------------------------------------------------------->

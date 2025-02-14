@@ -15,6 +15,7 @@ class EmployeeController extends BaseController
         $this->companies = model('Companies');
         $this->employees = model('Employees');
         $this->maps = model('Maps');
+        $this->activities = model('Activities');
     }
 
     public function selectRepresentativeInformation()
@@ -98,6 +99,16 @@ class EmployeeController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "Information updated successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_admin_id'),
+                    'module_name' => 'Representative Module',
+                    'activity_type' => 'Update Representative Information',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
             }
             else
             {
@@ -161,6 +172,16 @@ class EmployeeController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Information updated successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Representative Module',
+                'activity_type' => 'Update Representative Profile Picture',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -199,6 +220,10 @@ class EmployeeController extends BaseController
         !-- Employee Module
     */
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_loadEmployees
+    */
     public function r_loadEmployees()
     {
         $fields = $this->request->getGet();
@@ -206,6 +231,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_calculateEmployeeYearsStayed
+    */
     public function r_calculateEmployeeYearsStayed()
     {
         $fields = $this->request->getGet();
@@ -272,6 +301,10 @@ class EmployeeController extends BaseController
         return $identificationNumber;
     }
 
+    /*
+        USED IN: 
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_addEmployee()
+    */
     public function r_addEmployee()
     {
         $this->validation->setRules([
@@ -344,6 +377,16 @@ class EmployeeController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "New employee saved successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Employee Module',
+                        'activity_type' => 'Add Employee',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -360,6 +403,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_selectEmployee()
+    */
     public function r_selectEmployee()
     {
         $fields = $this->request->getGet();
@@ -367,6 +414,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_editEmployee()
+    */
     public function r_editEmployee()
     {
         $this->validation->setRules([
@@ -447,6 +498,16 @@ class EmployeeController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Employee updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Employee Module',
+                        'activity_type' => 'Update Employee',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -463,6 +524,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_removeEmployee()
+    */
     public function r_removeEmployee()
     {
         $fields = $this->request->getPost();
@@ -470,6 +535,16 @@ class EmployeeController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Employee removed successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Employee Module',
+                'activity_type' => 'Remove Employee',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -483,7 +558,10 @@ class EmployeeController extends BaseController
 
 
 
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_uploadFile()
+    */
     public function r_uploadFile()
     {
         $fields = $this->request->getPost();
@@ -531,12 +609,20 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_loadCustomMaps()
+    */
     public function r_loadCustomMaps()
     {
         $arrData = $this->maps->r_loadCustomMaps();
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_selectCustomMap()
+    */
     public function r_selectCustomMap()
     {
         $fields = $this->request->getGet();
@@ -548,6 +634,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_mappingAndDuplicateHandling()
+    */
     public function r_mappingAndDuplicateHandling()
     {
         $fields = $this->request->getPost();
@@ -710,6 +800,10 @@ class EmployeeController extends BaseController
         downloadContactConflicts('conflict-rows-from-file.xlsx',$arrData,$arrColumns);
     }
 
+    /*
+        USED IN: 
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_importEmployeesByBatch()
+    */
     public function r_importEmployees()
     {
         $fields = $this->request->getPost();
@@ -891,7 +985,10 @@ class EmployeeController extends BaseController
 
 
 
-
+    /*
+        USED IN: 
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_sendEmployeeEmailVerification()
+    */
     public function a_sendEmployeeEmailVerification()
     {
         $fields = $this->request->getPost();
@@ -924,6 +1021,10 @@ class EmployeeController extends BaseController
     }
 
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_loadCompanyEmployees()
+    */
     public function a_loadCompanyEmployees()
     {
         $fields = $this->request->getGet();
@@ -937,7 +1038,10 @@ class EmployeeController extends BaseController
 
 
 
-
+    /*
+        USED IN: 
+        - EMPLOYEE_DASHBOARD->e_loadCreditLimit()
+    */
     public function e_loadCredetLimit()
     {
         $employeeId = $this->session->get('gwc_employee_id');
@@ -958,6 +1062,10 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - EMPLOYEE_DASHBOARD->e_openSalaryAdvanceModal()
+    */
     public function e_selectEmployeeInformation()
     {
         $employeeId = $this->session->get('gwc_employee_id');

@@ -19,6 +19,10 @@ class ProductSubscriptionController extends BaseController
         
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_FINANCING_PRODUCTS->addFinancingProduct()
+    */
     public function r_addProductSubscription()
     {
         $fields = $this->request->getPost();
@@ -36,6 +40,16 @@ class ProductSubscriptionController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Product application sent successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Product Module',
+                'activity_type' => 'Add Product Subscription',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -49,7 +63,10 @@ class ProductSubscriptionController extends BaseController
 
 
 
-
+    /*
+        USED IN: 
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_loadProductSubscriptions()
+    */
     public function a_loadProductSubscriptions()
     {
         $fields = $this->request->getGet();
@@ -57,6 +74,10 @@ class ProductSubscriptionController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN: 
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_selectProductSubscription()
+    */
     public function a_selectProductSubscription()
     {
         $fields = $this->request->getGet();
@@ -64,6 +85,10 @@ class ProductSubscriptionController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_failedCompanySubscription()
+    */
     public function a_failedCompanySubscription()
     {
         $fields = $this->request->getPost();
@@ -97,6 +122,16 @@ class ProductSubscriptionController extends BaseController
             $emailResult = sendSliceMail('representative_failed_subscription',$emailConfig,$emailSender,$emailReceiver,$data);
 
             $msgResult[] = "Action complete!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Product Module',
+                'activity_type' => 'Failed Company Subscription',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -108,6 +143,10 @@ class ProductSubscriptionController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_acceptCompanySubscription()
+    */
     public function a_acceptCompanySubscription()
     {
         $fields = $this->request->getPost();
@@ -145,6 +184,16 @@ class ProductSubscriptionController extends BaseController
                 $arrEmployees = $this->employees->a_loadCompanyEmployees($fields['txt_companyId'],'employee');
                 $msgResult = $arrEmployees;
             }
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Product Module',
+                'activity_type' => 'Accept Company Subscription',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -156,6 +205,10 @@ class ProductSubscriptionController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_submitAccessRequest
+    */
     public function r_submitAccessRequest()
     {
         $fields = $this->request->getPost();
@@ -171,6 +224,17 @@ class ProductSubscriptionController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Request Sent!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Employees Module',
+                'activity_type' => 'Submit Access Request',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
+
             return $this->response->setJSON($msgResult);
             exit();
         }
@@ -182,6 +246,10 @@ class ProductSubscriptionController extends BaseController
         }
     }
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_selectProductSubscriptionStatus()
+    */
     public function a_selectProductSubscriptionStatus()
     {
         $fields = $this->request->getGet();
@@ -189,6 +257,10 @@ class ProductSubscriptionController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - ADMIN_SALARY_ADVANCE_APPLICATIONS->a_editProductSubscriptionStatus()
+    */
     public function a_editProductSubscriptionStatus()
     {
         $fields = $this->request->getPost();
@@ -197,7 +269,7 @@ class ProductSubscriptionController extends BaseController
             'access_status'         => "OPEN",
             'access_request'        => 0,
             'remarks'               => "",
-            'updated_by'            => $this->session->get('gwc_representative_id'),
+            'updated_by'            => $this->session->get('gwc_admin_id'),
             'updated_date'          => date('Y-m-d H:i:s')
         ];
 
@@ -205,6 +277,17 @@ class ProductSubscriptionController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Access Status Changed!";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_admin_id'),
+                'module_name' => 'Products Module',
+                'activity_type' => 'Update Product Subscription Status',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
+
             return $this->response->setJSON($msgResult);
             exit();
         }

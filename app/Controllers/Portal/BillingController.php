@@ -132,6 +132,17 @@ class BillingController extends BaseController
                 $this->billings->a_addGeneratedBillingDetails($arrBillingDetails);
 
                 $msgResult[] = "Billing generation complete!";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_admin_id'),
+                    'module_name' => 'Billing Module',
+                    'activity_type' => 'Generate Billings',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
+
                 return $this->response->setJSON($msgResult);
             }
             else
@@ -170,6 +181,11 @@ class BillingController extends BaseController
 
 
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_DASHBOARD->r_loadBillings()
+        - REPRESENTATIVE_BILLING_AND_PAYMENTS->r_loadBillings()
+    */
     public function r_loadBillings()
     {
         $repData = $this->employees->selectEmployee($this->session->get('gwc_representative_id'));
@@ -177,6 +193,10 @@ class BillingController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_BILLING_AND_PAYMENTS->r_selectBilling()
+    */
     public function r_selectBilling()
     {
         $fields = $this->request->getGet();

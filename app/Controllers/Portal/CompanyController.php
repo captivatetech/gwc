@@ -11,8 +11,14 @@ class CompanyController extends BaseController
         $this->companies = model('Companies');
         $this->employees = model('Employees');
         $this->banks     = model('Banks');
+        $this->activities = model('Activities');
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_selectCompanyInformation()
+        - REPRESENTATIVE_FINANCING_PRODUCTS->r_selectCompanyInformation()
+    */
     public function r_selectCompanyInformation()
     {
         $fields = $this->request->getGet();
@@ -20,6 +26,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanyInformation()
+    */
     public function r_editCompanyInformation()
     {
         $this->validation->setRules([
@@ -105,6 +115,16 @@ class CompanyController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Company Information updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_representative_id'),
+                        'module_name' => 'Company Module',
+                        'activity_type' => 'Update Company Information',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -131,7 +151,10 @@ class CompanyController extends BaseController
     }
 
     
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_selectCompanySettings()
+    */
     public function r_selectCompanySettings()
     {
         $fields = $this->request->getGet();
@@ -139,12 +162,21 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_loadBankDepositories()
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_loadBankDepositories()
+    */
     public function r_loadBankDepositories()
     {
         $arrData = $this->banks->loadBanks();
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_populatePayrollDates()
+    */
     public function r_populatePayrollDates()
     {
         $fields = $this->request->getGet();
@@ -170,6 +202,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanySettings()
+    */
     public function r_editCompanySettings()
     {
         $this->validation->setRules([
@@ -262,6 +298,16 @@ class CompanyController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "Company settings updated successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_representative_id'),
+                    'module_name' => 'Company Module',
+                    'activity_type' => 'Update Company Settings',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
             }
             else
             {
@@ -283,7 +329,10 @@ class CompanyController extends BaseController
 
 
 
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_loadCompanyDocuments()
+    */
     public function r_loadCompanyRepresentatives()
     {
         $fields = $this->request->getGet();
@@ -291,6 +340,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_addCompanyHR()
+    */
     public function r_addCompanyHR()
     {
         $this->validation->setRules([
@@ -350,6 +403,16 @@ class CompanyController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Company Representative added successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_representative_id'),
+                        'module_name' => 'Company Module',
+                        'activity_type' => 'Add Company HR',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -375,6 +438,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanyHR()
+    */
     public function r_editCompanyHR()
     {
         $this->validation->setRules([
@@ -437,6 +504,16 @@ class CompanyController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Company Representative updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_representative_id'),
+                        'module_name' => 'Company Module',
+                        'activity_type' => 'Update Company HR',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -462,6 +539,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_addCompanyBPO()
+    */
     public function r_addCompanyBPO()
     {
         $this->validation->setRules([
@@ -521,6 +602,16 @@ class CompanyController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Company Representative added successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_representative_id'),
+                        'module_name' => 'Company Module',
+                        'activity_type' => 'Add Company BPO',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -546,6 +637,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanyBPO()
+    */
     public function r_editCompanyBPO()
     {
         $this->validation->setRules([
@@ -608,6 +703,16 @@ class CompanyController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Company Representative updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_representative_id'),
+                        'module_name' => 'Company Module',
+                        'activity_type' => 'Update Company BPO',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -634,7 +739,10 @@ class CompanyController extends BaseController
     }
 
 
-
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_loadCompanyRepresentativeIdentifications()
+    */
     public function r_loadCompanyRepresentativeIdentifications()
     {
         $fields = $this->request->getGet();
@@ -642,6 +750,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_addCompanyRepresentativeIdentification()
+    */
     public function r_addRepresentativeIdentification()
     {
         $fields = $this->request->getPost();
@@ -682,6 +794,16 @@ class CompanyController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Document added successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Add Representative Identification',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -693,6 +815,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($msgResult);
     }
     
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_openCompanyRepresentativeIdentificationModal()
+    */
     public function r_selectRepresentativeIdentification()
     {
         $fields = $this->request->getGet();
@@ -700,6 +826,10 @@ class CompanyController extends BaseController
         return $this->response->setJSON($arrData);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_COMPANY_PROFILE->r_editCompanyRepresentativeIdentification()
+    */
     public function r_editRepresentativeIdentification()
     {
         $fields = $this->request->getPost();
@@ -749,6 +879,16 @@ class CompanyController extends BaseController
         if($result > 0)
         {
             $msgResult[] = "Document updated successfully";
+
+            // for Audit Trail
+            $arrData = [
+                'user_id' => $this->session->get('gwc_representative_id'),
+                'module_name' => 'Company Module',
+                'activity_type' => 'Update Representative Identification',
+                'activity_details' => '',
+                'created_date' => date('Y-m-d H:i:s')
+            ];
+            $this->activities->addUserActivity($arrData);
         }
         else
         {
@@ -767,7 +907,10 @@ class CompanyController extends BaseController
     
 
 
-
+    /*
+        USED IN:
+        - ADMIN_PARTNERS_LIST->a_loadPartnersList()
+    */
     public function a_loadPartnersList()
     {
         // $fields = $this->request->getGet();

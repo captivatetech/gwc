@@ -50,6 +50,16 @@ class RoleController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "New role saved successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Roles Module',
+                        'activity_type' => 'Add Role',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -121,6 +131,16 @@ class RoleController extends BaseController
                 if($result > 0)
                 {
                     $msgResult[] = "Role updated successfully";
+
+                    // for Audit Trail
+                    $arrData = [
+                        'user_id' => $this->session->get('gwc_admin_id'),
+                        'module_name' => 'Roles Module',
+                        'activity_type' => 'Update Role',
+                        'activity_details' => '',
+                        'created_date' => date('Y-m-d H:i:s')
+                    ];
+                    $this->activities->addUserActivity($arrData);
                 }
                 else
                 {
@@ -163,6 +183,16 @@ class RoleController extends BaseController
             if($result > 0)
             {
                 $msgResult[] = "Role removed successfully";
+
+                // for Audit Trail
+                $arrData = [
+                    'user_id' => $this->session->get('gwc_admin_id'),
+                    'module_name' => 'Roles Module',
+                    'activity_type' => 'Remove Role',
+                    'activity_details' => '',
+                    'created_date' => date('Y-m-d H:i:s')
+                ];
+                $this->activities->addUserActivity($arrData);
             }
             else
             {
