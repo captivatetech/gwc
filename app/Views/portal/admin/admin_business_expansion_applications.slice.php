@@ -39,13 +39,33 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <center>
-                                    <img src="<?php echo base_url(); ?>public/assets/Adminto/images/under-construction.jpg" style="height: 60vh;">
-                                </center>
+
+                                <table id="tbl_businessExpansionApplications" class="table table-bordered nowrap" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Loan Application Number</th>
+                                            <th>Type</th>
+                                            <th>Name</th>
+                                            <th>Company</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+
+                                <br>
+
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" id="txt_baseUrl" value="<?php echo base_url(); ?>">
                 
             </div> <!-- container-fluid -->
 
@@ -96,6 +116,7 @@
   $(document).ready(function(){
     //jQuery Events
     
+    $('#tbl_businessExpansionApplications').DataTable();
     
   });
 </script>

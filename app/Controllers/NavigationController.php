@@ -17,6 +17,11 @@ class NavigationController extends BaseController
         return $this->slice->view('login');
     }
 
+    public function loanApplicationForm()
+    {
+        return $this->slice->view('portal.loan_application_form');
+    }
+
     public function login()
     {
         return $this->slice->view('login');
