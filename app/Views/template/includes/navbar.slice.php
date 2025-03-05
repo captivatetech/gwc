@@ -41,7 +41,7 @@
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item active">
                                         <div class="notify-icon">
-                                            <img src="<?php echo base_url();?>public/assets/adminto/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> </div>
+                                            <img src="<?php echo base_url();?>public/assets/Adminto/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> </div>
                                         <p class="notify-details">Cristina Pride</p>
                                         <p class="text-muted mb-0 user-msg">
                                             <small>Hi, How are you? What about our next meeting</small>
@@ -61,7 +61,7 @@
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <div class="notify-icon">
-                                            <img src="<?php echo base_url();?>public/assets/adminto/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" /> </div>
+                                            <img src="<?php echo base_url();?>public/assets/Adminto/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" /> </div>
                                         <p class="notify-details">Karen Robinson</p>
                                         <p class="text-muted mb-0 user-msg">
                                             <small>Wow ! this admin looks good and awesome design</small>
@@ -114,18 +114,18 @@
                     <div class="logo-box">
                         <a href="index.html" class="logo logo-light text-center">
                             <span class="logo-sm">
-                                <img src="<?php echo base_url();?>public/assets/adminto/images/gwc-icon.png" alt="" height="30">
+                                <img src="<?php echo base_url();?>public/assets/Adminto/images/gwc-icon.png" alt="" height="30">
                             </span>
                             <span class="logo-lg">
-                                <img src="<?php echo base_url();?>public/assets/adminto/images/primary.png" alt="" height="25">
+                                <img src="<?php echo base_url();?>public/assets/Adminto/images/primary.png" alt="" height="25">
                             </span>
                         </a>
                         <a href="index.html" class="logo logo-dark text-center">
                             <span class="logo-sm">
-                                <img src="<?php echo base_url();?>public/assets/adminto/images/gwc-icon.png" alt="" height="30">
+                                <img src="<?php echo base_url();?>public/assets/Adminto/images/gwc-icon.png" alt="" height="30">
                             </span>
                             <span class="logo-lg">
-                                <img src="<?php echo base_url();?>public/assets/adminto/images/primary.png" alt="" height="25">
+                                <img src="<?php echo base_url();?>public/assets/Adminto/images/primary.png" alt="" height="25">
                             </span>
                         </a>
                     </div>
