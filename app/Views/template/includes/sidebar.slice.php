@@ -170,10 +170,24 @@
                         @endif
                         @if($accessModules[1][0][0] == 1)
                         <li>
-                            <a href="<?php echo base_url('portal/admin/applications');?>">
+                            <a href="#div_productApplications" data-bs-toggle="collapse" class="" aria-expanded="true">
                                 <i class="fe-edit"></i>
                                 <span> Applications </span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <div class="collapse" id="div_productApplications" style="">
+                                <ul class="nav-second-level">
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/salary-advance-applications');?>">Salary Advance</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/business-expansion-applications');?>">Business Expansion</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo base_url('portal/admin/payment-now-applications');?>">Payment Now</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         @endif
                         @if($accessModules[2][0][0] == 1)
@@ -195,17 +209,17 @@
                                 <ul class="nav-second-level">
                                     @if($accessModules[3][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/salary-advance-applications');?>">Salary Advance</a>
+                                        <a href="<?php echo base_url('portal/admin/salary-advance-subscriptions');?>">Salary Advance</a>
                                     </li>
                                     @endif
                                     @if($accessModules[4][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/business-expansion-applications');?>">Business Expansion</a>
+                                        <a href="<?php echo base_url('portal/admin/business-expansion-subscriptions');?>">Business Expansion</a>
                                     </li>
                                     @endif
                                     @if($accessModules[5][0][0] == 1)
                                     <li>
-                                        <a href="<?php echo base_url('portal/admin/payment-now-applications');?>">Payment Now</a>
+                                        <a href="<?php echo base_url('portal/admin/payment-now-subscriptions');?>">Payment Now</a>
                                     </li>
                                     @endif
                                 </ul>

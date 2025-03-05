@@ -84,6 +84,10 @@
                 
                                 <h4 class="header-title mt-0 mb-4">Business Expansion Loan</h4>
                 
+                                <center>
+                                    <button type="button" class="btn gwc-button" id="btn_applyBusinessExpansion">APPLY NOW</button>
+                                </center>
+
                             </div>
                         </div>
                     </div><!-- end col -->
@@ -93,7 +97,10 @@
                             <div class="card-body">
                 
                                 <h4 class="header-title mt-0 mb-4">Payment Now</h4>
-                
+                                
+                                <center>
+                                    <button type="button" class="btn gwc-button" id="btn_applyPaymentNow">APPLY NOW</button>
+                                <center>
                             </div>
                         </div>
                     </div><!-- end col -->

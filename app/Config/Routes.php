@@ -20,6 +20,7 @@ $routes->get('test-number-to-words', 'TestController::testNumberToWords');
 //////   FRONT END NAVIGATION
 /////////////////////////////////////////////////////////////////////////////
 $routes->get('/', 'NavigationController::index');
+$routes->get('loan-application-form','NavigationController::loanApplicationForm');
 $routes->get('login', 'NavigationController::login');
 $routes->get('create-account', 'NavigationController::createAccount');
 $routes->get('representative-email-verification/(:any)/(:any)', 'NavigationController::representativeEmailVerification/$1/$2');
@@ -99,14 +100,22 @@ $routes->get('portal/representative/faqs', 'Portal\NavigationController::r_faqs'
 */
 $routes->get('portal/admin/profile', 'Portal\NavigationController::a_profile');
 $routes->get('portal/admin/dashboard', 'Portal\NavigationController::a_dashboard'); 
-$routes->get('portal/admin/applications', 'Portal\NavigationController::a_applications'); 
+// $routes->get('portal/admin/applications', 'Portal\NavigationController::a_applications'); 
+    
+$routes->get('portal/admin/salary-advance-applications', 'Portal\NavigationController::a_salaryAdvanceApplications');
+$routes->get('portal/admin/business-expansion-applications', 'Portal\NavigationController::a_businessExpansionApplications');
+$routes->get('portal/admin/payment-now-applications', 'Portal\NavigationController::a_paymentNowApplications');
+
 $routes->get('portal/admin/partners-list', 'Portal\NavigationController::a_partnersList'); 
-$routes->get('portal/admin/salary-advance-applications', 'Portal\NavigationController::a_advanceApplications'); 
-$routes->get('portal/admin/business-expansion-applications', 'Portal\NavigationController::a_businessExpansionApplications'); 
-$routes->get('portal/admin/payment-now-applications', 'Portal\NavigationController::a_paymentNowApplications'); 
+
+$routes->get('portal/admin/salary-advance-subscriptions', 'Portal\NavigationController::a_salaryAdvanceSubscriptions'); 
+$routes->get('portal/admin/business-expansion-subscriptions', 'Portal\NavigationController::a_businessExpansionSubscriptions'); 
+$routes->get('portal/admin/payment-now-subscriptions', 'Portal\NavigationController::a_paymentNowSubscriptions'); 
+
 $routes->get('portal/admin/salary-advance-accounts', 'Portal\NavigationController::a_salaryAdvanceAccounts'); 
 $routes->get('portal/admin/business-expansion-accounts', 'Portal\NavigationController::a_businessExpansionAccounts'); 
 $routes->get('portal/admin/payment-now-accounts', 'Portal\NavigationController::a_paymentNowAccounts'); 
+
 $routes->get('portal/admin/billings', 'Portal\NavigationController::a_billings'); 
 $routes->get('portal/admin/payments', 'Portal\NavigationController::a_payments'); 
 $routes->get('portal/admin/maintenance-users', 'Portal\NavigationController::a_maintenanceUsers'); 

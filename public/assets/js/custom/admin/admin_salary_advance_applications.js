@@ -25,7 +25,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                                     Actions <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription(${value['id']})">Update</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscription(${value['company_id']})">Update</a>
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_loadCompanyEmployees(${value['company_id']})">Employee List</a>
                                         <a class="dropdown-item" href="javascript:void(0)" onclick="ADMIN_SALARY_ADVANCE_APPLICATIONS.a_selectProductSubscriptionStatus(${value['company_id']})">Access Status</a>
                                     </div>
