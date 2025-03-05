@@ -637,7 +637,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function a_applications()
+    public function a_salaryAdvanceApplications()
     {       
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -656,7 +656,7 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
-                    return $this->slice->view('portal.admin.admin_applications', $data);
+                    return $this->slice->view('portal.admin.admin_salary_advance_applications', $data);
                 }
                 else
                 {
@@ -673,6 +673,80 @@ class NavigationController extends BaseController
             return redirect()->to(base_url());
         }
         
+    }
+
+    public function a_businessExpansionApplications()
+    {
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Loan Application | GWC";
+                $data['customScripts'] = 'admin_applications';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['firstName'] = $userData['first_name'];
+                    $data['lastName'] = $userData['last_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
+                    return $this->slice->view('portal.admin.admin_business_expansion_applications', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
+    }
+
+    public function a_paymentNowApplications()
+    {
+        if($this->session->has('gwc_admin_loggedIn'))
+        {
+            if($this->session->get('gwc_admin_loggedIn'))
+            {
+                $data['pageTitle'] = "Loan Application | GWC";
+                $data['customScripts'] = 'admin_applications';
+                $userData = $this->users->selectUser($this->session->get('gwc_admin_id'));
+                $data['accessModules'] = json_decode($userData['access_modules']);
+
+                if($userData != null)
+                {
+                    $data['userType'] = 'admin';
+                    $data['userName'] = $userData['last_name'] . ", " . $userData['first_name'];
+                    $data['firstName'] = $userData['first_name'];
+                    $data['lastName'] = $userData['last_name'];
+                    $data['userRoleName'] = $userData['role_name'];
+                    $data['profilePicture'] = $userData['user_image'];
+                    return $this->slice->view('portal.admin.admin_payment_now_applications', $data);
+                }
+                else
+                {
+                    $this->logout();
+                }
+            }
+            else
+            {
+                return redirect()->to(base_url());
+            }
+        }
+        else
+        {
+            return redirect()->to(base_url());
+        }
     }
 
     public function a_partnersList()
@@ -712,7 +786,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function a_advanceApplications()
+    public function a_salaryAdvanceSubscriptions()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -731,7 +805,7 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
-                    return $this->slice->view('portal.admin.admin_salary_advance_applications', $data);
+                    return $this->slice->view('portal.admin.admin_salary_advance_subscriptions', $data);
                 }
                 else
                 {
@@ -749,7 +823,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function a_businessExpansionApplications()
+    public function a_businessExpansionSubscriptions()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -768,7 +842,7 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
-                    return $this->slice->view('portal.admin.admin_business_expansion_applications', $data);
+                    return $this->slice->view('portal.admin.admin_business_expansion_subscriptions', $data);
                 }
                 else
                 {
@@ -786,7 +860,7 @@ class NavigationController extends BaseController
         }
     }
 
-    public function a_paymentNowApplications()
+    public function a_paymentNowSubscriptions()
     {
         if($this->session->has('gwc_admin_loggedIn'))
         {
@@ -805,7 +879,7 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
-                    return $this->slice->view('portal.admin.admin_payment_now_applications', $data);
+                    return $this->slice->view('portal.admin.admin_payment_now_subscriptions', $data);
                 }
                 else
                 {

@@ -28,27 +28,27 @@
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
-    
+ 
     <div class="content-page">
         <div class="content">
 
             <!-- Start Content-->
             <div class="container-fluid">
 
-                <div class="row">
+                <div class="row" id="div_paymentNowSubscriptionsList">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
 
-                                <table id="tbl_paymentNowApplications" class="table table-bordered nowrap" style="width: 100%;">
+                                <input type="hidden" id="txt_companyId">
+                                <input type="hidden" id="txt_subscriptionId">
+
+                                <table id="tbl_paymentNowSubscriptions" class="table table-sm table-bordered table-hover nowrap mb-3" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Loan Application Number</th>
-                                            <th>Type</th>
-                                            <th>Name</th>
-                                            <th>Company</th>
-                                            <th>Amount</th>
+                                            <th>On Board Date</th>
+                                            <th>Company Name</th>
+                                            <th>Company Code</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -57,8 +57,6 @@
                                         
                                     </tbody>
                                 </table>
-
-                                <br>
 
                             </div>
                         </div>
@@ -116,7 +114,7 @@
   $(document).ready(function(){
     //jQuery Events
     
-    $('#tbl_paymentNowApplications').DataTable();
+    $('#tbl_paymentNowSubscriptions').DataTable();
     
   });
 </script>
