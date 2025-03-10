@@ -870,20 +870,22 @@ class EmployeeController extends BaseController
         // $pdf->setKeywords('TCPDF, PDF, example, test, guide');
 
         // set default header data
-        $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Employee List', 'Generated Date: '.date('Y-m-d') , array(0,64,255), array(0,64,128));
-        $pdf->setFooterData(array(0,64,0), array(0,64,128));
+        // $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Employee List', 'Generated Date: '.date('Y-m-d') , array(0,64,255), array(0,64,128));
+        // $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
         // set header and footer fonts
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
+        $pdf->SetPrintHeader(false);
+
         // set default monospaced font
         $pdf->setDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // set margins
-        $pdf->setMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
+        $pdf->setMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
+        // $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
+        // $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
 
         // set auto page breaks
         $pdf->setAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -896,6 +898,8 @@ class EmployeeController extends BaseController
             require_once(dirname(__FILE__).'/lang/eng.php');
             $pdf->setLanguageArray($l);
         }
+
+
 
         // ---------------------------------------------------------
 
@@ -913,23 +917,34 @@ class EmployeeController extends BaseController
         $pdf->AddPage();
 
         // set text shadow effect
-        $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+        // $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+
+        $html = "ANNEX F";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+
+        $html = "<h3>CERTIFICATION</h3>";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'C', true);
+
+        $pdf->Ln();
+
+        $html = "<small>This is to certify that the employees listed below are regular employees of the company and that all details uploaded are true and correct.</small>";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'J', true);
 
         $tbody = "";
         foreach ($arrData as $key => $value) 
         {
-            $employeeNumber = $value['identification_number'];
-            $lastName = $value['last_name'];
-            $firstName = $value['first_name'];
-            $grossSalary = $value['gross_salary'];
-            $netSalary = $value['net_salary'];
+            $employeeName = $value['first_name'] . " " . $value['last_name'];
+            $position = $value['position'];
+            $grossSalary = number_format($value['gross_salary'], 2, '.', ','); 
+            $dateHired = $value['date_hired'];
+            $employmentStatus = $value['employment_status'];
             $tbody .= <<<EOD
                 <tr>
-                    <td>$employeeNumber</td>
-                    <td>$lastName</td>
-                    <td>$firstName</td>
-                    <td style="text-align: right;">$grossSalary</td>
-                    <td style="text-align: right;">$netSalary</td>
+                    <td>$employeeName</td>
+                    <td>$position</td>
+                    <td style="text-align: right;">Php. $grossSalary</td>
+                    <td>$dateHired</td>
+                    <td>$employmentStatus</td>
                 </tr>
             EOD;
         }
@@ -953,11 +968,11 @@ class EmployeeController extends BaseController
             <table style="width:100%; font-size: 10px;">
                 <thead>
                     <tr>
-                        <th><b>ID Number</b></th>
-                        <th><b>Last Name</b></th>
-                        <th><b>First Name</b></th>
-                        <th><b>Gross Salary</b></th>
-                        <th><b>Net Salary</b></th>
+                        <th><b>Name of Employee</b></th>
+                        <th><b>Position</b></th>
+                        <th><b>Gross Income</b></th>
+                        <th><b>Date Hired</b></th>
+                        <th><b>Employment Status</b></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -965,9 +980,63 @@ class EmployeeController extends BaseController
                 </tbody>
             </table>
         EOD;
-
-        // Print text using writeHTMLCell()
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+        $pdf->Ln();
+        $html = "<small>I declare under the penalties of perjury, that this declaration has been made in good faith, and to the best of my knowledge and belief to be true and correct.</small>";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'J', true);
+
+        $pdf->Ln();
+        $html = <<<EOD
+                    <small>
+                        _____________________________________________________________________
+                        <br>
+                        Signature over Printed Name of Company Representative / HR Head
+                    </small>
+                EOD;
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+
+        $pdf->Ln();
+        $html = <<<EOD
+                    <small>
+                        ____________________________________________________________
+                        <br>
+                        Signature over Printed Name of Accounting / Finance Head
+                    </small>
+                EOD;
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+
+        $pdf->Ln();
+        $html = "<small><b>SUBSCRIBED AND SWORN</b> to before me this __day of ______, 20__in ___________,Applicant exhibited to me his/her ______________________ issued at _________________ on _______________.</small>";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'J', true);
+
+        $pdf->Ln();
+        $html = "NOTARY PUBLIC";
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+
+        $html = <<<EOD
+                    <table width="150px">
+                        <tbody>
+                            <tr>
+                                <td><small>Doc No.:</small></td>
+                                <td><small>_________</small></td>
+                            </tr>
+                            <tr>
+                                <td><small>Page No.:</small></td>
+                                <td><small>_________</small></td>
+                            </tr>
+                            <tr>
+                                <td><small>Book No.:</small></td>
+                                <td><small>_________</small></td>
+                            </tr>
+                            <tr>
+                                <td><small>Series of:</small></td>
+                                <td><small>_________</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                EOD;
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'L', true);
 
         // ---------------------------------------------------------
 
