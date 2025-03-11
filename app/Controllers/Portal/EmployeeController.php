@@ -865,7 +865,7 @@ class EmployeeController extends BaseController
         // set document information
         $pdf->setCreator(PDF_CREATOR);
         // $pdf->setAuthor('Nicola Asuni');
-        $pdf->setTitle('Employee List');
+        $pdf->setTitle('SWORN DECLARATION');
         // $pdf->setSubject('TCPDF Tutorial');
         // $pdf->setKeywords('TCPDF, PDF, example, test, guide');
 
@@ -922,7 +922,7 @@ class EmployeeController extends BaseController
         $html = "ANNEX F";
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
 
-        $html = "<h3>CERTIFICATION</h3>";
+        $html = "<h3>SWORN DECLARATION</h3>";
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'C', true);
 
         $pdf->Ln();
