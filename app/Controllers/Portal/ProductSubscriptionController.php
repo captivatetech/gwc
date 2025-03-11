@@ -11,6 +11,7 @@ class ProductSubscriptionController extends BaseController
         $this->companies = model('Companies');
         $this->employees = model('Employees');
         $this->products = model('Products');
+        $this->activities = model('Activities');
     }
 
 
@@ -172,7 +173,7 @@ class ProductSubscriptionController extends BaseController
 
             $data = [
                 'emailName'    => 'GOLDWATER CAPITAL',
-                'subjectTitle' => 'Accept Subscription',
+                'subjectTitle' => 'SweldoNow Subscription Successful',
                 'emailAddress' => $repDetails['email_address'],
                 'remarks'      => $fields['txt_remarks']
             ];
