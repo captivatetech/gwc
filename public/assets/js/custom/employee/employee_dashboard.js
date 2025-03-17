@@ -209,7 +209,7 @@ const EMPLOYEE_DASHBOARD = (function(){
         amountToReceive = loanAmount - 300;
         numberOfDeductions = parseInt(paymentTerms.substr(0,1)) * 2;
 
-        interest = _interestRate / 100;
+        interest = (_interestRate * parseInt(paymentTerms.substr(0,1))) / 100;
         totalInterest = parseFloat(loanAmount) * interest;
         totalLoan = parseFloat(loanAmount) + totalInterest;
 
