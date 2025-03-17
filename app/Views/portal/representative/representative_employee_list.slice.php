@@ -214,7 +214,7 @@
 
                                 <div class="justify-content-end row mt-3">
                                     <div class="col-8 col-xl-3 d-grid">
-                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_backToList">Back</button>
+                                        <button type="button" class="btn gwc-button waves-effect waves-light" id="btn_backToList">Done</button>
                                     </div>
                                 </div>
 

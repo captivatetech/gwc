@@ -24,6 +24,7 @@ class LoanController extends BaseController
         $this->companies = model('Companies');
         $this->employees = model('Employees');
         $this->loans = model('Loans');
+        $this->activities = model('Activities');
     }
 
     private function _generateApplicationNumber($companyCode)
@@ -94,7 +95,7 @@ class LoanController extends BaseController
             $paymentTerms = $fields['paymentTerms'];
 
             $amountToReceive = $loanAmount - 300;
-            $totalInterest = ($interestRate / 100) * $loanAmount;
+            $totalInterest = (($interestRate * (int)$paymentTerms) / 100) * $loanAmount;
             $totalLoan = $loanAmount + $totalInterest;
 
             $numberOfDeductions = ((int)substr($paymentTerms,0,1)) * 2;
@@ -114,7 +115,9 @@ class LoanController extends BaseController
 
             $template = ZohoSign::getTemplate( 418013000000095065 );
 
-            $template->setRequestName("May Sample API Test");
+            $employeeName = $userData['first_name'] . " " . $userData['last_name'];
+            $documentName = $companyData['company_name'] . " " . $employeeName;
+            $template->setRequestName("MEMORANDUN OF AGREEMENT FOR CORPORATE SALARY LOAN FACILITY WITH AUTHORITY TO DEDUCT");
             $template->setNotes("Call us back if you need clarificaions regarding agreement");
 
             $template->setPrefillTextField( "txt_f1",  date('F d, Y') );
@@ -125,7 +128,6 @@ class LoanController extends BaseController
             $representativeName = $representativeData['first_name'] . " " . $representativeData['last_name'];
             $template->setPrefillTextField( "txt_f5",  $representativeName );
 
-            $employeeName = $userData['first_name'] . " " . $userData['last_name'];
             $template->setPrefillTextField( "txt_f6",  $employeeName );
             $template->setPrefillTextField( "txt_f7",  $userData['permanent_address'] );
             $template->setPrefillTextField( "txt_f8",  "FINANCE" );
@@ -164,7 +166,7 @@ class LoanController extends BaseController
             $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
-            $template->getActionByRole("Recepient3")->setRecipientEmail("ajhay.life@gmail.com");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("loans@goldwatercap.net");
             $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
 
 
