@@ -257,9 +257,10 @@ class IndexController extends BaseController
                 if($result != null)
                 {
                     $arrData = [
-                        'user_password' => encrypt_code($fields['txt_employeePassword']),
-                        'auth_code'     => null,
-                        'user_status'   => 1
+                        'user_password'     => encrypt_code($fields['txt_employeePassword']),
+                        'auth_code'         => null,
+                        'user_status'       => 1,
+                        'employee_status'   => "ACTIVE" // ACTIVE | RESIGNED | AWOL
                     ];
                     $this->employees->editEmployee($arrData, $result['id']);
                     $msgResult[] = "Yey! You can now login to your account.";

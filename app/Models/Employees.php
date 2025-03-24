@@ -52,9 +52,10 @@ class Employees extends Model
         ];
 
         $where = [
-            'a.email_address' => $logInRequirements['email_address'],
-            'a.user_password' => $logInRequirements['user_password'],
-            'a.user_status'   => 1 
+            'a.email_address'   => $logInRequirements['email_address'],
+            'a.user_password'   => $logInRequirements['user_password'],
+            'a.user_status'     => 1,
+            'a.employee_status' => 'ACTIVE' 
         ];
     
         $builder = $this->db->table('employees a');
@@ -583,7 +584,8 @@ class Employees extends Model
             'a.date_hired',
             'a.minimum_credit_amount',
             'a.maximum_credit_amount',
-            'a.employee_status'
+            'a.employee_status',
+            'a.user_status'
         ];
 
         $builder = $this->db->table('employees a');
@@ -672,6 +674,7 @@ class Employees extends Model
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->r_editEmployee()
     ///// EmployeeController->a_sendEmployeeEmailVerication()
+    ///// EmployeeController->r_resendEmployeeEmail()
     ////////////////////////////////////////////////////////////
     public function r_editEmployee($arrData, $employeeId)
     {
@@ -852,6 +855,7 @@ class Employees extends Model
 
     ////////////////////////////////////////////////////////////
     ///// EmployeeController->a_sendEmployeeEmailVerication()
+    ///// EmployeeController->r_resendEmployeeEmail()
     ////////////////////////////////////////////////////////////
     public function a_selectCompanyEmployee($employeeId)
     {
@@ -876,7 +880,8 @@ class Employees extends Model
             'a.minimum_credit_amount',
             'a.maximum_credit_amount',
             'a.payroll_bank_number',
-            'a.employee_status'
+            'a.employee_status',
+            'a.user_status'
         ];
 
         $builder = $this->db->table('employees a');

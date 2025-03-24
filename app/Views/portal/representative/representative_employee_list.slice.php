@@ -18,6 +18,7 @@
 <!-- Plugins css -->
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url();?>public/assets/Adminto/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
   /*INTERNAL STYLES*/
@@ -390,7 +391,7 @@
                                     <td width="30%">Payroll Bank</td>
                                     <td class="p-1">
                                         <input type="text" class="form-control" id="txt_payrollBank" name="txt_payrollBank" value="{{ $bankDepository }}" hidden>
-                                        <select class="form-control form-select" id="slc_payrollBank" name="slc_payrollBank" disabled></select>
+                                        <select class="form-control form-select" id="slc_payrollBank" name="slc_payrollBank" style="width: 100%;"></select>
                                     </td>
                                 </tr>
                                 <tr>
@@ -428,8 +429,9 @@
                                     <td class="p-1">
                                         <select class="form-control form-select" id="slc_employeeStatus" name="slc_employeeStatus" required>
                                            <option value="">--Select Status--</option>
-                                           <option value="1">Active</option> 
-                                           <option value="0">Inactive</option> 
+                                           <option value="ACTIVE">ACTIVE</option> 
+                                           <option value="RESIGNED">RESIGNED</option> 
+                                           <option value="AWOL">AWOL</option> 
                                         </select>
                                     </td>
                                 </tr>
@@ -570,6 +572,36 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal_swornStatementfields" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header--sticky">
+                    <h5 class="modal-title" id="lbl_modalTitle4"> 
+                        <i class="feather-plus me-2"></i> Custom Fields
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_swornStatementfields">
+                        <input type="text" class="form-control" id="txt_nameOfCompanyRepresentative" name="txt_nameOfCompanyRepresentative" style="text-align:center;" required>
+                        <center>
+                            <label id="txt_nameOfCompanyRepresentative">Name of Company Representative / HR Head</label>
+                        </center>
+                        <br><br>
+                        <input type="text" class="form-control" id="txt_nameOfAccounting" name="txt_nameOfAccounting" style="text-align:center;" required>
+                        <center>
+                            <label id="txt_nameOfAccounting">Name of Accounting / Finance Head</label>
+                        </center>
+                    </form>
+                </div>
+                <div class="modal-footer modal-footer--sticky">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn gwc-button" id="btn_submitSwornStatementFields" form="form_swornStatementfields">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal_companyAttachment" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -639,6 +671,7 @@
 <!-- Plugins js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.js"></script>
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/dropify/js/dropify.min.js"></script>
+<script src="<?php echo base_url();?>public/assets/Adminto/libs/select2/js/select2.min.js"></script>
 
 <!-- Init js-->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/form-fileuploads.init.js"></script>
@@ -760,6 +793,21 @@
     });
 
     $('#btn_printEmployeeList').on('click',function(){
+        let ids = $("#tbl_employees tbody input:checkbox:checked").map(function () {
+            return $(this).val();
+        }).get();
+
+        if(ids.length > 0)
+        {
+            $('#modal_swornStatementfields').modal('show');
+        }
+        else
+        {
+            alert('No selected employees to print!');
+        }
+    });
+
+    $('#form_swornStatementfields').on('submit', function(){
         REPRESENTATIVE_EMPLOYEE_LIST.r_printEmployeeList();
     });
 

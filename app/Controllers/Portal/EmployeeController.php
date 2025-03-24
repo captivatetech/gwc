@@ -555,6 +555,49 @@ class EmployeeController extends BaseController
         return $this->response->setJSON($msgResult);
     }
 
+    /*
+        USED IN:
+        - REPRESENTATIVE_EMPLOYEE_LIST->r_resendEmployeeEmail()
+    */
+    public function r_resendEmployeeEmail()
+    {
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'auth_code' => encrypt_code(generate_code(20))
+        ];
+        $result = $this->employees->r_editEmployee($arrData, $fields['employeeId']);
+
+        if($result > 0)
+        {
+            $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
+
+            $emailConfig = sliceMailConfig();
+
+            $emailSender    = 'loans@goldwatercap.net';
+            $emailReceiver  = $arrDetails['email_address'];
+
+            $data = [
+                'emailName'     => 'GOLDWATER CAPITAL',
+                'subjectTitle'  => 'Email Verification',
+                'emailAddress'  => $arrDetails['email_address'],
+                'authCode'      => decrypt_code($arrData['auth_code'])
+            ];
+
+            $emailResult = sendSliceMail('employee_email_verification',$emailConfig,$emailSender,$emailReceiver,$data);
+
+            if($emailResult > 0)
+            {
+                return $this->response->setJSON(["Email verification sent!"]);
+            }
+            else
+            {
+                return $this->response->setStatusCode(401)->setJSON(["Something went wrong!"]);
+            }
+            exit();
+        }
+    }
+
 
 
 
@@ -842,7 +885,7 @@ class EmployeeController extends BaseController
                 $value['minimum_credit_amount'] = $minLimit;
                 $value['maximum_credit_amount'] = $maxLimit;
             }
-            $value['employee_status'] = 1;
+            // $value['employee_status'] = "ACTIVE";
             $value['created_by'] = $this->session->get('gwc_representative_id');
             $value['created_date'] = date('Y-m-d H:i:s');
             $value['company_id'] = $fields['txt_companyId'];
@@ -853,7 +896,7 @@ class EmployeeController extends BaseController
         return $this->response->setJSON(['Success']);
     }
 
-    public function r_printEmployeeList($arrIds)
+    public function r_printEmployeeList($arrIds, $nameOfCompanyRepresentative, $nameOfAccounting)
     {
         $arrEmployeeIds = json_decode($arrIds, true);
 
@@ -989,22 +1032,24 @@ class EmployeeController extends BaseController
         $pdf->Ln();
         $html = <<<EOD
                     <small>
+                        $nameOfCompanyRepresentative<br>
                         _____________________________________________________________________
                         <br>
                         Signature over Printed Name of Company Representative / HR Head
                     </small>
                 EOD;
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'C', true);
 
         $pdf->Ln();
         $html = <<<EOD
                     <small>
+                        $nameOfAccounting<br>
                         ____________________________________________________________
                         <br>
                         Signature over Printed Name of Accounting / Finance Head
                     </small>
                 EOD;
-        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'R', true);
+        $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, 'C', true);
 
         $pdf->Ln();
         $html = "<small><b>SUBSCRIBED AND SWORN</b> to before me this __day of ______, 20__in ___________,Applicant exhibited to me his/her ______________________ issued at _________________ on _______________.</small>";
@@ -1071,21 +1116,29 @@ class EmployeeController extends BaseController
         {
             $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
 
-            $emailConfig = sliceMailConfig();
+            if($arrDetails['user_status'] == NULL && $arrDetails['employee_status'] != "ACTIVE")
+            {
+                $emailConfig = sliceMailConfig();
 
-            $emailSender    = 'loans@goldwatercap.net';
-            $emailReceiver  = $arrDetails['email_address'];
+                $emailSender    = 'loans@goldwatercap.net';
+                $emailReceiver  = $arrDetails['email_address'];
 
-            $data = [
-                'emailName'     => 'GOLDWATER CAPITAL',
-                'subjectTitle'  => 'Email Verification',
-                'emailAddress'  => $arrDetails['email_address'],
-                'authCode'      => decrypt_code($arrData['auth_code'])
-            ];
+                $data = [
+                    'emailName'     => 'GOLDWATER CAPITAL',
+                    'subjectTitle'  => 'Email Verification',
+                    'emailAddress'  => $arrDetails['email_address'],
+                    'authCode'      => decrypt_code($arrData['auth_code'])
+                ];
 
-            $emailResult = sendSliceMail('employee_email_verification',$emailConfig,$emailSender,$emailReceiver,$data);
+                $emailResult = sendSliceMail('employee_email_verification',$emailConfig,$emailSender,$emailReceiver,$data);
 
-            return $this->response->setJSON($emailResult);
+                return $this->response->setJSON($emailResult);
+            }
+            else
+            {
+                return $this->response->setJSON(['Warning!']);
+            }
+            exit();
         }
     }
 

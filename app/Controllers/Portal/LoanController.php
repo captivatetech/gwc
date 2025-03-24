@@ -259,8 +259,8 @@ class LoanController extends BaseController
                     'total_interest'        => $totalInterest,
                     'payment_terms'         => $paymentTerms,
                     'number_of_deductions'  => $numberOfDeductions,
-                    'monthly_dues'          => (float)number_format($monthlyDues, 2,".",","),
-                    'deduction_per_cutoff'  => (float)number_format($deductionPerCutoff, 2,".",","),
+                    'monthly_dues'          => (float)$monthlyDues,
+                    'deduction_per_cutoff'  => (float)$deductionPerCutoff,
                     'purpose_of_loan'       => $fields['purposeOfLoan'],
                     'application_status'    => 'PENDING', 
                     'loan_status'           => 'PENDING',
@@ -383,6 +383,19 @@ class LoanController extends BaseController
         $arrData['maEndDate'] = $maEndDate;
         $newData['loanDetails'] = $arrData;
         return $this->response->setJSON($newData);
+    }
+
+    public function e_cancelSalaryAdvanceApplication()
+    {
+        $fields = $this->request->getPost();
+
+        $arrData = [
+            'loan_status' => 'CANCELLED'
+        ];
+
+        $result = $this->loans->e_cancelSalaryAdvanceApplication($arrData, $fields['loanId']);
+
+        return $this->response->setJSON($result);
     }
 
     /*
