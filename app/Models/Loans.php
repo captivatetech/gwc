@@ -160,6 +160,7 @@ class Loans extends Model
     {
         $columns = [
             'a.id',
+            'a.request_id',
             'a.account_number',
             'a.application_number',
             'a.application_status',
@@ -218,6 +219,20 @@ class Loans extends Model
         return  $query->getRowArray();
     }
 
+    public function e_cancelSalaryAdvanceApplication($arrData, $loanId)
+    {
+        try {
+            $this->db->transStart();
+                $builder = $this->db->table('loans');
+                $builder->where(['id'=>$loanId]);
+                $builder->update($arrData);
+            $this->db->transComplete();
+            return ($this->db->transStatus() === TRUE)? 1 : 0;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
     ////////////////////////////////////////////////////////////
     ///// LoanController->e_loadLoanAccounts()
     ////////////////////////////////////////////////////////////
@@ -263,7 +278,7 @@ class Loans extends Model
         $builder->join('employees b','a.employee_id = b.id','left');
         $builder->join('companies c','a.company_id = c.id','left');
         $builder->select($columns);
-        $builder->whereIn('a.application_status', ['Processing','Approved','Rejected']);
+        // $builder->whereIn('a.application_status', ['Processing','Approved','Rejected']);
         $builder->orderBy('a.id','DESC');
         $query = $builder->get();
         return  $query->getResultArray();

@@ -4,6 +4,14 @@ namespace App\Controllers\Portal;
 
 use App\Controllers\BaseController;
 
+use zsign\OAuth;
+use zsign\ZohoSign;
+use zsign\SignException;
+use zsign\api\Fields;
+use zsign\api\Actions;
+use zsign\api\RequestObject;
+use zsign\api\fields\ImageField;
+
 class NavigationController extends BaseController
 {
     public function __construct()
@@ -79,6 +87,7 @@ class NavigationController extends BaseController
                     $arrData = $this->loans->e_selectLoanAccount($userData['id']);
                     if($arrData != null)
                     {
+                        $data['loanId'] = $arrData['id'];
                         if($arrData['loan_status'] == "ACTIVE")
                         {
                             $data['deductionPerCutoff'] = number_format($arrData['deduction_per_cutoff'],2,'.',',');
@@ -96,6 +105,7 @@ class NavigationController extends BaseController
                             $data['loanBalance'] =  number_format($totalLoan - (float)$arrData['total_payment'],2,'.',',');
 
                             $data['loanStatus'] = $arrData['loan_status'];
+
                         }
                         else
                         {
@@ -104,6 +114,30 @@ class NavigationController extends BaseController
                             $data['loanBalance'] = "0.00";
                             $data['loanStatus'] = "PENDING";
                         }
+
+                        /*********
+                            STEP 1 : Set user credentials
+                        **********/
+
+                        $user = new OAuth( array(
+                            OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                            OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                            OAuth::DC           => "COM",
+                            OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                        ) );
+
+                        ZohoSign::setCurrentUser( $user );
+                        $user->generateAccessTokenUsingRefreshToken();
+                        $access_token = $user->getAccessToken();
+
+                        /*********
+                        STEP 2 : Get particular document details
+                        **********/
+
+                        $req_obj = ZohoSign::getRequest( $arrData['request_id'] ); // enter valid "request_id"
+                        $data['employeeActionStatus'] = $req_obj->getActions()[0]->getActionStatus();
+                        $data['representativeActionStatus'] = $req_obj->getActions()[1]->getActionStatus();
+                        $data['adminActionStatus'] = $req_obj->getActions()[2]->getActionStatus();
                     }
                     else
                     {

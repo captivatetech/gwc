@@ -298,6 +298,29 @@ const EMPLOYEE_DASHBOARD = (function(){
         });
     }
 
+    thisEmployeeDashboard.e_cancelLoanApplication = function()
+    {
+        let formData = new FormData();
+        formData.set('loanId',$('#txt_loanId').val());
+
+        $('#btn_cancelLoanApplication').prop('disabled',true);
+
+        AJAXHELPER.postData({
+            // LoanController->e_cancelSalaryAdvanceApplication();
+            'route' : 'portal/employee/e-cancel-salary-advance-application',
+            'data'  : formData
+        }, function(data){
+            COMMONHELPER.Toaster('success',data[0]);
+            setTimeout(function(){
+                $('#btn_cancelLoanApplication').prop('disabled',false);
+                window.location.replace(`${baseUrl}portal/employee/dashboard`);
+            }, 1000);
+        }, function(data){ 
+            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            $('#btn_cancelLoanApplication').prop('disabled',false);
+        });
+    }
+
     return thisEmployeeDashboard;
 
 })();

@@ -511,3 +511,36 @@ Parang dapat assignan ko ng weight per persona in the future
    txt_totalNonFinanceCharges
    : 
    578
+
+
+
+
+
+
+
+   1> Form Window for Sworn Statement to fill out Signatory names.
+
+   2> Pls update email subject to: SweldoNow Subscription Successful
+
+   3> Add Resend email Verification to Employee List
+
+   4> Applicant applied for loan - PENDING
+   Docusign submitted - For Approval
+   GWC Approved Loan - For Disbursement
+   GWC Disbursed Loan - Disbursed
+
+   5> button to cancel the loan sa employee na part.
+
+   6> View loan applications on GWC admin. approved or pending.
+
+   7> reapplication is allowed 30 days after cancelation of initial loan.
+
+   8> however need natin ng notification for that. Para malaman ni GWC Admin na may request
+
+   9> Bank Field will not be autofill.
+
+   10> Disable status and login module of resign employee
+
+   11> Wag gawing requirements si SSS R3 and BIR Alphalist
+
+   12> is it possible to change the email subject for the docusign example: Batutay Jan applied for SweldoNow Loan

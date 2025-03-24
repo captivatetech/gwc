@@ -54,12 +54,15 @@
                                     <div class="col-md-4">
                                         <input type="hidden" id="txt_employeeId" value="{{ $employeeId }}">
                                         <input type="hidden" id="txt_companyId" value="{{ $companyId }}">
+                                        <input type="hidden" id="txt_loanId" value="{{ $loanId }}">
                                         <div style="float:right;">
-                                            @if($loanStatus == 'PAID' || $loanStatus == "")
+                                            @if($loanStatus == 'PAID' || $loanStatus == 'CANCELLED' || $loanStatus == "")
                                             <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">APPLY NOW</button>
                                             @else
-                                                @if($loanStatus == 'PENDING')
+                                                @if($loanStatus == 'PENDING' && $employeeActionStatus == 'SIGNED')
                                                 <button type="button" class="btn btn-danger" disabled>PENDING APPLICATION</button>
+                                                @else
+                                                <button type="button" class="btn btn-danger" id="btn_cancelLoanApplication">CANCEL APPLICATION</button>
                                                 @endif
                                             @endif
                                         </div>
@@ -1468,6 +1471,13 @@
 
     $('#btn_viewDetails').on('click',function(){
         EMPLOYEE_DASHBOARD.e_viewDashboardDetails();
+    });
+
+    $('#btn_cancelLoanApplication').on('click',function(){
+        if(confirm('If you cancel this loan application you will be allowed to reapply a loan after 30 days!'))
+        {
+            EMPLOYEE_DASHBOARD.e_cancelLoanApplication();
+        }
     });
     
   });

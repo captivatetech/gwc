@@ -350,7 +350,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                 arrAccept[0] = (arrPartnership.includes(0))? 0 : 1;
             }
 
-            let arrAttachments = [0,0,0,0];
+            let arrAttachments = [0,0];
             data.forEach(function(value,key){
 
                 let attachmentStatus = "";
@@ -410,7 +410,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
-                            arrAttachments[2] = 1;
+                            // arrAttachments[2] = 1;
                         }
                         $('#tr_attachment03 td:eq(2)').html(attachmentStatus);
                     }
@@ -429,7 +429,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
                         else if(value['document_status'] == 2)
                         {
                             attachmentStatus = `<i class="text-success">Verified</i>`;
-                            arrAttachments[3] = 1;
+                            // arrAttachments[3] = 1;
                         }
                         $('#tr_attachment04 td:eq(2)').html(attachmentStatus);
                     }
