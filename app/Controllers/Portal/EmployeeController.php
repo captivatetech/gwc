@@ -358,6 +358,7 @@ class EmployeeController extends BaseController
                 'net_salary'                => $fields['txt_netSalary'],
                 'minimum_credit_amount'     => str_replace(",","",$fields['txt_minimumAmount']),
                 'maximum_credit_amount'     => str_replace(",","",$fields['txt_maximumAmount']),
+                'channel_code'              => $fields['slc_payrollBank'],
                 'payroll_bank_number'       => $fields['txt_payrollBankAccount'],
                 'employee_status'           => $fields['slc_employeeStatus'],
                 'created_by'                => $this->session->get('gwc_representative_id'),
@@ -1116,7 +1117,7 @@ class EmployeeController extends BaseController
         {
             $arrDetails = $this->employees->a_selectCompanyEmployee($fields['employeeId']);
 
-            if($arrDetails['user_status'] == NULL && $arrDetails['employee_status'] != "ACTIVE")
+            if($arrDetails['user_status'] == NULL && $arrDetails['employee_status'] == "ACTIVE")
             {
                 $emailConfig = sliceMailConfig();
 

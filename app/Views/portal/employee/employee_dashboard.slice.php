@@ -56,10 +56,10 @@
                                         <input type="hidden" id="txt_companyId" value="{{ $companyId }}">
                                         <input type="hidden" id="txt_loanId" value="{{ $loanId }}">
                                         <div style="float:right;">
-                                            @if($loanStatus == 'PAID' || $loanStatus == 'CANCELLED' || $loanStatus == "")
+                                            @if($loanStatus == "PAID" || $loanStatus == "CANCELLED" || $loanStatus == "" || $applicationStatus == "CANCELLED")
                                             <button type="button" class="btn gwc-button" id="btn_openLoanReadinessAssessmentModal">APPLY NOW</button>
                                             @else
-                                                @if($loanStatus == 'PENDING' && $employeeActionStatus == 'SIGNED')
+                                                @if($loanStatus == 'PENDING' && $employeeActionStatus == 'SIGNED' && $applicationStatus != 'CANCELLED')
                                                 <button type="button" class="btn btn-danger" disabled>PENDING APPLICATION</button>
                                                 @else
                                                 <button type="button" class="btn btn-danger" id="btn_cancelLoanApplication">CANCEL APPLICATION</button>
