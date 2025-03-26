@@ -105,6 +105,7 @@ class NavigationController extends BaseController
                             $data['loanBalance'] =  number_format($totalLoan - (float)$arrData['total_payment'],2,'.',',');
 
                             $data['loanStatus'] = $arrData['loan_status'];
+                            $data['applicationStatus'] = $arrData['application_status'];
 
                         }
                         else
@@ -113,6 +114,7 @@ class NavigationController extends BaseController
                             $data['loanAccountNumber'] = "";
                             $data['loanBalance'] = "0.00";
                             $data['loanStatus'] = "PENDING";
+                            $data['applicationStatus'] = $arrData['application_status'];
                         }
 
                         /*********
@@ -141,10 +143,12 @@ class NavigationController extends BaseController
                     }
                     else
                     {
+                        $data['loanId'] = "";
                         $data['deductionPerCutoff'] = "0.00";
                         $data['loanAccountNumber'] = "";
                         $data['loanBalance'] = "0.00";
                         $data['loanStatus'] = "";
+                        $data['applicationStatus'] = "";
                     }
                     
 

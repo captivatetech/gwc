@@ -385,17 +385,21 @@ class LoanController extends BaseController
         return $this->response->setJSON($newData);
     }
 
+    /*
+        USED IN:
+        - EMPLOYEE_DASHBOARD->e_cancelLoanApplication()
+    */
     public function e_cancelSalaryAdvanceApplication()
     {
         $fields = $this->request->getPost();
 
         $arrData = [
-            'loan_status' => 'CANCELLED'
+            'application_status' => 'CANCELLED'
         ];
 
         $result = $this->loans->e_cancelSalaryAdvanceApplication($arrData, $fields['loanId']);
 
-        return $this->response->setJSON($result);
+        return $this->response->setJSON(["Loan Application Cancelled!"]);
     }
 
     /*

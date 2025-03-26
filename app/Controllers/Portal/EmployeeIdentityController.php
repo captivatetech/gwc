@@ -10,6 +10,7 @@ class EmployeeIdentityController extends BaseController
     {
         $this->companies = model('Companies');
         $this->employees = model('Employees');
+        $this->activities = model('Activities');
     }
 
     public function loadRepresentativeIdentifications()

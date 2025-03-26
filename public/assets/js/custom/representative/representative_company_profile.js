@@ -412,7 +412,9 @@ const REPRESENTATIVE_COMPANY_PROFILE = (function(){
                     options += `<option value="${value['channel_code']}">[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
             });
-            $('#slc_bankDepository').html(options);
+            $('#slc_bankDepository').html(options).select2({
+                dropdownParent: $('#form_companySettings')
+            });
         });
     }
 

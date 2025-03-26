@@ -47,8 +47,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 else
                 {
                     actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_resendEmployeeEmail(${value['id']})">Resend Email</a>`;
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_removeEmployee(${value['id']})">Delete</a>`;
                 }
 
                 tbody += `<tr>
