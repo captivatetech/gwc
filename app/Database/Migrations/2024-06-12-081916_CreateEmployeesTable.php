@@ -8,7 +8,7 @@ class CreateEmployeesTable extends Migration
 {
     public function up()
     {
-        //33 fields
+        //36 fields
         $this->forge->addField([
             'id'                        => [
                 'type'              => 'INT',
@@ -136,6 +136,11 @@ class CreateEmployeesTable extends Migration
             'employee_status'           => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 20,
+                'null'              => true,
+            ],
+            'channel_code'          => [
+                'type'              => 'VARCHAR',
+                'constraint'        => 50,
                 'null'              => true,
             ],
             'payroll_bank_number'       => [

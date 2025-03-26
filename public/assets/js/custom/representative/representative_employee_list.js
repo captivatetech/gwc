@@ -20,20 +20,29 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             data.forEach(function(value,index){
                 let employeeStatus = "";
 
-                if(value['employee_status'] == 1)
+                if(value['employee_status'] == "ACTIVE" && value['user_status'] == 1)
                 {
-                    employeeStatus = `<span class="text-success">Active</span>`;
+                    employeeStatus = `<span class="text-success">ACTIVE</span>`;
+                }
+                else if(value['employee_status'] == "RESIGNED")
+                {
+                    employeeStatus = `<span class="text-warning">RESIGNED</span>`;
+                }
+                else if(value['employee_status'] == "AWOL")
+                {
+                    employeeStatus = `<span class="text-danger">AWOL</span>`;
                 }
                 else
                 {
-                    employeeStatus = `<span class="text-danger">Inactive</span>`;
+                    employeeStatus = `<span class="text-danger">INACTIVE</span>`;
                 }
 
                 let actions = '';
 
                 if($('#txt_subscriptionStatus').val() == "APPROVE" && $('#txt_accessStatus').val() == "CLOSE")
                 {
-                    actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>`;
+                    actions = `<a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectEmployee(${value['id']})">Edit</a>
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_resendEmployeeEmail(${value['id']})">Resend Email</a>`;
                 }
                 else
                 {
@@ -112,10 +121,13 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             return $(this).val();
         }).get();
 
+        let nameOfCompanyRepresentative = $('#txt_nameOfCompanyRepresentative').val();
+        let nameOfAccounting = $('#txt_nameOfAccounting').val();
+
         if(ids.length > 0)
         {
             let arrIds = JSON.stringify(ids);
-            window.open(`${baseUrl}portal/representative/r-print-employee-list/${arrIds}`, '_blank');
+            window.open(`${baseUrl}portal/representative/r-print-employee-list/${arrIds}/${nameOfCompanyRepresentative}/${nameOfAccounting}`, '_blank');
         }
         else
         {
@@ -225,7 +237,9 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                     options += `<option value="${value['channel_code']}">[${value['channel_type']}] ${value['bank_name']}</options>`;
                 }
             });
-            $('#slc_payrollBank').html(options);
+            $('#slc_payrollBank').html(options).select2({
+                dropdownParent: $('#form_employee')
+            });
         });
     }
 
@@ -262,6 +276,27 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                 'data'  : {
                     'employeeId' : employeeId
                 }
+            }, function(data){
+                COMMONHELPER.Toaster('success',data[0]);
+                setTimeout(function(){
+                    window.location.replace(`${baseUrl}portal/representative/employee-list`);
+                }, 1000);
+            }, function(data){ 
+                COMMONHELPER.Toaster('error',data['responseJSON'][0]);
+            });
+        }
+    }
+
+    thisRepresentativeEmployeeList.r_resendEmployeeEmail = function(employeeId)
+    {
+        if(confirm('Resend Email Verification!'))
+        {
+            let formData = new FormData();
+            formData.set('employeeId',employeeId);
+            AJAXHELPER.postData({
+                // EmployeeController->r_resendEmployeeEmail();
+                'route' : 'portal/representative/r-resend-employee-email',
+                'data'  : formData
             }, function(data){
                 COMMONHELPER.Toaster('success',data[0]);
                 setTimeout(function(){

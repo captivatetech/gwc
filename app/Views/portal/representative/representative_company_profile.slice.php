@@ -18,6 +18,7 @@
 <!-- Plugins css -->
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url();?>public/assets/Adminto/libs/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url();?>public/assets/Adminto/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
   /*INTERNAL STYLES*/
@@ -502,7 +503,7 @@
                                                 <div class="row mb-3">
                                                     <label for="txt_bankDepository" class="col-4 col-xl-2 col-form-label">Bank Depository</label>
                                                     <div class="col-8 col-xl-10">
-                                                        <select class="form-control form-select" id="slc_bankDepository" name="slc_bankDepository" required></select>
+                                                        <select class="form-control form-select" id="slc_bankDepository" name="slc_bankDepository" style="width: 100%;" required></select>
                                                     </div>
                                                 </div>
 
@@ -898,6 +899,7 @@
 <!-- Plugins js -->
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/dropzone/min/dropzone.min.js"></script>
 <script src="<?php echo base_url();?>public/assets/Adminto/libs/dropify/js/dropify.min.js"></script>
+<script src="<?php echo base_url();?>public/assets/Adminto/libs/select2/js/select2.min.js"></script>
 
 <!-- Init js-->
 <script src="<?php echo base_url();?>public/assets/Adminto/js/pages/form-fileuploads.init.js"></script>
