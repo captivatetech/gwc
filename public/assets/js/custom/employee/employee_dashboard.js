@@ -176,54 +176,84 @@ const EMPLOYEE_DASHBOARD = (function(){
                 }
             });
 
-            $('#lbl_min').text(COMMONHELPER.numberWithCommas(data['minimum_credit_amount']));
-            $('#lbl_max').text(COMMONHELPER.numberWithCommas(data['maximum_credit_amount']));
-
             $('#txt_loanAmount').val(parseInt(data['min_loanable_amount']));
-
-            $('#lbl_loanAmount').text($('#txt_loanAmount').val());
-            $('#lbl_totalInterest').text(`${arrData['interestRate']} %`);
+            $('#txt_monthlyInterestPercent').val(arrData['interestRate']);
+            $('#txt_age').val(data['age']);
+            EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
 
             _persona = arrData['persona'];
             _interestRate = arrData['interestRate'];
             _arrAnswers = arrData['arrLetters'];
             _totalScore = arrData['totalScore'];
-
-            EMPLOYEE_DASHBOARD.e_computeSalaryAdvanceInterests();
         });
     }
 
-    thisEmployeeDashboard.e_computeSalaryAdvanceInterests = function(thisField)
+    thisEmployeeDashboard.e_computeSalaryAdvanceInterests = function()
     {
         let loanAmount = $('#txt_loanAmount').val();
         let paymentTerms = $('input[name=rdb_paymentTerms]:checked').val();
+        let monthlyInterestPercent = $('#txt_monthlyInterestPercent').val();
 
         let totalLoan = 0;
         let interest = 0;
+        let totalInterestRate = 0;
         let totalInterest = 0;
+
+        let serviceFee = 0;
+        let docStamp = 0;
+        let notarialFee = 500;
+        let insurance = 0;
+        let totalFees = 0;
+
         let amountToReceive = 0;
         let numberOfDeductions = 0;
         let monthlyDues = 0;
         let deductionPerCufOff = 0;
 
-        amountToReceive = loanAmount - 300;
-        numberOfDeductions = parseInt(paymentTerms.substr(0,1)) * 2;
 
-        interest = (_interestRate * parseInt(paymentTerms.substr(0,1))) / 100;
-        totalInterest = parseFloat(loanAmount) * interest;
-        totalLoan = parseFloat(loanAmount) + totalInterest;
-
-        monthlyDues = totalLoan / parseInt(paymentTerms.substr(0,1));
-        deductionPerCufOff = totalLoan / numberOfDeductions;
-
-
-        $('#lbl_loanAmount').text(COMMONHELPER.numberWithCommas($('#txt_loanAmount').val()));
-        $('#lbl_processingFee').text('300.00');
-        $('#lbl_amountToReceive').text(COMMONHELPER.numberWithCommas(parseFloat(amountToReceive).toFixed(2)));
-
+        $('#lbl_loanAmount').text(COMMONHELPER.numberWithCommas(parseFloat($('#txt_loanAmount').val()).toFixed(2)));
         $('#lbl_paymentTerms').text(`${$('input[name=rdb_paymentTerms]:checked').val()}`);
+
+        $('#lbl_monthlyInterestPercent').text(`${monthlyInterestPercent} %`);
+
+        totalInterestRate = parseFloat(monthlyInterestPercent) * parseInt(paymentTerms.substr(0,1));
+        $('#lbl_totalInterestPercent').text(`${totalInterestRate} %`);
+        totalInterest = parseFloat($('#txt_loanAmount').val()) * (totalInterestRate / 100);
+        $('#lbl_totalInterest').text(`${COMMONHELPER.numberWithCommas((totalInterest).toFixed(2))}`);
+
+        serviceFee = parseFloat($('#txt_loanAmount').val()) * 0.02;
+        $('#lbl_serviceFee').text(`${COMMONHELPER.numberWithCommas((serviceFee).toFixed(2))}`);
+
+        docStamp = parseFloat($('#txt_loanAmount').val()) * 0.0175;
+        $('#lbl_documentStamp').text(`${COMMONHELPER.numberWithCommas((docStamp).toFixed(2))}`);
+
+        $('#lbl_notarialFee').text(`${(notarialFee).toFixed(2)}`);
+
+        if(parseInt($('#txt_age').val()) < 60)
+        {
+            insurance = parseFloat($('#txt_loanAmount').val()) / 1000 * 13;
+            $('#lbl_isurance').text(`${(insurance).toFixed(2)}`);
+        }
+        else
+        {
+            insurance = 0;
+            $('#lbl_isurance').html(`<i>Not Applicable</i>`);
+        }
+
+        totalFees = serviceFee + docStamp + notarialFee + insurance;
+        $('#lbl_totalFees').text(`${(totalFees).toFixed(2)}`);
+
+        amountToReceive = parseFloat($('#txt_loanAmount').val()) - totalFees;
+        $('#lbl_amountToReceive').text(COMMONHELPER.numberWithCommas(parseFloat(amountToReceive).toFixed(2)));        
+        
+        numberOfDeductions = parseInt(paymentTerms.substr(0,1)) * 2;
         $('#lbl_numberOfDeductions').text(numberOfDeductions);
+
+        totalLoan = parseFloat($('#txt_loanAmount').val()) + totalInterest;
+        monthlyDues = totalLoan / parseInt(paymentTerms.substr(0,1));
         $('#lbl_monthlyDues').text(COMMONHELPER.numberWithCommas(parseFloat(monthlyDues).toFixed(2)));
+
+        deductionPerCufOff = monthlyDues / 2;
         $('#lbl_deductionPerCutOff').text(COMMONHELPER.numberWithCommas(parseFloat(deductionPerCufOff).toFixed(2)));
     }
 

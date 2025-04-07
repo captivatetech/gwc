@@ -261,12 +261,12 @@
                                             <td>---</td>
                                         </tr>
                                         <tr id="tr_attachment03">
-                                            <td>BIR Employee List</td>
+                                            <td>BIR Employee List (Optional)</td>
                                             <td>---</td>
                                             <td>---</td>
                                         </tr>
                                         <tr id="tr_attachment04">
-                                            <td>SSS R3</td>
+                                            <td>SSS R3 (Optional)</td>
                                             <td>---</td>
                                             <td>---</td>
                                         </tr>
