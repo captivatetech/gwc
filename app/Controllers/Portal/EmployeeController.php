@@ -1203,6 +1203,11 @@ class EmployeeController extends BaseController
         $arrData['maximum_credit_amount'] = $max;
         $arrData['min_loanable_amount'] = $minLoanableAmount;
         $arrData['max_loanable_amount'] = $maxLoanableAmount;
+
+        $birthday = explode("-", $arrData['birthday']);
+        $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+        $arrData['age'] =  $age;
+
         return $this->response->setJSON($arrData);
     }
 }

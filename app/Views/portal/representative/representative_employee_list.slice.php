@@ -177,7 +177,7 @@
                                                     <i class="fe-disc text-danger"></i>
                                                 </center>
                                             </th>
-                                            <td>BIR Employee List</td>
+                                            <td>BIR Employee List (Optional)</td>
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment03" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-03', 'BIR Employee List');">
@@ -196,7 +196,7 @@
                                                     <i class="fe-disc text-danger"></i>
                                                 </center>
                                             </th>
-                                            <td>SSS R3</td>
+                                            <td>SSS R3 (Optional)</td>
                                             <td width="10%">
                                                 <center>
                                                     <a href="javascript:void(0)" id="btn_attachment04" onclick="REPRESENTATIVE_EMPLOYEE_LIST.r_selectCompanyAttachment('','Attachment-04', 'SSS R3');">
