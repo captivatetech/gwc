@@ -41,6 +41,10 @@ class CreateEmployeesTable extends Migration
                 'constraint'        => 100,
                 'null'              => true,
             ],
+            'birthday'                  => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
             'marital_status'            => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 20,

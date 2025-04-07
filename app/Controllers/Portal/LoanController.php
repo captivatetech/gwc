@@ -94,19 +94,46 @@ class LoanController extends BaseController
             $interestRate = (float)$fields['interestRate'];
             $paymentTerms = $fields['paymentTerms'];
 
-            $amountToReceive = $loanAmount - 300;
+            $totalLoan = 0;
+            $totalInterest = 0;
+
+            $serviceFee = 0;
+            $docStamp = 0;
+            $notarialFee = 0;
+            $insurance = 0;
+            $totalFees = 0;
+
+            $amountToReceive = 0;
+            $numberOfDeductions = 0;
+            $monthlyDues = 0;
+            $deductionPerCufOff = 0;
+
+            $serviceFee = $loanAmount * 0.02;
+            $docStamp = $loanAmount * 0.0175;
+            $notarialFee = 500;
+
+            $birthday = explode("-", $userData['birthday']);
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+            if($age < 60)
+            {
+                $insurance = $loanAmount / 1000 * 13;
+            }
+
+            $totalFees = $serviceFee + $docStamp + $notarialFee + $insurance;
+
+            $amountToReceive = $loanAmount - $totalFees;
             $totalInterest = (($interestRate * (int)$paymentTerms) / 100) * $loanAmount;
             $totalLoan = $loanAmount + $totalInterest;
 
             $numberOfDeductions = ((int)substr($paymentTerms,0,1)) * 2;
             $monthlyDues = $totalLoan / (int)substr($paymentTerms, 0, 1);
-            $deductionPerCutoff = $totalLoan / $numberOfDeductions;
+            $deductionPerCutoff = $monthlyDues / 2;
 
             $user = new OAuth( array(
                 OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                 OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                 OAuth::DC           => "COM",
-                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
             ) );
 
             ZohoSign::setCurrentUser( $user );
@@ -178,10 +205,10 @@ class LoanController extends BaseController
             $template->setPrefillTextField( "txt_maStartDate", "-" );
             $template->setPrefillTextField( "txt_maEndDate", "-" );
 
-            $template->setPrefillTextField( "txt_dst", "-" );
-            $template->setPrefillTextField( "txt_insurance", "-" );
-            $template->setPrefillTextField( "txt_notarialFees", "-" );
-            $template->setPrefillTextField( "txt_otherAdminFees", "-" );
+            $template->setPrefillTextField( "txt_dst", number_format($docStamp,2,".",",") );
+            $template->setPrefillTextField( "txt_insurance", number_format($insurance,2,".",",") );
+            $template->setPrefillTextField( "txt_notarialFees", number_format($notarialFee,2,".",",") );
+            $template->setPrefillTextField( "txt_otherAdminFees", number_format($serviceFee,2,".",",") );
 
             $t1Balance = $totalLoan;
             $series = 0;
@@ -258,6 +285,10 @@ class LoanController extends BaseController
                     'interest_rate'         => $interestRate,
                     'total_interest'        => $totalInterest,
                     'payment_terms'         => $paymentTerms,
+                    'service_fee'           => $serviceFee,
+                    'document_stamp'        => $docStamp,
+                    'notarial_fee'          => $notarialFee,
+                    'insurance'             => $insurance,
                     'number_of_deductions'  => $numberOfDeductions,
                     'monthly_dues'          => (float)$monthlyDues,
                     'deduction_per_cutoff'  => (float)$deductionPerCutoff,
@@ -431,7 +462,7 @@ class LoanController extends BaseController
                 OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                 OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                 OAuth::DC           => "COM",
-                OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
             ) );
 
             ZohoSign::setCurrentUser( $user );

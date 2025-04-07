@@ -222,4 +222,31 @@ class Products extends Model
             throw $e;
         }
     }
+
+    ////////////////////////////////////////////////////
+    ///// NavigationController->a_profile()
+    ////////////////////////////////////////////////////
+    public function a_loadAccessRequests()
+    {
+        $columns = [
+            'a.id',
+            'a.product_id',
+            'a.company_id',
+            'b.company_name',
+            'b.company_code',
+            'a.subscription_status',
+            'a.remarks',
+            'a.created_by',
+            'DATE_FORMAT(a.created_date, "%Y-%m-%d") as created_date',
+            'a.updated_by',
+            'DATE_FORMAT(a.updated_date, "%Y-%m-%d") as updated_date'
+        ];
+
+        $builder = $this->db->table('product_subscriptions a');
+        $builder->join('companies b','a.company_id = b.id','left');
+        $builder->select($columns);
+        $builder->where('access_request', 1);
+        $query = $builder->get();
+        return  $query->getResultArray();
+    }
 }

@@ -22,6 +22,7 @@ class NavigationController extends BaseController
         $this->employees    = model('Employees');
         $this->companies    = model('Companies');
         $this->loans        = model('Loans');
+        $this->products     = model('Products');
     }
 
     /*
@@ -125,7 +126,7 @@ class NavigationController extends BaseController
                             OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                             OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                             OAuth::DC           => "COM",
-                            OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                            OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
                         ) );
 
                         ZohoSign::setCurrentUser( $user );
@@ -620,7 +621,13 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_profile', $data);
+                    // return $this->response->setJSON($data);
                 }
                 else
                 {
@@ -657,6 +664,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_dashboard', $data);
                 }
                 else
@@ -694,6 +706,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_salary_advance_applications', $data);
                 }
                 else
@@ -732,6 +749,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_business_expansion_applications', $data);
                 }
                 else
@@ -769,6 +791,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_payment_now_applications', $data);
                 }
                 else
@@ -806,6 +833,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_partners_list', $data);
                 }
                 else
@@ -843,6 +875,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_salary_advance_subscriptions', $data);
                 }
                 else
@@ -880,6 +917,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_business_expansion_subscriptions', $data);
                 }
                 else
@@ -917,6 +959,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_payment_now_subscriptions', $data);
                 }
                 else
@@ -954,6 +1001,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_salary_advance_accounts', $data);
                 }
                 else
@@ -991,6 +1043,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_business_expansion_accounts', $data);
                 }
                 else
@@ -1028,6 +1085,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_payment_now_accounts', $data);
                 }
                 else
@@ -1065,6 +1127,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_billings', $data);
                 }
                 else
@@ -1102,6 +1169,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_payments', $data);
                 }
                 else
@@ -1139,6 +1211,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_maintenance_users', $data);
                 }
                 else
@@ -1176,6 +1253,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_maintenance_roles', $data);
                 }
                 else
@@ -1213,6 +1295,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_maintenance_fees', $data);
                 }
                 else
@@ -1251,6 +1338,10 @@ class NavigationController extends BaseController
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
 
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_maintenance_faqs', $data);
                 }
                 else
@@ -1288,6 +1379,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+
                     return $this->slice->view('portal.admin.admin_reports', $data);
                 }
                 else
@@ -1325,6 +1421,11 @@ class NavigationController extends BaseController
                     $data['lastName'] = $userData['last_name'];
                     $data['userRoleName'] = $userData['role_name'];
                     $data['profilePicture'] = $userData['user_image'];
+
+                    $data['notif'] = true;
+                    $data['arrAccessRequests'] = $this->products->a_loadAccessRequests();
+                    $data['arrAccessRequestsCount'] = count($data['arrAccessRequests']);
+                    
                     return $this->slice->view('portal.admin.admin_audit_trails', $data);
                 }
                 else

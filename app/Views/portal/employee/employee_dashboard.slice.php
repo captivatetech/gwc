@@ -170,7 +170,7 @@
                         
                         <div class="row" id="div_question1">
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Budgeting</h5>
                             </div>
                             <div class="col-lg-8">
@@ -207,7 +207,7 @@
 
                         <div class="row" id="div_question2" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Savings</h5>
 
                                 <p id="lbl_question2Example">Upang madaling maunawaan ang sagot sa tanong, naririto ang example. Kung ikaw ay sumasahod ng Php 20,000 sa isang buwan.</p>
@@ -259,7 +259,7 @@
 
                         <div class="row" id="div_question3" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Debt Payment</h5>
                             </div>
                             <div class="col-lg-8">
@@ -297,7 +297,7 @@
 
                         <div class="row" id="div_question4" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Repayment Behaviour</h5>
                             </div>
                             <div class="col-lg-8">
@@ -343,7 +343,7 @@
 
                         <div class="row" id="div_question5" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Credit Card Behavior</h5>
                             </div>
                             <div class="col-lg-8">
@@ -397,7 +397,7 @@
 
                         <div class="row" id="div_question6" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Sudden Spend Behavior</h5>
                             </div>
                             <div class="col-lg-8">
@@ -451,7 +451,7 @@
 
                         <div class="row" id="div_question7" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">View on Borrowing</h5>
                             </div>
                             <div class="col-lg-8">
@@ -497,7 +497,7 @@
 
                         <div class="row" id="div_answersPreview" hidden>
                             <div class="col-lg-4">
-                                <h3>Gold Water Capital</h3>
+                                <h3>Goldwater Capital</h3>
                                 <h5 class="text-muted">Review Answers</h5>
                             </div>
                             <div class="col-lg-8">
@@ -587,8 +587,6 @@
                         <label>Credit Limit</label>
                         <div>
                             <input type="range" class="form-range" id="rng_creditLimit">
-                            <label style="float:left;" id="lbl_min">0</label>
-                            <label style="float:right;" id="lbl_max">0</label>
                         </div>
                         
 
@@ -675,18 +673,35 @@
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <label>Processing Fee</label>
+                                    <label>Payment Terms</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <label id="lbl_processingFee">0.00</label>
+                                    <label id="lbl_paymentTerms">---</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <h5 class="text-muted">Amount to Receive</h5>
+                                    <label>Monthly Interest (%)</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <h5 class="text-muted" id="lbl_amountToReceive">0.00</h5>
+                                    <input type="hidden" id="txt_monthlyInterestPercent" name="txt_monthlyInterestPercent">
+                                    <label id="lbl_monthlyInterestPercent">0.00 %</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label>Total Interest (%)</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_totalInterestPercent">0.00 %</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <label></label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_totalInterest" style="font-weight: bold;"></label>
                                 </td>
                             </tr>
                         </table>
@@ -696,39 +711,76 @@
                         <table style="width: 100%;">
                             <tr>
                                 <td width="70%">
-                                    <label>Total Interest</label>
+                                    <label>Service Fee</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <label id="lbl_totalInterest">0.00 %</label>
+                                    <label id="lbl_serviceFee">0.00</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <label>Payment Terms</label>
+                                    <label>Document Stamp</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <label id="lbl_paymentTerms">---</label>
+                                    <label id="lbl_documentStamp">0.00</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <label>Number of Deductions</label>
+                                    <label>Notarial Fee</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <label id="lbl_numberOfDeductions">0</label>
+                                    <label id="lbl_notarialFee">0.00</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <label>Monthly Dues</label>
+                                    <label>Insurance</label>
                                 </td>
                                 <td style="text-align: right;">
-                                    <label id="lbl_monthlyDues">0.00</label>
+                                    <label id="lbl_isurance">0.00</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="70%">
-                                    <h5 class="text-muted">Deduction Per Cut-off</h5>
+                                    <label>Total Fees</label>
+                                </td>
+                                <td style="text-align: right;">
+                                    <label id="lbl_totalFees">0.00</label>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <table style="width: 100%;">
+                            <tr>
+                                <td width="70%">
+                                    <h5>Net Proceeds</h5>
+                                </td>
+                                <td style="text-align: right;">
+                                    <h5 class="text-muted" id="lbl_amountToReceive">0.00</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <h5>Monthly Repayment</h5>
+                                </td>
+                                <td style="text-align: right;">
+                                    <h5 class="text-muted" id="lbl_monthlyDues">0.00</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <h5>Number of Deductions</h5>
+                                </td>
+                                <td style="text-align: right;">
+                                    <h5 class="text-muted" id="lbl_numberOfDeductions">0.00</h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="70%">
+                                    <h5>Deduction Per Cut-off</h5>
                                 </td>
                                 <td style="text-align: right;">
                                     <h5 class="text-muted" id="lbl_deductionPerCutOff">0.00</h5>
@@ -736,9 +788,9 @@
                             </tr>
                         </table>
 
-                        <hr>
-
                         <!-- <iframe style="width: 100%;" src="https://www.youtube.com/embed/a3ICNMQW7Ok" title="Wildlife Windows 7 Sample Video" allowfullscreen></iframe> -->
+
+                        <input type="hidden" id="txt_age" name="txt_age">
 
                     </form>
                 </div>
