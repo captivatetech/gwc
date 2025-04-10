@@ -110,7 +110,7 @@ class ProductSubscriptionController extends BaseController
 
             $emailConfig = sliceMailConfig();
 
-            $emailSender    = 'loans@goldwatercap.net';
+            $emailSender    = 'sweldona@app.goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];
 
             $data = [
@@ -168,7 +168,7 @@ class ProductSubscriptionController extends BaseController
 
             $emailConfig = sliceMailConfig();
 
-            $emailSender    = 'loans@goldwatercap.net';
+            $emailSender    = 'sweldona@app.goldwatercap.net';
             $emailReceiver  = $repDetails['email_address'];
 
             $data = [

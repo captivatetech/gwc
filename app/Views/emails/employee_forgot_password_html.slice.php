@@ -370,7 +370,7 @@ padding-left: 18px !important
 <div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 20px;">Hi [{{ $firstName }}],</span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 16px;"> </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">It seems like you requested to reset your password. </span></div>
-<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">Don’t worry, we’ve got you covered! </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">Don't worry, we've got you covered! </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;"> </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">To reset your password, simply click the button below:</span></div></div>
 </td>
@@ -427,7 +427,7 @@ padding-left: 18px !important
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">For your security, this link will expire in </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">[time frame, e.g., 24 hours] </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> </span></div>
-<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> If you didn’t request a password reset, </span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;"> If you didn't request a password reset, </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">please ignore this email, and your account will remain secure. </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">If you need further assistance, feel free to contact us. </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal;">Thank you, </span></div>

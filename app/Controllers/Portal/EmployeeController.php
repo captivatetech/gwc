@@ -575,7 +575,7 @@ class EmployeeController extends BaseController
 
             $emailConfig = sliceMailConfig();
 
-            $emailSender    = 'loans@goldwatercap.net';
+            $emailSender    = 'sweldona@app.goldwatercap.net';
             $emailReceiver  = $arrDetails['email_address'];
 
             $data = [
@@ -1121,7 +1121,7 @@ class EmployeeController extends BaseController
             {
                 $emailConfig = sliceMailConfig();
 
-                $emailSender    = 'loans@goldwatercap.net';
+                $emailSender    = 'sweldona@app.goldwatercap.net';
                 $emailReceiver  = $arrDetails['email_address'];
 
                 $data = [

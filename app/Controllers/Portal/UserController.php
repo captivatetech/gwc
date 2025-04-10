@@ -89,7 +89,7 @@ class UserController extends BaseController
                 {
                     $emailConfig = sliceMailConfig();
 
-                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailSender    = 'sweldona@app.goldwatercap.net';
                     $emailReceiver  = $fields['txt_emailAddress'];
 
                     $data = [
