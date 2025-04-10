@@ -587,11 +587,11 @@ function sliceMailConfig()
 	// ];
 
 	$emailConfig = [
-	    'smtp_host'    => 'smtp.zoho.com',
+	    'smtp_host'    => 'smtppro.zoho.com',
 	    'smtp_port'    => 587,
 	    'smtp_crypto'  => 'tls',
-	    'smtp_user'    => 'loans@goldwatercap.net',
-	    'smtp_pass'    => 'sFkhLq2Ka9wm',
+	    'smtp_user'    => 'sweldona@app.goldwatercap.net',
+	    'smtp_pass'    => 'vTPE1CW3yh1T',
 	    'mail_type'    => 'html',
 	    'charset'      => 'iso-8859-1',
 	    'word_wrap'    => true
