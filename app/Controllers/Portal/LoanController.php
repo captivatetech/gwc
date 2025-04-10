@@ -193,7 +193,7 @@ class LoanController extends BaseController
             $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
-            $template->getActionByRole("Recepient3")->setRecipientEmail("loans@goldwatercap.net");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("sweldona@app.goldwatercap.net");
             $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
 
 
@@ -828,7 +828,7 @@ class LoanController extends BaseController
 
                         $arrEmployeeDetails = $this->employees->a_selectEmployee($arrResult['employee_id']);
 
-                        $emailSender    = 'loans@goldwatercap.net';
+                        $emailSender    = 'sweldona@app.goldwatercap.net';
                         $emailReceiver  = $arrEmployeeDetails['email_address'];
 
                         $data = [

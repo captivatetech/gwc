@@ -437,7 +437,7 @@ class PaymentController extends BaseController
                     
                     $emailConfig = sliceMailConfig();
 
-                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailSender    = 'sweldona@app.goldwatercap.net';
                     $emailReceiver  = $arrRepresentative['email_address'];
 
                     $arrResult = $this->billings->a_loadBillingDetails($fields['txt_billingId']);
@@ -497,7 +497,7 @@ class PaymentController extends BaseController
 
                     $emailConfig = sliceMailConfig();
 
-                    $emailSender    = 'loans@goldwatercap.net';
+                    $emailSender    = 'sweldona@app.goldwatercap.net';
                     $emailReceiver  = $arrRepresentative['email_address'];
 
                     $data = [
@@ -561,7 +561,7 @@ class PaymentController extends BaseController
         {
             $emailConfig = sliceMailConfig();
 
-            $emailSender    = 'loans@goldwatercap.net';
+            $emailSender    = 'sweldona@app.goldwatercap.net';
             $emailReceiver  = $fields['email_address'];
 
             $data = [
