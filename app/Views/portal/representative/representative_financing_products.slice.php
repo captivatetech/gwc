@@ -68,7 +68,7 @@
                                     @if($subscriptionStatus == "PENDING")
                                         <h4 class="text-warning">{{ $subscriptionStatus }}</h4>
                                     @elseif($subscriptionStatus == "APPROVE")
-                                        <h4 class="text-success">{{ $subscriptionStatus }}</h4>
+                                        <h4 class="text-success">APPROVED</h4>
                                     @else
                                     <button type="button" class="btn gwc-button" id="btn_applySalaryAdvance">APPLY NOW</button>
                                     @endif
