@@ -367,7 +367,7 @@ padding-left: 18px !important
 <tbody>
 <tr>
 <td align="left" class="kl-text" style="font-size:0px;padding:0px;padding-top:10px;padding-right:18px;padding-bottom:0px;padding-left:18px;word-break:break-word;">
-<div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 20px;">Hi [{{ $firstName }}],</span></div>
+<div style="font-family:'Helvetica Neue', Arial;font-size:14px;font-style:normal;font-weight:400;letter-spacing:0px;line-height:1.3;text-align:left;color:#222222;"><div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 20px;">Hi {{ $firstName }},</span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; font-size: 16px;"> </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">It seems like you requested to reset your password. </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 500; font-style: normal; font-size: 14px;">Don't worry, we've got you covered! </span></div>
