@@ -901,6 +901,32 @@ class Employees extends Model
 
 
 
+    ////////////////////////////////////////////////////////////
+    ///// EmployeeController->e_selectEmployeeProfile()
+    ////////////////////////////////////////////////////////////
+    public function e_selectEmployeeProfile($employeeId)
+    {
+        $columns = [
+            'a.id',
+            'a.first_name',
+            'a.middle_name',
+            'a.last_name',
+            'a.birthday',
+            'a.marital_status',
+            'a.email_address',
+            'a.mobile_number',
+            'a.position',
+            'a.department',
+            'a.employment_status',
+            'a.date_hired'
+        ];
+
+        $builder = $this->db->table('employees a');
+        $builder->select($columns);
+        $builder->where('a.id',$employeeId);
+        $query = $builder->get();
+        return  $query->getRowArray();
+    }
 
 
     ////////////////////////////////////////////////////////////
