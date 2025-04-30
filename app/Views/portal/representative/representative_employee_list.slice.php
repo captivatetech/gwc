@@ -299,6 +299,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td width="30%">Birth Date</td>
+                                    <td class="p-1">
+                                        <input type="date" class="form-control" id="txt_birthDate" name="txt_birthDate" required>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td width="30%">Tax Identification Number</td>
                                     <td class="p-1">
                                         <input type="text" class="form-control" id="txt_taxIdentificationNumber" name="txt_taxIdentificationNumber" required>
@@ -382,7 +388,7 @@
                                         <select class="form-control form-select" id="slc_employmentStatus" name="slc_employmentStatus" required>
                                            <option value="">--Select Employment Status--</option>
                                            <option value="Contractual">Contractual</option> 
-                                           <option value="Probitionary">Probitionary</option> 
+                                           <option value="Probationary">Probationary</option> 
                                            <option value="Regular">Regular</option> 
                                         </select>
                                     </td>
@@ -696,6 +702,27 @@
 
     $('#btn_addEmployee').on('click',function(){
         $('#txt_employeeId').val('');
+        $('#txt_lastName').val("");
+        $('#txt_firstName').val("");
+        $('#txt_middleName').val("");
+        $('#txt_birthDate').val("");
+        $('#txt_taxIdentificationNumber').val("");
+        $('#txt_position').val("");
+        $('#txt_department').val("");
+        $('#txt_grossSalary').val("");
+        $('#txt_netSalary').val("");
+        $('#slc_maritalStatus').val("");
+        $('#txt_homeAddress').val("");
+        $('#txt_mobileNumber').val("");
+        $('#txt_emailAddress').val("");
+        $('#txt_dateHired').val("");
+        $('#txt_yearsStayed').val("");
+        $('#slc_employmentStatus').val("");
+        REPRESENTATIVE_EMPLOYEE_LIST.r_loadBankDepositories();
+        $('#txt_payrollBankAccount').val("");
+        $('#txt_minimumAmount').val("");
+        $('#txt_maximumAmount').val("");
+        $('#slc_employeeStatus').val("");
         $('#lbl_modalTitle1').html(`<i class="fe-plus me-2"></i> Add Employee`);
         $('#modal_employee').modal('show');
     });
