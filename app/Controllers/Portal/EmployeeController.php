@@ -1160,7 +1160,16 @@ class EmployeeController extends BaseController
 
 
 
-
+    /*
+        USED IN: 
+        - EMPLOYEE_PROFILE->e_selectEmployeeProfile()
+    */
+    public function e_selectEmployeeProfile()
+    {
+        $employeeId = $this->session->get('gwc_employee_id');
+        $arrData = $this->employees->e_selectEmployeeProfile($employeeId);
+        return $this->response->setJSON($arrData);
+    }
 
 
     /*
