@@ -63,21 +63,65 @@ const ADMIN_APPLICATIONS = (function(){
             $('#txt_department').val(data['department']);
             $('#txt_position').val(data['position']);
 
+            let loanAmount = parseFloat(data['loan_amount']);
+            let paymentTerms = parseInt(data['payment_terms']);
+            let monthlyInterestPercent = parseFloat(data['interest_rate']);
+
+            let totalLoan = 0;
+            let interest = 0;
+            let totalInterestRate = 0;
+            let totalInterest = 0;
+
+            let serviceFee = 0;
+            let docStamp = 0;
+            let notarialFee = 500;
+            let insurance = 0;
+            let totalFees = 0;
+
+            let amountToReceive = 0;
+            let numberOfDeductions = 0;
+            let monthlyDues = 0;
+            let deductionPerCufOff = 0;
+
             $('#txt_loanAmount').val(COMMONHELPER.numberWithCommas(data['loan_amount']));
             $('#txt_paymentTerms').val(`${data['payment_terms']} month/s`);
             $('#txt_purposeOfLoan').val(data['purpose_of_loan']);
 
             $('#lbl_loanAmount').text(COMMONHELPER.numberWithCommas(data['loan_amount']));
-            $('#lbl_processingFee').text('300.00');
-            $('#lbl_amountToReceive').text(COMMONHELPER.numberWithCommas(data['amount_to_receive']));
+            $('#lbl_paymentTerms').text(COMMONHELPER.numberWithCommas(data['payment_terms']));
+            $('#lbl_monthlyInterestPercent').text(`${monthlyInterestPercent} %`);
+            totalInterestRate = parseFloat(monthlyInterestPercent) * parseInt(paymentTerms);
+            $('#lbl_totalInterestPercent').text(`${totalInterestRate} %`);
+            totalInterest = parseFloat(loanAmount) * (totalInterestRate / 100);
+            $('#lbl_totalInterest').text(`${COMMONHELPER.numberWithCommas((totalInterest).toFixed(2))}`);
 
-            let interest = (parseFloat(data['total_interest']) / parseFloat(data['loan_amount'])) * 100;
+            serviceFee = parseFloat(loanAmount) * 0.02;
+            $('#lbl_serviceFee').text(`${COMMONHELPER.numberWithCommas((serviceFee).toFixed(2))}`);
+            docStamp = parseFloat(loanAmount) * 0.0175;
+            $('#lbl_documentStamp').text(`${COMMONHELPER.numberWithCommas((docStamp).toFixed(2))}`);
+            $('#lbl_notarialFee').text(`${(notarialFee).toFixed(2)}`);
+            if(parseInt(data['employee_age']) < 60)
+            {
+                insurance = parseFloat(loanAmount) / 1000 * 13;
+                $('#lbl_insurance').text(`${(insurance).toFixed(2)}`);
+            }
+            else
+            {
+                insurance = 0;
+                $('#lbl_insurance').html(`<i>Not Applicable</i>`);
+            }
+            totalFees = serviceFee + docStamp + notarialFee + insurance;
+            $('#lbl_totalFees').text(`${(totalFees).toFixed(2)}`);
 
-            $('#lbl_totalInterest').text(`${interest}%`);
-            $('#lbl_paymentTerms').text(`${data['payment_terms']} month/s`);
-            $('#lbl_numberOfDeductions').text(data['number_of_deductions']);
-            $('#lbl_monthlyDues').text(COMMONHELPER.numberWithCommas(data['monthly_dues']));
-            $('#lbl_deductionPerCutOff').text(COMMONHELPER.numberWithCommas(data['deduction_per_cutoff']));
+            amountToReceive = parseFloat(loanAmount) - totalFees;
+            $('#lbl_amountToReceive').text(COMMONHELPER.numberWithCommas(parseFloat(amountToReceive).toFixed(2)));  
+            numberOfDeductions = parseInt(paymentTerms) * 2;
+            $('#lbl_numberOfDeductions').text(numberOfDeductions);
+            totalLoan = parseFloat(loanAmount) + totalInterest;
+            monthlyDues = totalLoan / parseInt(paymentTerms);
+            $('#lbl_monthlyDues').text(COMMONHELPER.numberWithCommas(parseFloat(monthlyDues).toFixed(2)));
+            deductionPerCufOff = monthlyDues / 2;
+            $('#lbl_deductionPerCutOff').text(COMMONHELPER.numberWithCommas(parseFloat(deductionPerCufOff).toFixed(2)));
 
             $('#lbl_employeeActionStatus').text(data['employee_action_status']);
             $('#lbl_representativeActionStatus').text(data['representative_action_status']);
