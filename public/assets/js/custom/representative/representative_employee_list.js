@@ -198,6 +198,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
             $('#txt_lastName').val(data['last_name']);
             $('#txt_firstName').val(data['first_name']);
             $('#txt_middleName').val(data['middle_name']);
+            $('#txt_birthDate').val(data['birthday']);
             $('#txt_taxIdentificationNumber').val(data['tax_identification_number']);
             $('#txt_position').val(data['position']);
             $('#txt_department').val(data['department']);
@@ -356,6 +357,7 @@ const REPRESENTATIVE_EMPLOYEE_LIST = (function(){
                                     <option value="first_name" ${(value.replace(' ','_').toLowerCase() == 'first_name')? 'selected' : ''}>First Name</option>
                                     <option value="middle_name" ${(value.replace(' ','_').toLowerCase() == 'middle_name')? 'selected' : ''}>Middle Name</option>
                                     <option value="last_name" ${(value.replace(' ','_').toLowerCase() == 'last_name')? 'selected' : ''}>Last Name</option>
+                                    <option value="birthday" ${(value.replace(' ','_').toLowerCase() == 'birthday')? 'selected' : ''}>Birth Date</option>
                                     <option value="tax_identification_number" ${(value.replace(' ','_').toLowerCase() == 'tax_identification_number')? 'selected' : ''}>Tax Identification Number</option>
                                     <option value="position" ${(value.replace(' ','_').toLowerCase() == 'position')? 'selected' : ''}>Position</option>
                                     <option value="department" ${(value.replace(' ','_').toLowerCase() == 'department')? 'selected' : ''}>Department</option>

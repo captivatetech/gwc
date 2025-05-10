@@ -691,7 +691,7 @@ const ADMIN_SALARY_ADVANCE_APPLICATIONS = (function(){
             setTimeout(function(){
                 $('#btn_submitAccessStatus').prop('disabled',false);
                 setTimeout(function(){
-                    window.location.replace(`${baseUrl}/portal/admin/salary-advance-applications`);   
+                    window.location.replace(`${baseUrl}portal/admin/salary-advance-subscriptions`);   
                 }, 1000);
             }, 1000);
         }, function(data){

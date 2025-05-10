@@ -342,6 +342,7 @@ class EmployeeController extends BaseController
                 'first_name'                => $fields['txt_firstName'],
                 'middle_name'               => $fields['txt_middleName'],
                 'last_name'                 => $fields['txt_lastName'],
+                'birthday'                  => $fields['txt_birthDate'],
                 'marital_status'            => $fields['slc_maritalStatus'],
                 'email_address'             => $fields['txt_emailAddress'],
                 'mobile_number'             => $fields['txt_mobileNumber'],
@@ -456,6 +457,7 @@ class EmployeeController extends BaseController
                 'first_name'                => $fields['txt_firstName'],
                 'middle_name'               => $fields['txt_middleName'],
                 'last_name'                 => $fields['txt_lastName'],
+                'birthday'                  => $fields['txt_birthDate'],
                 'marital_status'            => $fields['slc_maritalStatus'],
                 'email_address'             => $fields['txt_emailAddress'],
                 'mobile_number'             => $fields['txt_mobileNumber'],
@@ -1158,7 +1160,16 @@ class EmployeeController extends BaseController
 
 
 
-
+    /*
+        USED IN: 
+        - EMPLOYEE_PROFILE->e_selectEmployeeProfile()
+    */
+    public function e_selectEmployeeProfile()
+    {
+        $employeeId = $this->session->get('gwc_employee_id');
+        $arrData = $this->employees->e_selectEmployeeProfile($employeeId);
+        return $this->response->setJSON($arrData);
+    }
 
 
     /*

@@ -160,6 +160,7 @@ $routes->get('portal/admin/audit-trail', 'Portal\NavigationController::a_auditTr
 */
     // EMPLOYEE PROFILE FUNCTIONS
 $routes->get('portal/employee/load-employee-profile', 'Portal\EmployeeController::loadEmployeeProfile');
+$routes->get('portal/employee/e-select-employee-profile', 'Portal\EmployeeController::e_selectEmployeeProfile');
 $routes->post('portal/employee/edit-employee-profile', 'Portal\EmployeeController::editEmployeeProfile');
     
     // EMPLOYEE DASHBOARD FUNCTIONS 

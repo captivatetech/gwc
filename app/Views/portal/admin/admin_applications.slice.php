@@ -176,53 +176,118 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Processing Fee</td>
+                                        <td>
+                                            <label>Payment Terms</label>
+                                        </td>
                                         <td style="text-align: right;">
-                                            <span id="lbl_processingFee"></span>
+                                            <label id="lbl_paymentTerms">---</label>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><h6>Amount to Receive</h6></td>
+                                        <td>
+                                            <label>Monthly Interest (%)</label>
+                                        </td>
                                         <td style="text-align: right;">
-                                            <h6 id="lbl_amountToReceive"></h6>
+                                            <label id="lbl_monthlyInterestPercent">0.00 %</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Total Interest (%)</label>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <label id="lbl_totalInterestPercent">0.00 %</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label></label>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <label id="lbl_totalInterest" style="font-weight: bold;"></label>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <hr>
-                            <table style="width: 100%;" class="tbl-custom">
-                                <tbody>
-                                    <tr>
-                                        <td>Total Interest</td>
-                                        <td style="text-align: right;">
-                                            <span id="lbl_totalInterest"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Payment Terms</td>
-                                        <td style="text-align: right;">
-                                            <span id="lbl_paymentTerms"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Number of Deductions</td>
-                                        <td style="text-align: right;">
-                                            <span id="lbl_numberOfDeductions"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Monthly Dues</td>
-                                        <td style="text-align: right;">
-                                            <span id="lbl_monthlyDues"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Deduction Per Cut-Off</h6></td>
-                                        <td style="text-align: right;">
-                                            <h6 id="lbl_deductionPerCutOff"></h6>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td width="70%">
+                                        <label>Service Fee</label>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <label id="lbl_serviceFee">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <label>Document Stamp</label>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <label id="lbl_documentStamp">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <label>Notarial Fee</label>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <label id="lbl_notarialFee">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <label>Insurance</label>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <label id="lbl_insurance">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <label>Total Fees</label>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <label id="lbl_totalFees">0.00</label>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <hr>
+
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td width="70%">
+                                        <h5>Net Proceeds</h5>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <h5 class="text-muted" id="lbl_amountToReceive">0.00</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <h5>Monthly Repayment</h5>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <h5 class="text-muted" id="lbl_monthlyDues">0.00</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <h5>Number of Deductions</h5>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <h5 class="text-muted" id="lbl_numberOfDeductions">0.00</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="70%">
+                                        <h5>Deduction Per Cut-off</h5>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <h5 class="text-muted" id="lbl_deductionPerCutOff">0.00</h5>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -277,6 +342,8 @@
     //jQuery Events
 
     ADMIN_APPLICATIONS.a_loadApplications();
+
+    alert();
     
     $('#btn_approveApplication').on('click',function(){
         ADMIN_APPLICATIONS.a_approveApplication();
