@@ -919,14 +919,14 @@ class CompanyController extends BaseController
 
         foreach ($arrData as $key => $value) 
         {
-            if($value['company_website'] != null)
-            {
-                $value['company_website'] = prep_url($value['company_website']);    
-            }
-            else
-            {
-                $value['company_website'] = null;
-            }
+            // if($value['company_website'] != null)
+            // {
+            //     $value['company_website'] = prep_url($value['company_website']);    
+            // }
+            // else
+            // {
+            //     $value['company_website'] = null;
+            // }
             $newArrData[] = $value;
         }
 
