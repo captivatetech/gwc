@@ -193,7 +193,7 @@ class LoanController extends BaseController
             $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
-            $template->getActionByRole("Recepient3")->setRecipientEmail("hermo.antonjay.personal@gmail.com");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("sweldona@app.goldwatercap.net");
             $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
 
 
