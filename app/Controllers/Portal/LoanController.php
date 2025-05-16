@@ -193,7 +193,7 @@ class LoanController extends BaseController
             $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
-            $template->getActionByRole("Recepient3")->setRecipientEmail("sweldona@app.goldwatercap.net");
+            $template->getActionByRole("Recepient3")->setRecipientEmail("hermo.antonjay.personal@gmail.com");
             $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
 
 
@@ -845,7 +845,7 @@ class LoanController extends BaseController
                             'disbursemntAmount' => number_format($arrData['amount'],2,".",","),
                             'bankAccount'       => $arrData['account_number'],
                             'dateAndTime'       => date('Y-m-d H:i:s'),
-                            'billingDate'       => $billingDateStart
+                            'firstDueDate'      => $dueDateOne
                         ];
                         sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
 
@@ -905,10 +905,15 @@ class LoanController extends BaseController
                         }
 
                         $user = new OAuth( array(
+                            // OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                            // OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                            // OAuth::DC           => "COM",
+                            // OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                        
                             OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                             OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                             OAuth::DC           => "COM",
-                            OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
+                            OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
                         ) );
 
                         ZohoSign::setCurrentUser( $user );
