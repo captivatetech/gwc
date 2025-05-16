@@ -406,7 +406,7 @@ padding-left: 18px !important
 <div style="text-align: center;"><span style="font-size: 14px;"><strong><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-style: normal; color: red;">{{ $dateAndTime }}</span></strong></span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"> </span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong>Please be reminded that the first payment</strong></span></div>
-<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong>will be deducted on <span style="color: red;">{{ $billingDate }}</span></strong></span></div>
+<div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong>will be deducted on <span style="color: red;">{{ $firstDueDate }}</span></strong></span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong> </strong></span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong>For more details about the GWC Salary Advance</strong></span></div>
 <div style="text-align: center;"><span style="font-family: Poppins, Helvetica, Arial, sans-serif; font-weight: 400; font-style: normal;"><strong>Loan visit our website or email us at <span style="color: rgb(169, 127, 54);">loans@goldwatercap.net</span></strong></span></div>

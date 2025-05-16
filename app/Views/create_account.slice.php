@@ -53,13 +53,13 @@
                                             <button type="submit" class="btn gwc-button" id="btn_submitCreateAccount">CREATE ACCOUNT</button>
                                         </div>
                                     </form>
+
+                                    <p class="text-center"> <a href="<?php echo base_url(); ?>login" class="text-muted ms-1"><i class="fas fa-lock me-1"></i>Sign In</a></p>
                                 </div>
 
                                 <div id="div_createAccountResult" hidden>
-                                    <div class="text-center mb-4">
+                                    <div class="text-center">
                                         <h4 class="text-uppercase mt-0 gwc-font">Please check your email for verification!</h4>
-
-                                        <a href="<?php echo base_url(); ?>">Login</a>
                                     </div>
                                 </div>
                                 

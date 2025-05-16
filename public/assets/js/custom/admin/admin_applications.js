@@ -169,7 +169,7 @@ const ADMIN_APPLICATIONS = (function(){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_approveApplication').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/admin/applications`);
+                window.location.replace(`${baseUrl}portal/admin/salary-advance-applications`);
             }, 1000);
         }, function(data){
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
@@ -192,7 +192,7 @@ const ADMIN_APPLICATIONS = (function(){
             COMMONHELPER.Toaster('success',data[0]);
             setTimeout(function(){
                 $('#btn_rejectApplication').prop('disabled',false);
-                window.location.replace(`${baseUrl}portal/admin/applications`);
+                window.location.replace(`${baseUrl}portal/admin/salary-advance-applications`);
             }, 1000);
         }, function(data){ 
             COMMONHELPER.Toaster('error',data['responseJSON'][0]);
