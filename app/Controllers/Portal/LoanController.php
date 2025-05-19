@@ -797,27 +797,46 @@ class LoanController extends BaseController
                         }
 
                         $disbursementDate = date("Y-m-d");
-                        $billingDateStart = "";
+                        $billingDateOne = "";
 
-                        if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate1))
+                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate1))
                         {
                             $billingDate1 = date('d', strtotime($payrollDate1."+ 5 days"));
-                            $billingDateStart = date('Y-m-d', strtotime($payrollDate1."+ 5 days"));
+                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
+                            {
+                                $m = date('m', strtotime($disbursementDate));
+                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
+                            }
+                            else
+                            {
+                                $m = date('m', strtotime($disbursementDate)) + 1;
+                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
+                            }
+                            
                         }
 
-                        if(in_array(date('d', strtotime(date("Y-m-d"))), $arrDisbursementDate2))
+                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate2))
                         {
                             $billingDate1 = date('d', strtotime($payrollDate2."+ 5 days"));
-                            $billingDateStart = date('Y-m-d', strtotime($payrollDate2."+ 5 days"));
+                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
+                            {
+                                $m = date('m', strtotime($disbursementDate));
+                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+                            }
+                            else
+                            {
+                                $m = date('m', strtotime($disbursementDate)) + 1;
+                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+                            }
                         }
 
-                        $billingDate2 = date('d', strtotime(date("Y-m-".$billingDate1)."+ 15 days"));
+                        $deductDateOne = date('Y-m-d', strtotime(date($billingDateOne). '+ 10 days'));
+                        $dueDateOne = date('Y-m-d', strtotime(date($deductDateOne). '+ 5 days'));
 
-                        $billingDateOne = date('Y-m-d', strtotime(date("Y-m-".$billingDate1)."+ 15 days"));
-                        $dueDateOne = date('Y-m-d', strtotime(date($billingDateOne). '+ 15 days'));
-
-                        $billingDateTwo = date('Y-m-d', strtotime(date("Y-m-".$billingDate2)."+ 15 days"));
-                        $dueDateTwo = date('Y-m-d', strtotime(date($billingDateTwo). '+ 15 days'));
+                        $billingDate2 = date('d', strtotime(date($billingDateOne)."+ 15 days"));
+                        $billingDateTwo = date('Y-m-d', strtotime(date($billingDateOne)."+ 15 days"));
+                        $deductDateTwo = date('Y-m-d', strtotime(date($billingDateTwo). '+ 10 days'));
+                        $dueDateTwo = date('Y-m-d', strtotime(date($deductDateTwo). '+ 5 days'));
 
                         $arr = [
                             'disbursement_status'   => 'ACCEPTED',
@@ -845,7 +864,7 @@ class LoanController extends BaseController
                             'disbursemntAmount' => number_format($arrData['amount'],2,".",","),
                             'bankAccount'       => $arrData['account_number'],
                             'dateAndTime'       => date('Y-m-d H:i:s'),
-                            'firstDueDate'      => $dueDateOne
+                            'deductDateOne'     => $deductDateOne
                         ];
                         sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
 
@@ -932,18 +951,13 @@ class LoanController extends BaseController
 
                         $template->setPrefillTextField( "txt_borrowerName",  $employeeName );
                         $template->setPrefillTextField( "txt_borrowerAddress",  $arrResult['permanent_address'] );
-                        $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] );
+                        $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] . "%" );
                         $template->setPrefillTextField( "txt_dateFrom",  $maStartDate );
                         $template->setPrefillTextField( "txt_dateTo",  $maEndDate );
-                        $template->setPrefillTextField( "txt_interestRate",  $arrResult['interest_rate'] );
-                        $template->setPrefillTextField( "txt_paymentMonths",  $arrResult['payment_terms'] );
 
                         $monthlyAmortization = 0;
                         $loanAmount = $arrResult['loan_amount'];
                         $paymentTerms = $arrResult['payment_terms'];
-
-                        $monthlyAmortization = ($loanAmount / $paymentTerms) + (float)$arrResult['total_interest'];
-                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,".",",") );
 
                         $template->setPrefillTextField( "txt_loanGranted",  number_format($loanAmount,2,".",",") );
 
@@ -953,10 +967,13 @@ class LoanController extends BaseController
                         $nonFinanceCharges = ($loanAmount / 1000) * 13;
                         $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,".",",") );
 
+                        $documentaryStamp = $loanAmount * 0.0175;
+                        $template->setPrefillTextField( "txt_documentaryStamp",  number_format($documentaryStamp,2,".",",") );
+
                         $notarialFee = 500;
                         $template->setPrefillTextField( "txt_notarialFee",  number_format($notarialFee,2,".",",") );
 
-                        $totalNonFinanceCharges = $nonFinanceCharges + $notarialFee;
+                        $totalNonFinanceCharges = $nonFinanceCharges + $documentaryStamp + $notarialFee;
                         $template->setPrefillTextField( "txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges,2,".",",") );
 
                         $totalDeductions = $serviceCharge + $totalNonFinanceCharges;
@@ -964,6 +981,18 @@ class LoanController extends BaseController
 
                         $netProceeds = $loanAmount - $totalDeductions;
                         $template->setPrefillTextField( "txt_netProceeds",  number_format($netProceeds,2,".",",") );
+
+                        $totalInterestRate = (float)$arrResult['interest_rate'] * (int)$paymentTerms;
+                        $totalInterest = $loanAmount * ($totalInterestRate / 100);
+
+                        $deductionAndInterest = $totalDeductions + $totalInterest;
+                        $effectiveInterestRate = ($deductionAndInterest / $loanAmount) * 100;
+                        $template->setPrefillTextField( "txt_interestRate",  number_format($effectiveInterestRate,2,".",",") . "%");
+
+                        $template->setPrefillTextField( "txt_paymentMonths",  $arrResult['payment_terms'] );
+
+                        $monthlyAmortization = ($totalInterest + $loanAmount) / (int)$paymentTerms;
+                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,".",",") );
 
                         $resp_obj = ZohoSign::sendTemplate( $template, true );
                     }
