@@ -114,9 +114,13 @@ class LoanController extends BaseController
 
             $birthday = explode("-", $userData['birthday']);
             $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
-            if($age < 60)
+            if($age >= 18 && $age <= 65)
             {
                 $insurance = $loanAmount / 1000 * 13;
+            }
+            else if($age >= 66 && $age <= 70)
+            {
+                $insurance = $loanAmount / 1000 * 26;
             }
 
             $totalFees = $serviceFee + $docStamp + $notarialFee + $insurance;
@@ -952,8 +956,8 @@ class LoanController extends BaseController
                         $template->setPrefillTextField( "txt_borrowerName",  $employeeName );
                         $template->setPrefillTextField( "txt_borrowerAddress",  $arrResult['permanent_address'] );
                         $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] . "%" );
-                        $template->setPrefillTextField( "txt_dateFrom",  $maStartDate );
-                        $template->setPrefillTextField( "txt_dateTo",  $maEndDate );
+                        $template->setPrefillTextField( "txt_dateFrom",  date("m-d-Y",strtotime($maStartDate)) );
+                        $template->setPrefillTextField( "txt_dateTo",  date("m-d-Y",strtotime($maEndDate )) );
 
                         $monthlyAmortization = 0;
                         $loanAmount = $arrResult['loan_amount'];
@@ -964,7 +968,21 @@ class LoanController extends BaseController
                         $serviceCharge = $loanAmount * 0.02;
                         $template->setPrefillTextField( "txt_serviceCharge",  number_format($serviceCharge,2,".",",") );
 
-                        $nonFinanceCharges = ($loanAmount / 1000) * 13;
+                        $birthday = explode("-", $arrResult['birthday']);
+                        $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+                        if($age >= 18 && $age <= 65)
+                        {
+                            $nonFinanceCharges = ($loanAmount / 1000) * 13;
+                        }
+                        else if($age >= 66 && $age <= 70)
+                        {
+                            $nonFinanceCharges = ($loanAmount / 1000) * 26;
+                        }
+                        else
+                        {
+                            $nonFinanceCharges = 0;
+                        }
+                        
                         $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,".",",") );
 
                         $documentaryStamp = $loanAmount * 0.0175;

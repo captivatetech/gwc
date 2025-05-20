@@ -438,6 +438,7 @@ class Loans extends Model
             'b.identification_number',
             'b.first_name',
             'b.last_name',
+            'b.birthday',
             'b.email_address',
             'b.permanent_address',
             'c.bank_depository',
