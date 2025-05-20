@@ -98,9 +98,14 @@ const REPRESENTATIVE_SALARY_ADVANCE_APPLICATIONS = (function(){
             docStamp = parseFloat(loanAmount) * 0.0175;
             $('#lbl_documentStamp').text(`${COMMONHELPER.numberWithCommas((docStamp).toFixed(2))}`);
             $('#lbl_notarialFee').text(`${(notarialFee).toFixed(2)}`);
-            if(parseInt(data['employee_age']) < 60)
+            if(parseInt(data['employee_age']) >= 18 && parseInt(data['employee_age']) <= 65)
             {
                 insurance = parseFloat(loanAmount) / 1000 * 13;
+                $('#lbl_insurance').text(`${(insurance).toFixed(2)}`);
+            }
+            else if(parseInt(data['employee_age']) >= 66 && parseInt(data['employee_age']) <= 70)
+            {
+                insurance = parseFloat(loanAmount) / 1000 * 26;
                 $('#lbl_insurance').text(`${(insurance).toFixed(2)}`);
             }
             else

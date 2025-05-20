@@ -229,9 +229,14 @@ const EMPLOYEE_DASHBOARD = (function(){
 
         $('#lbl_notarialFee').text(`${(notarialFee).toFixed(2)}`);
 
-        if(parseInt($('#txt_age').val()) < 60)
+        if(parseInt($('#txt_age').val()) >= 18 && parseInt($('#txt_age').val()) <= 65)
         {
             insurance = parseFloat($('#txt_loanAmount').val()) / 1000 * 13;
+            $('#lbl_isurance').text(`${(insurance).toFixed(2)}`);
+        }
+        else if(parseInt($('#txt_age').val()) >= 66 && parseInt($('#txt_age').val()) <= 70)
+        {
+            insurance = parseFloat($('#txt_loanAmount').val()) / 1000 * 26;
             $('#lbl_isurance').text(`${(insurance).toFixed(2)}`);
         }
         else
