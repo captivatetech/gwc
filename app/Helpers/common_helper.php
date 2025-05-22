@@ -2,6 +2,192 @@
 
 require_once('vendor/autoload.php');
 
+function getRequiredDates($cutoffOne, $cutoffTwo, $disbursementDate)
+{
+	$date1 = date("Y-04-$cutoffOne"); //constant
+	$date2 = date("Y-04-$cutoffTwo"); //constant
+
+	$payrollDate1 = date("Y-m-{$cutoffOne}"); //constant
+	$payrollDate2 = date("Y-m-{$cutoffTwo}"); //constant
+
+	$arrDisbursementDate1 = [];
+	$arrDisbursementDate2 = [];
+
+	$tf1 = 0;
+	$tf2 = 0;
+	for ($i=0; $i <= 15; $i++) 
+	{ 
+		if(date('d', strtotime($payrollDate1."- {$i} days")) != date('d', strtotime($payrollDate2)) && $tf1 != 1)
+		{
+			$arrDisbursementDate1[] = date('d', strtotime($payrollDate1."- {$i} days"));
+		}
+		else
+		{
+			$tf1 = 1;
+		}
+		
+		if(date('d', strtotime($payrollDate2."- {$i} days")) != date('d', strtotime($payrollDate1)) && $tf2 != 1)
+		{
+			$arrDisbursementDate2[] = date('d', strtotime($payrollDate2."- {$i} days"));
+		}
+		else
+		{
+			$tf2 = 1;
+		}
+	}
+
+	if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate1))
+	{
+		$cutoff = $cutoffOne;
+
+		$billingDate = date("d",strtotime($date1."+ 5 days"));
+
+		$deductDate = date('d',strtotime($date1."+ 15 days"));
+
+		$dueDate = date('d',strtotime($date1."+ 20 days"));
+
+		$payDate = $payrollDate1;
+	}
+	else if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate2))
+	{
+		$cutoff = $cutoffTwo;
+
+		$billingDate = date("d",strtotime($date2."+ 5 days"));
+
+		$deductDate = date('d',strtotime($date2."+ 15 days"));
+
+		$dueDate = date('d',strtotime($date2."+ 20 days"));
+
+		$payDate = $payrollDate2;
+	}
+
+	return [
+		"cutoff" 		=> $cutoff,
+		"billingDate" 	=> $billingDate,
+		"deductDate" 	=> $deductDate,
+		"dueDate" 		=> $dueDate,
+		"payDate" 		=> $payDate,
+	];
+}
+	
+
+function getBillingDate($payDate, $billingDate, $a = 0)
+{
+	if($a == 0)
+	{
+		$billingDateOne = "";
+		if(date("m",strtotime($payDate)) == date("m",strtotime($payDate."+ 5 days")))
+		{
+			if(date("m",strtotime($payDate)) == '02' && (int)$billingDate > 29)
+			{
+				$d = date("t",strtotime($payDate));
+				$billingDateOne = date("Y-m-$d",strtotime($payDate));
+			}
+			else
+			{
+				$billingDateOne = date("Y-m-$billingDate",strtotime($payDate."+ 5 days"));
+			}
+		}
+		else
+		{
+			if(date("m",strtotime($payDate)) == '02' && (int)$billingDate > 29)
+			{
+				$d = date("t",strtotime($payDate));
+				$plus = 5;
+				if($d == 28)
+				{
+					$plus = 3;
+				}
+				else if($d == 29)
+				{
+					$plus = 4;
+				}
+				$m = date("m",strtotime($payDate."+ $plus days"));
+				$billingDateOne = date("Y-$m-$d",strtotime($payDate."+ $plus days"));
+				$billingDateOne = date("Y-m-$d",strtotime($billingDateOne));
+			}
+			else
+			{
+				$m = date("m",strtotime($payDate."+ 5 days"));
+				$billingDateOne = date("Y-$m-$billingDate",strtotime($payDate."+ 5 days"));
+				$billingDateOne = date("Y-m-$billingDate",strtotime($billingDateOne));
+			}
+		}
+	}
+	else
+	{
+		if(date("m",strtotime($payDate)) == '02' && (int)$billingDate > 29)
+		{
+			$d = date("t",strtotime($payDate));
+			$m = date("m",strtotime($payDate));
+			$billingDateOne = date("Y-$m-$d",strtotime($payDate));
+			$billingDateOne = date("Y-m-d",strtotime($billingDateOne));
+		}
+		else
+		{
+			$m = date("m",strtotime($payDate));
+			$billingDateOne = date("Y-$m-$billingDate",strtotime($payDate));
+			$billingDateOne = date("Y-m-d",strtotime($billingDateOne));
+		}
+	}
+
+	return $billingDateOne;
+}
+
+
+function getDeductDate($billingDate, $deductDate)
+{
+	// deduct date
+	if(date("m",strtotime($billingDate)) == date("m",strtotime($billingDate."+ 10 days")))
+	{
+		if(date("m",strtotime($billingDate)) == '02' && (int)$deductDate > 29)
+		{
+			$d = date("t",strtotime($billingDate));
+			$deductDateOne = date("Y-m-$d",strtotime($billingDate."+ 10 days"));
+		}
+		else
+		{
+			$deductDateOne = date("Y-m-$deductDate",strtotime($billingDate."+ 10 days"));
+		}
+		
+	}
+	else
+	{
+		if(date("m",strtotime($billingDate)) == '02' && (int)$deductDate > 29)
+		{
+			$d = date("t",strtotime($billingDate));
+			$plus = 10;
+			if($d == 28)
+			{
+				$plus = 8;
+			}
+			else if($d == 29)
+			{
+				$plus = 9;
+			}
+			$m = date("m",strtotime($billingDate."+ $plus days"));
+			$deductDateOne = date("Y-$m-$d",strtotime($billingDate."+ $plus days"));
+			$deductDateOne = date("Y-m-$d",strtotime($deductDateOne));
+		}
+		else
+		{
+			$m = date("m",strtotime($billingDate."+ 10 days"));
+			$deductDateOne = date("Y-$m-$deductDate",strtotime($billingDate."+ 10 days"));
+			$deductDateOne = date("Y-m-$deductDate",strtotime($deductDateOne));
+		}
+	}
+
+	return $deductDateOne;
+}
+
+function getDueDate($deductDates)
+{
+	$month = date("m",strtotime($deductDates."+ 5 days"));
+	$dueDates = date("Y-$month-d",strtotime($deductDates."+ 5 days"));
+	$dueDates = date("Y-m-d",strtotime($dueDates));
+	return $dueDates;
+}
+
 
 function sendTemplate()
 {
