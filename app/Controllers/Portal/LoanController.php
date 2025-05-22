@@ -148,7 +148,7 @@ class LoanController extends BaseController
 
             $employeeName = $userData['first_name'] . " " . $userData['last_name'];
             $documentName = $companyData['company_name'] . " " . $employeeName;
-            $template->setRequestName("MEMORANDUN OF AGREEMENT FOR CORPORATE SALARY LOAN FACILITY WITH AUTHORITY TO DEDUCT");
+            $template->setRequestName("MEMORANDUM OF AGREEMENT FOR CORPORATE SALARY LOAN FACILITY WITH AUTHORITY TO DEDUCT");
             $template->setNotes("Call us back if you need clarificaions regarding agreement");
 
             $template->setPrefillTextField( "txt_f1",  date('F d, Y') );
@@ -785,62 +785,67 @@ class LoanController extends BaseController
                     {
                         $arrCompanyData = $this->companies->a_selectCompanySettings($arrResult['company_id']);
 
-                        $payDate1 = $arrCompanyData['payroll_payout_date1'];
-                        $payDate2 = $arrCompanyData['payroll_payout_date2'];
+                        $pay1 = $arrCompanyData['payroll_payout_date1']; // Input
+                        $pay2 = $arrCompanyData['payroll_payout_date2']; // Input
 
-                        $payrollDate1 = date("Y-m-{$payDate1}");
-                        $payrollDate2 = date("Y-m-{$payDate2}");
+                        $disbursementDate = date("Y-m-d"); // Input
+                        $arr = getRequiredDates($pay1,$pay2,$disbursementDate);
 
-                        $arrDisbursementDate1 = [];
-                        $arrDisbursementDate2 = [];
+                        $billingDate1 = $arr['billingDate'];
+                        $billingDate2 = $arr['dueDate'];
 
-                        for ($i=0; $i < 15; $i++) 
+                        $counter = $arrResult['number_of_deductions']; // Input
+                        $dueDate = "";
+                        $billDate = $arr['billingDate'];
+                        $cutoff = $arr['deductDate'];
+                        for ($i=0; $i < $counter; $i++) 
                         { 
-                            $arrDisbursementDate1[] = date('d', strtotime($payrollDate1."- {$i} days"));
-                            $arrDisbursementDate2[] = date('d', strtotime($payrollDate2."- {$i} days"));
-                        }
-
-                        $disbursementDate = date("Y-m-d");
-                        $billingDateOne = "";
-
-                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate1))
-                        {
-                            $billingDate1 = date('d', strtotime($payrollDate1."+ 5 days"));
-                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
+                            if($i == 0)
                             {
-                                $m = date('m', strtotime($disbursementDate));
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
+                                $billingDate = getBillingDate($arr['payDate'], $billDate, $i);
+                                $deductDate = getDeductDate($billingDate, $cutoff);
                             }
                             else
                             {
-                                $m = date('m', strtotime($disbursementDate)) + 1;
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
+                                $billingDate = getBillingDate($dueDate, $billDate, $i);
+                                $deductDate = getDeductDate($billingDate, $cutoff);
                             }
+
+                            $dueDate = getDueDate($deductDate); // DueDate
+
+                            $arrDates[] = [
+                                "billingDate"   => $billingDate,
+                                "deductDate"    => $deductDate,
+                                "dueDate"       => $dueDate
+                            ];
                             
-                        }
-
-                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate2))
-                        {
-                            $billingDate1 = date('d', strtotime($payrollDate2."+ 5 days"));
-                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
+                            if($billDate != $arr['dueDate'])
                             {
-                                $m = date('m', strtotime($disbursementDate));
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+                                $billDate = $arr['dueDate'];
                             }
                             else
                             {
-                                $m = date('m', strtotime($disbursementDate)) + 1;
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+                                $billDate = $arr['billingDate'];
+                            }
+
+                            if($cutoff != $arr['deductDate'])
+                            {
+                                $cutoff = $arr['deductDate'];
+                            }
+                            else
+                            {
+                                $cutoff = $arr['cutoff'];
                             }
                         }
 
-                        $deductDateOne = date('Y-m-d', strtotime(date($billingDateOne). '+ 10 days'));
-                        $dueDateOne = date('Y-m-d', strtotime(date($deductDateOne). '+ 5 days'));
+                        $billingDateOne = $arrDates[0]['billingDate'];
+                        $billingDateTwo = $arrDates[1]['billingDate'];
 
-                        $billingDate2 = date('d', strtotime(date($billingDateOne)."+ 15 days"));
-                        $billingDateTwo = date('Y-m-d', strtotime(date($billingDateOne)."+ 15 days"));
-                        $deductDateTwo = date('Y-m-d', strtotime(date($billingDateTwo). '+ 10 days'));
-                        $dueDateTwo = date('Y-m-d', strtotime(date($deductDateTwo). '+ 5 days'));
+                        $dueDateOne = $arrDates[0]['dueDate'];
+                        $dueDateTwo = $arrDates[1]['dueDate'];
+                        $dueDateLast = $arrDates[$counter - 1]['dueDate'];
+
+                        $deductDateOne = $arrDates[0]['deductDate'];
 
                         $arr = [
                             'disbursement_status'   => 'ACCEPTED',
@@ -872,61 +877,6 @@ class LoanController extends BaseController
                         ];
                         sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
 
-                        // $arrRepresentativeDetails = $this->employees->a_selectRepresentative($arrResult['company_id']);
-                        // $emailSender    = 'ajhay.dev@gmail.com';
-                        // $emailReceiver  = $arrRepresentativeDetails['email_address'];
-                        // $data = [
-                        //     'subjectTitle'  => 'Disbursement',
-                        //     'emailAddress'  => '',
-                        //     'authCode'      => ''
-                        // ];
-                        // sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
-
-                        $maStartDate = $dueDateOne;
-
-                        $month1 = date('m', strtotime(date($dueDateOne)));
-                        $year1 = date('Y', strtotime(date($dueDateOne)));
-                        $firstDueDate = date($dueDateOne);
-
-                        $month2 = date('m', strtotime(date($dueDateTwo)));
-                        $year2 = date('Y', strtotime(date($dueDateTwo)));
-                        $secondDueDate = date($dueDateTwo);
-
-                        $dueDate1 = date('Y-m-d', strtotime($firstDueDate));
-                        $dueDate2 = date('Y-m-d', strtotime($secondDueDate));
-
-                        $maEndDate = null;
-                        for($i=0; $i < (int)$arrResult['payment_terms'] - 1; $i++)
-                        {
-                            if($month1 < 12)
-                            {
-                                $month1++;
-                            }
-                            else
-                            {
-                                $month1 = 1;
-                                $year1  += 1;
-                            }
-                            
-                            $dd1 = date("$year1-$month1-d", strtotime($firstDueDate));
-                            $dueDate1 = date('Y-m-d', strtotime($dd1));
-
-                            if($month2 < 12)
-                            {
-                                $month2++;
-                            }
-                            else
-                            {
-                                $month2 = 1;
-                                $year2  += 1;
-                            }
-
-                            $dd2 = date("$year2-$month2-d", strtotime($secondDueDate));
-                            $dueDate2 = date('Y-m-d', strtotime($dd2));
-
-                            $maEndDate = $dueDate2;
-                        }
-
                         $user = new OAuth( array(
                             // OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                             // OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
@@ -956,8 +906,8 @@ class LoanController extends BaseController
                         $template->setPrefillTextField( "txt_borrowerName",  $employeeName );
                         $template->setPrefillTextField( "txt_borrowerAddress",  $arrResult['permanent_address'] );
                         $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] . "%" );
-                        $template->setPrefillTextField( "txt_dateFrom",  date("m-d-Y",strtotime($maStartDate)) );
-                        $template->setPrefillTextField( "txt_dateTo",  date("m-d-Y",strtotime($maEndDate )) );
+                        $template->setPrefillTextField( "txt_dateFrom",  date("m-d-Y",strtotime($dueDateOne)) );
+                        $template->setPrefillTextField( "txt_dateTo",  date("m-d-Y",strtotime($dueDateLast )) );
 
                         $monthlyAmortization = 0;
                         $loanAmount = $arrResult['loan_amount'];

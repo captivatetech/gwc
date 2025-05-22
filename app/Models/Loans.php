@@ -433,6 +433,7 @@ class Loans extends Model
             'a.interest_rate',
             'a.total_interest',
             'a.payment_terms',
+            'a.number_of_deductions',
             'a.monthly_dues',
             'a.deduction_per_cutoff',
             'b.identification_number',
