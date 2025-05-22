@@ -872,8 +872,8 @@ class LoanController extends BaseController
                             'subjectTitle'      => 'Disbursement',
                             'disbursemntAmount' => number_format($arrData['amount'],2,".",","),
                             'bankAccount'       => $arrData['account_number'],
-                            'dateAndTime'       => date('Y-m-d H:i:s'),
-                            'deductDateOne'     => $deductDateOne
+                            'dateAndTime'       => date('m-d-Y H:i:s'),
+                            'deductDateOne'     => date("m-d-Y",strtotime($deductDateOne))
                         ];
                         sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
 
