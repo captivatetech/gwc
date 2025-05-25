@@ -21,6 +21,8 @@
 <style type="text/css">
   /*INTERNAL STYLES*/
   
+  .form-radio-danger .form-check-input:checked{background-color:#FF6363;border-color:#FF6363}
+  .form-radio-success .form-check-input:checked{background-color:#10C469;border-color:#10C469}
   
 </style>
 
@@ -155,11 +157,24 @@
                                     <label">Available Balance: <b><span id="lbl_xenditBalance" style="color:red;"></span></b></label>
                                     <button class="btn btn-xs btn-primary" id="btn_reloadXenditBalance"><i class="fe-refresh-cw"></i></button>
                                 </div>
+
+                                <br>
+                                <img src="https://developers.xendit.co/api-reference/images/favicon.png" width="20" height="20"> Xendit Environment
+                                <br>
+                                
+                                <div class="form-check form-radio-success form-check-inline mt-2">
+                                    <input type="radio" id="rdb_xenditLive" name="rdb_xenditEnvironment" class="form-check-input rdb-xendit-env" value="liveMode" checked>
+                                    <label class="form-check-label" for="rdb_xenditLive">Live Mode</label>
+                                </div>
+                                <div class="form-check form-radio-danger form-check-inline">
+                                    <input type="radio" id="rdb_xenditTesting" name="rdb_xenditEnvironment" class="form-check-input rdb-xendit-env" value="testMode">
+                                    <label class="form-check-label" for="rdb_xenditTesting">Test Mode</label>
+                                </div>
+
                             </center>
                         </div>
                         <div class="col-lg-4"></div>
                     </div>
-                    
                 </div>
                 <div class="modal-footer modal-footer--sticky">
                     <button type="button" class="btn btn-light" id="btn_downloadFile" disabled>Download File</button>
@@ -314,6 +329,10 @@
     });
 
     $('#btn_reloadXenditBalance').on('click',function(){
+        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadAccountBalance();
+    });
+
+    $('.rdb-xendit-env').on('change',function(){
         ADMIN_SALARY_ADVANCE_ACCOUNTS.a_loadAccountBalance();
     });
 
