@@ -702,7 +702,19 @@ class LoanController extends BaseController
 
     public function a_loadAccountBalance()
     {
-        $xenditPrivateKey = getenv('xendit_private_key');
+        $fields = $this->request->getGet();
+
+        if($fields['xenditEnv'] == 'liveMode')
+        {
+            $xenditPrivateKey = getenv('xendit_live_private_key');
+            $xenditUserId = getenv('xendit_live_user_id');
+        }   
+        else
+        {
+            $xenditPrivateKey = getenv('xendit_test_private_key');
+            $xenditUserId = getenv('xendit_test_user_id');
+        }
+        
         Configuration::setXenditKey($xenditPrivateKey);
 
         $apiInstance = new BalanceApi();
@@ -710,7 +722,7 @@ class LoanController extends BaseController
         $currency = "PHP"; // string | Currency for filter for customers with multi currency accounts
         $currentDate = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 day'));
         $atTimestamp = str_replace(' ', 'T', $currentDate) . ".000Z"; // \DateTime | The timestamp you want to use as the limit for balance retrieval
-        $xenditUserId = getenv('xendit_user_id'); // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
+        $xenditUserId = $xenditUserId; // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
 
         try {
             $result = $apiInstance->getBalance($accountType, $currency, $atTimestamp, $xenditUserId);
@@ -731,14 +743,24 @@ class LoanController extends BaseController
         $fields = $this->request->getPost();
 
         $loanId = $fields['loanId'];
+        $xenditEnv = $fields['xenditEnv'];
 
         $arrResult = $this->loans->a_selectLoanForDisbursement($loanId);
 
-        $xenditPrivateKey = getenv('xendit_private_key');
+        if($xenditEnv == 'liveMode')
+        {
+            $xenditPrivateKey = getenv('xendit_live_private_key');
+            $xenditUserId = getenv('xendit_live_user_id');
+        }   
+        else
+        {
+            $xenditPrivateKey = getenv('xendit_test_private_key');
+            $xenditUserId = getenv('xendit_test_user_id');
+        }
         Configuration::setXenditKey($xenditPrivateKey);
 
         $idempotencyKey = "DISB-".date('Ymd').time(); 
-        $xenditUserId = getenv('xendit_user_id');
+        $xenditUserId = $xenditUserId;
 
         $apiInstance = new PayoutApi();
         $referenceNumber = "RFN-".date('Ymd').time();

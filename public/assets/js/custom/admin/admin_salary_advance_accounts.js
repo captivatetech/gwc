@@ -172,7 +172,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
         AJAXHELPER.getData({
             // LoanController->a_loadAccountBalance
             'route' : 'portal/admin/a-load-account-balance',
-            'data'  : null
+            'data'  : {xenditEnv :  $('input[name="rdb_xenditEnvironment"]:checked').val() }
         }, function(data){
             $('#lbl_xenditBalance').text(COMMONHELPER.numberWithCommas(data['balance']));
             $('#btn_reloadXenditBalance').prop('disabled',false);
@@ -214,6 +214,7 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
     {
         let formData = new FormData();
         formData.set("loanId", arrLoanIds[counter]);
+        formData.set("xenditEnv", $('input[name="rdb_xenditEnvironment"]:checked').val());
         AJAXHELPER.sendEmail({
             // LoanController->a_proceedDisbursement
             'route' : 'portal/admin/a-proceed-disbursement',
