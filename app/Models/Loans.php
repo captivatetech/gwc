@@ -40,6 +40,22 @@ class Loans extends Model
     protected $afterDelete    = [];
 
 
+
+
+    /**
+     * Sum up all “ACCEPTED” loan_amounts for one company
+     */
+    public function getAcceptedLoanTotalByCompany(int $companyId): float
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select('COALESCE(SUM(loan_amount),0) AS total_accepted', false)
+            ->where('company_id', $companyId)
+            ->where('disbursement_status', 'ACCEPTED');
+        $row = $builder->get()->getRowArray();
+        return (float) $row['total_accepted'];
+    }
+
+
     ////////////////////////////////////////////////////////////
     ///// LoanController->_generateApplicationNumber()
     ////////////////////////////////////////////////////////////
@@ -52,7 +68,7 @@ class Loans extends Model
 
         $builder = $this->db->table('loans a');
         $builder->select($columns);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $builder->limit(1);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -65,11 +81,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('loans');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -91,10 +107,10 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -129,10 +145,10 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
         $builder->select($columns);
         $builder->where('a.id', $loanId);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -144,11 +160,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->where(['id'=>$loanId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('loans');
+            $builder->where(['id' => $loanId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -181,7 +197,7 @@ class Loans extends Model
         $builder = $this->db->table('loans a');
         $builder->select($columns);
         $builder->where('a.employee_id', $employeeId);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -216,7 +232,7 @@ class Loans extends Model
         $builder->select($columns);
         $builder->where('a.employee_id', $employeeId);
         $builder->where('a.loan_status', 'ACTIVE');
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -225,11 +241,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->where(['id'=>$loanId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('loans');
+            $builder->where(['id' => $loanId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -255,7 +271,7 @@ class Loans extends Model
         $builder = $this->db->table('loans a');
         $builder->select($columns);
         $builder->where('a.employee_id', $employeeId);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -277,11 +293,11 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
-        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
+        $builder->join('companies c', 'a.company_id = c.id', 'left');
         $builder->select($columns);
         // $builder->whereIn('a.application_status', ['Processing','Approved','Rejected']);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -316,10 +332,10 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
         $builder->select($columns);
         $builder->where('a.id', $loanId);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -332,11 +348,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->where(['id'=>$loanId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('loans');
+            $builder->where(['id' => $loanId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -349,11 +365,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->where(['id'=>$loanId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('loans');
+            $builder->where(['id' => $loanId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -377,12 +393,12 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
-        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
+        $builder->join('companies c', 'a.company_id = c.id', 'left');
         $builder->select($columns);
         $builder->where('a.application_status', 'Approved');
-        $builder->whereIn('a.disbursement_status', ['Pending','Accepted']);
-        $builder->orderBy('a.id','DESC');
+        $builder->whereIn('a.disbursement_status', ['Pending', 'Accepted']);
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -407,13 +423,13 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
-        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
+        $builder->join('companies c', 'a.company_id = c.id', 'left');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
         $builder->where('a.application_status', 'Approved');
         $builder->where('a.disbursement_status', 'Pending');
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -449,13 +465,13 @@ class Loans extends Model
         ];
 
         $builder = $this->db->table('loans a');
-        $builder->join('employees b','a.employee_id = b.id','left');
-        $builder->join('companies c','a.company_id = c.id','left');
+        $builder->join('employees b', 'a.employee_id = b.id', 'left');
+        $builder->join('companies c', 'a.company_id = c.id', 'left');
         $builder->select($columns);
         $builder->where('a.application_status', 'Approved');
         $builder->where('a.disbursement_status', 'Pending');
-        $builder->where('a.id',$loanId);
-        $builder->orderBy('a.id','DESC');
+        $builder->where('a.id', $loanId);
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -467,11 +483,11 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loan_disbursements');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('loan_disbursements');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -484,14 +500,13 @@ class Loans extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('loans');
-                $builder->where(['id'=>$loanId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('loans');
+            $builder->where(['id' => $loanId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
     }
-    
 }
