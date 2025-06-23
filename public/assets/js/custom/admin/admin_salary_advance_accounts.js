@@ -55,59 +55,28 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function () {
     );
   };
 
-  // thisAdminSalaryAdvanceAccounts.a_selectCompany = function(dis)
-  // {
-  //     AJAXHELPER.getData({
-  //         // CompanyController->a_selectCompany
-  //         'route' : 'portal/admin/a-select-company',
-  //         'data'  : {company_id : $(dis).val()}
-  //     }, function(data){
-  //         $('#lbl_creditLimit').text(`Php. ${COMMONHELPER.numberWithCommas(data['company_credit_limit'])}`);
-  //         $('#lbl_companyName').text(data['company_name']);
-  //         $('#lbl_companyCreditLimit').text(COMMONHELPER.numberWithCommas(data['company_credit_limit']));
-  //     });
-  // }
-
-  /**
-   * Fetches and displays the available credit for a selected company.
-   *
-   * @param {HTMLElement} dis  The `<select>` element that triggered this call.
-   *                           Its `value` should be the company’s ID.
-   */
+  // In ADMIN_SALARY_ADVANCE_ACCOUNTS.a_selectCompany:
   thisAdminSalaryAdvanceAccounts.a_selectCompany = function (dis) {
-    // Perform an AJAX GET to our backend endpoint
     AJAXHELPER.getData(
       {
         route: "portal/admin/a-select-company",
-        data: {
-          // send the selected company_id to the server
-          company_id: $(dis).val(),
-        },
+        data: { company_id: $(dis).val() },
       },
-      /**
-       * Success callback: receives the company JSON:
-       * {
-       *   company_name: string,
-       *   company_credit_limit: number,
-       *   available_credit: number,    // credit_limit minus accepted loans
-       *   …other fields…
-       * }
-       *
-       * @param {Object} data  The JSON payload returned by a_selectCompany()
-       */
       function (data) {
-        // Update the modal’s “Credit Limit” label with remaining credit
-        $("#lbl_creditLimit").text(
-          `Php. ${COMMONHELPER.numberWithCommas(data.available_credit)}`
-        );
+        // default to 0 if parseFloat yields NaN
+        const totalLimit = parseFloat(data.company_credit_limit) || 0;
+        const accepted = parseFloat(data.accepted_amount) || 0;
+        const available = totalLimit - accepted;
 
-        // Show the company’s name
+        // format with commas & two decimals
+        const formatted = COMMONHELPER.numberWithCommas(available.toFixed(2));
+
+        $("#lbl_creditLimit").text(`Php. ${formatted}`);
         $("#lbl_companyName").text(data.company_name);
+        $("#lbl_companyCreditLimit").text(formatted);
 
-        // Also update the footer “Credit Limit” in the disbursement list
-        $("#lbl_companyCreditLimit").text(
-          COMMONHELPER.numberWithCommas(data.available_credit)
-        );
+        // keep raw number if you need it later
+        $("#txt_companyCreditLimit").val(available);
       }
     );
   };
@@ -227,7 +196,9 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function () {
       {
         // LoanController->a_loadAccountBalance
         route: "portal/admin/a-load-account-balance",
-        data: null,
+        data: {
+          xenditEnv: $('input[name="rdb_xenditEnvironment"]:checked').val(),
+        },
       },
       function (data) {
         $("#lbl_xenditBalance").text(
@@ -285,6 +256,10 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function () {
   ) {
     let formData = new FormData();
     formData.set("loanId", arrLoanIds[counter]);
+    formData.set(
+      "xenditEnv",
+      $('input[name="rdb_xenditEnvironment"]:checked').val()
+    );
     AJAXHELPER.sendEmail(
       {
         // LoanController->a_proceedDisbursement
