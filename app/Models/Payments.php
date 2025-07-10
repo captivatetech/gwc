@@ -42,6 +42,31 @@ class Payments extends Model
     ////////////////////////////////////////////////////////////
     ///// PaymentController->_generatePaymentNumber()
     ////////////////////////////////////////////////////////////
+
+    public function getTotalPaidByLoan($loanId)
+    {
+        $builder = $this->db->table('billing_details bd');
+        $builder->selectSum('p.payment_amount', 'total_paid');
+        $builder->join('billings b', 'bd.billing_id = b.id', 'left');
+        $builder->join('payments p', 'p.billing_id = b.id', 'left');
+        $builder->where('bd.loan_id', $loanId);
+        $builder->where('p.payment_status', 'CONFIRM');
+        $query = $builder->get();
+
+        $result = $query->getRow();
+        return $result ? floatval($result->total_paid) : 0;
+    }
+
+    public function updateLoanStatus($loanId, $status)
+    {
+        return $this->db->table('loans')
+            ->where('id', $loanId)
+            ->update(['loan_status' => $status]);
+    }
+
+
+
+
     public function getLastPaymentNumber()
     {
         $columns = [
@@ -51,7 +76,7 @@ class Payments extends Model
 
         $builder = $this->db->table('payments a');
         $builder->select($columns);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $builder->limit(1);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -64,11 +89,11 @@ class Payments extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('payments');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('payments');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -92,10 +117,10 @@ class Payments extends Model
         ];
 
         $builder = $this->db->table('payments a');
-        $builder->join('billings b','a.billing_id = b.id','full');
-        $builder->join('companies c','b.company_id = c.id','full');
+        $builder->join('billings b', 'a.billing_id = b.id', 'full');
+        $builder->join('companies c', 'b.company_id = c.id', 'full');
         $builder->select($columns);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -122,12 +147,12 @@ class Payments extends Model
         ];
 
         $builder = $this->db->table('payments a');
-        $builder->join('billings b','a.billing_id = b.id','full');
-        $builder->join('loans c','b.company_id = c.company_id','full');
-        $builder->join('companies d','c.company_id = d.id','full');
+        $builder->join('billings b', 'a.billing_id = b.id', 'full');
+        $builder->join('loans c', 'b.company_id = c.company_id', 'full');
+        $builder->join('companies d', 'c.company_id = d.id', 'full');
         $builder->select($columns);
-        $builder->where('a.id',$paymentId);
-        $builder->orderBy('a.id','DESC');
+        $builder->where('a.id', $paymentId);
+        $builder->orderBy('a.id', 'DESC');
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -139,11 +164,11 @@ class Payments extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('payments');
-                $builder->where('id',$paymentId);
-                $builder->update($arrData);
+            $builder = $this->db->table('payments');
+            $builder->where('id', $paymentId);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -156,11 +181,11 @@ class Payments extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billings');
-                $builder->where('id',$billingId);
-                $builder->update($arrData);
+            $builder = $this->db->table('billings');
+            $builder->where('id', $billingId);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -173,11 +198,11 @@ class Payments extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billing_details');
-                $builder->where('id',$billingDetailsId);
-                $builder->update($arrData);
+            $builder = $this->db->table('billing_details');
+            $builder->where('id', $billingDetailsId);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }

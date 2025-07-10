@@ -23,7 +23,20 @@ const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function () {
                             <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(
                               value["loan_amount"]
                             )}</td>
-                            <td>${value["disbursement_status"]}</td>
+                 <td>
+  <span class="badge ${
+    value["loan_status"] === "DISBURSED"
+      ? "bg-success"
+      : value["loan_status"] === "APPROVED"
+      ? "bg-primary"
+      : value["loan_status"] === "PENDING"
+      ? "bg-warning"
+      : "bg-secondary"
+  }">
+    ${value["loan_status"]}
+  </span>
+</td>
+
                         </tr>`;
         });
         $("#tbl_salaryAdvanceAccounts").DataTable().destroy();
