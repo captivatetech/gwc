@@ -17,38 +17,62 @@ class PaymentController extends BaseController
         $this->payments = model('Payments');
     }
 
+    // private function _generatePaymentNumber($companyCode)
+    // {
+    //     $arrResult = $this->payments->getLastPaymentNumber();
+
+    //     if ($arrResult == null) {
+    //         $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . "00001";
+    //     } else {
+    //         $year = substr($arrResult['payment_number'], 11, 4);
+    //         $series = substr($arrResult['payment_number'], 15);
+
+    //         if ($year != date('Y')) {
+    //             $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . '00001';
+    //         } else {
+    //             $series = (int)$series + 1;
+    //             $strSeries = "";
+    //             if ($series < 10) {
+    //                 $strSeries = $year . "0000" . $series;
+    //             } else if ($series < 100) {
+    //                 $strSeries = $year . "000" . $series;
+    //             } else if ($series < 1000) {
+    //                 $strSeries = $year . "00" . $series;
+    //             } else if ($series < 10000) {
+    //                 $strSeries = $year . "0" . $series;
+    //             } else if ($series < 100000) {
+    //                 $strSeries = $year . $series;
+    //             }
+    //             $paymentNumber = "PN:" . $companyCode . "-" . $strSeries;
+    //         }
+    //     }
+
+    //     return $paymentNumber;
+    // }
+
+
     private function _generatePaymentNumber($companyCode)
     {
         $arrResult = $this->payments->getLastPaymentNumber();
 
         if ($arrResult == null) {
-            $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . "00001";
+            $paymentNumber = $companyCode . "-" . date('Y') . "00001";
         } else {
-            $year = substr($arrResult['payment_number'], 11, 4);
-            $series = substr($arrResult['payment_number'], 15);
+            $year = substr($arrResult['payment_number'], strrpos($arrResult['payment_number'], '-') + 1, 4);
+            $series = substr($arrResult['payment_number'], -5);
 
             if ($year != date('Y')) {
-                $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . '00001';
+                $paymentNumber = $companyCode . "-" . date('Y') . "00001";
             } else {
                 $series = (int)$series + 1;
-                $strSeries = "";
-                if ($series < 10) {
-                    $strSeries = $year . "0000" . $series;
-                } else if ($series < 100) {
-                    $strSeries = $year . "000" . $series;
-                } else if ($series < 1000) {
-                    $strSeries = $year . "00" . $series;
-                } else if ($series < 10000) {
-                    $strSeries = $year . "0" . $series;
-                } else if ($series < 100000) {
-                    $strSeries = $year . $series;
-                }
-                $paymentNumber = "PN:" . $companyCode . "-" . $strSeries;
+                $strSeries = str_pad($series, 5, '0', STR_PAD_LEFT);
+                $paymentNumber = $companyCode . "-" . $year . $strSeries;
             }
         }
 
-        return $paymentNumber;
+        return 'Loan Account Number: ' . $paymentNumber;
     }
+
 
     /*
         USED IN: 
