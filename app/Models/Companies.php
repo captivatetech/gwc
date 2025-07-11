@@ -52,7 +52,7 @@ class Companies extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $builder->limit(1);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -65,11 +65,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('companies');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('companies');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -97,7 +97,7 @@ class Companies extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->where('a.id',$companyId);
+        $builder->where('a.id', $companyId);
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -125,7 +125,7 @@ class Companies extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->where('a.id',$companyId);
+        $builder->where('a.id', $companyId);
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -137,11 +137,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('companies');
-                $builder->where(['id'=>$companyId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('companies');
+            $builder->where(['id' => $companyId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -203,11 +203,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('company_documents');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('company_documents');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -220,11 +220,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('company_documents');
-                $builder->where(['id'=>$documentId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('company_documents');
+            $builder->where(['id' => $documentId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -257,7 +257,7 @@ class Companies extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->where('a.id',$companyId);
+        $builder->where('a.id', $companyId);
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -269,11 +269,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('companies');
-                $builder->where(['id'=>$companyId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('companies');
+            $builder->where(['id' => $companyId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -298,7 +298,7 @@ class Companies extends Model
 
         $builder = $this->db->table('employees a');
         $builder->select($columns);
-        $builder->where('a.company_id',$companyId);
+        $builder->where('a.company_id', $companyId);
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -311,11 +311,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('employees');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('employees');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -329,11 +329,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('employees');
-                $builder->where(['id'=>$representativeId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('employees');
+            $builder->where(['id' => $representativeId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -368,7 +368,7 @@ class Companies extends Model
         $builder = $this->db->table('company_documents a');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
-        $builder->like('a.document_code', 'Attachment','both');
+        $builder->like('a.document_code', 'Attachment', 'both');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -380,11 +380,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('company_documents');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('company_documents');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -418,11 +418,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('company_documents');
-                $builder->where(['id'=>$attachmentId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('company_documents');
+            $builder->where(['id' => $attachmentId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -485,11 +485,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('company_documents');
-                $builder->where(['id'=>$documentId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('company_documents');
+            $builder->where(['id' => $documentId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -502,11 +502,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('product_subscriptions');
-                $builder->where(['id'=>$documentId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('product_subscriptions');
+            $builder->where(['id' => $documentId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -519,11 +519,11 @@ class Companies extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('product_subscriptions');
-                $builder->where(['id'=>$documentId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('product_subscriptions');
+            $builder->where(['id' => $documentId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -554,7 +554,7 @@ class Companies extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->where('a.id',$companyId);
+        $builder->where('a.id', $companyId);
         $query = $builder->get();
         return  $query->getRowArray();
     }
@@ -604,11 +604,13 @@ class Companies extends Model
             'a.business_industry',
             '(SELECT company_credit_limit FROM product_subscriptions WHERE company_id=a.id) AS company_credit_limit',
             '(SELECT subscription_status FROM product_subscriptions WHERE company_id=a.id) AS subscription_status',
+            // NEW: total of all accepted loans for this company
+            '(SELECT COALESCE(SUM(loan_amount),0) FROM loans WHERE company_id=a.id AND disbursement_status="ACCEPTED") AS accepted_amount',
         ];
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->where('id',$companyId);
+        $builder->where('id', $companyId);
         $query = $builder->get();
         return  $query->getRowArray();
     }

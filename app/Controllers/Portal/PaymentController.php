@@ -17,53 +17,62 @@ class PaymentController extends BaseController
         $this->payments = model('Payments');
     }
 
+    // private function _generatePaymentNumber($companyCode)
+    // {
+    //     $arrResult = $this->payments->getLastPaymentNumber();
+
+    //     if ($arrResult == null) {
+    //         $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . "00001";
+    //     } else {
+    //         $year = substr($arrResult['payment_number'], 11, 4);
+    //         $series = substr($arrResult['payment_number'], 15);
+
+    //         if ($year != date('Y')) {
+    //             $paymentNumber = "PN:" . $companyCode . "-" . date('Y') . '00001';
+    //         } else {
+    //             $series = (int)$series + 1;
+    //             $strSeries = "";
+    //             if ($series < 10) {
+    //                 $strSeries = $year . "0000" . $series;
+    //             } else if ($series < 100) {
+    //                 $strSeries = $year . "000" . $series;
+    //             } else if ($series < 1000) {
+    //                 $strSeries = $year . "00" . $series;
+    //             } else if ($series < 10000) {
+    //                 $strSeries = $year . "0" . $series;
+    //             } else if ($series < 100000) {
+    //                 $strSeries = $year . $series;
+    //             }
+    //             $paymentNumber = "PN:" . $companyCode . "-" . $strSeries;
+    //         }
+    //     }
+
+    //     return $paymentNumber;
+    // }
+
+
     private function _generatePaymentNumber($companyCode)
     {
         $arrResult = $this->payments->getLastPaymentNumber();
 
-        if($arrResult == null)
-        {
-            $paymentNumber = "PN:".$companyCode."-".date('Y')."00001";
-        }
-        else
-        {
-            $year = substr($arrResult['payment_number'], 11, 4);
-            $series = substr($arrResult['payment_number'], 15);
+        if ($arrResult == null) {
+            $paymentNumber = $companyCode . "-" . date('Y') . "00001";
+        } else {
+            $year = substr($arrResult['payment_number'], strrpos($arrResult['payment_number'], '-') + 1, 4);
+            $series = substr($arrResult['payment_number'], -5);
 
-            if($year != date('Y'))
-            {
-                $paymentNumber = "PN:".$companyCode."-".date('Y').'00001';
-            }
-            else
-            {
+            if ($year != date('Y')) {
+                $paymentNumber = $companyCode . "-" . date('Y') . "00001";
+            } else {
                 $series = (int)$series + 1;
-                $strSeries = "";
-                if($series < 10)
-                {
-                    $strSeries = $year."0000".$series;
-                }
-                else if($series < 100)
-                {
-                    $strSeries = $year."000".$series;
-                }
-                else if($series < 1000)
-                {
-                    $strSeries = $year."00".$series;
-                }
-                else if($series < 10000)
-                {
-                    $strSeries = $year."0".$series;
-                }
-                else if($series < 100000)
-                {
-                    $strSeries = $year.$series;
-                }
-                $paymentNumber = "PN:".$companyCode."-".$strSeries;
+                $strSeries = str_pad($series, 5, '0', STR_PAD_LEFT);
+                $paymentNumber = $companyCode . "-" . $year . $strSeries;
             }
         }
 
-        return $paymentNumber;
+        return 'Loan Account Number: ' . $paymentNumber;
     }
+
 
     /*
         USED IN: 
@@ -88,35 +97,32 @@ class PaymentController extends BaseController
             ]
         ]);
 
-        if($this->validation->withRequest($this->request)->run())
-        {
+        if ($this->validation->withRequest($this->request)->run()) {
             $fields = $this->request->getPost();
 
             $billingIds = explode(',', $fields['arrBillingIds']);
             $arrBillingIdsWithPenalties = json_decode($fields['arrBillingIdsWithPenalties'], true);
-            if(count($billingIds) > 0)
-            {
+            if (count($billingIds) > 0) {
                 $arr = $this->employees->selectRepresentative($this->session->get('gwc_representative_id'));
                 $paymentNumber = $this->_generatePaymentNumber($arr['company_code']);
-                if($fields['slc_paymentType'] == 'Online-Payment')
-                {
+                if ($fields['slc_paymentType'] == 'Online-Payment') {
                     $xenditPrivateKey = getenv('xendit_private_key');
                     Configuration::setXenditKey($xenditPrivateKey);
 
-                    $externalId = "EXT-".date('Ymd').time();
+                    $externalId = "EXT-" . date('Ymd') . time();
                     $baseUrl = base_url();
                     $arrParams = json_encode($fields);
 
                     $apiInstance = new InvoiceApi();
                     $createInvoiceRequest = new CreateInvoiceRequest([
-                      'external_id'             => $externalId,
-                      'description'             => 'System Payment Number: ' . $paymentNumber,
-                      'amount'                  => (float)str_replace(",", "", $fields['txt_paymentAmount']),
-                      'invoice_duration'        => 172800,
-                      'currency'                => 'PHP',
-                      'reminder_time'           => 1,
-                      'success_redirect_url'    => $baseUrl.'portal/representative/r-edit-success-payment/'.$arrParams,
-                      'failure_redirect_url'    => $baseUrl.'portal/representative/r-edit-failed-payment/'.$arrParams
+                        'external_id'             => $externalId,
+                        'description'             => 'System Payment Number: ' . $paymentNumber,
+                        'amount'                  => (float)str_replace(",", "", $fields['txt_paymentAmount']),
+                        'invoice_duration'        => 172800,
+                        'currency'                => 'PHP',
+                        'reminder_time'           => 1,
+                        'success_redirect_url'    => $baseUrl . 'portal/representative/r-edit-success-payment/' . $arrParams,
+                        'failure_redirect_url'    => $baseUrl . 'portal/representative/r-edit-failed-payment/' . $arrParams
                     ]);
 
                     $xenditUserId = getenv('xendit_user_id');
@@ -142,34 +148,27 @@ class PaymentController extends BaseController
                         /////////////////////////
                         $pdfFile = $this->request->getFile('file_promisoryNote');
 
-                        if($pdfFile != null)
-                        {
+                        if ($pdfFile != null) {
                             $newFileName = $pdfFile->getRandomName();
                             $pdfFile->move(ROOTPATH . 'public/assets/uploads/representative/promisory/', $newFileName);
 
-                            if($pdfFile->hasMoved())
-                            {
+                            if ($pdfFile->hasMoved()) {
                                 $arrData['promisory_note'] = $newFileName;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $arrData['promisory_note'] = NULL;
-                        }                
+                        }
                         ///////////////////////
                         // promisory note document end
                         ///////////////////////
 
                         $result = $this->payments->r_submitPayment($arrData);
-                        if($result > 0)
-                        {
+                        if ($result > 0) {
                             $msgResult[] = $fields['slc_paymentType'];
                             $msgResult[] = $apiResult['invoice_url'];
                             return $this->response->setJSON($msgResult);
                             exit();
-                        }
-                        else
-                        {
+                        } else {
                             $msgResult[] = "Something went wrong, please try again";
                             return $this->response->setStatusCode(401)->setJSON($msgResult);
                             exit();
@@ -178,9 +177,7 @@ class PaymentController extends BaseController
                         echo 'Exception when calling InvoiceApi->createInvoice: ', $e->getMessage(), PHP_EOL;
                         echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
                     }
-                }
-                else
-                {
+                } else {
                     $arr = $this->employees->selectRepresentative($this->session->get('gwc_representative_id'));
                     $arrData = [
                         'billing_id'        => $fields['txt_billingId'],
@@ -199,20 +196,16 @@ class PaymentController extends BaseController
                     /////////////////////////
                     $pdfFile = $this->request->getFile('file_proofOfPayment');
 
-                    if($pdfFile != null)
-                    {
+                    if ($pdfFile != null) {
                         $newFileName = $pdfFile->getRandomName();
                         $pdfFile->move(ROOTPATH . 'public/assets/uploads/representative/payments/', $newFileName);
 
-                        if($pdfFile->hasMoved())
-                        {
+                        if ($pdfFile->hasMoved()) {
                             $arrData['proof_of_payment'] = $newFileName;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $arrData['proof_of_payment'] = NULL;
-                    }                
+                    }
                     ///////////////////////
                     // proof of payment document end
                     ///////////////////////
@@ -222,27 +215,22 @@ class PaymentController extends BaseController
                     /////////////////////////
                     $pdfFile = $this->request->getFile('file_promisoryNote');
 
-                    if($pdfFile != null)
-                    {
+                    if ($pdfFile != null) {
                         $newFileName = $pdfFile->getRandomName();
                         $pdfFile->move(ROOTPATH . 'public/assets/uploads/representative/promisory/', $newFileName);
 
-                        if($pdfFile->hasMoved())
-                        {
+                        if ($pdfFile->hasMoved()) {
                             $arrData['promisory_note'] = $newFileName;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $arrData['promisory_note'] = NULL;
-                    }                
+                    }
                     ///////////////////////
                     // promisory note document end
                     ///////////////////////
 
                     $result = $this->payments->r_submitPayment($arrData);
-                    if($result > 0)
-                    {
+                    if ($result > 0) {
                         // if((float)str_replace(",", "", $fields['txt_billingAmount']) == (float)str_replace(",", "", $fields['txt_paymentAmount']))
                         // {
                         //     $paymentStatus = "PAID";
@@ -256,15 +244,14 @@ class PaymentController extends BaseController
                         $arrData = [
                             'total_paid'    => (float)str_replace(",", "", $fields['txt_paymentAmount']),
                             'balance'       => (float)str_replace(",", "", $fields['txt_balance']),
-                            'payment_status'=> $paymentStatus,
+                            'payment_status' => $paymentStatus,
                             'updated_by'    => $this->session->get('gwc_representative_id'),
                             'updated_date'  => date('Y-m-d H:i:s')
                         ];
                         $this->billings->r_updateBilling($arrData, $fields['txt_billingId']);
 
                         $arrData = [];
-                        for ($i=0; $i < count($billingIds); $i++) 
-                        { 
+                        for ($i = 0; $i < count($billingIds); $i++) {
                             $arrData[] = [
                                 'id'                => $billingIds[$i],
                                 'payment_status'    => 'PENDING',
@@ -273,8 +260,7 @@ class PaymentController extends BaseController
                                 'updated_date'      => date('Y-m-d H:i:s')
                             ];
                         }
-                        foreach ($arrBillingIdsWithPenalties as $key => $value) 
-                        {
+                        foreach ($arrBillingIdsWithPenalties as $key => $value) {
                             $arrData[] = [
                                 'id'                => $value['id'],
                                 'payment_status'    => 'UNPAID',
@@ -289,24 +275,18 @@ class PaymentController extends BaseController
                         $msgResult[] = "Payment Completed!";
                         return $this->response->setJSON($msgResult);
                         exit();
-                    }
-                    else
-                    {
+                    } else {
                         $msgResult[] = "Something went wrong, please try again";
                         return $this->response->setStatusCode(401)->setJSON($msgResult);
                         exit();
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $msgResult[] = "No selected loan account!";
                 return $this->response->setStatusCode(401)->setJSON($msgResult);
                 exit();
             }
-        }
-        else
-        {
+        } else {
             $msgResult[] = $this->validation->getErrors();
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
@@ -318,8 +298,7 @@ class PaymentController extends BaseController
         $arrFields = json_decode($arrParams, true);
 
         $arrResult = $this->billings->r_selectBilling($arrFields['txt_billingId']);
-        if($arrResult['payment_status'] == 'UNPAID')
-        {
+        if ($arrResult['payment_status'] == 'UNPAID') {
             $billingIds = explode(',', $arrFields['arrBillingIds']);
             $arrBillingIdsWithPenalties = json_decode($arrFields['arrBillingIdsWithPenalties'], true);
 
@@ -336,15 +315,14 @@ class PaymentController extends BaseController
             $arrData = [
                 'total_paid'    => (float)str_replace(",", "", $arrFields['txt_paymentAmount']),
                 'balance'       => (float)str_replace(",", "", $arrFields['txt_balance']),
-                'payment_status'=> $paymentStatus,
+                'payment_status' => $paymentStatus,
                 'updated_by'    => $this->session->get('gwc_representative_id'),
                 'updated_date'  => date('Y-m-d H:i:s')
             ];
             $this->billings->r_updateBilling($arrData, $arrFields['txt_billingId']);
 
             $arrData = [];
-            for ($i=0; $i < count($billingIds); $i++) 
-            { 
+            for ($i = 0; $i < count($billingIds); $i++) {
                 $arrData[] = [
                     'id'                => $billingIds[$i],
                     'payment_status'    => 'PENDING',
@@ -353,8 +331,7 @@ class PaymentController extends BaseController
                     'updated_date'      => date('Y-m-d H:i:s')
                 ];
             }
-            foreach ($arrBillingIdsWithPenalties as $key => $value) 
-            {
+            foreach ($arrBillingIdsWithPenalties as $key => $value) {
                 $arrData[] = [
                     'id'                => $value['id'],
                     'payment_status'    => 'UNPAID',
@@ -368,9 +345,7 @@ class PaymentController extends BaseController
             $arrData = [
                 'payment_status' => "UNPAID"
             ];
-        }
-        else
-        {
+        } else {
             $arrData = [
                 'payment_status' => "PENDING"
             ];
@@ -378,10 +353,7 @@ class PaymentController extends BaseController
         return $this->slice->view('portal.representative.representative_success_payment', $arrData);
     }
 
-    public function r_editFailedPayment($arrParams)
-    {
-
-    }
+    public function r_editFailedPayment($arrParams) {}
 
 
 
@@ -401,7 +373,7 @@ class PaymentController extends BaseController
         $arrData = $this->payments->a_selectPayment($fields['paymentId']);
         return $this->response->setJSON($arrData);
         exit();
-    }   
+    }
 
     public function a_confirmPayment()
     {
@@ -415,26 +387,34 @@ class PaymentController extends BaseController
             ]
         ]);
 
-        if($this->validation->withRequest($this->request)->run())
-        {
+        if ($this->validation->withRequest($this->request)->run()) {
             $fields = $this->request->getPost();
-            if($fields['slc_paymentStatus'] == 'CONFIRM')
-            {
+            if ($fields['slc_paymentStatus'] == 'CONFIRM') {
                 $arrData = [
-                    'payment_status'    => 'CONFIRM', 
+                    'payment_status'    => 'CONFIRM',
                     'confirmation_date' => date('Y-m-d H:i:s')
                 ];
 
                 $result = $this->payments->a_confirmPayment($arrData, $fields['txt_paymentId']);
-                if($result == 1)
-                {
+                if ($result == 1) {
                     $arrData = [
                         'payment_status' => 'PAID'
                     ];
                     $this->payments->a_updateBilling($arrData, $fields['txt_billingId']);
 
+                    // ✅ STEP: Check if loan is fully paid
+                    $loanId = $this->billings->getLoanIdByBillingId($fields['txt_billingId']);
+                    $totalLoanAmount = $this->billings->getLoanAmount($loanId);
+                    $totalPaid = $this->payments->getTotalPaidByLoan($loanId); // Implement this in model if missing
+
+                    if ($totalPaid >= $totalLoanAmount) {
+                        $this->payments->updateLoanStatus($loanId, 'PAID');
+                    } elseif ($totalPaid > 0) {
+                        $this->payments->updateLoanStatus($loanId, 'PARTIALLY PAID');
+                    }
+
                     $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
-                    
+
                     $emailConfig = sliceMailConfig();
 
                     $emailSender    = 'sweldona@app.goldwatercap.net';
@@ -448,9 +428,8 @@ class PaymentController extends BaseController
                         'billingNumber' => $arrResult['billing_number']
                     ];
 
-                    $result = sendSliceMail('representative_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
-                    if($result > 0)
-                    {
+                    $result = sendSliceMail('representative_confirm_payment', $emailConfig, $emailSender, $emailReceiver, $data);
+                    if ($result > 0) {
                         $arrData = [];
                         $arrData[] = "Confirm-Payment";
                         $arrData[] = $this->employees->a_loadEmployeeDetails($fields['txt_billingId']);
@@ -468,30 +447,19 @@ class PaymentController extends BaseController
                         return $this->response->setJSON($arrData);
                         exit();
                     }
-                    else
-                    {
-                        $msgResult[] = "Error!<br>Something went wrong!";
-                        return $this->response->setStatusCode(401)->setJSON($msgResult);
-                        exit();
-                    }
-                }
-                else
-                {
+                } else {
                     $msgResult[] = "Error!<br>Something went wrong!";
                     return $this->response->setStatusCode(401)->setJSON($msgResult);
                     exit();
                 }
-            }
-            else if($fields['slc_paymentStatus'] == 'RETURN')
-            {
+            } else if ($fields['slc_paymentStatus'] == 'RETURN') {
                 $arrData = [
-                    'payment_status' => 'RETURN', 
+                    'payment_status' => 'RETURN',
                     'return_remarks' => $fields['txt_returnRemarks']
                 ];
 
                 $result = $this->payments->a_confirmPayment($arrData, $fields['txt_paymentId']);
-                if($result == 1)
-                {
+                if ($result == 1) {
 
                     $arrRepresentative = $this->employees->a_selectRepresentative($fields['txt_companyId']);
 
@@ -506,9 +474,8 @@ class PaymentController extends BaseController
                         'returnRemarks' => $fields['txt_returnRemarks']
                     ];
 
-                    $result = sendSliceMail('representative_return_payment',$emailConfig,$emailSender,$emailReceiver,$data);
-                    if($result > 0)
-                    {
+                    $result = sendSliceMail('representative_return_payment', $emailConfig, $emailSender, $emailReceiver, $data);
+                    if ($result > 0) {
                         $msgResult[] = "Return-Payment";
 
                         // for Audit Trail
@@ -523,24 +490,18 @@ class PaymentController extends BaseController
 
                         return $this->response->setJSON($arrData);
                         exit();
-                    }
-                    else
-                    {
+                    } else {
                         $msgResult[] = "Error!<br>Something went wrong!";
                         return $this->response->setStatusCode(401)->setJSON($msgResult);
                         exit();
                     }
-                }
-                else
-                {
+                } else {
                     $msgResult[] = "Error!<br>Something went wrong!";
                     return $this->response->setStatusCode(401)->setJSON($msgResult);
                     exit();
                 }
             }
-        }
-        else
-        {
+        } else {
             $msgResult[] = $this->validation->getErrors();
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
@@ -557,8 +518,7 @@ class PaymentController extends BaseController
 
         $result = $this->payments->a_updateBillingDetails($arrData, $fields['billing_details_id']);
 
-        if($result > 0)
-        {
+        if ($result > 0) {
             $emailConfig = sliceMailConfig();
 
             $emailSender    = 'sweldona@app.goldwatercap.net';
@@ -572,25 +532,20 @@ class PaymentController extends BaseController
                 'paymentDate'   => $fields['payment_date']
             ];
 
-            $result = sendSliceMail('employee_confirm_payment',$emailConfig,$emailSender,$emailReceiver,$data);
-            if($result > 0)
-            {
+            $result = sendSliceMail('employee_confirm_payment', $emailConfig, $emailSender, $emailReceiver, $data);
+            if ($result > 0) {
                 $msgResult[] = "Success!<br>Payment confirmation sent!";
                 return $this->response->setJSON($msgResult);
                 exit();
-            }
-            else
-            {
+            } else {
                 $msgResult[] = "Error!<br>Something went wrong!";
                 return $this->response->setStatusCode(401)->setJSON($msgResult);
                 exit();
             }
-        }
-        else
-        {
+        } else {
             $msgResult[] = "Error!<br>Something went wrong!";
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
-        }   
+        }
     }
 }

@@ -42,6 +42,28 @@ class Billings extends Model
     ////////////////////////////////////////////////////////////
     ///// BillingController->_generateBillingNumber()
     ////////////////////////////////////////////////////////////
+
+    public function getLoanIdByBillingId($billingId)
+    {
+        return $this->db->table('billing_details')
+            ->select('loan_id')
+            ->where('billing_id', $billingId)
+            ->limit(1)
+            ->get()
+            ->getRow('loan_id');
+    }
+
+
+    public function getLoanAmount($loanId)
+    {
+        return $this->db->table('loans')
+            ->select('loan_amount')
+            ->where('id', $loanId)
+            ->get()
+            ->getRow('loan_amount');
+    }
+
+
     public function getLastBillingNumber()
     {
         $columns = [
@@ -51,7 +73,7 @@ class Billings extends Model
 
         $builder = $this->db->table('billings a');
         $builder->select($columns);
-        $builder->orderBy('a.id','DESC');
+        $builder->orderBy('a.id', 'DESC');
         $builder->limit(1);
         $query = $builder->get();
         return  $query->getRowArray();
@@ -96,7 +118,7 @@ class Billings extends Model
 
         $builder = $this->db->table('companies a');
         $builder->select($columns);
-        $builder->join('loans b','a.id = b.company_id', 'left');
+        $builder->join('loans b', 'a.id = b.company_id', 'left');
         $builder->orWhere('b.billing_date_1', $dateNow);
         $builder->orWhere('b.billing_date_2', $dateNow);
         $builder->groupBy('a.id');
@@ -111,11 +133,11 @@ class Billings extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billings');
-                $builder->insert($arrData);
-                $insertId = $this->db->insertID();
+            $builder = $this->db->table('billings');
+            $builder->insert($arrData);
+            $insertId = $this->db->insertID();
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? $insertId : 0;
+            return ($this->db->transStatus() === TRUE) ? $insertId : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -148,8 +170,8 @@ class Billings extends Model
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
         $builder->groupStart();
-            $builder->orWhere('a.billing_date_1', $dateNow);
-            $builder->orWhere('a.billing_date_2', $dateNow);
+        $builder->orWhere('a.billing_date_1', $dateNow);
+        $builder->orWhere('a.billing_date_2', $dateNow);
         $builder->groupEnd();
         $query = $builder->get();
         return  $query->getResultArray();
@@ -162,10 +184,10 @@ class Billings extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billing_details');
-                $builder->insertBatch($arrData);
+            $builder = $this->db->table('billing_details');
+            $builder->insertBatch($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -190,7 +212,7 @@ class Billings extends Model
 
         $builder = $this->db->table('billings a');
         $builder->select($columns);
-        $builder->orderBy('a.created_date','DESC');
+        $builder->orderBy('a.created_date', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -214,7 +236,7 @@ class Billings extends Model
         ];
 
         $builder = $this->db->table('billings a');
-        $builder->join('companies b','a.company_id = b.id','full');
+        $builder->join('companies b', 'a.company_id = b.id', 'full');
         $builder->select($columns);
         $builder->where('a.id', $billingId);
         $query = $builder->get();
@@ -240,8 +262,8 @@ class Billings extends Model
         ];
 
         $builder = $this->db->table('billing_details a');
-        $builder->join('loans b','a.loan_id = b.id','full');
-        $builder->join('employees c','b.employee_id = c.id','full');
+        $builder->join('loans b', 'a.loan_id = b.id', 'full');
+        $builder->join('employees c', 'b.employee_id = c.id', 'full');
         $builder->select($columns);
         $builder->where('a.billing_id', $billingId);
         $query = $builder->get();
@@ -279,7 +301,7 @@ class Billings extends Model
         $builder = $this->db->table('billings a');
         $builder->select($columns);
         $builder->where('a.company_id', $companyId);
-        $builder->orderBy('a.created_date','DESC');
+        $builder->orderBy('a.created_date', 'DESC');
         $query = $builder->get();
         return  $query->getResultArray();
     }
@@ -304,7 +326,7 @@ class Billings extends Model
         ];
 
         $builder = $this->db->table('billings a');
-        $builder->join('companies b','a.company_id = b.id','full');
+        $builder->join('companies b', 'a.company_id = b.id', 'full');
         $builder->select($columns);
         $builder->where('a.id', $billingId);
         $query = $builder->get();
@@ -332,8 +354,8 @@ class Billings extends Model
         ];
 
         $builder = $this->db->table('billing_details a');
-        $builder->join('loans b','a.loan_id = b.id','full');
-        $builder->join('employees c','b.employee_id = c.id','full');
+        $builder->join('loans b', 'a.loan_id = b.id', 'full');
+        $builder->join('employees c', 'b.employee_id = c.id', 'full');
         $builder->select($columns);
         $builder->where('a.billing_id', $billingId);
         // $builder->where('a.payment_status', 'UNPAID');
@@ -366,11 +388,11 @@ class Billings extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billings');
-                $builder->where(['id'=>$billingId]);
-                $builder->update($arrData);
+            $builder = $this->db->table('billings');
+            $builder->where(['id' => $billingId]);
+            $builder->update($arrData);
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }
@@ -410,10 +432,10 @@ class Billings extends Model
     {
         try {
             $this->db->transStart();
-                $builder = $this->db->table('billing_details');
-                $builder->updateBatch($arrData,'id');
+            $builder = $this->db->table('billing_details');
+            $builder->updateBatch($arrData, 'id');
             $this->db->transComplete();
-            return ($this->db->transStatus() === TRUE)? 1 : 0;
+            return ($this->db->transStatus() === TRUE) ? 1 : 0;
         } catch (PDOException $e) {
             throw $e;
         }

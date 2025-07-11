@@ -31,44 +31,29 @@ class LoanController extends BaseController
     {
         $arrResult = $this->loans->getLastApplicationNumber();
 
-        if($arrResult == null)
-        {
-            $applicationNumber = "SA:".$companyCode."-".date('Y')."00001";
-        }
-        else
-        {
+        if ($arrResult == null) {
+            $applicationNumber = "SA:" . $companyCode . "-" . date('Y') . "00001";
+        } else {
             $year = substr($arrResult['application_number'], 11, 4);
             $series = substr($arrResult['application_number'], 15);
 
-            if($year != date('Y'))
-            {
-                $applicationNumber = "SA:".$companyCode."-".date('Y').'00001';
-            }
-            else
-            {
+            if ($year != date('Y')) {
+                $applicationNumber = "SA:" . $companyCode . "-" . date('Y') . '00001';
+            } else {
                 $series = (int)$series + 1;
                 $strSeries = "";
-                if($series < 10)
-                {
-                    $strSeries = $year."0000".$series;
+                if ($series < 10) {
+                    $strSeries = $year . "0000" . $series;
+                } else if ($series < 100) {
+                    $strSeries = $year . "000" . $series;
+                } else if ($series < 1000) {
+                    $strSeries = $year . "00" . $series;
+                } else if ($series < 10000) {
+                    $strSeries = $year . "0" . $series;
+                } else if ($series < 100000) {
+                    $strSeries = $year . $series;
                 }
-                else if($series < 100)
-                {
-                    $strSeries = $year."000".$series;
-                }
-                else if($series < 1000)
-                {
-                    $strSeries = $year."00".$series;
-                }
-                else if($series < 10000)
-                {
-                    $strSeries = $year."0".$series;
-                }
-                else if($series < 100000)
-                {
-                    $strSeries = $year.$series;
-                }
-                $applicationNumber = "SA:".$companyCode."-".$strSeries;
+                $applicationNumber = "SA:" . $companyCode . "-" . $strSeries;
             }
         }
 
@@ -81,7 +66,7 @@ class LoanController extends BaseController
     */
     public function e_submitSalaryAdvanceApplication()
     {
-        try{
+        try {
 
             // $loanDetails = $this->loans->e_selectLoanAccount($this->session->get('gwc_employee_id'));
             $userData = $this->employees->selectEmployee($this->session->get('gwc_employee_id'));
@@ -113,13 +98,10 @@ class LoanController extends BaseController
             $notarialFee = 500;
 
             $birthday = explode("-", $userData['birthday']);
-            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
-            if($age >= 18 && $age <= 65)
-            {
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md") ? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+            if ($age >= 18 && $age <= 65) {
                 $insurance = $loanAmount / 1000 * 13;
-            }
-            else if($age >= 66 && $age <= 70)
-            {
+            } else if ($age >= 66 && $age <= 70) {
                 $insurance = $loanAmount / 1000 * 26;
             }
 
@@ -129,155 +111,142 @@ class LoanController extends BaseController
             $totalInterest = (($interestRate * (int)$paymentTerms) / 100) * $loanAmount;
             $totalLoan = $loanAmount + $totalInterest;
 
-            $numberOfDeductions = ((int)substr($paymentTerms,0,1)) * 2;
+            $numberOfDeductions = ((int)substr($paymentTerms, 0, 1)) * 2;
             $monthlyDues = $totalLoan / (int)substr($paymentTerms, 0, 1);
             $deductionPerCutoff = $monthlyDues / 2;
 
-            $user = new OAuth( array(
+            $user = new OAuth(array(
                 OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
-                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::CLIENT_SECRET => "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                 OAuth::DC           => "COM",
-                OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
-            ) );
+                OAuth::REFRESH_TOKEN => "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
+            ));
 
-            ZohoSign::setCurrentUser( $user );
+            ZohoSign::setCurrentUser($user);
             $user->generateAccessTokenUsingRefreshToken();
             $access_token = $user->getAccessToken();
 
-            $template = ZohoSign::getTemplate( 418013000000095065 );
+            $template = ZohoSign::getTemplate(418013000000095065);
 
             $employeeName = $userData['first_name'] . " " . $userData['last_name'];
             $documentName = $companyData['company_name'] . " " . $employeeName;
-            $template->setRequestName("MEMORANDUN OF AGREEMENT FOR CORPORATE SALARY LOAN FACILITY WITH AUTHORITY TO DEDUCT");
+            $template->setRequestName("MEMORANDUM OF AGREEMENT FOR CORPORATE SALARY LOAN FACILITY WITH AUTHORITY TO DEDUCT");
             $template->setNotes("Call us back if you need clarificaions regarding agreement");
 
-            $template->setPrefillTextField( "txt_f1",  date('F d, Y') );
-            $template->setPrefillTextField( "txt_f2",  "Nueva Ecija" );
-            $template->setPrefillTextField( "txt_f3",  $companyData['company_name'] );
-            $template->setPrefillTextField( "txt_f4",  $companyData['company_address'] );
+            $template->setPrefillTextField("txt_f1",  date('F d, Y'));
+            $template->setPrefillTextField("txt_f2",  "Nueva Ecija");
+            $template->setPrefillTextField("txt_f3",  $companyData['company_name']);
+            $template->setPrefillTextField("txt_f4",  $companyData['company_address']);
 
             $representativeName = $representativeData['first_name'] . " " . $representativeData['last_name'];
-            $template->setPrefillTextField( "txt_f5",  $representativeName );
+            $template->setPrefillTextField("txt_f5",  $representativeName);
 
-            $template->setPrefillTextField( "txt_f6",  $employeeName );
-            $template->setPrefillTextField( "txt_f7",  $userData['permanent_address'] );
-            $template->setPrefillTextField( "txt_f8",  "FINANCE" );
+            $template->setPrefillTextField("txt_f6",  $employeeName);
+            $template->setPrefillTextField("txt_f7",  $userData['permanent_address']);
+            $template->setPrefillTextField("txt_f8",  "FINANCE");
 
             $strLoanAmount = number_format($loanAmount, 2, ".", ",");
-            $template->setPrefillTextField( "txt_f9",   "Php $strLoanAmount");
-            $template->setPrefillTextField( "txt_f10",  numbersToWords($loanAmount) );
-            $template->setPrefillTextField( "txt_f11",  $paymentTerms );
-            $template->setPrefillTextField( "txt_f12",  "$interestRate%" );
+            $template->setPrefillTextField("txt_f9",   "Php $strLoanAmount");
+            $template->setPrefillTextField("txt_f10",  numbersToWords($loanAmount));
+            $template->setPrefillTextField("txt_f11",  $paymentTerms);
+            $template->setPrefillTextField("txt_f12",  "$interestRate%");
 
-            $template->setPrefillTextField( "txt_f13",  "-" );
-            $template->setPrefillTextField( "txt_f14",  "-" );
-            $template->setPrefillTextField( "txt_f15",  "-" );
-            $template->setPrefillTextField( "txt_f16",  "-" );
-            $template->setPrefillTextField( "txt_f17",  "-" );
-            $template->setPrefillTextField( "txt_f18",  "-" );
-            $template->setPrefillTextField( "txt_f19",  "-" );
-            $template->setPrefillTextField( "txt_f20",  "-" );
-            $template->setPrefillTextField( "txt_f21",  "-" );
-            $template->setPrefillTextField( "txt_f22",  "-" );
-            $template->setPrefillTextField( "txt_f23",  "-" );
-            $template->setPrefillTextField( "txt_f24",  "-" );
-            $template->setPrefillTextField( "txt_f25",  "-" );
-            $template->setPrefillTextField( "txt_f26",  "-" );
-            $template->setPrefillTextField( "txt_f27",  "-" );
-            $template->setPrefillTextField( "txt_f28",  "-" );
-        
+            $template->setPrefillTextField("txt_f13",  "-");
+            $template->setPrefillTextField("txt_f14",  "-");
+            $template->setPrefillTextField("txt_f15",  "-");
+            $template->setPrefillTextField("txt_f16",  "-");
+            $template->setPrefillTextField("txt_f17",  "-");
+            $template->setPrefillTextField("txt_f18",  "-");
+            $template->setPrefillTextField("txt_f19",  "-");
+            $template->setPrefillTextField("txt_f20",  "-");
+            $template->setPrefillTextField("txt_f21",  "-");
+            $template->setPrefillTextField("txt_f22",  "-");
+            $template->setPrefillTextField("txt_f23",  "-");
+            $template->setPrefillTextField("txt_f24",  "-");
+            $template->setPrefillTextField("txt_f25",  "-");
+            $template->setPrefillTextField("txt_f26",  "-");
+            $template->setPrefillTextField("txt_f27",  "-");
+            $template->setPrefillTextField("txt_f28",  "-");
+
             $employeeName = $userData['first_name'] . " " . $userData['last_name'];
             $template->getActionByRole("Recepient1")->setRecipientName($employeeName);
             $template->getActionByRole("Recepient1")->setRecipientEmail($userData['email_address']);
-            $template->setPrefillTextField( "txt_employeeName1",  $employeeName );
+            $template->setPrefillTextField("txt_employeeName1",  $employeeName);
 
             $representativeName = $representativeData['first_name'] . " " . $representativeData['last_name'];
             $template->getActionByRole("Recepient2")->setRecipientName($representativeName);
             $template->getActionByRole("Recepient2")->setRecipientEmail($representativeData['email_address']);
-            $template->setPrefillTextField( "txt_representativeName1",  $representativeName );
+            $template->setPrefillTextField("txt_representativeName1",  $representativeName);
 
             $template->getActionByRole("Recepient3")->setRecipientName("GWC Admin");
-            $template->getActionByRole("Recepient3")->setRecipientEmail("sweldona@app.goldwatercap.net");
-            $template->setPrefillTextField( "txt_lenderName1",  "GWC Admin" );
+            $template->getActionByRole("Recepient3")->setRecipientEmail("janairreon.batutay@captivategrp.com");
+            $template->setPrefillTextField("txt_lenderName1",  "GWC Admin");
 
 
-            $template->setPrefillTextField( "txt_accountName", $employeeName );
-            $template->setPrefillTextField( "txt_accountNumber", "-" );
-            $template->setPrefillTextField( "txt_interestRate", "$interestRate%" );
-            $template->setPrefillTextField( "txt_promisoryNote", "-" );
+            $template->setPrefillTextField("txt_accountName", $employeeName);
+            $template->setPrefillTextField("txt_accountNumber", "-");
+            $template->setPrefillTextField("txt_interestRate", "$interestRate%");
+            $template->setPrefillTextField("txt_promisoryNote", "-");
 
-            $template->setPrefillTextField( "txt_maStartDate", "-" );
-            $template->setPrefillTextField( "txt_maEndDate", "-" );
+            $template->setPrefillTextField("txt_maStartDate", "-");
+            $template->setPrefillTextField("txt_maEndDate", "-");
 
-            $template->setPrefillTextField( "txt_dst", number_format($docStamp,2,".",",") );
-            $template->setPrefillTextField( "txt_insurance", number_format($insurance,2,".",",") );
-            $template->setPrefillTextField( "txt_notarialFees", number_format($notarialFee,2,".",",") );
-            $template->setPrefillTextField( "txt_otherAdminFees", number_format($serviceFee,2,".",",") );
+            $template->setPrefillTextField("txt_dst", number_format($docStamp, 2, ".", ","));
+            $template->setPrefillTextField("txt_insurance", number_format($insurance, 2, ".", ","));
+            $template->setPrefillTextField("txt_notarialFees", number_format($notarialFee, 2, ".", ","));
+            $template->setPrefillTextField("txt_otherAdminFees", number_format($serviceFee, 2, ".", ","));
 
             $t1Balance = $totalLoan;
             $series = 0;
-            for ($i=0; $i < 16; $i++) 
-            { 
+            for ($i = 0; $i < 16; $i++) {
                 $paymentNumber = 0;
-                for ($x=0; $x < $numberOfDeductions; $x++) 
-                { 
-                    if($i == $x)
-                    {
-                        $paymentNumber = $x+1;
+                for ($x = 0; $x < $numberOfDeductions; $x++) {
+                    if ($i == $x) {
+                        $paymentNumber = $x + 1;
                         $t1Balance -= $deductionPerCutoff;
                     }
                 }
-                $series = $i+1;
-                if($paymentNumber != 0)
-                {
-                    $template->setPrefillTextField( "txt_paymentDate$series", "Payment $series" );
-                    $template->setPrefillTextField( "txt_amount$series", number_format($deductionPerCutoff,2,".",",") );
-                    $template->setPrefillTextField( "txt_t1bal$series", number_format($t1Balance,2,".",",") );
-                }
-                else
-                {
-                    $template->setPrefillTextField( "txt_paymentDate$series", "-" );
-                    $template->setPrefillTextField( "txt_amount$series", "-" );
-                    $template->setPrefillTextField( "txt_t1bal$series", "-" );
+                $series = $i + 1;
+                if ($paymentNumber != 0) {
+                    $template->setPrefillTextField("txt_paymentDate$series", "Payment $series");
+                    $template->setPrefillTextField("txt_amount$series", number_format($deductionPerCutoff, 2, ".", ","));
+                    $template->setPrefillTextField("txt_t1bal$series", number_format($t1Balance, 2, ".", ","));
+                } else {
+                    $template->setPrefillTextField("txt_paymentDate$series", "-");
+                    $template->setPrefillTextField("txt_amount$series", "-");
+                    $template->setPrefillTextField("txt_t1bal$series", "-");
                 }
             }
 
             $t2Balance = $totalLoan;
             $series = 0;
-            for ($i=0; $i < 16; $i++) 
-            { 
+            for ($i = 0; $i < 16; $i++) {
                 $monthNumber = 0;
-                for ($x=0; $x < (int)substr($paymentTerms,0,1); $x++) 
-                { 
-                    if($i == $x)
-                    {
-                        $monthNumber = $x+1;
+                for ($x = 0; $x < (int)substr($paymentTerms, 0, 1); $x++) {
+                    if ($i == $x) {
+                        $monthNumber = $x + 1;
                         $t2Balance -= $monthlyDues;
                     }
                 }
-                $series = $i+1;
-                if($monthNumber != 0)
-                {
-                    $template->setPrefillTextField( "txt_month$series", "Month $series" );
-                    $template->setPrefillTextField( "txt_amort$series", number_format($monthlyDues,2,".",",") );
-                    $template->setPrefillTextField( "txt_t2bal$series", number_format($t2Balance,2,".",",") );
-                }
-                else
-                {
-                    $template->setPrefillTextField( "txt_month$series", "-" );
-                    $template->setPrefillTextField( "txt_amort$series", "-" );
-                    $template->setPrefillTextField( "txt_t2bal$series", "-" );
+                $series = $i + 1;
+                if ($monthNumber != 0) {
+                    $template->setPrefillTextField("txt_month$series", "Month $series");
+                    $template->setPrefillTextField("txt_amort$series", number_format($monthlyDues, 2, ".", ","));
+                    $template->setPrefillTextField("txt_t2bal$series", number_format($t2Balance, 2, ".", ","));
+                } else {
+                    $template->setPrefillTextField("txt_month$series", "-");
+                    $template->setPrefillTextField("txt_amort$series", "-");
+                    $template->setPrefillTextField("txt_t2bal$series", "-");
                 }
             }
 
-            $template->setPrefillTextField( "txt_employeeName2", $employeeName );
-            $template->setPrefillTextField( "txt_representativeName2", $representativeName );
-            $template->setPrefillTextField( "txt_lenderName2", "GWC Admin" );
-        
-            $resp_obj = ZohoSign::sendTemplate( $template, true );
+            $template->setPrefillTextField("txt_employeeName2", $employeeName);
+            $template->setPrefillTextField("txt_representativeName2", $representativeName);
+            $template->setPrefillTextField("txt_lenderName2", "GWC Admin");
 
-            if($resp_obj->getRequestId() != null)
-            {
+            $resp_obj = ZohoSign::sendTemplate($template, true);
+
+            if ($resp_obj->getRequestId() != null) {
                 $arrData = [
                     'company_id'            => $userData['company_id'],
                     'employee_id'           => $userData['id'],
@@ -297,15 +266,14 @@ class LoanController extends BaseController
                     'monthly_dues'          => (float)$monthlyDues,
                     'deduction_per_cutoff'  => (float)$deductionPerCutoff,
                     'purpose_of_loan'       => $fields['purposeOfLoan'],
-                    'application_status'    => 'PENDING', 
+                    'application_status'    => 'PENDING',
                     'loan_status'           => 'PENDING',
                     'created_by'            => $this->session->get('gwc_employee_id'),
                     'created_date'          => date('Y-m-d H:i:s')
                 ];
 
                 $result = $this->loans->e_submitSalaryAdvanceApplication($arrData);
-                if($result > 0)
-                {
+                if ($result > 0) {
 
                     $arrData = [
                         'employee_id'       => $this->session->get('gwc_employee_id'),
@@ -333,22 +301,20 @@ class LoanController extends BaseController
 
                     return $this->response->setJSON($msgResult);
                     exit();
-                }
-                else
-                {
+                } else {
                     $msgResult[] = "Something went wrong, please try again";
                     return $this->response->setStatusCode(401)->setJSON($msgResult);
                     exit();
                 }
             }
-        }catch( SignException $signEx ){
+        } catch (SignException $signEx) {
             // log it
-            echo "SIGN EXCEPTION : ".$signEx;
-        }catch( Exception $ex ){
+            echo "SIGN EXCEPTION : " . $signEx;
+        } catch (Exception $ex) {
             // handle it
             print_r($ex);
             exit();
-        }        
+        }
     }
 
     /*
@@ -379,29 +345,22 @@ class LoanController extends BaseController
 
         $newData['loanPaymentMonths'][] = $dueMonth;
         $maEndDate = null;
-        for($i=0; $i < (int)$arrData['payment_terms'] - 1; $i++)
-        {
-            if($month1 < 12)
-            {
+        for ($i = 0; $i < (int)$arrData['payment_terms'] - 1; $i++) {
+            if ($month1 < 12) {
                 $month1++;
-            }
-            else
-            {
+            } else {
                 $month1 = 1;
                 $year1  += 1;
             }
-            
+
             $dd1 = date("$year1-$month1-d", strtotime($firstDueDate));
             $dueDate1 = date('Y-m-d', strtotime($dd1));
             $dueMonth = date("F $year1", strtotime($dueDate1));
             $newData['loanPaymentDates'][] = $dueDate1;
 
-            if($month2 < 12)
-            {
+            if ($month2 < 12) {
                 $month2++;
-            }
-            else
-            {
+            } else {
                 $month2 = 1;
                 $year2  += 1;
             }
@@ -454,44 +413,43 @@ class LoanController extends BaseController
     */
     public function r_selectLoanApplicationDetails()
     {
-        try{
+        try {
             $fields = $this->request->getGet();
             $arrResult = $this->loans->r_selectLoanApplicationDetails($fields['loanId']);
 
             $birthday = explode("-", $arrResult['birthday']);
-            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md") ? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
             $arrResult['employee_age'] =  $age;
 
             /*********
                 STEP 1 : Set user credentials
-            **********/
+             **********/
 
-            $user = new OAuth( array(
+            $user = new OAuth(array(
                 OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
-                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::CLIENT_SECRET => "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                 OAuth::DC           => "COM",
-                OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
-            ) );
+                OAuth::REFRESH_TOKEN => "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
+            ));
 
-            ZohoSign::setCurrentUser( $user );
+            ZohoSign::setCurrentUser($user);
             $user->generateAccessTokenUsingRefreshToken();
             $access_token = $user->getAccessToken();
 
             /*********
             STEP 2 : Get particular document details
-            **********/
+             **********/
 
-            $req_obj = ZohoSign::getRequest( $arrResult['request_id'] ); // enter valid "request_id"
+            $req_obj = ZohoSign::getRequest($arrResult['request_id']); // enter valid "request_id"
             $arrResult['employee_action_status'] = $req_obj->getActions()[0]->getActionStatus();
             $arrResult['representative_action_status'] = $req_obj->getActions()[1]->getActionStatus();
             $arrResult['admin_action_status'] = $req_obj->getActions()[2]->getActionStatus();
 
             return $this->response->setJSON($arrResult);
-            
-        }catch( SignException $signEx ){
+        } catch (SignException $signEx) {
             // log it
-            echo "SIGN EXCEPTION : ".$signEx;
-        }catch( Exception $ex ){
+            echo "SIGN EXCEPTION : " . $signEx;
+        } catch (Exception $ex) {
             // handle it
         }
     }
@@ -511,8 +469,7 @@ class LoanController extends BaseController
         ];
 
         $result = $this->loans->r_submitSalaryAdvanceApplication($arrData, $fields['loanId']);
-        if($result > 0)
-        {
+        if ($result > 0) {
             $msgResult[] = "Salary Loan Application Submitted!";
 
             // for Audit Trail
@@ -527,9 +484,7 @@ class LoanController extends BaseController
 
             return $this->response->setJSON($msgResult);
             exit();
-        }
-        else
-        {
+        } else {
             $msgResult[] = "Something went wrong, please try again";
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
@@ -559,44 +514,43 @@ class LoanController extends BaseController
     */
     public function a_selectApplication()
     {
-        try{
+        try {
             $fields = $this->request->getGet();
             $arrResult = $this->loans->a_selectApplication($fields['loanId']);
 
             $birthday = explode("-", $arrResult['birthday']);
-            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md") ? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
             $arrResult['employee_age'] =  $age;
 
             /*********
                 STEP 1 : Set user credentials
-            **********/
+             **********/
 
-            $user = new OAuth( array(
+            $user = new OAuth(array(
                 OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
-                OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                OAuth::CLIENT_SECRET => "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                 OAuth::DC           => "COM",
-                OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
-            ) );
+                OAuth::REFRESH_TOKEN => "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
+            ));
 
-            ZohoSign::setCurrentUser( $user );
+            ZohoSign::setCurrentUser($user);
             $user->generateAccessTokenUsingRefreshToken();
             $access_token = $user->getAccessToken();
 
             /*********
             STEP 2 : Get particular document details
-            **********/
+             **********/
 
-            $req_obj = ZohoSign::getRequest( $arrResult['request_id'] ); // enter valid "request_id"
+            $req_obj = ZohoSign::getRequest($arrResult['request_id']); // enter valid "request_id"
             $arrResult['employee_action_status'] = $req_obj->getActions()[0]->getActionStatus();
             $arrResult['representative_action_status'] = $req_obj->getActions()[1]->getActionStatus();
             $arrResult['admin_action_status'] = $req_obj->getActions()[2]->getActionStatus();
 
             return $this->response->setJSON($arrResult);
-            
-        }catch( SignException $signEx ){
+        } catch (SignException $signEx) {
             // log it
-            echo "SIGN EXCEPTION : ".$signEx;
-        }catch( Exception $ex ){
+            echo "SIGN EXCEPTION : " . $signEx;
+        } catch (Exception $ex) {
             // handle it
         }
     }
@@ -609,7 +563,7 @@ class LoanController extends BaseController
     {
         $fields = $this->request->getPost();
 
-        $accountNumber= date('Ymd').time();
+        $accountNumber = date('Ymd') . time();
 
         $arrData = [
             'account_number'        => $accountNumber,
@@ -620,8 +574,7 @@ class LoanController extends BaseController
         ];
 
         $result = $this->loans->a_approveApplication($arrData, $fields['loanId']);
-        if($result > 0)
-        {
+        if ($result > 0) {
             $msgResult[] = "Salary Loan Application Approved!";
 
             // for Audit Trail
@@ -636,9 +589,7 @@ class LoanController extends BaseController
 
             return $this->response->setJSON($msgResult);
             exit();
-        }
-        else
-        {
+        } else {
             $msgResult[] = "Something went wrong, please try again";
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
@@ -660,8 +611,7 @@ class LoanController extends BaseController
         ];
 
         $result = $this->loans->a_rejectApplication($arrData, $fields['loanId']);
-        if($result > 0)
-        {
+        if ($result > 0) {
             $msgResult[] = "Salary Loan Application Rejected!";
 
             // for Audit Trail
@@ -676,9 +626,7 @@ class LoanController extends BaseController
 
             return $this->response->setJSON($msgResult);
             exit();
-        }
-        else
-        {
+        } else {
             $msgResult[] = "Something went wrong, please try again";
             return $this->response->setStatusCode(401)->setJSON($msgResult);
             exit();
@@ -702,7 +650,16 @@ class LoanController extends BaseController
 
     public function a_loadAccountBalance()
     {
-        $xenditPrivateKey = getenv('xendit_private_key');
+        $fields = $this->request->getGet();
+
+        if ($fields['xenditEnv'] == 'liveMode') {
+            $xenditPrivateKey = getenv('xendit_live_private_key');
+            $xenditUserId = getenv('xendit_live_user_id');
+        } else {
+            $xenditPrivateKey = getenv('xendit_test_private_key');
+            $xenditUserId = getenv('xendit_test_user_id');
+        }
+
         Configuration::setXenditKey($xenditPrivateKey);
 
         $apiInstance = new BalanceApi();
@@ -710,7 +667,7 @@ class LoanController extends BaseController
         $currency = "PHP"; // string | Currency for filter for customers with multi currency accounts
         $currentDate = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 day'));
         $atTimestamp = str_replace(' ', 'T', $currentDate) . ".000Z"; // \DateTime | The timestamp you want to use as the limit for balance retrieval
-        $xenditUserId = getenv('xendit_user_id'); // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
+        $xenditUserId = $xenditUserId; // string | The sub-account user-id that you want to make this transaction for. This header is only used if you have access to xenPlatform. See xenPlatform for more information
 
         try {
             $result = $apiInstance->getBalance($accountType, $currency, $atTimestamp, $xenditUserId);
@@ -721,27 +678,31 @@ class LoanController extends BaseController
         }
     }
 
-    public function a_downloadDisbursementList()
-    {
-        
-    }
+    public function a_downloadDisbursementList() {}
 
     public function a_proceedDisbursement()
     {
         $fields = $this->request->getPost();
 
         $loanId = $fields['loanId'];
+        $xenditEnv = $fields['xenditEnv'];
 
         $arrResult = $this->loans->a_selectLoanForDisbursement($loanId);
 
-        $xenditPrivateKey = getenv('xendit_private_key');
+        if ($xenditEnv == 'liveMode') {
+            $xenditPrivateKey = getenv('xendit_live_private_key');
+            $xenditUserId = getenv('xendit_live_user_id');
+        } else {
+            $xenditPrivateKey = getenv('xendit_test_private_key');
+            $xenditUserId = getenv('xendit_test_user_id');
+        }
         Configuration::setXenditKey($xenditPrivateKey);
 
-        $idempotencyKey = "DISB-".date('Ymd').time(); 
-        $xenditUserId = getenv('xendit_user_id');
+        $idempotencyKey = "DISB-" . date('Ymd') . time();
+        $xenditUserId = $xenditUserId;
 
         $apiInstance = new PayoutApi();
-        $referenceNumber = "RFN-".date('Ymd').time();
+        $referenceNumber = "RFN-" . date('Ymd') . time();
 
         $channelCode = $arrResult['bank_depository'];
 
@@ -756,12 +717,11 @@ class LoanController extends BaseController
             'amount' => (float)$arrResult['amount_to_receive'],
             'description' => 'Disbursement',
             'type' => 'DIRECT_DISBURSEMENT'
-        ]); 
+        ]);
 
         try {
             $apiResult = $apiInstance->createPayout($idempotencyKey, $xenditUserId, $createPayoutRequest);
-            if(isset($apiResult['status']))
-            {
+            if (isset($apiResult['status'])) {
                 $arrData = [
                     'loan_id'               => $loanId,
                     'idempotency_key'       => $idempotencyKey,
@@ -779,72 +739,67 @@ class LoanController extends BaseController
                 ];
 
                 $result = $this->loans->a_proceedDisbursement($arrData);
-                if($result > 0)
-                {
-                    if($apiResult['status'] == 'ACCEPTED')
-                    {
+                if ($result > 0) {
+                    if ($apiResult['status'] == 'ACCEPTED') {
                         $arrCompanyData = $this->companies->a_selectCompanySettings($arrResult['company_id']);
 
-                        $payDate1 = $arrCompanyData['payroll_payout_date1'];
-                        $payDate2 = $arrCompanyData['payroll_payout_date2'];
+                        $pay1 = $arrCompanyData['payroll_payout_date1']; // Input
+                        $pay2 = $arrCompanyData['payroll_payout_date2']; // Input
 
-                        $payrollDate1 = date("Y-m-{$payDate1}");
-                        $payrollDate2 = date("Y-m-{$payDate2}");
+                        $disbursementDate = date("Y-m-d"); // Input
+                        $arr = getRequiredDates($pay1, $pay2, $disbursementDate);
 
-                        $arrDisbursementDate1 = [];
-                        $arrDisbursementDate2 = [];
+                        $billingDate1 = $arr['billingDate'];
+                        $billingDate2 = $arr['dueDate'];
 
-                        for ($i=0; $i < 15; $i++) 
-                        { 
-                            $arrDisbursementDate1[] = date('d', strtotime($payrollDate1."- {$i} days"));
-                            $arrDisbursementDate2[] = date('d', strtotime($payrollDate2."- {$i} days"));
-                        }
-
-                        $disbursementDate = date("Y-m-d");
-                        $billingDateOne = "";
-
-                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate1))
-                        {
-                            $billingDate1 = date('d', strtotime($payrollDate1."+ 5 days"));
-                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
-                            {
-                                $m = date('m', strtotime($disbursementDate));
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
+                        $counter = $arrResult['number_of_deductions']; // Input
+                        $dueDate = "";
+                        $billDate = $arr['billingDate'];
+                        $cutoff = $arr['deductDate'];
+                        for ($i = 0; $i < $counter; $i++) {
+                            if ($i == 0) {
+                                $billingDate = getBillingDate($arr['payDate'], $billDate, $i);
+                                $deductDate = getDeductDate($billingDate, $cutoff);
+                            } else {
+                                $billingDate = getBillingDate($dueDate, $billDate, $i);
+                                $deductDate = getDeductDate($billingDate, $cutoff);
                             }
-                            else
-                            {
-                                $m = date('m', strtotime($disbursementDate)) + 1;
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate1."+ 5 days"));
-                            }
-                            
-                        }
 
-                        if(in_array(date('d', strtotime($disbursementDate)), $arrDisbursementDate2))
-                        {
-                            $billingDate1 = date('d', strtotime($payrollDate2."+ 5 days"));
-                            if(date('d', strtotime($disbursementDate."+ 5 days")) < 31 && date('m', strtotime($disbursementDate."+ 5 days")) == date('m', strtotime($disbursementDate)))
-                            {
-                                $m = date('m', strtotime($disbursementDate));
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+                            $dueDate = getDueDate($deductDate); // DueDate
+
+                            $arrDates[] = [
+                                "billingDate"   => $billingDate,
+                                "deductDate"    => $deductDate,
+                                "dueDate"       => $dueDate
+                            ];
+
+                            if ($billDate != $arr['dueDate']) {
+                                $billDate = $arr['dueDate'];
+                            } else {
+                                $billDate = $arr['billingDate'];
                             }
-                            else
-                            {
-                                $m = date('m', strtotime($disbursementDate)) + 1;
-                                $billingDateOne = date("Y-$m-d", strtotime($payrollDate2."+ 5 days"));
+
+                            if ($cutoff != $arr['deductDate']) {
+                                $cutoff = $arr['deductDate'];
+                            } else {
+                                $cutoff = $arr['cutoff'];
                             }
                         }
 
-                        $deductDateOne = date('Y-m-d', strtotime(date($billingDateOne). '+ 10 days'));
-                        $dueDateOne = date('Y-m-d', strtotime(date($deductDateOne). '+ 5 days'));
+                        $billingDateOne = $arrDates[0]['billingDate'];
+                        $billingDateTwo = $arrDates[1]['billingDate'];
 
-                        $billingDate2 = date('d', strtotime(date($billingDateOne)."+ 15 days"));
-                        $billingDateTwo = date('Y-m-d', strtotime(date($billingDateOne)."+ 15 days"));
-                        $deductDateTwo = date('Y-m-d', strtotime(date($billingDateTwo). '+ 10 days'));
-                        $dueDateTwo = date('Y-m-d', strtotime(date($deductDateTwo). '+ 5 days'));
+                        $dueDateOne = $arrDates[0]['dueDate'];
+                        $dueDateTwo = $arrDates[1]['dueDate'];
+                        $dueDateLast = $arrDates[$counter - 1]['dueDate'];
+
+                        $deductDateOne = $arrDates[0]['deductDate'];
 
                         $arr = [
                             'disbursement_status'   => 'ACCEPTED',
-                            'loan_status'           => 'ACTIVE',
+                            // 'loan_status'           => 'ACTIVE', 
+                            //i'll replace the active below to disbursed.
+                            'loan_status' => 'DISBURSED',
                             'disbursement_date'     => $disbursementDate,
                             'billing_date_1'        => $billingDate1,
                             'billing_date_2'        => $billingDate2,
@@ -865,85 +820,30 @@ class LoanController extends BaseController
                         $data = [
                             'emailName'         => 'GOLDWATER CAPITAL',
                             'subjectTitle'      => 'Disbursement',
-                            'disbursemntAmount' => number_format($arrData['amount'],2,".",","),
+                            'disbursemntAmount' => number_format($arrData['amount'], 2, ".", ","),
                             'bankAccount'       => $arrData['account_number'],
-                            'dateAndTime'       => date('Y-m-d H:i:s'),
-                            'deductDateOne'     => $deductDateOne
+                            'dateAndTime'       => date('m-d-Y H:i:s'),
+                            'deductDateOne'     => date("m-d-Y", strtotime($deductDateOne))
                         ];
-                        sendSliceMail('employee_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
+                        sendSliceMail('employee_disbursement_email', $emailConfig, $emailSender, $emailReceiver, $data);
 
-                        // $arrRepresentativeDetails = $this->employees->a_selectRepresentative($arrResult['company_id']);
-                        // $emailSender    = 'ajhay.dev@gmail.com';
-                        // $emailReceiver  = $arrRepresentativeDetails['email_address'];
-                        // $data = [
-                        //     'subjectTitle'  => 'Disbursement',
-                        //     'emailAddress'  => '',
-                        //     'authCode'      => ''
-                        // ];
-                        // sendSliceMail('representative_disbursement_email',$emailConfig,$emailSender,$emailReceiver,$data);
-
-                        $maStartDate = $dueDateOne;
-
-                        $month1 = date('m', strtotime(date($dueDateOne)));
-                        $year1 = date('Y', strtotime(date($dueDateOne)));
-                        $firstDueDate = date($dueDateOne);
-
-                        $month2 = date('m', strtotime(date($dueDateTwo)));
-                        $year2 = date('Y', strtotime(date($dueDateTwo)));
-                        $secondDueDate = date($dueDateTwo);
-
-                        $dueDate1 = date('Y-m-d', strtotime($firstDueDate));
-                        $dueDate2 = date('Y-m-d', strtotime($secondDueDate));
-
-                        $maEndDate = null;
-                        for($i=0; $i < (int)$arrResult['payment_terms'] - 1; $i++)
-                        {
-                            if($month1 < 12)
-                            {
-                                $month1++;
-                            }
-                            else
-                            {
-                                $month1 = 1;
-                                $year1  += 1;
-                            }
-                            
-                            $dd1 = date("$year1-$month1-d", strtotime($firstDueDate));
-                            $dueDate1 = date('Y-m-d', strtotime($dd1));
-
-                            if($month2 < 12)
-                            {
-                                $month2++;
-                            }
-                            else
-                            {
-                                $month2 = 1;
-                                $year2  += 1;
-                            }
-
-                            $dd2 = date("$year2-$month2-d", strtotime($secondDueDate));
-                            $dueDate2 = date('Y-m-d', strtotime($dd2));
-
-                            $maEndDate = $dueDate2;
-                        }
-
-                        $user = new OAuth( array(
+                        $user = new OAuth(array(
                             // OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
                             // OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
                             // OAuth::DC           => "COM",
                             // OAuth::REFRESH_TOKEN=> "1000.57d4da049833cbca42eb06e03529dce0.3d6fe947327718a77da41d5bf87da0d2"
-                        
-                            OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
-                            OAuth::CLIENT_SECRET=> "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
-                            OAuth::DC           => "COM",
-                            OAuth::REFRESH_TOKEN=> "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
-                        ) );
 
-                        ZohoSign::setCurrentUser( $user );
+                            OAuth::CLIENT_ID    => "1000.VOJVM3LCCCE95VPJVWD2LJS3JET2KW",
+                            OAuth::CLIENT_SECRET => "d8995d279be0e05e84ec9abe206fc55e2e2d7cdb36",
+                            OAuth::DC           => "COM",
+                            OAuth::REFRESH_TOKEN => "1000.9e72ed104e40c8e88a15740e9bb8b26f.965bfe2eefc594b59096c66557c7c297"
+                        ));
+
+                        ZohoSign::setCurrentUser($user);
                         $user->generateAccessTokenUsingRefreshToken();
                         $access_token = $user->getAccessToken();
 
-                        $template = ZohoSign::getTemplate( 418013000000123017 );
+                        $template = ZohoSign::getTemplate(418013000000123017);
 
                         $template->setRequestName("Disclosure Statement");
                         $template->setNotes("Call us back if you need clarificaions regarding agreement");
@@ -951,68 +851,70 @@ class LoanController extends BaseController
                         $employeeName = $arrResult['first_name'] . " " . $arrResult['last_name'];
                         $template->getActionByRole("Recepient1")->setRecipientName($employeeName);
                         $template->getActionByRole("Recepient1")->setRecipientEmail($arrResult['email_address']);
-                        $template->setPrefillTextField( "txt_employeeName",  $employeeName );
+                        $template->setPrefillTextField("txt_employeeName",  $employeeName);
 
-                        $template->setPrefillTextField( "txt_borrowerName",  $employeeName );
-                        $template->setPrefillTextField( "txt_borrowerAddress",  $arrResult['permanent_address'] );
-                        $template->setPrefillTextField( "txt_interestPerMonth",  $arrResult['interest_rate'] . "%" );
-                        $template->setPrefillTextField( "txt_dateFrom",  date("m-d-Y",strtotime($maStartDate)) );
-                        $template->setPrefillTextField( "txt_dateTo",  date("m-d-Y",strtotime($maEndDate )) );
+                        $template->setPrefillTextField("txt_borrowerName",  $employeeName);
+                        $template->setPrefillTextField("txt_borrowerAddress",  $arrResult['permanent_address']);
+                        $template->setPrefillTextField("txt_interestPerMonth",  $arrResult['interest_rate'] . "%");
+
+                        // Set Deductdate replace due date hope it work! hahaha
+                        if (isset($deductDateOne) && isset($deductDateLast)) {
+                            $template->setPrefillTextField("txt_dateFrom", date("m-d-Y", strtotime($deductDateOne)));
+                            $template->setPrefillTextField("txt_dateTo",   date("m-d-Y", strtotime($deductDateLast)));
+                        } else {
+                            $template->setPrefillTextField("txt_dateFrom", "-");
+                            $template->setPrefillTextField("txt_dateTo", "-");
+                        }
 
                         $monthlyAmortization = 0;
                         $loanAmount = $arrResult['loan_amount'];
                         $paymentTerms = $arrResult['payment_terms'];
 
-                        $template->setPrefillTextField( "txt_loanGranted",  number_format($loanAmount,2,".",",") );
+                        $template->setPrefillTextField("txt_loanGranted",  number_format($loanAmount, 2, ".", ","));
 
                         $serviceCharge = $loanAmount * 0.02;
-                        $template->setPrefillTextField( "txt_serviceCharge",  number_format($serviceCharge,2,".",",") );
+                        $template->setPrefillTextField("txt_serviceCharge",  number_format($serviceCharge, 2, ".", ","));
 
                         $birthday = explode("-", $arrResult['birthday']);
-                        $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md")? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
-                        if($age >= 18 && $age <= 65)
-                        {
+                        $age = (date("md", date("U", mktime(0, 0, 0, $birthday[1], $birthday[2], $birthday[0]))) > date("md") ? ((date("Y") - $birthday[0]) - 1) : (date("Y") - $birthday[0]));
+                        if ($age >= 18 && $age <= 65) {
                             $nonFinanceCharges = ($loanAmount / 1000) * 13;
-                        }
-                        else if($age >= 66 && $age <= 70)
-                        {
+                        } else if ($age >= 66 && $age <= 70) {
                             $nonFinanceCharges = ($loanAmount / 1000) * 26;
-                        }
-                        else
-                        {
+                        } else {
                             $nonFinanceCharges = 0;
                         }
-                        
-                        $template->setPrefillTextField( "txt_nonFinanceCharges",  number_format($nonFinanceCharges,2,".",",") );
+
+                        $template->setPrefillTextField("txt_nonFinanceCharges",  number_format($nonFinanceCharges, 2, ".", ","));
 
                         $documentaryStamp = $loanAmount * 0.0175;
-                        $template->setPrefillTextField( "txt_documentaryStamp",  number_format($documentaryStamp,2,".",",") );
+                        $template->setPrefillTextField("txt_documentaryStamp",  number_format($documentaryStamp, 2, ".", ","));
 
                         $notarialFee = 500;
-                        $template->setPrefillTextField( "txt_notarialFee",  number_format($notarialFee,2,".",",") );
+                        $template->setPrefillTextField("txt_notarialFee",  number_format($notarialFee, 2, ".", ","));
 
                         $totalNonFinanceCharges = $nonFinanceCharges + $documentaryStamp + $notarialFee;
-                        $template->setPrefillTextField( "txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges,2,".",",") );
+                        $template->setPrefillTextField("txt_totalNonFinanceCharges",  number_format($totalNonFinanceCharges, 2, ".", ","));
 
                         $totalDeductions = $serviceCharge + $totalNonFinanceCharges;
-                        $template->setPrefillTextField( "txt_totalDeductions",  number_format($totalDeductions,2,".",",") );
+                        $template->setPrefillTextField("txt_totalDeductions",  number_format($totalDeductions, 2, ".", ","));
 
                         $netProceeds = $loanAmount - $totalDeductions;
-                        $template->setPrefillTextField( "txt_netProceeds",  number_format($netProceeds,2,".",",") );
+                        $template->setPrefillTextField("txt_netProceeds",  number_format($netProceeds, 2, ".", ","));
 
                         $totalInterestRate = (float)$arrResult['interest_rate'] * (int)$paymentTerms;
                         $totalInterest = $loanAmount * ($totalInterestRate / 100);
 
                         $deductionAndInterest = $totalDeductions + $totalInterest;
                         $effectiveInterestRate = ($deductionAndInterest / $loanAmount) * 100;
-                        $template->setPrefillTextField( "txt_interestRate",  number_format($effectiveInterestRate,2,".",",") . "%");
+                        $template->setPrefillTextField("txt_interestRate",  number_format($effectiveInterestRate, 2, ".", ",") . "%");
 
-                        $template->setPrefillTextField( "txt_paymentMonths",  $arrResult['payment_terms'] );
+                        $template->setPrefillTextField("txt_paymentMonths",  $arrResult['payment_terms']);
 
                         $monthlyAmortization = ($totalInterest + $loanAmount) / (int)$paymentTerms;
-                        $template->setPrefillTextField( "txt_monthlyAmortization",  number_format($monthlyAmortization,2,".",",") );
+                        $template->setPrefillTextField("txt_monthlyAmortization",  number_format($monthlyAmortization, 2, ".", ","));
 
-                        $resp_obj = ZohoSign::sendTemplate( $template, true );
+                        $resp_obj = ZohoSign::sendTemplate($template, true);
                     }
 
                     $msgResult[] = "Loan Disbursement Complete";
@@ -1029,9 +931,7 @@ class LoanController extends BaseController
 
                     return $this->response->setJSON($msgResult);
                     exit();
-                }
-                else
-                {
+                } else {
                     $msgResult[] = "Something went wrong, please try again";
                     return $this->response->setStatusCode(401)->setJSON($msgResult);
                     exit();
@@ -1042,9 +942,8 @@ class LoanController extends BaseController
             echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
         }
 
-        
+
 
         return $this->response->setJSON($arrResult);
     }
-
 }

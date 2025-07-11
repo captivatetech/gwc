@@ -1,262 +1,326 @@
+const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function () {
+  let thisAdminSalaryAdvanceAccounts = {};
 
-const ADMIN_SALARY_ADVANCE_ACCOUNTS = (function(){
+  let baseUrl = $("#txt_baseUrl").val();
 
-    let thisAdminSalaryAdvanceAccounts = {};
+  thisAdminSalaryAdvanceAccounts.a_loadSalaryAdvanceAccounts = function () {
+    AJAXHELPER.getData(
+      {
+        // LoanController->a_loadSalaryAdvanceAccounts
+        route: "portal/admin/a-load-salary-advance-accounts",
+        data: null,
+      },
+      function (data) {
+        let tbody = "";
+        data.forEach(function (value, index) {
+          tbody += `<tr>
+                            <td>${value["created_date"]}</td>
+                            <td>${value["application_number"]}</td>
+                            <td>${value["last_name"]}, ${
+            value["first_name"]
+          }</td>
+                            <td>${value["company_name"]}</td>
+                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(
+                              value["loan_amount"]
+                            )}</td>
+                 <td>
+  <span class="badge ${
+    value["loan_status"] === "DISBURSED"
+      ? "bg-success"
+      : value["loan_status"] === "APPROVED"
+      ? "bg-primary"
+      : value["loan_status"] === "PENDING"
+      ? "bg-warning"
+      : "bg-secondary"
+  }">
+    ${value["loan_status"]}
+  </span>
+</td>
 
-    let baseUrl = $('#txt_baseUrl').val();
-
-    thisAdminSalaryAdvanceAccounts.a_loadSalaryAdvanceAccounts = function()
-    {
-        AJAXHELPER.getData({
-            // LoanController->a_loadSalaryAdvanceAccounts
-            'route' : 'portal/admin/a-load-salary-advance-accounts',
-            'data'  : null
-        }, function(data){
-            let tbody = '';
-            data.forEach(function(value,index){
-                tbody += `<tr>
-                            <td>${value['created_date']}</td>
-                            <td>${value['application_number']}</td>
-                            <td>${value['last_name']}, ${value['first_name']}</td>
-                            <td>${value['company_name']}</td>
-                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
-                            <td>${value['disbursement_status']}</td>
                         </tr>`;
-            });
-            $('#tbl_salaryAdvanceAccounts').DataTable().destroy();
-            $('#tbl_salaryAdvanceAccounts tbody').html(tbody);
-            $('#tbl_salaryAdvanceAccounts').DataTable();
-
-            $('#btn_disbursement').prop('disabled', (data.length == 0)? true : false);
         });
-    }
+        $("#tbl_salaryAdvanceAccounts").DataTable().destroy();
+        $("#tbl_salaryAdvanceAccounts tbody").html(tbody);
+        $("#tbl_salaryAdvanceAccounts").DataTable();
 
-    thisAdminSalaryAdvanceAccounts.a_loadCompanies = function()
-    {
-        AJAXHELPER.getData({
-            // CompanyController->a_loadCompanies
-            'route' : 'portal/admin/a-load-companies',
-            'data'  : null
-        }, function(data){
-            let options = `<option value="">--Choose Company--</option>`;
-            data.forEach(function(value, index){
-                options += `<option value="${value['id']}">${value['company_name']}</option>`;
-            });
-            $('#slc_company').html(options);
+        $("#btn_disbursement").prop(
+          "disabled",
+          data.length == 0 ? true : false
+        );
+      }
+    );
+  };
+
+  thisAdminSalaryAdvanceAccounts.a_loadCompanies = function () {
+    AJAXHELPER.getData(
+      {
+        // CompanyController->a_loadCompanies
+        route: "portal/admin/a-load-companies",
+        data: null,
+      },
+      function (data) {
+        let options = `<option value="">--Choose Company--</option>`;
+        data.forEach(function (value, index) {
+          options += `<option value="${value["id"]}">${value["company_name"]}</option>`;
         });
-    }
+        $("#slc_company").html(options);
+      }
+    );
+  };
 
-    thisAdminSalaryAdvanceAccounts.a_selectCompany = function(dis)
-    {
-        AJAXHELPER.getData({
-            // CompanyController->a_selectCompany
-            'route' : 'portal/admin/a-select-company',
-            'data'  : {company_id : $(dis).val()}
-        }, function(data){
-            $('#lbl_creditLimit').text(`Php. ${COMMONHELPER.numberWithCommas(data['company_credit_limit'])}`);
-            $('#lbl_companyName').text(data['company_name']);
-            $('#lbl_companyCreditLimit').text(COMMONHELPER.numberWithCommas(data['company_credit_limit']));
-        });
-    }
+  // In ADMIN_SALARY_ADVANCE_ACCOUNTS.a_selectCompany:
+  thisAdminSalaryAdvanceAccounts.a_selectCompany = function (dis) {
+    AJAXHELPER.getData(
+      {
+        route: "portal/admin/a-select-company",
+        data: { company_id: $(dis).val() },
+      },
+      function (data) {
+        // default to 0 if parseFloat yields NaN
+        const totalLimit = parseFloat(data.company_credit_limit) || 0;
+        const accepted = parseFloat(data.accepted_amount) || 0;
+        const available = totalLimit - accepted;
 
-    thisAdminSalaryAdvanceAccounts.a_loadDisbursementLists = function()
-    {
-        AJAXHELPER.getData({
-            // LoanController->a_loadDisbursementLists
-            'route' : 'portal/admin/a-load-disbursement-lists',
-            'data'  : {company_id : $('#slc_company').val()}
-        }, function(data){
-            let tbody = '';
-            data.forEach(function(value,index){
-                tbody += `<tr>
+        // format with commas & two decimals
+        const formatted = COMMONHELPER.numberWithCommas(available.toFixed(2));
+
+        $("#lbl_creditLimit").text(`Php. ${formatted}`);
+        $("#lbl_companyName").text(data.company_name);
+        $("#lbl_companyCreditLimit").text(formatted);
+
+        // keep raw number if you need it later
+        $("#txt_companyCreditLimit").val(available);
+      }
+    );
+  };
+
+  thisAdminSalaryAdvanceAccounts.a_loadDisbursementLists = function () {
+    AJAXHELPER.getData(
+      {
+        // LoanController->a_loadDisbursementLists
+        route: "portal/admin/a-load-disbursement-lists",
+        data: { company_id: $("#slc_company").val() },
+      },
+      function (data) {
+        let tbody = "";
+        data.forEach(function (value, index) {
+          tbody += `<tr>
                             <td>
-                                <input type="checkbox" class="chk-disbursement" onchange="ADMIN_SALARY_ADVANCE_ACCOUNTS.a_unselectDisbursement()" value="${value['id']}">
+                                <input type="checkbox" class="chk-disbursement" onchange="ADMIN_SALARY_ADVANCE_ACCOUNTS.a_unselectDisbursement()" value="${
+                                  value["id"]
+                                }">
                             </td>
-                            <td>${value['identification_number']}</td>
-                            <td>${value['last_name']}, ${value['first_name']}</td>
-                            <td>${value['bank_depository']}</td>
-                            <td>${value['branch_code']}</td>
-                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['loan_amount'])}</td>
-                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(value['amount_to_receive'])}</td>
-                            <td>${value['account_number']}</td>
+                            <td>${value["identification_number"]}</td>
+                            <td>${value["last_name"]}, ${
+            value["first_name"]
+          }</td>
+                            <td>${value["bank_depository"]}</td>
+                            <td>${value["branch_code"]}</td>
+                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(
+                              value["loan_amount"]
+                            )}</td>
+                            <td style="text-align:right;">Php. ${COMMONHELPER.numberWithCommas(
+                              value["amount_to_receive"]
+                            )}</td>
+                            <td>${value["account_number"]}</td>
                         </tr>`;
-            });
-            $('#tbl_disbursementList').DataTable().destroy();
-            $('#tbl_disbursementList tbody').html(tbody);
-            $('#tbl_disbursementList').DataTable({'scrollX':true, "order": [[ 1, "desc" ]], "aoColumnDefs": [
-                    { "bSortable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7] }, 
-                    { "bSearchable": false, "aTargets": [ 0, 2, 3, 4, 5, 6, 7] }
-                ]
-            });
         });
-    }
-
-    thisAdminSalaryAdvanceAccounts.a_selectCompanyFilter = function()
-    {
-
-    }
-
-    thisAdminSalaryAdvanceAccounts.a_unselectDisbursement = function()
-    {
-        let ids = $("#tbl_disbursementList tbody input:checkbox:checked").map(function () {
-            return $(this).val();
-        }).get();
-
-        let trCount = 0;
-        $("#tbl_disbursementList tbody tr").map(function () {
-            trCount++;
+        $("#tbl_disbursementList").DataTable().destroy();
+        $("#tbl_disbursementList tbody").html(tbody);
+        $("#tbl_disbursementList").DataTable({
+          scrollX: true,
+          order: [[1, "desc"]],
+          aoColumnDefs: [
+            { bSortable: false, aTargets: [0, 2, 3, 4, 5, 6, 7] },
+            { bSearchable: false, aTargets: [0, 2, 3, 4, 5, 6, 7] },
+          ],
         });
+      }
+    );
+  };
 
-        if(trCount >= $('#tbl_disbursementList_length select').val())
-        {
-            if(ids.length == $('#tbl_disbursementList_length select').val())
-            {
-                $('#chk_selectAllDisbursement').prop('checked',true);
-            }
-            else
-            {
-                $('#chk_selectAllDisbursement').prop('checked',false);
-            }
-        }
-        else
-        {   
-            if(trCount == ids.length)
-            {
-                $('#chk_selectAllDisbursement').prop('checked',true);
-            }
-            else
-            {
-                $('#chk_selectAllDisbursement').prop('checked',false);
-            }
-        }
-        
-        if(ids.length == 0)
-        {
-            $('#btn_downloadFile').prop('disabled',true);
-            $('#btn_proceedDisbursement').prop('disabled',true);
-        }
-        else
-        {
-            $('#btn_downloadFile').prop('disabled',false);
-            $('#btn_proceedDisbursement').prop('disabled',false);
-        }
+  thisAdminSalaryAdvanceAccounts.a_selectCompanyFilter = function () {};
 
-        let totalDisbursementAmount = 0;
-        $("#tbl_disbursementList tbody input:checkbox:checked").map(function(){
-            let amountStr = $(this).parents('tr').find('td:eq(6)').text();
-            totalDisbursementAmount += parseFloat(amountStr.substring(5).replace(",",""));
-        });
+  thisAdminSalaryAdvanceAccounts.a_unselectDisbursement = function () {
+    let ids = $("#tbl_disbursementList tbody input:checkbox:checked")
+      .map(function () {
+        return $(this).val();
+      })
+      .get();
 
-        let totalDisbursement = totalDisbursementAmount;
+    let trCount = 0;
+    $("#tbl_disbursementList tbody tr").map(function () {
+      trCount++;
+    });
 
-        $('#lbl_disbursementTotalAmount').text(COMMONHELPER.numberWithCommas(totalDisbursementAmount.toFixed(2)));
-
-        let xenditBalance = parseFloat($('#lbl_xenditBalance').text().replace(",",""));
-
-        if(totalDisbursement > xenditBalance)
-        {
-            alert('Insufficient balance!');
-            $('#btn_downloadFile').prop('disabled',true);
-            $('#btn_proceedDisbursement').prop('disabled',true);
-        }
-        else
-        {
-            $('#btn_downloadFile').prop('disabled',false);
-            $('#btn_proceedDisbursement').prop('disabled',false);
-        }
+    if (trCount >= $("#tbl_disbursementList_length select").val()) {
+      if (ids.length == $("#tbl_disbursementList_length select").val()) {
+        $("#chk_selectAllDisbursement").prop("checked", true);
+      } else {
+        $("#chk_selectAllDisbursement").prop("checked", false);
+      }
+    } else {
+      if (trCount == ids.length) {
+        $("#chk_selectAllDisbursement").prop("checked", true);
+      } else {
+        $("#chk_selectAllDisbursement").prop("checked", false);
+      }
     }
 
-    thisAdminSalaryAdvanceAccounts.a_loadAccountBalance = function()
-    {
-        $('#btn_reloadXenditBalance').prop('disabled',true);
-        AJAXHELPER.getData({
-            // LoanController->a_loadAccountBalance
-            'route' : 'portal/admin/a-load-account-balance',
-            'data'  : null
-        }, function(data){
-            $('#lbl_xenditBalance').text(COMMONHELPER.numberWithCommas(data['balance']));
-            $('#btn_reloadXenditBalance').prop('disabled',false);
-        }, function(data){
-            $('#lbl_xenditBalance').text('Please reload');
-            $('#btn_reloadXenditBalance').prop('disabled',false);
-        });
+    if (ids.length == 0) {
+      $("#btn_downloadFile").prop("disabled", true);
+      $("#btn_proceedDisbursement").prop("disabled", true);
+    } else {
+      $("#btn_downloadFile").prop("disabled", false);
+      $("#btn_proceedDisbursement").prop("disabled", false);
     }
 
-    thisAdminSalaryAdvanceAccounts.a_downloadDisbursementList = function()
-    {
-        // Hello World
+    let totalDisbursementAmount = 0;
+    $("#tbl_disbursementList tbody input:checkbox:checked").map(function () {
+      let amountStr = $(this).parents("tr").find("td:eq(6)").text();
+      totalDisbursementAmount += parseFloat(
+        amountStr.substring(5).replace(",", "")
+      );
+    });
+
+    let totalDisbursement = totalDisbursementAmount;
+
+    $("#lbl_disbursementTotalAmount").text(
+      COMMONHELPER.numberWithCommas(totalDisbursementAmount.toFixed(2))
+    );
+
+    let xenditBalance = parseFloat(
+      $("#lbl_xenditBalance").text().replace(",", "")
+    );
+
+    if (totalDisbursement > xenditBalance) {
+      alert("Insufficient balance!");
+      $("#btn_downloadFile").prop("disabled", true);
+      $("#btn_proceedDisbursement").prop("disabled", true);
+    } else {
+      $("#btn_downloadFile").prop("disabled", false);
+      $("#btn_proceedDisbursement").prop("disabled", false);
     }
+  };
 
-    thisAdminSalaryAdvanceAccounts.a_prepareDisbursement = function()
-    {
-        $('#btn_proceedDisbursement').prop('disabled',true);
+  thisAdminSalaryAdvanceAccounts.a_loadAccountBalance = function () {
+    $("#btn_reloadXenditBalance").prop("disabled", true);
+    AJAXHELPER.getData(
+      {
+        // LoanController->a_loadAccountBalance
+        route: "portal/admin/a-load-account-balance",
+        data: {
+          xenditEnv: $('input[name="rdb_xenditEnvironment"]:checked').val(),
+        },
+      },
+      function (data) {
+        $("#lbl_xenditBalance").text(
+          COMMONHELPER.numberWithCommas(data["balance"])
+        );
+        $("#btn_reloadXenditBalance").prop("disabled", false);
+      },
+      function (data) {
+        $("#lbl_xenditBalance").text("Please reload");
+        $("#btn_reloadXenditBalance").prop("disabled", false);
+      }
+    );
+  };
 
-        $('#modal_disbursementList').modal('hide');
-        $('#modal_loanDisbursement').modal('show');
+  thisAdminSalaryAdvanceAccounts.a_downloadDisbursementList = function () {
+    // Hello World
+  };
 
-        let arrLoanIds = [];
-        $('#tbl_disbursementList tbody input:checkbox:checked').map(function(){
-            arrLoanIds.push($(this).val());     
-        });
+  thisAdminSalaryAdvanceAccounts.a_prepareDisbursement = function () {
+    $("#btn_proceedDisbursement").prop("disabled", true);
 
-        let disbursementCount = arrLoanIds.length - 1;
-        let counter = 0;
-        let disburseCount = 0;
+    $("#modal_disbursementList").modal("hide");
+    $("#modal_loanDisbursement").modal("show");
 
-        let progress = 100 / parseInt(arrLoanIds.length);
-        let progressRem = 100 % parseInt(arrLoanIds.length);
-        let totalProgress = 0;
+    let arrLoanIds = [];
+    $("#tbl_disbursementList tbody input:checkbox:checked").map(function () {
+      arrLoanIds.push($(this).val());
+    });
 
-        ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress);
-    }
+    let disbursementCount = arrLoanIds.length - 1;
+    let counter = 0;
+    let disburseCount = 0;
 
-    thisAdminSalaryAdvanceAccounts.a_proceedDisbursement = function(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress)
-    {
-        let formData = new FormData();
-        formData.set("loanId", arrLoanIds[counter]);
-        AJAXHELPER.sendEmail({
-            // LoanController->a_proceedDisbursement
-            'route' : 'portal/admin/a-proceed-disbursement',
-            'data'  : formData
-        }, function(data){
+    let progress = 100 / parseInt(arrLoanIds.length);
+    let progressRem = 100 % parseInt(arrLoanIds.length);
+    let totalProgress = 0;
 
-            if(counter == arrLoanIds.length - 1)
-            {
-                progressRem = 100 - totalProgress;
-                totalProgress += progressRem;   
-            }
-            else
-            {
-                totalProgress += progress;
-            }
+    ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(
+      counter,
+      disburseCount,
+      arrLoanIds,
+      progress,
+      progressRem,
+      totalProgress
+    );
+  };
 
-            disburseCount += 1;
+  thisAdminSalaryAdvanceAccounts.a_proceedDisbursement = function (
+    counter,
+    disburseCount,
+    arrLoanIds,
+    progress,
+    progressRem,
+    totalProgress
+  ) {
+    let formData = new FormData();
+    formData.set("loanId", arrLoanIds[counter]);
+    formData.set(
+      "xenditEnv",
+      $('input[name="rdb_xenditEnvironment"]:checked').val()
+    );
+    AJAXHELPER.sendEmail(
+      {
+        // LoanController->a_proceedDisbursement
+        route: "portal/admin/a-proceed-disbursement",
+        data: formData,
+      },
+      function (data) {
+        if (counter == arrLoanIds.length - 1) {
+          progressRem = 100 - totalProgress;
+          totalProgress += progressRem;
+        } else {
+          totalProgress += progress;
+        }
 
-            $('#div_progressBar').css('width',`${totalProgress}%`);
-            $('#lbl_progress').text(`${disburseCount} / ${arrLoanIds.length} Sent`);
+        disburseCount += 1;
 
-            if(totalProgress < 100)
-            {
-                setTimeout(function(){
-                    counter++;
-                    ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(counter, disburseCount, arrLoanIds, progress, progressRem, totalProgress);
-                }, 1000);
-            }
-            else
-            {
-                setTimeout(function(){
-                    COMMONHELPER.Toaster('success','Loan Disbursement Complete!');
-                    $('#btn_proceedDisbursement').prop('disabled',false);
-                    $('#modal_loanDisbursement').modal('hide');
-                    window.location.replace(`${baseUrl}portal/admin/salary-advance-accounts`);
-                }, 2000);
-            }
-        }, function(data){ 
-            COMMONHELPER.Toaster('error',data['responseJSON'][0]);
-            $('#btn_proceedDisbursement').prop('disabled',false);
-        });
-    }
+        $("#div_progressBar").css("width", `${totalProgress}%`);
+        $("#lbl_progress").text(`${disburseCount} / ${arrLoanIds.length} Sent`);
 
-    return thisAdminSalaryAdvanceAccounts;
+        if (totalProgress < 100) {
+          setTimeout(function () {
+            counter++;
+            ADMIN_SALARY_ADVANCE_ACCOUNTS.a_proceedDisbursement(
+              counter,
+              disburseCount,
+              arrLoanIds,
+              progress,
+              progressRem,
+              totalProgress
+            );
+          }, 1000);
+        } else {
+          setTimeout(function () {
+            COMMONHELPER.Toaster("success", "Loan Disbursement Complete!");
+            $("#btn_proceedDisbursement").prop("disabled", false);
+            $("#modal_loanDisbursement").modal("hide");
+            window.location.replace(
+              `${baseUrl}portal/admin/salary-advance-accounts`
+            );
+          }, 2000);
+        }
+      },
+      function (data) {
+        COMMONHELPER.Toaster("error", data["responseJSON"][0]);
+        $("#btn_proceedDisbursement").prop("disabled", false);
+      }
+    );
+  };
 
+  return thisAdminSalaryAdvanceAccounts;
 })();
